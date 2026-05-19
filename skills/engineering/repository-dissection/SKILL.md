@@ -1,6 +1,6 @@
 ---
 name: repository-dissection
-description: Dissect an inherited, unclear, or vibe-coded repository and turn it into an explicit documented understanding. Use when Codex needs to map structure, treat docs as unverified claims, validate real runtime behavior, classify mismatches between docs/code/runtime, and bootstrap the first usable documentation foundation.
+description: Dissect an inherited, unclear, or vibe-coded repository and turn it into an explicit documented understanding. Use when you need to map structure, treat docs as unverified claims, validate real runtime behavior, classify mismatches between docs, code, and runtime, and bootstrap the first usable documentation foundation.
 ---
 
 # Repository Dissection

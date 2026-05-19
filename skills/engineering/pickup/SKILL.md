@@ -1,6 +1,6 @@
 ---
 name: pickup
-description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when starting a new Codex session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area.
+description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area.
 ---
 
 # Pickup
