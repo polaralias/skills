@@ -20,14 +20,18 @@ The job is to turn ambiguity into durable repository knowledge without burning t
 ### 1. Rebuild the question surface before asking anything
 
 - Read the relevant code and canonical docs first.
-- Read `GLOSSARY.md` if it exists.
+- Read `AGENTS.md` when present.
+- Read the repository's domain-language file when present, such as `GLOSSARY.md` or `CONTEXT.md`.
 - Read `docs/decisions/` if it exists.
+- Read active plans or contract docs when the repository is already in a repair or design tranche.
 - Separate:
   - questions that can be answered from the repository
   - questions that need the user's judgment
   - questions that depend on other questions
+  - stale inherited assumptions that must be revalidated first
 
 Do not ask questions that the repository can answer directly.
+When the repository can answer 80 percent of the question, answer that part from evidence and ask the user only for the irreducible judgment call.
 
 ### 2. Build a question batch instead of a question queue
 
@@ -46,6 +50,13 @@ Within a batch:
 - avoid repeating context already established
 - include a recommended answer only when it materially sharpens the decision
 
+Prefer contradiction-driven batches when possible:
+
+- code vs docs
+- two docs disagreeing
+- code vs user expectation
+- declared support vs observed behavior
+
 ### 3. Stress-test with concrete scenarios
 
 When language or behavior is fuzzy, use concrete scenarios to force precision.
@@ -59,6 +70,8 @@ Examples:
 
 Prefer scenario pressure over abstract debate.
 
+If the ambiguity is still unresolved after two batches and the repository can be probed safely, switch from asking to bounded repository or runtime inspection.
+
 ### 4. Synthesize after each batch
 
 After the user responds, produce a short synthesis:
@@ -69,6 +82,7 @@ After the user responds, produce a short synthesis:
 - next question batch or capture step
 
 Do not keep rediscovering the same branch of the conversation.
+If two batches in a row produce no meaningful clarification, stop querying and pivot to repository exploration, implementation probing, or a different downstream skill.
 
 ### 5. Capture resolved knowledge immediately
 
@@ -76,11 +90,14 @@ When something is resolved, write it to the right repository artifact in the sam
 
 Default targets:
 
-- `GLOSSARY.md` for terms, boundaries, and canonical language
+- the repository's glossary file such as `GLOSSARY.md` or `CONTEXT.md` for terms, boundaries, and canonical language
 - `docs/decisions/` for durable decisions and trade-offs
 - canonical product or contract docs for behavior-level truths
+- support docs or capability tables for support-boundary conclusions
+- execution plans or debt trackers for unresolved but important open questions
 
 Do not force every resolved point into a decision record. Use the lightest artifact that preserves the truth.
+Do not continue the questioning pattern once the answer is already established by code plus tests. Capture it directly.
 
 ### 6. Preserve the boundary with repository knowledge engineering
 
@@ -92,20 +109,23 @@ It does not own the whole knowledge base. Once the open questions are resolved, 
 - aligning many artifacts after implementation
 - maintaining the reading order and knowledge system as a whole
 
+When the remaining uncertainty is no longer conceptual but behavioral, switch to `tdd`.
+
 ## Decision Rules
 
 - Ask fewer, denser questions rather than many thin turns.
 - Do not batch unrelated topics together.
 - Do not ask the user to answer what the repository can answer.
 - Do not keep recommending answers when the recommendation adds no value.
-- Use `GLOSSARY.md` for vocabulary and concept boundaries, not implementation notes.
+- Use the glossary file such as `GLOSSARY.md` or `CONTEXT.md` for vocabulary and concept boundaries, not implementation notes.
 - Use `docs/decisions/` only for durable decisions that future readers would otherwise question.
+- Distinguish between terminology questions, product-decision questions, support-claim questions, and protocol-meaning questions because they capture to different artifacts.
 - If a topic is still too broad after one batch, narrow the next batch instead of broadening the debate.
 
 ## Expected Outputs
 
 - resolved terminology
 - clarified behavior or scope assumptions
-- updated `GLOSSARY.md`
+- updated glossary file such as `GLOSSARY.md` or `CONTEXT.md`
 - new or updated decision notes under `docs/decisions/`
 - a short summary of what is now known and what remains open

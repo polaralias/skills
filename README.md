@@ -50,3 +50,21 @@ Use the upstream [`tdd`](https://github.com/mattpocock/skills/tree/main/skills/e
 - use `repository-knowledge-engineering` to keep code, tests, and docs aligned in the same slice
 - use `local-handoff` when pausing
 - use `pickup` when resuming
+
+## Recommended Flows
+
+### Inherited unclear repo
+
+`repository-dissection -> query-to-knowledge -> tdd -> repository-knowledge-engineering -> local-handoff`
+
+### Resumed implementation tranche
+
+`pickup -> tdd -> repository-knowledge-engineering -> local-handoff`
+
+### Docs or support alignment pass
+
+`pickup -> repository-knowledge-engineering -> local-handoff`
+
+### Support-aware rule
+
+Power-user local capability does not automatically equal repository-supported surface.

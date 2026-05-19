@@ -15,6 +15,7 @@ That can mean:
 
 The repository knowledge base includes the docs and working surfaces agents rely on to understand and continue the project:
 
+- `AGENTS.md` or another operating guide when present
 - `README.md` or another root reading order
 - `GLOSSARY.md` when the repository uses an explicit glossary
 - canonical docs
@@ -56,6 +57,15 @@ Use this skill to absorb newly resolved knowledge into the right artifacts:
 
 Use this skill to keep the knowledge base synchronized with code, tests, and current support truth after work lands.
 
+### 4. Tranche Completion
+
+Use this skill to close a tranche honestly:
+
+- move completed plans out of the active surface
+- narrow or retire debt that is no longer current
+- move implemented behavior out of future-tense or open-question language
+- confirm the root reading order still points at the current truth
+
 ## Workflow
 
 ### 1. Identify the canonical knowledge surface
@@ -66,6 +76,7 @@ Use this skill to keep the knowledge base synchronized with code, tests, and cur
   - desired-state or contract docs
   - execution-plan docs
   - generated or derived docs
+- Keep local handoffs explicitly subordinate to tracked canonical truth.
 - If `GLOSSARY.md` exists, treat it as the glossary or domain-language source.
 - If `docs/decisions/` exists, treat it as the durable decision-history source.
 - Know which files future agents are expected to trust first.
@@ -94,6 +105,7 @@ For the current slice, check whether you must update:
 - `GLOSSARY.md` if domain language or glossary truth changed
 - `docs/decisions/` if a durable decision changed or was resolved
 - active plans or debt trackers
+- CI or harness status docs when repair work changed what the harness now proves
 - evidence notes if new validation happened
 
 Do not update everything by default. Update the exact files future contributors would trust for this change.
@@ -105,6 +117,7 @@ Do not update everything by default. Update the exact files future contributors 
 - Keep execution plans focused on how remaining gaps will close.
 - Keep `GLOSSARY.md` focused on glossary and domain language, not implementation detail.
 - Keep `docs/decisions/` focused on durable decisions, not routine progress notes.
+- Keep generated inventories, route tables, and other derived artifacts clearly labeled as derived rather than canonical support truth.
 - Do not silently rewrite old evidence to hide drift; either update the current contract or add a new dated evidence record.
 
 ### 5. Update knowledge in the same slice as the work
@@ -114,9 +127,16 @@ Do not update everything by default. Update the exact files future contributors 
 - If glossary language changed, update `GLOSSARY.md` in the same slice.
 - If a durable decision was made or invalidated, update `docs/decisions/` if the repository uses decision records.
 - If a plan assumption became false, update the plan immediately.
+- If behavior is now repaired and test-protected, move it out of `known broken`, `proposed`, or future-tense plan language in the same slice.
 - If navigation changed, update the reading order so future agents do not rediscover the repository from scratch.
 
-### 6. Keep the language sharp
+### 6. Promote new truth
+
+- If behavior changed and is now tested, promote it from plan, risk, or exploratory language into canonical contract docs.
+- If a risk narrowed but did not disappear, restate the narrower remaining risk rather than just marking the section done.
+- If a handoff contains context important enough for future work, promote that truth into tracked docs before later tranches depend on it.
+
+### 7. Keep the language sharp
 
 Use explicit status language:
 
@@ -128,12 +148,13 @@ Use explicit status language:
 Distinguish:
 
 - current verified state
+- current observed state
 - desired end state
 - remaining gap
 - implementation drift
 - evidence strength
 
-### 7. Finish with a trustworthy next-step surface
+### 8. Finish with a trustworthy next-step surface
 
 At the end of the slice, make sure a fresh agent can answer:
 
@@ -143,6 +164,7 @@ At the end of the slice, make sure a fresh agent can answer:
 - where to read next
 
 If that answer still depends on chat history, the repository knowledge engineering pass is incomplete.
+Ask explicitly whether a fresh agent could continue from tracked docs even if the local handoff were deleted.
 
 ## Decision Rules
 
@@ -151,6 +173,12 @@ If that answer still depends on chat history, the repository knowledge engineeri
 - Do not delete evidence just because the current contract improved.
 - Prefer a small number of strong canonical docs over a growing pile of loose notes.
 - Create `GLOSSARY.md` or `docs/decisions/` when they would materially improve the repository knowledge base; do not create them as empty ceremony.
+- Correct the root reading order before polishing lower-level docs when the entrypoint is misleading.
+- Run a bounded publish-safety check when the repository is nearing public use:
+  - secrets or tokens in notes
+  - machine-local paths
+  - stale setup stories
+  - unsafe archive notes
 - If a change is bounded and local, resist turning it into another archaeology pass.
 - If repeated anti-drift work reveals a specialized recurring workflow, capture that as a future skill candidate only after it repeats.
 
@@ -163,5 +191,6 @@ If that answer still depends on chat history, the repository knowledge engineeri
 - refreshed glossary or `GLOSSARY.md`
 - new or updated decision record under `docs/decisions/`
 - refreshed active plan or debt tracker
+- archive compaction or evidence index cleanup when note sprawl exists
 - dated evidence note for new validation
 - local handoff that reflects the new truth

@@ -37,6 +37,12 @@ Prefer local discoverability over thread-local convenience.
 - If the next task is broad or unspecified, use `session-handoff`.
 - Avoid random suffixes.
 
+Before creating a new file, check whether a same-day handoff already exists for the same stream of work.
+
+- If the session is continuing the same tranche, prefer updating the existing handoff.
+- If the goal or phase changed materially, create a new handoff file.
+- If a new handoff supersedes an older one, say so explicitly.
+
 ### 5. Write only the high-signal continuation context
 
 The handoff should help the next agent answer:
@@ -49,8 +55,9 @@ The handoff should help the next agent answer:
 
 Prefer references over repetition:
 
-- Link to plans, ADRs, specs, PRs, validation reports, or changed files instead of re-copying their contents.
+- Link to plans, decision docs, specs, PRs, validation reports, or changed files instead of re-copying their contents.
 - Summarize only the delta and the next-step logic.
+- Read the destination file before overwriting it.
 
 ### 6. Use this structure
 
@@ -60,6 +67,8 @@ Prefer references over repetition:
 ## Session Goal
 
 ## Current State
+
+## Verification State
 
 ## Canonical References
 
@@ -76,10 +85,14 @@ Prefer references over repetition:
 
 - Keep the handoff short enough that a fresh agent will still read the linked docs.
 - Do not duplicate large plan or spec content already captured elsewhere.
+- Do not copy large diffs or long plan bodies into the handoff.
 - Do not record secrets, tokens, credentials, private keys, cookies, or copied `.env` values in the handoff.
 - If sensitive runtime context matters, describe where it lives and what kind of access is required instead of copying the value.
 - Call out stale assumptions, partial verification, or unrun tests explicitly.
+- Record branch or worktree assumptions when the next session could land in the wrong context.
+- Record whether the next session depends on local uncommitted state.
 - If no files changed, say so directly.
+- Do not create a handoff when the tranche is truly complete and canonical docs plus commits already make continuation obvious.
 
 ## Relationship To Other Skills
 
