@@ -2,7 +2,7 @@
 
 - confirm the session really needs a continuation artifact
 - find the project root
-- ensure `.codex/handoffs/` exists or choose the project's established ignored notes area
+- ensure `docs/handoff/` exists or choose the project's established handoff area
 - update `.gitignore` on first use if needed
 - update an existing same-day same-stream handoff when that is the cleanest continuation path
 - use a dated deterministic filename

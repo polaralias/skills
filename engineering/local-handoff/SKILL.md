@@ -19,16 +19,18 @@ Prefer local discoverability over thread-local convenience.
 
 ### 2. Ensure local storage exists
 
-- Use `.codex/handoffs/` under the project root.
+- Use `docs/handoff/` under the project root by default.
 - Create the directory if it does not exist.
 - Keep handoffs untracked by default.
 
+If the repository already has an established continuous handoff folder, use that instead of creating a parallel convention.
+
 ### 3. Wire ignore rules on first use
 
-- If `.gitignore` exists and does not already ignore the handoff area, add an entry for `.codex/handoffs/`.
-- If `.gitignore` does not exist, create it and add `.codex/handoffs/`.
-- Do not ignore the entire `.codex/` tree unless the project already chose that policy.
-- If the target is not a git repository, still use `.codex/handoffs/`, but note that ignore wiring could not be verified.
+- If `.gitignore` exists and does not already ignore the handoff area, add an entry for `docs/handoff/`.
+- If `.gitignore` does not exist, create it and add `docs/handoff/`.
+- Do not ignore the entire `docs/` tree unless the project already chose that policy.
+- If the target is not a git repository, still use `docs/handoff/`, but note that ignore wiring could not be verified.
 
 ### 4. Name the handoff deterministically
 

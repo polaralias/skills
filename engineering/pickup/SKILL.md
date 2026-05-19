@@ -1,6 +1,6 @@
 ---
 name: pickup
-description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when starting a new Codex session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `.codex/handoffs/`.
+description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when starting a new Codex session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area.
 ---
 
 # Pickup
@@ -14,7 +14,7 @@ Treat the handoff as an input, not as unquestioned truth.
 ### 1. Find the right handoff
 
 - If the user named a handoff file, use it.
-- Otherwise check `.codex/handoffs/` in the current project.
+- Otherwise check `docs/handoff/` in the current project or the repository's established handoff area.
 - Prefer the latest dated handoff that matches the current task.
 - If multiple handoffs are plausible, pick the narrowest topic match rather than simply the newest file.
 - Prefer the handoff whose referenced canonical docs still exist and still point to the same active workstream.
