@@ -1,0 +1,7 @@
+interface:
+  display_name: "Repository Dissection"
+  short_description: "Dissect a repo and make it legible."
+  default_prompt: "Use $repository-dissection to map this repository, verify what is really true, and bootstrap a usable documentation foundation."
+
+policy:
+  allow_implicit_invocation: true

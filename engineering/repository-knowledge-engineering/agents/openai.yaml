@@ -1,0 +1,7 @@
+interface:
+  display_name: "Repository Knowledge Engineering"
+  short_description: "Keep the repository knowledge base trustworthy."
+  default_prompt: "Use $repository-knowledge-engineering to align code, tests, plans, canonical docs, and related knowledge surfaces for this tranche."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Local Handoff"
+  short_description: "Write a dated resumable handoff beside the work."
+  default_prompt: "Use $local-handoff to write a dated local handoff, ensure the handoff path is git-ignored, and capture the next session's starting point."
+
+policy:
+  allow_implicit_invocation: false

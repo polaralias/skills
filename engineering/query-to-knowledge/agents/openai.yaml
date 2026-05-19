@@ -1,0 +1,4 @@
+interface:
+  display_name: "Query To Knowledge"
+  short_description: "Turn repo questions into durable knowledge."
+  default_prompt: "Use $query-to-knowledge to resolve open questions, batch the key interrogation, and capture the results in the repository knowledge base."
