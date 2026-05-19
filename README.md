@@ -30,7 +30,7 @@ Use this to establish, evolve, and maintain the repository knowledge base, inclu
 
 Location: [engineering/local-handoff](./engineering/local-handoff)
 
-Use this at the end of a tranche to write a dated local handoff under `docs/handoff/` in the repository being worked on, with a matching `.gitignore` update when the handoff should stay local.
+Use this at the end of a tranche to write a dated local handoff under `docs/handoff/` in the repository being worked on. The skill finishes by reminding the user of the handoff path and, if relevant, that they may want to ignore it if they do not want to share handoff documents.
 
 ### `pickup`
 

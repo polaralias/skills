@@ -21,18 +21,10 @@ Prefer local discoverability over thread-local convenience.
 
 - Use `docs/handoff/` under the project root by default.
 - Create the directory if it does not exist.
-- Keep handoffs untracked by default.
 
 If the repository already has an established continuous handoff folder, use that instead of creating a parallel convention.
 
-### 3. Wire ignore rules on first use
-
-- If `.gitignore` exists and does not already ignore the handoff area, add an entry for `docs/handoff/`.
-- If `.gitignore` does not exist, create it and add `docs/handoff/`.
-- Do not ignore the entire `docs/` tree unless the project already chose that policy.
-- If the target is not a git repository, still use `docs/handoff/`, but note that ignore wiring could not be verified.
-
-### 4. Name the handoff deterministically
+### 3. Name the handoff deterministically
 
 - Use `YYYY-MM-DD-topic.md`.
 - Derive `topic` from the user's stated next task when possible.
@@ -45,7 +37,7 @@ Before creating a new file, check whether a same-day handoff already exists for 
 - If the goal or phase changed materially, create a new handoff file.
 - If a new handoff supersedes an older one, say so explicitly.
 
-### 5. Write only the high-signal continuation context
+### 4. Write only the high-signal continuation context
 
 The handoff should help the next agent answer:
 
@@ -61,7 +53,7 @@ Prefer references over repetition:
 - Summarize only the delta and the next-step logic.
 - Read the destination file before overwriting it.
 
-### 6. Use this structure
+### 5. Use this structure
 
 ```md
 # Handoff: <topic>
@@ -88,13 +80,22 @@ Prefer references over repetition:
 - Keep the handoff short enough that a fresh agent will still read the linked docs.
 - Do not duplicate large plan or spec content already captured elsewhere.
 - Do not copy large diffs or long plan bodies into the handoff.
-- Do not record secrets, tokens, credentials, private keys, cookies, or copied `.env` values in the handoff.
+- Never record secrets, tokens, credentials, private keys, cookies, copied `.env` values, or any other sensitive values in the handoff.
+- The handoff must be safe to share as a document even if the user later decides to commit or publish it accidentally.
 - If sensitive runtime context matters, describe where it lives and what kind of access is required instead of copying the value.
 - Call out stale assumptions, partial verification, or unrun tests explicitly.
 - Record branch or worktree assumptions when the next session could land in the wrong context.
 - Record whether the next session depends on local uncommitted state.
 - If no files changed, say so directly.
 - Do not create a handoff when the tranche is truly complete and canonical docs plus commits already make continuation obvious.
+
+## Closing Step
+
+Once the handoff is complete:
+
+- tell the user the handoff is complete
+- tell them the exact handoff path
+- remind them that if they do not want to share handoff documents, they may want to add that handoff path to the target repository's `.gitignore`
 
 ## Relationship To Other Skills
 
