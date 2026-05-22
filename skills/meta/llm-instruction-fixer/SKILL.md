@@ -1,12 +1,10 @@
 ---
 name: llm-instruction-fixer
-description: Repair prompts, skills, system instructions, agent prompts, and related
-  LLM instruction artifacts from an existing review, issue list, or explicit fix brief.
-  Use when a user wants reliability problems corrected without casually changing the
-  artifact's intent or scope.
+description: Repair prompts, skills, system instructions, agent prompts, and related LLM instruction artifacts from an existing review, issue list, or explicit fix brief. Use when a user wants reliability problems corrected without casually changing the artifact's intent or scope.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

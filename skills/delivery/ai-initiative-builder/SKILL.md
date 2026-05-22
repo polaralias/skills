@@ -1,12 +1,10 @@
 ---
 name: ai-initiative-builder
-description: Guide early-stage AI initiative work through discovery and prioritisation.
-  Use when a user wants to shape an idea, capture the right discovery questions, test
-  whether it is worth pursuing, or produce a structured prioritisation view before
-  deeper scoping begins.
+description: Guide early-stage AI initiative work through discovery and prioritisation. Use when a user wants to shape an idea, capture the right discovery questions, test whether it is worth pursuing, or produce a structured prioritisation view before deeper scoping begins.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

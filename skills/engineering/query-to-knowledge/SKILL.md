@@ -1,9 +1,10 @@
 ---
 name: query-to-knowledge
 description: Resolve open repository questions into durable knowledge. Use when terminology is fuzzy, decisions are still soft, docs and code disagree, or a plan needs pressure-testing before implementation. This skill batches tightly related questions, minimizes token waste, and captures resolved results into the repository knowledge base such as `GLOSSARY.md`, `docs/decisions/`, and canonical docs.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

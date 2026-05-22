@@ -1,13 +1,10 @@
 ---
 name: feedback-rice-prioritiser
-description: Turn messy customer or user feedback into a clean, product-ready problem
-  statement and prioritisation draft. Use when a user shares feedback and wants a
-  structured RICE item, feature request, backlog candidate, or prioritised product
-  note. The skill explains and applies RICE, asks for missing confirmations when needed,
-  and can prepare a tracker-ready handoff without assuming one specific tool.
+description: Turn messy customer or user feedback into a clean, product-ready problem statement and prioritisation draft. Use when a user shares feedback and wants a structured RICE item, feature request, backlog candidate, or prioritised product note. The skill explains and applies RICE, asks for missing confirmations when needed, and can prepare a tracker-ready handoff without assuming one specific tool.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

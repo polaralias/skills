@@ -1,11 +1,10 @@
 ---
 name: project-context-builder
-description: Create or refresh the canonical PROJECT.md for a real project or programme.
-  Use when scattered notes, files, chats, and board context need to be consolidated
-  into one durable context layer that other people and agents can rely on.
+description: Create or refresh the canonical PROJECT.md for a real project or programme. Use when scattered notes, files, chats, and board context need to be consolidated into one durable context layer that other people and agents can rely on.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

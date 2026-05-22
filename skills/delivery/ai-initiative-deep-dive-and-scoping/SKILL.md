@@ -1,12 +1,10 @@
 ---
 name: ai-initiative-deep-dive-and-scoping
-description: Lead the late-stage validation and scoping pass for an AI initiative,
-  including feasibility analysis, POC and MVP boundaries, production-readiness framing,
-  proposal content, and decision-pack outputs. Use when a prioritised initiative is
-  ready for structured challenge rather than early discovery or idea generation.
+description: Lead the late-stage validation and scoping pass for an AI initiative, including feasibility analysis, POC and MVP boundaries, production-readiness framing, proposal content, and decision-pack outputs. Use when a prioritised initiative is ready for structured challenge rather than early discovery or idea generation.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

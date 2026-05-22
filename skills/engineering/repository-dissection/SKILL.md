@@ -1,9 +1,10 @@
 ---
 name: repository-dissection
 description: Dissect an inherited, unclear, or vibe-coded repository and turn it into an explicit documented understanding. Use when you need to map structure, treat docs as unverified claims, validate real runtime behavior, classify mismatches between docs, code, and runtime, and bootstrap the first usable documentation foundation.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

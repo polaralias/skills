@@ -1,11 +1,10 @@
 ---
 name: meeting-pack-processor
-description: Turn notes, transcripts, or rough meeting summaries into an internal
-  note pack, an optional external follow-up email, and any justified product, issue,
-  or feedback routing outputs.
+description: Turn notes, transcripts, or rough meeting summaries into an internal note pack, an optional external follow-up email, and any justified product, issue, or feedback routing outputs.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

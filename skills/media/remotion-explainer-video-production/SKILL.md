@@ -1,13 +1,10 @@
 ---
 name: remotion-explainer-video-production
-description: Create illustrated, walkthrough, or hybrid explainer videos in Remotion
-  using a multi-pass workflow. Use when a user wants scene prompts, composition plans,
-  timing layouts, overlay systems, branded walkthrough shells, debug compositions,
-  or full Remotion scene guidance for editorial explainer videos built from still
-  images, screen recordings, or both.
+description: Create illustrated, walkthrough, or hybrid explainer videos in Remotion using a multi-pass workflow. Use when a user wants scene prompts, composition plans, timing layouts, overlay systems, branded walkthrough shells, debug compositions, or full Remotion scene guidance for editorial explainer videos built from still images, screen recordings, or both.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

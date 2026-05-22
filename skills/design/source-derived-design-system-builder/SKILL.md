@@ -1,13 +1,10 @@
 ---
 name: source-derived-design-system-builder
-description: Create a reusable design skill and a DESIGN.md file from captured visual
-  references such as saved pages, screenshots, logos, exported tokens, UI kits, icons,
-  and notes. Use when the user wants to turn a real product, site, themed variant,
-  or design language into persistent instructions for coding agents rather than relying
-  on one-off prompts.
+description: Create a reusable design skill and a DESIGN.md file from captured visual references such as saved pages, screenshots, logos, exported tokens, UI kits, icons, and notes. Use when the user wants to turn a real product, site, themed variant, or design language into persistent instructions for coding agents rather than relying on one-off prompts.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

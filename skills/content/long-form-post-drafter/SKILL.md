@@ -1,12 +1,10 @@
 ---
 name: long-form-post-drafter
-description: Draft evidence-grounded long-form posts such as long LinkedIn pieces,
-  launch articles, and blog-style content from real product, customer, or campaign
-  evidence. Use when the user wants substantial external-facing content rather than
-  short-form social copy.
+description: Draft evidence-grounded long-form posts such as long LinkedIn pieces, launch articles, and blog-style content from real product, customer, or campaign evidence. Use when the user wants substantial external-facing content rather than short-form social copy.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

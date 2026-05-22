@@ -1,12 +1,10 @@
 ---
 name: clickup-project-plan-builder
-description: Design and build ClickUp project-planning structures, including hierarchy,
-  tags, and saved views for Gantt-led or board-led delivery. Use when a user wants
-  a project brief turned into a practical ClickUp planning surface rather than a generic
-  task dump.
+description: Design and build ClickUp project-planning structures, including hierarchy, tags, and saved views for Gantt-led or board-led delivery. Use when a user wants a project brief turned into a practical ClickUp planning surface rather than a generic task dump.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

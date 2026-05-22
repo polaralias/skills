@@ -1,9 +1,10 @@
 ---
 name: repository-knowledge-engineering
 description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, or aligning code, tests, plans, and maintained knowledge after changes land.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

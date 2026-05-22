@@ -1,12 +1,10 @@
 ---
 name: training-plan-writer
-description: 'Produce paired customer-facing training plans: a concise operational
-  version and a more detailed facilitator-grade version. Use when a user needs training
-  design built from agreed scope, customer objectives, and practical UAT or sandbox
-  workflows rather than generic project-management content.'
+description: 'Produce paired customer-facing training plans: a concise operational version and a more detailed facilitator-grade version. Use when a user needs training design built from agreed scope, customer objectives, and practical UAT or sandbox workflows rather than generic project-management content.'
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

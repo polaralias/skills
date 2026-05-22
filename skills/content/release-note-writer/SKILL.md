@@ -1,13 +1,10 @@
 ---
 name: release-note-writer
-description: Write structured release notes from authoritative planning material,
-  shipped implementation detail, and supporting documentation. Use when a user wants
-  one or more product changes turned into concise, customer-facing release notes with
-  stable structure, clear benefits, useful technical context, and explicit gaps where
-  source material is incomplete.
+description: Write structured release notes from authoritative planning material, shipped implementation detail, and supporting documentation. Use when a user wants one or more product changes turned into concise, customer-facing release notes with stable structure, clear benefits, useful technical context, and explicit gaps where source material is incomplete.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

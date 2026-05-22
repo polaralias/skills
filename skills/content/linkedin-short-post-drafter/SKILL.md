@@ -1,11 +1,10 @@
 ---
 name: linkedin-short-post-drafter
-description: Draft LinkedIn-first short-form posts such as company updates, capability
-  highlights, event posts, launch snippets, and founder-style social copy. Use when
-  the user wants lighter external content rather than a full article or blog.
+description: Draft LinkedIn-first short-form posts such as company updates, capability highlights, event posts, launch snippets, and founder-style social copy. Use when the user wants lighter external content rather than a full article or blog.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

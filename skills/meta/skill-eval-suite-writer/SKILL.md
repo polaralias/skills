@@ -1,11 +1,10 @@
 ---
 name: skill-eval-suite-writer
-description: Build evaluation suites for skills and closely related LLM instruction
-  artifacts. Use when a user wants a skill-centered test plan, scenario matrix, grader
-  strategy, or runner-specific output such as Waza.
+description: Build evaluation suites for skills and closely related LLM instruction artifacts. Use when a user wants a skill-centered test plan, scenario matrix, grader strategy, or runner-specific output such as Waza.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

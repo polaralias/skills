@@ -1,13 +1,10 @@
 ---
 name: llm-instruction-reviewer
-description: Inspect prompts, skills, agent instructions, system prompts, and related
-  LLM instruction artifacts for execution risks such as rule collisions, fuzzy guidance,
-  voice inconsistency, overloaded logic, missing behavior coverage, and conflicts
-  across referenced files. Use when a user wants a review before publication, repair,
-  or evaluation.
+description: Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction artifacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency, overloaded logic, missing behavior coverage, and conflicts across referenced files. Use when a user wants a review before publication, repair, or evaluation.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 

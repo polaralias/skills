@@ -1,9 +1,10 @@
 ---
 name: skill-finaliser
 description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package. Use when extracting a zipped skill, normalising SKILL.md frontmatter, aligning agents/openai.yaml to the expected interface shape, tightening trigger descriptions, adding a license file, creating or refreshing tests/prompts.md, generating or fixing an icon, checking package hygiene, and validating that bundled references, scripts, and tests are proportionate to the skill's purpose.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: "0.1.0"
+  version: 1.0.0
   updated: "2026-05-20"
 ---
 
@@ -31,6 +32,7 @@ By the end of the pass, the target skill should have:
 
 - a canonical folder under the target skills directory
 - a polished `SKILL.md` with clear trigger wording
+- a one-line `description` frontmatter field rather than a folded multi-line YAML description
 - the required precedence line near the top of `SKILL.md`
 - a skill name that reads like a capability or deliverable
 - `agents/openai.yaml` aligned to the skill's actual behaviour
@@ -95,6 +97,7 @@ Use frontmatter for trigger-relevant signal only:
 
 - `name`
 - `description`
+- `license`
 - `metadata.author`
 - `metadata.version`
 - `metadata.updated`
@@ -106,6 +109,7 @@ The `description` is the primary trigger. Make it explicit about:
 - important exclusions when they prevent misuse
 
 Keep the description under 1024 characters.
+Keep the `description` on one physical YAML line rather than using an indented folded multi-line value.
 
 Move these out of the frontmatter:
 
@@ -114,6 +118,12 @@ Move these out of the frontmatter:
 - document-reading instructions
 - workflow sequencing
 - long section lists
+
+When the skill ships with a bundled license file, include a short license entry such as:
+
+```yaml
+license: Proprietary. license.txt has complete terms
+```
 
 Use action-oriented names such as:
 
@@ -273,7 +283,7 @@ Before finishing, confirm:
 
 - folder name matches the skill name
 - frontmatter is complete and internally consistent
-- `description` is under 1024 characters and trigger-focused
+- `description` is under 1024 characters, trigger-focused, and kept on one YAML line
 - `agents/openai.yaml` matches the final `SKILL.md`
 - `assets/icon.svg` exists and uses the package style if the skill ships with an icon
 - the license file exists

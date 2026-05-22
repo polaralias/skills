@@ -14,7 +14,7 @@ MAX_NAME_LENGTH = 64
 MAX_DESCRIPTION_LENGTH = 1024
 MIN_SHORT_DESCRIPTION_LENGTH = 20
 MAX_SHORT_DESCRIPTION_LENGTH = 120
-ALLOWED_FRONTMATTER_KEYS = {"name", "description", "metadata"}
+ALLOWED_FRONTMATTER_KEYS = {"name", "description", "license", "metadata"}
 REQUIRED_PRODUCTS = {"chatgpt", "codex", "api", "atlas"}
 ALLOWED_ICON_PATHS = {"assets/icon.svg", "./assets/icon.svg"}
 REQUIRED_PRECEDENCE_LINE = (
@@ -39,6 +39,21 @@ def parse_frontmatter(skill_md: Path) -> tuple[dict | None, str | None]:
     if not isinstance(data, dict):
         return None, "Frontmatter must be a YAML mapping"
     return data, None
+
+
+def has_single_line_description(skill_md: Path) -> bool:
+    content = read_text(skill_md)
+    match = re.match(r"^---\r?\n(.*?)\r?\n---\r?\n?", content, re.DOTALL)
+    if not match:
+        return False
+
+    frontmatter_lines = match.group(1).splitlines()
+    for index, line in enumerate(frontmatter_lines):
+        if line.startswith("description:"):
+            if index + 1 < len(frontmatter_lines) and re.match(r"^\s{2,}\S", frontmatter_lines[index + 1]):
+                return False
+            return True
+    return False
 
 
 def validate_skill_directory(skill_dir: Path) -> list[str]:
@@ -78,6 +93,12 @@ def validate_skill_directory(skill_dir: Path) -> list[str]:
         errors.append("Missing or invalid 'description' in frontmatter")
     elif len(description.strip()) > MAX_DESCRIPTION_LENGTH:
         errors.append(f"Description exceeds {MAX_DESCRIPTION_LENGTH} characters")
+    elif not has_single_line_description(skill_md):
+        errors.append("Description must be kept on one YAML line")
+
+    license_value = frontmatter.get("license")
+    if license_value is not None and (not isinstance(license_value, str) or not license_value.strip()):
+        errors.append("Optional 'license' frontmatter field must be a non-empty string")
 
     metadata = frontmatter.get("metadata")
     if not isinstance(metadata, dict):

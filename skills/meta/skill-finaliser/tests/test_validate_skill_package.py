@@ -22,6 +22,7 @@ def write_valid_package(skill_dir: Path) -> Path:
         f"""---
 name: skill-finaliser
 description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
   version: "0.1.0"
@@ -109,6 +110,7 @@ def test_validator_rejects_missing_precedence_line(tmp_path: Path) -> None:
         """---
 name: skill-finaliser
 description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
   version: "0.1.0"
@@ -123,3 +125,29 @@ Bring a loose, imported, or half-finished skill up to a clean package standard.
     result = run_validator(skill_dir)
     assert result.returncode != 0
     assert "SKILL.md is missing the required precedence line" in result.stdout
+
+
+def test_validator_rejects_multiline_description(tmp_path: Path) -> None:
+    skill_dir = write_valid_package(tmp_path / "skill-finaliser")
+    (skill_dir / "SKILL.md").write_text(
+        f"""---
+name: skill-finaliser
+description: Finalise imported, draft, or half-finished skills into a clean,
+  publishable skill package.
+license: Proprietary. license.txt has complete terms
+metadata:
+  author: James Whelan
+  version: "0.1.0"
+  updated: "2026-05-20"
+---
+# Skill Finaliser
+
+{PRECEDENCE}
+
+Bring a loose, imported, or half-finished skill up to a clean package standard.
+""",
+        encoding="utf-8",
+    )
+    result = run_validator(skill_dir)
+    assert result.returncode != 0
+    assert "Description must be kept on one YAML line" in result.stdout

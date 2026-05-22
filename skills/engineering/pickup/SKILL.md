@@ -1,9 +1,10 @@
 ---
 name: pickup
 description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area.
+license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 0.1.0
+  version: 1.0.0
   updated: '2026-05-21'
 ---
 
