@@ -1,6 +1,8 @@
-# My Skills Repo
+# Skills Workbench
 
-This repository holds local skills tailored to my own workflows.
+[![skills.sh](https://skills.sh/b/polaralias/skills)](https://skills.sh/polaralias/skills)
+
+A curated library of reusable agent skills for engineering, delivery, content, design, documentation, and automation work.
 
 ## Layout
 
