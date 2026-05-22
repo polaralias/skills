@@ -4,8 +4,8 @@ description: Build project reports from the freshest credible delivery signals a
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.1.0
+  updated: '2026-05-22'
 ---
 
 # Project Report Writer
@@ -32,13 +32,36 @@ Always return a text report in chat first.
 
 If the user wants a visual output, still produce the text report first and treat the visual layer as a follow-on built from the same evidence.
 
+## Shared branding config
+
+Before the first branded visual run, check for shared Polaralias config in this order:
+
+- `docs/agents/polaralias-skills.md`
+- `docs/agents/polaralias-variables.yaml`
+- `~/.agents/config/polaralias-skills/profile.md`
+- `~/.agents/config/polaralias-skills/variables.yaml`
+- `~/.config/polaralias-skills/profile.md`
+- `~/.config/polaralias-skills/variables.yaml`
+
+If any of those files exist, read the relevant ones before asking the user to restate branding choices.
+
+Use shared variables for reusable typography, logo, palette, footer text, and report-cover asset paths when they are present.
+
+Use explicit user instructions for the current job over any saved defaults.
+
+If no shared or repo-local config exists, continue with the packaged defaults and say that no shared Polaralias variables were found, so defaults were used.
+
+After doing that, ask the user whether they want to run `setup-polaralias-skills` so future runs can reuse shared defaults.
+
 ## First-use branding prompt
 
 For the first branded visual run in a new environment, ask:
 
 `Do you want me to keep the default report styling, or update this skill with your own branding rules, fonts, colours, logos, and visual defaults first?`
 
-If the user wants custom branding, collect or update those rules before generating the visual output.
+If the user wants shared defaults across repositories, use `setup-polaralias-skills` rather than writing persistent branding into the installed skill package.
+
+If the user wants a repo-specific override instead, collect or update those rules in the repo-local override files before generating the visual output.
 
 ## Evidence order
 

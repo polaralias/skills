@@ -4,8 +4,8 @@ description: Create illustrated, walkthrough, or hybrid explainer videos in Remo
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.1.0
+  updated: '2026-05-22'
 ---
 
 # Remotion Explainer Video Production
@@ -26,17 +26,40 @@ Default to a multi-pass workflow:
 3. build the Remotion composition
 4. verify with full-scale debug renders
 
+## Shared branding config
+
+Before the first production-ready branded run, check for shared Polaralias config in this order:
+
+- `docs/agents/polaralias-skills.md`
+- `docs/agents/polaralias-variables.yaml`
+- `~/.agents/config/polaralias-skills/profile.md`
+- `~/.agents/config/polaralias-skills/variables.yaml`
+- `~/.config/polaralias-skills/profile.md`
+- `~/.config/polaralias-skills/variables.yaml`
+
+If the repo-local override exists, use it for this repository before falling back to user-level config.
+
+If shared config exists, read it before producing final scene plans or composition guidance.
+
+Use shared variables for reusable typography, logo, palette, and brand-reference paths when they are present.
+
+If no shared or repo-local config exists, continue with the generic editorial explainer style and say that no shared Polaralias variables were found, so defaults were used.
+
+After doing that, ask the user whether they want to run `setup-polaralias-skills` so future runs can reuse shared defaults.
+
 ## First-use style rule
 
 If this is the first time the skill is being used for production-ready output in the current environment, ask one short question before generating final compositions:
 
 `Do you want me to keep the default explainer-video style, or tailor this skill with your own brand kit, typography, logos, colours, and component defaults first?`
 
-If the user wants a custom style, update or create `references/brand-and-style.md` before producing final scene plans or composition guidance.
+If the user wants shared defaults across repositories, use `setup-polaralias-skills` rather than storing persistent customization inside the installed skill package.
+
+If the user wants a repository-specific override, update or create `docs/agents/polaralias-skills.md` or `docs/agents/polaralias-variables.yaml` before producing final scene plans or composition guidance.
 
 ## Optional local override
 
-If `references/brand-and-style.md` exists, read it before producing:
+If `docs/agents/polaralias-skills.md`, `docs/agents/polaralias-variables.yaml`, or `references/brand-and-style.md` exists, read the relevant local override before producing:
 - scene prompts
 - composition specs
 - branding instructions
@@ -44,9 +67,11 @@ If `references/brand-and-style.md` exists, read it before producing:
 - logo placement rules
 - colour assignments
 
-Use it as the local style contract.
+Use the repo-local override as the preferred local style contract.
 
-If it does not exist, continue with the generic editorial explainer style and do not invent brand-specific assets.
+If only `references/brand-and-style.md` exists, use it as a legacy local style contract.
+
+Do not invent brand-specific assets when no applicable override exists.
 
 ## Hard production rules
 
@@ -148,4 +173,4 @@ When asked for code-level guidance, specify Remotion structures, composition reg
 - `references/workflow.md` defines the multi-pass production workflow.
 - `references/component-patterns.md` defines reusable component roles and overlay patterns.
 - `references/scene-runtime-rules.md` defines continuity, preflight, layer-stack, and verification rules.
-- `references/brand-and-style.md` is optional and should be used only when present and relevant.
+- `references/brand-and-style.md` is a legacy optional override and should be used only when present and relevant.

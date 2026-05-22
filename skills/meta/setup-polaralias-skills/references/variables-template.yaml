@@ -1,0 +1,28 @@
+brand_name:
+display_font:
+fallback_font:
+primary_font_ttf:
+logo_path:
+logo_inverse_path:
+logo_protected_path:
+accent_icon_path:
+footer_text:
+palette:
+  primary:
+  secondary:
+  accent:
+  text:
+  muted:
+  surface:
+  neutral_dark:
+  neutral_light:
+tone:
+  adjectives: []
+  avoid: []
+assets:
+  docx_theme_logo_path:
+  docx_theme_logo_protected_path:
+  docx_theme_accent_icon_path:
+  docx_theme_primary_font_ttf:
+  remotion_brand_reference_path:
+  report_cover_image_path:

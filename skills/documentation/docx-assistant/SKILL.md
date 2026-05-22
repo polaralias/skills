@@ -4,8 +4,8 @@ description: Use this skill whenever the task is fundamentally about a Microsoft
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.1.0
+  updated: '2026-05-22'
 ---
 
 # DOCX Assistant
@@ -63,6 +63,38 @@ This route does not use the richer cover, section-banner, or themed callout syst
 
 The richer route is designed around a configurable theme layer rather than a single baked-in visual identity.
 
+Before asking the user to restate branding defaults, check for shared Polaralias config in this order:
+
+- `docs/agents/polaralias-skills.md`
+- `docs/agents/polaralias-variables.yaml`
+- `~/.agents/config/polaralias-skills/profile.md`
+- `~/.agents/config/polaralias-skills/variables.yaml`
+- `~/.config/polaralias-skills/profile.md`
+- `~/.config/polaralias-skills/variables.yaml`
+
+Use explicit user instructions for the current document over any saved defaults.
+
+If a shared or repo-local variables file exists, use it to populate the theme choices before asking the user for missing assets.
+
+Prefer the shared config keys defined by `setup-polaralias-skills`, especially:
+
+- `brand_name`
+- `display_font`
+- `fallback_font`
+- `primary_font_ttf`
+- `logo_path`
+- `logo_protected_path`
+- `accent_icon_path`
+- `footer_text`
+- `palette.*`
+- skill-specific overrides under `assets.*` for DOCX rendering
+
+If both generic keys and DOCX-specific `assets.*` keys are present, prefer the DOCX-specific values for this skill.
+
+If no shared config exists, continue with the generic themed defaults and say that no shared Polaralias variables were found, so fallback branding was used.
+
+After doing that, ask the user whether they want to run `setup-polaralias-skills` so future branded documents can reuse shared defaults.
+
 Recognised environment variables:
 
 - `DOCX_THEME_DISPLAY_FONT_NAME`
@@ -88,6 +120,8 @@ If a branded run would benefit from custom assets that are not available locally
 - brand or footer text
 
 If the user does not provide them, continue with the generic themed defaults and say that the package is using fallback branding.
+
+If the user wants shared defaults across repositories, use `setup-polaralias-skills` rather than storing persistent custom values inside the installed skill package.
 
 ## Spec constraints
 

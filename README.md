@@ -88,6 +88,18 @@ Location: [skills/meta](./skills/meta)
 - [llm-instruction-fixer](./skills/meta/llm-instruction-fixer)
 - [llm-instruction-reviewer](./skills/meta/llm-instruction-reviewer)
 - [skill-finaliser](./skills/meta/skill-finaliser)
+- [setup-polaralias-skills](./skills/meta/setup-polaralias-skills): create update-safe shared Polaralias defaults under `~/.agents/config/polaralias-skills` with `~/.config` as fallback.
+
+## Shared Skill Config
+
+Skills that need durable cross-repo defaults should prefer user-level config outside the installed skill package.
+
+Current convention for Polaralias shared defaults:
+
+- preferred: `~/.agents/config/polaralias-skills/`
+- fallback: `~/.config/polaralias-skills/`
+
+This keeps `npx skills update` safe because persistent user customization does not live inside files that the installer may replace.
 
 ## Future Consideration
 

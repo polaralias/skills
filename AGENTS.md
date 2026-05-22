@@ -15,6 +15,7 @@ Read [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/IND
 - Use [`.agents/skills/skill-finaliser`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser>) as the preferred local path when finalising or normalising skill packages.
 - Keep package validation under [`.agents/skills/skill-finaliser/scripts/validate_skill_package.py`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser/scripts/validate_skill_package.py>) rather than duplicating a second repo-level validator.
 - Keep package structure consistent with the finalized engineering skills and the `skill-finaliser` expectations.
+- For setup or customization skills, keep persistent user configuration outside installed skill folders. Prefer `~/.agents/config/<skill-name>/` and use `~/.config/<skill-name>/` only as fallback.
 
 ## Versioning Rule
 
