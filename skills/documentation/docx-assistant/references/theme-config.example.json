@@ -1,0 +1,16 @@
+{
+  "brandName": "Your Brand",
+  "displayFontName": "Aptos Serif",
+  "fallbackFontName": "Georgia",
+  "logoPath": "C:/path/to/logo.png",
+  "protectedLogoPath": "C:/path/to/logo-protected.png",
+  "accentIconPath": "C:/path/to/icon.png",
+  "palette": {
+    "primary": "#2F5BFF",
+    "secondary": "#FF6A1F",
+    "text": "#222222",
+    "muted": "#555555",
+    "surface": "#F7F8FC"
+  },
+  "footerText": "Confidential"
+}

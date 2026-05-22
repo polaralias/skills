@@ -1,0 +1,18 @@
+interface:
+  display_name: Long Form Post Drafter
+  short_description: Draft evidence-grounded long-form posts such as long LinkedIn
+    pieces, launch articles, and blog-style content from...
+  default_prompt: 'Use Long Form Post Drafter when the task matches this skill: Draft
+    evidence-grounded long-form posts such as long LinkedIn pieces, launch articles,
+    and blog-style content from real product, customer, or campaign evidence. Use
+    when the user wants substantial external-facing content rather than short-form
+    social copy.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

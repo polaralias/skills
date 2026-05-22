@@ -1,7 +1,14 @@
 interface:
-  display_name: "Repository Dissection"
-  short_description: "Dissect a repo and make it legible."
-  default_prompt: "Use $repository-dissection to map this repository, verify what is really true, and bootstrap a usable documentation foundation."
+  display_name: Repository Dissection
+  short_description: Dissect an unclear repository and turn it into documented, verified understanding.
+  default_prompt: Use Repository Dissection to map the repository, verify what is actually true in docs, code, and runtime, classify the mismatches, and bootstrap a usable documentation foundation.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
 
 policy:
   allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

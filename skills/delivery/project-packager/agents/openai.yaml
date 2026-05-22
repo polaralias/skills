@@ -1,0 +1,18 @@
+interface:
+  display_name: Project Packager
+  short_description: Turn an existing PROJECT.md into audience-specific or system-ready
+    project outputs without rediscovering the project...
+  default_prompt: 'Use Project Packager when the task matches this skill: Turn an
+    existing PROJECT.md into audience-specific or system-ready project outputs without
+    rediscovering the project from scratch. Use when the project truth already exists
+    and the user needs a reusable package, briefing, handoff, or derivative context
+    artifact.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

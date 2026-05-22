@@ -1,0 +1,19 @@
+interface:
+  display_name: Tasklist Gantt Creator
+  short_description: Generate Excel Gantt charts from a list of tasks, whether that
+    list came from an export, a planning sheet, or a...
+  default_prompt: 'Use Tasklist Gantt Creator when the task matches this skill: Generate
+    Excel Gantt charts from a list of tasks, whether that list came from an export,
+    a planning sheet, or a shaped handoff dataset. Use when building or customising
+    a Gantt, reconstructing task hierarchy from parent-child fields, adjusting timeline
+    ranges, changing row or bar colours, or controlling stakeholder-ready workbook
+    formatting.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

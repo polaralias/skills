@@ -1,0 +1,17 @@
+interface:
+  display_name: Project Context Builder
+  short_description: Create or refresh the canonical PROJECT.md for a real project
+    or programme. Use when scattered notes, files, chats,...
+  default_prompt: 'Use Project Context Builder when the task matches this skill: Create
+    or refresh the canonical PROJECT.md for a real project or programme. Use when
+    scattered notes, files, chats, and board context need to be consolidated into
+    one durable context layer that other people and agents can rely on.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

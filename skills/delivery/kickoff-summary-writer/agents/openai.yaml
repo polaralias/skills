@@ -1,0 +1,18 @@
+interface:
+  display_name: Kickoff Summary Writer
+  short_description: Turn kickoff, discovery, or onboarding source material into an
+    evidence-backed synthesis with traceable references,...
+  default_prompt: 'Use Kickoff Summary Writer when the task matches this skill: Turn
+    kickoff, discovery, or onboarding source material into an evidence-backed synthesis
+    with traceable references, then package it for the right audience. Use when a
+    user wants a kickoff summary, discovery recap, implementation overview, or similar
+    synthesis from transcripts, notes, or mixed source packs.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

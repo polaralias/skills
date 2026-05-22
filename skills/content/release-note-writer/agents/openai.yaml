@@ -1,0 +1,19 @@
+interface:
+  display_name: Release Note Writer
+  short_description: Write structured release notes from authoritative planning material,
+    shipped implementation detail, and supporting...
+  default_prompt: 'Use Release Note Writer when the task matches this skill: Write
+    structured release notes from authoritative planning material, shipped implementation
+    detail, and supporting documentation. Use when a user wants one or more product
+    changes turned into concise, customer-facing release notes with stable structure,
+    clear benefits, useful technical context, and explicit gaps where source material
+    is incomplete.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

@@ -1,0 +1,5 @@
+jsonschema
+lxml
+Pillow
+PyMuPDF
+python-docx

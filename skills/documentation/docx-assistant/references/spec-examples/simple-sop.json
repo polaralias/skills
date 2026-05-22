@@ -1,0 +1,43 @@
+{
+  "title": "Content Publishing SOP",
+  "subtitle": "Internal working guide",
+  "style": {
+    "cover": "none",
+    "section_banners": false
+  },
+  "blocks": [
+    {
+      "type": "heading",
+      "level": 1,
+      "text": "Purpose"
+    },
+    {
+      "type": "paragraph",
+      "text": "This SOP explains how administrators prepare, check, and publish learning content."
+    },
+    {
+      "type": "heading",
+      "level": 1,
+      "text": "Publishing checklist"
+    },
+    {
+      "type": "bullets",
+      "items": [
+        "Check title, description, audience, and completion settings.",
+        "Preview the learner journey from start to finish.",
+        "Confirm any assessment or certificate settings before publishing."
+      ]
+    },
+    {
+      "type": "callout",
+      "variant": "warning",
+      "title": "Before publishing",
+      "body": [
+        {
+          "type": "paragraph",
+          "text": "Do not publish content until accessibility checks and stakeholder approval are complete."
+        }
+      ]
+    }
+  ]
+}

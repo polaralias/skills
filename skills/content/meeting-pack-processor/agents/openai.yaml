@@ -1,0 +1,17 @@
+interface:
+  display_name: Meeting Pack Processor
+  short_description: Turn notes, transcripts, or rough meeting summaries into an internal
+    note pack, an optional external follow-up...
+  default_prompt: 'Use Meeting Pack Processor when the task matches this skill: Turn
+    notes, transcripts, or rough meeting summaries into an internal note pack, an
+    optional external follow-up email, and any justified product, issue, or feedback
+    routing outputs.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

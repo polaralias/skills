@@ -1,0 +1,18 @@
+interface:
+  display_name: Llm Instruction Fixer
+  short_description: Repair prompts, skills, system instructions, agent prompts, and
+    related LLM instruction artifacts from an existing...
+  default_prompt: 'Use Llm Instruction Fixer when the task matches this skill: Repair
+    prompts, skills, system instructions, agent prompts, and related LLM instruction
+    artifacts from an existing review, issue list, or explicit fix brief. Use when
+    a user wants reliability problems corrected without casually changing the artifact''s
+    intent or scope.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

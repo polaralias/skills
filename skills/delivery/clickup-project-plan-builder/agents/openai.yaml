@@ -1,0 +1,18 @@
+interface:
+  display_name: Clickup Project Plan Builder
+  short_description: Design and build ClickUp project-planning structures, including
+    hierarchy, tags, and saved views for Gantt-led or...
+  default_prompt: 'Use Clickup Project Plan Builder when the task matches this skill:
+    Design and build ClickUp project-planning structures, including hierarchy, tags,
+    and saved views for Gantt-led or board-led delivery. Use when a user wants a project
+    brief turned into a practical ClickUp planning surface rather than a generic task
+    dump.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

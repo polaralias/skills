@@ -1,0 +1,58 @@
+{
+  "input": {
+    "path": "tasks.xlsx",
+    "sheet": "Tasks",
+    "skip_rows": 0,
+    "format": "excel"
+  },
+  "columns": {
+    "task_id": "Task ID",
+    "task_name": "Task Name",
+    "parent_id": "Parent ID",
+    "parent_name": "Parent Name",
+    "start_date": "Start Date",
+    "due_date": "Due Date",
+    "owner": "Owner",
+    "customer": "Customer",
+    "status": "Status"
+  },
+  "timeline": {
+    "start": null,
+    "end": null
+  },
+  "output": {
+    "path": "gantt.xlsx",
+    "modes": ["daily", "weekly"],
+    "focus_sheets": false,
+    "colour_by": "owner",
+    "omit_owner": false,
+    "ignore_parent_bars": false
+  },
+  "colours": {
+    "owner": {},
+    "status": {},
+    "neutral": "BFBFBF",
+    "header_dark": "1F3864",
+    "header_mid": "2E5090",
+    "header_light": "3A6BC5",
+    "parent_bar": "5B9BD5",
+    "milestone_bar": "1F3864",
+    "task_alt": "F7F9FC",
+    "task_plain": "FFFFFF",
+    "milestone_row": "F2F2F2",
+    "week_grid": "D9E2F3",
+    "text_muted": "44546A",
+    "status_palette": [
+      "5B8FF9",
+      "5AD8A6",
+      "5D7092",
+      "F6BD16",
+      "6F5EF9",
+      "6DC8EC",
+      "F6903D",
+      "008685",
+      "F08BB4",
+      "7F7F7F"
+    ]
+  }
+}

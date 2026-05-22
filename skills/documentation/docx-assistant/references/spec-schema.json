@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.schemas/docx-assistant/spec.json",
+  "title": "DOCX assistant content spec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "blocks"],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "subtitle": { "type": "string" },
+    "customer": { "type": "string" },
+    "date_label": { "type": "string" },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cover": { "enum": ["auto", "none", "simple"] },
+        "section_banners": { "type": "boolean" },
+        "callouts": { "enum": ["limited", "normal"] },
+        "brand_density": { "enum": ["restrained", "expressive"] }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/block" }
+    }
+  },
+  "$defs": {
+    "block": {
+      "oneOf": [
+        { "$ref": "#/$defs/paragraph" },
+        { "$ref": "#/$defs/heading" },
+        { "$ref": "#/$defs/bullets" },
+        { "$ref": "#/$defs/section_banner" },
+        { "$ref": "#/$defs/callout" },
+        { "$ref": "#/$defs/table" },
+        { "$ref": "#/$defs/page_break" },
+        { "$ref": "#/$defs/raw_docx_xml" }
+      ]
+    },
+    "inline_body_block": {
+      "oneOf": [
+        { "$ref": "#/$defs/paragraph" },
+        { "$ref": "#/$defs/bullets" }
+      ]
+    },
+    "paragraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "paragraph" },
+        "text": { "type": "string", "minLength": 1 },
+        "emphasis": { "enum": ["normal", "muted", "strong"] }
+      }
+    },
+    "heading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "heading" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 3, "default": 1 },
+        "text": { "type": "string", "minLength": 1 }
+      }
+    },
+    "bullets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": { "const": "bullets" },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "section_banner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "title"],
+      "properties": {
+        "type": { "const": "section_banner" },
+        "label": { "type": "string" },
+        "title": { "type": "string", "minLength": 1 },
+        "subtitle": { "type": "string" }
+      }
+    },
+    "callout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "variant", "body"],
+      "properties": {
+        "type": { "const": "callout" },
+        "variant": { "enum": ["tip", "note", "warning", "key_info", "takeaway"] },
+        "title": { "type": "string" },
+        "body": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/inline_body_block" }
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "headers", "rows"],
+      "properties": {
+        "type": { "const": "table" },
+        "headers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "page_break": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": { "const": "page_break" }
+      }
+    },
+    "raw_docx_xml": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "xml"],
+      "properties": {
+        "type": { "const": "raw_docx_xml" },
+        "xml": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

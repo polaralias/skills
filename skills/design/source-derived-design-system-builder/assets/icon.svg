@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="source-derived-design-system-builder">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b"/>
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3"/>
+  <path d="M30 117L58 117L44 89L30 117Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M44 117L84 117L64 81L44 117Z" fill="#e40117" fill-opacity="0.42"/>
+  <path d="M70 117L98 117L84 89L70 117Z" fill="#d6d7dc" fill-opacity="0.38"/>
+  <circle cx="96" cy="29" r="12" fill="#e40117" fill-opacity="0.18"/>
+  <path d="M11,13.5V21.5H3V13.5H11M9,15.5H5V19.5H9V15.5M12,2L17.5,11H6.5L12,2M12,5.86L10.08,9H13.92L12,5.86M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13M17.5,15A2.5,2.5 0 0,0 15,17.5A2.5,2.5 0 0,0 17.5,20A2.5,2.5 0 0,0 20,17.5A2.5,2.5 0 0,0 17.5,15Z" fill="#333d4b" fill-opacity="0.55" transform="translate(34 34) scale(2.5)"/>
+  <path d="M11,13.5V21.5H3V13.5H11M9,15.5H5V19.5H9V15.5M12,2L17.5,11H6.5L12,2M12,5.86L10.08,9H13.92L12,5.86M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13M17.5,15A2.5,2.5 0 0,0 15,17.5A2.5,2.5 0 0,0 17.5,20A2.5,2.5 0 0,0 20,17.5A2.5,2.5 0 0,0 17.5,15Z" fill="#fdfdfd" transform="translate(32 32) scale(2.5)"/>
+</svg>

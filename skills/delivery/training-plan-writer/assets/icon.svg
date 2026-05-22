@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="training-plan-writer">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b"/>
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3"/>
+  <path d="M30 117L58 117L44 89L30 117Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M44 117L84 117L64 81L44 117Z" fill="#e40117" fill-opacity="0.42"/>
+  <path d="M70 117L98 117L84 89L70 117Z" fill="#d6d7dc" fill-opacity="0.38"/>
+  <circle cx="96" cy="29" r="12" fill="#e40117" fill-opacity="0.18"/>
+  <path d="M6 20H13V22H6C4.89 22 4 21.11 4 20V4C4 2.9 4.89 2 6 2H18C19.11 2 20 2.9 20 4V12.54L18.5 11.72L18 12V4H13V12L10.5 9.75L8 12V4H6V20M24 17L18.5 14L13 17L18.5 20L24 17M15 19.09V21.09L18.5 23L22 21.09V19.09L18.5 21L15 19.09Z" fill="#333d4b" fill-opacity="0.55" transform="translate(34 34) scale(2.5)"/>
+  <path d="M6 20H13V22H6C4.89 22 4 21.11 4 20V4C4 2.9 4.89 2 6 2H18C19.11 2 20 2.9 20 4V12.54L18.5 11.72L18 12V4H13V12L10.5 9.75L8 12V4H6V20M24 17L18.5 14L13 17L18.5 20L24 17M15 19.09V21.09L18.5 23L22 21.09V19.09L18.5 21L15 19.09Z" fill="#fdfdfd" transform="translate(32 32) scale(2.5)"/>
+</svg>

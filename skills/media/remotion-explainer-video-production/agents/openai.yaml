@@ -1,0 +1,19 @@
+interface:
+  display_name: Remotion Explainer Video Production
+  short_description: Create illustrated, walkthrough, or hybrid explainer videos in
+    Remotion using a multi-pass workflow. Use when a user...
+  default_prompt: 'Use Remotion Explainer Video Production when the task matches this
+    skill: Create illustrated, walkthrough, or hybrid explainer videos in Remotion
+    using a multi-pass workflow. Use when a user wants scene prompts, composition
+    plans, timing layouts, overlay systems, branded walkthrough shells, debug compositions,
+    or full Remotion scene guidance for editorial explainer videos built from still
+    images, screen recordings, or both.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

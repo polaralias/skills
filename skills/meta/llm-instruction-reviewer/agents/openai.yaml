@@ -1,0 +1,18 @@
+interface:
+  display_name: Llm Instruction Reviewer
+  short_description: Inspect prompts, skills, agent instructions, system prompts,
+    and related LLM instruction artifacts for execution...
+  default_prompt: 'Use Llm Instruction Reviewer when the task matches this skill:
+    Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction
+    artifacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency,
+    overloaded logic, missing behavior coverage, and conflicts across referenced files.
+    Use when a user wants a review before publication, repair, or evaluation.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

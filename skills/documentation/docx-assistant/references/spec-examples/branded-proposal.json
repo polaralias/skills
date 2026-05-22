@@ -1,0 +1,47 @@
+{
+  "title": "Implementation Proposal",
+  "subtitle": "Prepared for Example Customer",
+  "customer": "Example Customer",
+  "style": {
+    "cover": "simple",
+    "section_banners": true,
+    "callouts": "limited",
+    "brand_density": "restrained"
+  },
+  "blocks": [
+    {
+      "type": "section_banner",
+      "label": "Phase 1",
+      "title": "Discovery and alignment",
+      "subtitle": "Scope, stakeholders, governance, and launch readiness"
+    },
+    {
+      "type": "paragraph",
+      "text": "This phase confirms the delivery scope, ownership model, key dependencies, and learner journeys before configuration begins."
+    },
+    {
+      "type": "callout",
+      "variant": "key_info",
+      "title": "Decision points",
+      "body": [
+        {
+          "type": "bullets",
+          "items": [
+            "Confirm the project sponsor and day-to-day administrator.",
+            "Agree launch communications and support ownership.",
+            "Validate the first reporting outcomes."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Workstream", "Owner", "Output"],
+      "rows": [
+        ["Governance", "Project sponsor", "Decision log and escalation path"],
+        ["Configuration", "Implementation lead", "Initial platform setup"],
+        ["Training", "Customer admins", "Scenario-led admin enablement"]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="llm-instruction-fixer">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b"/>
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3"/>
+  <path d="M30 117L58 117L44 89L30 117Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M44 117L84 117L64 81L44 117Z" fill="#e40117" fill-opacity="0.42"/>
+  <path d="M70 117L98 117L84 89L70 117Z" fill="#d6d7dc" fill-opacity="0.38"/>
+  <circle cx="96" cy="29" r="12" fill="#e40117" fill-opacity="0.18"/>
+  <path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7C2 9.22 3.21 11.15 5 12.19V21C5 21.55 5.45 22 6 22H10C10.55 22 11 21.55 11 21V12.19C12.79 11.15 14 9.22 14 7C14 4.03 11.84 1.57 9 1.09M10 10.46L9 11.04V20H7V11.04L6 10.46C4.77 9.74 4 8.42 4 7C4 6 4.37 5.06 5 4.35V8H11V4.35C11.63 5.06 12 6 12 7C12 8.42 11.23 9.74 10 10.46M21.6 13L23 14.41L16.47 21L13 17.5L14.4 16.09L16.47 18.17L21.6 13" fill="#333d4b" fill-opacity="0.55" transform="translate(34 34) scale(2.5)"/>
+  <path d="M9 1.09V6H7V1.09C4.16 1.57 2 4.03 2 7C2 9.22 3.21 11.15 5 12.19V21C5 21.55 5.45 22 6 22H10C10.55 22 11 21.55 11 21V12.19C12.79 11.15 14 9.22 14 7C14 4.03 11.84 1.57 9 1.09M10 10.46L9 11.04V20H7V11.04L6 10.46C4.77 9.74 4 8.42 4 7C4 6 4.37 5.06 5 4.35V8H11V4.35C11.63 5.06 12 6 12 7C12 8.42 11.23 9.74 10 10.46M21.6 13L23 14.41L16.47 21L13 17.5L14.4 16.09L16.47 18.17L21.6 13" fill="#fdfdfd" transform="translate(32 32) scale(2.5)"/>
+</svg>

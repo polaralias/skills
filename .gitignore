@@ -1,0 +1,18 @@
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local Python environments
+.venv/
+venv/
+
+# Node install artifacts
+node_modules/
+
+# Common local build/output folders
+dist/
+build/
+output/

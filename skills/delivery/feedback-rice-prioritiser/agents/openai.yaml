@@ -1,0 +1,19 @@
+interface:
+  display_name: Feedback Rice Prioritiser
+  short_description: Turn messy customer or user feedback into a clean, product-ready
+    problem statement and prioritisation draft. Use...
+  default_prompt: 'Use Feedback Rice Prioritiser when the task matches this skill:
+    Turn messy customer or user feedback into a clean, product-ready problem statement
+    and prioritisation draft. Use when a user shares feedback and wants a structured
+    RICE item, feature request, backlog candidate, or prioritised product note. The
+    skill explains and applies RICE, asks for missing confirmations when needed, and
+    can prepare a tracker-ready handoff without assuming one specific tool.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

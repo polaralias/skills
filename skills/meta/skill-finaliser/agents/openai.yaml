@@ -1,0 +1,13 @@
+interface:
+  display_name: "Skill Finaliser"
+  short_description: "Finalise draft skills with metadata, icons, tests, and package hygiene"
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+  default_prompt: "Use this skill to inspect a draft or imported skill, normalise its packaging, align its metadata and bundled resources, add proportionate tests, and validate the result before treating it as finished."
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

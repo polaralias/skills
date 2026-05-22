@@ -1,0 +1,18 @@
+interface:
+  display_name: Test Plan Writer
+  short_description: Build proportionate QA test plans and test cases from requirements,
+    acceptance criteria, stories, change notes, or...
+  default_prompt: 'Use Test Plan Writer when the task matches this skill: Build proportionate
+    QA test plans and test cases from requirements, acceptance criteria, stories,
+    change notes, or specifications. Use when a user wants requirement-to-test coverage,
+    a structured plan, or a review of whether a draft test set is missing important
+    behavior.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

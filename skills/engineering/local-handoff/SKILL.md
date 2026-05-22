@@ -1,9 +1,17 @@
 ---
 name: local-handoff
 description: Create a local continuation handoff for the next session. Use when you are ending a tranche of work and want the next session to resume safely from a dated handoff stored alongside the work instead of a temp file.
+metadata:
+  author: James Whelan
+  version: 0.1.0
+  updated: '2026-05-21'
 ---
 
 # Local Handoff
+
+Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
+
+This skill produces chat output. Include this proof line in the response: `local-handoff was used in this response.`
 
 Write a compact handoff near the work so the next session can resume without relying on chat history.
 

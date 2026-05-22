@@ -1,0 +1,19 @@
+interface:
+  display_name: Source Derived Design System Builder
+  short_description: Create a reusable design skill and a DESIGN.md file from captured
+    visual references such as saved pages,...
+  default_prompt: 'Use Source Derived Design System Builder when the task matches
+    this skill: Create a reusable design skill and a DESIGN.md file from captured
+    visual references such as saved pages, screenshots, logos, exported tokens, UI
+    kits, icons, and notes. Use when the user wants to turn a real product, site,
+    themed variant, or design language into persistent instructions for coding agents
+    rather than relying on one-off prompts.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

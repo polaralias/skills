@@ -1,0 +1,18 @@
+interface:
+  display_name: Ai Initiative Builder
+  short_description: Guide early-stage AI initiative work through discovery and prioritisation.
+    Use when a user wants to shape an idea,...
+  default_prompt: 'Use Ai Initiative Builder when the task matches this skill: Guide
+    early-stage AI initiative work through discovery and prioritisation. Use when
+    a user wants to shape an idea, capture the right discovery questions, test whether
+    it is worth pursuing, or produce a structured prioritisation view before deeper
+    scoping begins.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

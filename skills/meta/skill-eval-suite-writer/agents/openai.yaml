@@ -1,0 +1,17 @@
+interface:
+  display_name: Skill Eval Suite Writer
+  short_description: Build evaluation suites for skills and closely related LLM instruction
+    artifacts. Use when a user wants a...
+  default_prompt: 'Use Skill Eval Suite Writer when the task matches this skill: Build
+    evaluation suites for skills and closely related LLM instruction artifacts. Use
+    when a user wants a skill-centered test plan, scenario matrix, grader strategy,
+    or runner-specific output such as Waza.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

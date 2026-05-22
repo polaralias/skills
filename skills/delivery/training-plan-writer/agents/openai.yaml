@@ -1,0 +1,18 @@
+interface:
+  display_name: Training Plan Writer
+  short_description: 'Produce paired customer-facing training plans: a concise operational
+    version and a more detailed facilitator-grade...'
+  default_prompt: 'Use Training Plan Writer when the task matches this skill: Produce
+    paired customer-facing training plans: a concise operational version and a more
+    detailed facilitator-grade version. Use when a user needs training design built
+    from agreed scope, customer objectives, and practical UAT or sandbox workflows
+    rather than generic project-management content.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

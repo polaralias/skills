@@ -1,0 +1,17 @@
+interface:
+  display_name: Agenda Generator
+  short_description: Draft meeting agendas in either a lean working format or a more
+    formal sectioned format. Use when a user wants an...
+  default_prompt: 'Use Agenda Generator when the task matches this skill: Draft meeting
+    agendas in either a lean working format or a more formal sectioned format. Use
+    when a user wants an agenda written from a simple prompt, a meeting title, or
+    a more complex stakeholder context.'
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

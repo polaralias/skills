@@ -1,0 +1,16 @@
+{
+  "name": "docx-assistant-skill",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Rich DOCX generation helpers for the DOCX assistant skill.",
+  "scripts": {
+    "generate:branded": "python scripts/generate_docx.py --mode branded --input references/spec-examples/branded-proposal.json --output output/branded-proposal.docx",
+    "generate:simple": "python scripts/generate_docx.py --mode simple --input references/spec-examples/simple-sop.json --output output/simple-sop.docx",
+    "build:generic": "node scripts/build_example_document.js",
+    "build:example": "node scripts/build_example_document.js",
+    "build:implementation": "node scripts/build_generic_project_implementation.js"
+  },
+  "dependencies": {
+    "docx": "^9.5.1"
+  }
+}

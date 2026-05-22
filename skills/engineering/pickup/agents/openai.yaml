@@ -1,7 +1,14 @@
 interface:
-  display_name: "Pickup"
-  short_description: "Resume work from a saved local handoff."
-  default_prompt: "Use $pickup to resume work from the latest local handoff and current canonical docs."
+  display_name: Pickup
+  short_description: Resume work from a saved local handoff and re-verify the current state.
+  default_prompt: Use Pickup to resume work from the most relevant local handoff, re-check the current canonical docs and git state, and restate the next verified action.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
 
 policy:
   allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

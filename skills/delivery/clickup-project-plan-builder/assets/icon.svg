@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="clickup-project-plan-builder">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b"/>
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3"/>
+  <path d="M30 117L58 117L44 89L30 117Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M44 117L84 117L64 81L44 117Z" fill="#e40117" fill-opacity="0.42"/>
+  <path d="M70 117L98 117L84 89L70 117Z" fill="#d6d7dc" fill-opacity="0.38"/>
+  <circle cx="96" cy="29" r="12" fill="#e40117" fill-opacity="0.18"/>
+  <path d="M21 16V13C21 11.89 20.11 11 19 11H13V8H15V2H9V8H11V11H5C3.89 11 3 11.89 3 13V16H1V22H7V16H5V13H11V16H9V22H15V16H13V13H19V16H17V22H23V16H21M11 4H13V6H11V4M5 20H3V18H5V20M13 20H11V18H13V20M21 20H19V18H21V20Z" fill="#333d4b" fill-opacity="0.55" transform="translate(34 34) scale(2.5)"/>
+  <path d="M21 16V13C21 11.89 20.11 11 19 11H13V8H15V2H9V8H11V11H5C3.89 11 3 11.89 3 13V16H1V22H7V16H5V13H11V16H9V22H15V16H13V13H19V16H17V22H23V16H21M11 4H13V6H11V4M5 20H3V18H5V20M13 20H11V18H13V20M21 20H19V18H21V20Z" fill="#fdfdfd" transform="translate(32 32) scale(2.5)"/>
+</svg>

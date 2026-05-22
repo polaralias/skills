@@ -1,7 +1,14 @@
 interface:
-  display_name: "Local Handoff"
-  short_description: "Write a dated resumable handoff beside the work."
-  default_prompt: "Use $local-handoff to write a dated local handoff, ensure the handoff path is git-ignored, and capture the next session's starting point."
+  display_name: Local Handoff
+  short_description: Write a dated resumable handoff beside the work for the next session.
+  default_prompt: Use Local Handoff when ending a tranche of work to write or update a dated local handoff, capture the next session's starting point, and report the exact handoff path.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
 
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
