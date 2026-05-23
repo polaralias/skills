@@ -1,0 +1,13 @@
+interface:
+  display_name: "Repo Publish Finaliser"
+  short_description: "Finalise a repo for public release"
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+  default_prompt: "Use $repo-publish-finaliser to finish this repository for public release with verification, doc alignment, archive cleanup, gitleaks secret scanning, and a bounded publish-safety sweep."
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
