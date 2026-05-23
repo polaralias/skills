@@ -1,8 +1,8 @@
 interface:
-  display_name: Long Form Post Drafter
+  display_name: long-form-post-drafter
   short_description: Draft evidence-grounded long-form posts such as long LinkedIn
     pieces, launch articles, and blog-style content from...
-  default_prompt: 'Use Long Form Post Drafter when the task matches this skill: Draft
+  default_prompt: 'Use long-form-post-drafter when the task matches this skill: Draft
     evidence-grounded long-form posts such as long LinkedIn pieces, launch articles,
     and blog-style content from real product, customer, or campaign evidence. Use
     when the user wants substantial external-facing content rather than short-form

@@ -1,5 +1,5 @@
 interface:
-  display_name: "Repo Publish Finaliser"
+  display_name: "repo-publish-finaliser"
   short_description: "Finalise a repo for public release"
   icon_small: "assets/icon.svg"
   icon_large: "assets/icon.svg"

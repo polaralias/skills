@@ -4,11 +4,11 @@ description: Lead the late-stage validation and scoping pass for an AI initiativ
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.0.1
+  updated: '2026-05-23'
 ---
 
-# AI Initiative Deep Dive and Scoping
+# ai-initiative-deep-dive-and-scoping
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

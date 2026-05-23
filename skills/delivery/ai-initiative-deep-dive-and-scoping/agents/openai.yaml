@@ -1,8 +1,8 @@
 interface:
-  display_name: Ai Initiative Deep Dive And Scoping
+  display_name: ai-initiative-deep-dive-and-scoping
   short_description: Lead the late-stage validation and scoping pass for an AI initiative,
     including feasibility analysis, POC and MVP...
-  default_prompt: 'Use Ai Initiative Deep Dive And Scoping when the task matches this
+  default_prompt: 'Use ai-initiative-deep-dive-and-scoping when the task matches this
     skill: Lead the late-stage validation and scoping pass for an AI initiative, including
     feasibility analysis, POC and MVP boundaries, production-readiness framing, proposal
     content, and decision-pack outputs. Use when a prioritised initiative is ready

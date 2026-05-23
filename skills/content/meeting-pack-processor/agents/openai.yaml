@@ -1,8 +1,8 @@
 interface:
-  display_name: Meeting Pack Processor
+  display_name: meeting-pack-processor
   short_description: Turn notes, transcripts, or rough meeting summaries into an internal
     note pack, an optional external follow-up...
-  default_prompt: 'Use Meeting Pack Processor when the task matches this skill: Turn
+  default_prompt: 'Use meeting-pack-processor when the task matches this skill: Turn
     notes, transcripts, or rough meeting summaries into an internal note pack, an
     optional external follow-up email, and any justified product, issue, or feedback
     routing outputs.'

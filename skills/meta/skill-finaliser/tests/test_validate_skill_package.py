@@ -28,7 +28,7 @@ metadata:
   version: "0.1.0"
   updated: "2026-05-20"
 ---
-# Skill Finaliser
+# skill-finaliser
 
 {PRECEDENCE}
 
@@ -39,7 +39,7 @@ Bring a loose, imported, or half-finished skill up to a clean package standard.
 
     (skill_dir / "agents" / "openai.yaml").write_text(
         """interface:
-  display_name: "Skill Finaliser"
+  display_name: "skill-finaliser"
   short_description: "Finalise draft skills with metadata, icons, tests, and package hygiene"
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
@@ -85,7 +85,7 @@ def test_validator_rejects_bad_product_set(tmp_path: Path) -> None:
     skill_dir = write_valid_package(tmp_path / "skill-finaliser")
     (skill_dir / "agents" / "openai.yaml").write_text(
         """interface:
-  display_name: "Skill Finaliser"
+  display_name: "skill-finaliser"
   short_description: "Finalise draft skills with metadata, icons, tests, and package hygiene"
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
@@ -116,7 +116,7 @@ metadata:
   version: "0.1.0"
   updated: "2026-05-20"
 ---
-# Skill Finaliser
+# skill-finaliser
 
 Bring a loose, imported, or half-finished skill up to a clean package standard.
 """,
@@ -140,7 +140,7 @@ metadata:
   version: "0.1.0"
   updated: "2026-05-20"
 ---
-# Skill Finaliser
+# skill-finaliser
 
 {PRECEDENCE}
 

@@ -1,4 +1,4 @@
-# Local Pickup Checklist
+# local-pickup checklist
 
 - find the project root
 - locate the local handoff directory

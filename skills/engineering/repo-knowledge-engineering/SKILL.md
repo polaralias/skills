@@ -4,11 +4,11 @@ description: Establish, evolve, and keep the repository knowledge base trustwort
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.0
+  version: 2.0.1
   updated: '2026-05-23'
 ---
 
-# Repo Knowledge Engineering
+# repo-knowledge-engineering
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

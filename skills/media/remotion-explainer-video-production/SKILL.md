@@ -4,11 +4,11 @@ description: Create illustrated, walkthrough, or hybrid explainer videos in Remo
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-22'
+  version: 1.1.1
+  updated: '2026-05-23'
 ---
 
-# Remotion Explainer Video Production
+# remotion-explainer-video-production
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

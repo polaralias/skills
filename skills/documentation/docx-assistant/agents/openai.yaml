@@ -1,8 +1,8 @@
 interface:
-  display_name: Docx Assistant
+  display_name: docx-assistant
   short_description: Use this skill whenever the task is fundamentally about a Microsoft
     Word document or a `.docx` file. It is the...
-  default_prompt: 'Use Docx Assistant when the task matches this skill: Use this skill
+  default_prompt: 'Use docx-assistant when the task matches this skill: Use this skill
     whenever the task is fundamentally about a Microsoft Word document or a `.docx`
     file. It is the primary route for creating, revising, reviewing, repairing, validating,
     formatting, or returning Word documents in this environment. Trigger it for explicit

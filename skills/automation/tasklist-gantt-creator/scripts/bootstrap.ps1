@@ -9,4 +9,4 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
 }
 
 python -m pip install -r $requirements
-Write-Host 'Tasklist Gantt Creator dependencies installed.'
+Write-Host 'tasklist-gantt-creator dependencies installed.'

@@ -1,8 +1,8 @@
 interface:
-  display_name: Training Plan Writer
+  display_name: training-plan-writer
   short_description: 'Produce paired customer-facing training plans: a concise operational
     version and a more detailed facilitator-grade...'
-  default_prompt: 'Use Training Plan Writer when the task matches this skill: Produce
+  default_prompt: 'Use training-plan-writer when the task matches this skill: Produce
     paired customer-facing training plans: a concise operational version and a more
     detailed facilitator-grade version. Use when a user needs training design built
     from agreed scope, customer objectives, and practical UAT or sandbox workflows

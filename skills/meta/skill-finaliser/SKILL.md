@@ -4,11 +4,11 @@ description: Finalise imported, draft, or half-finished skills into a clean, pub
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: "2026-05-20"
+  version: 1.0.1
+  updated: '2026-05-23'
 ---
 
-# Skill Finaliser
+# skill-finaliser
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

@@ -1,8 +1,8 @@
 interface:
-  display_name: Implementation Plan Writer
+  display_name: implementation-plan-writer
   short_description: Produce a customer-facing implementation plan from kickoff material,
     local guidance, and confirmed delivery...
-  default_prompt: 'Use Implementation Plan Writer when the task matches this skill:
+  default_prompt: 'Use implementation-plan-writer when the task matches this skill:
     Produce a customer-facing implementation plan from kickoff material, local guidance,
     and confirmed delivery assumptions. Use when a user needs a structured onboarding
     or implementation plan that carries a customer from setup through go-live without

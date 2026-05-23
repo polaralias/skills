@@ -4,11 +4,11 @@ description: Use this skill whenever the task is fundamentally about a Microsoft
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-22'
+  version: 1.1.1
+  updated: '2026-05-23'
 ---
 
-# DOCX Assistant
+# docx-assistant
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

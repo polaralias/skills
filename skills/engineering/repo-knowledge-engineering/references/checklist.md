@@ -1,4 +1,4 @@
-# Repo Knowledge Engineering Checklist
+# repo-knowledge-engineering checklist
 
 - identify active docs, specs, plans, tests, archive docs, and local handoffs
 - identify `AGENTS.md` or other operating guidance when present

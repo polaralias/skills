@@ -4,11 +4,11 @@ description: Build project reports from the freshest credible delivery signals a
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-22'
+  version: 1.1.1
+  updated: '2026-05-23'
 ---
 
-# Project Report Writer
+# project-report-writer
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

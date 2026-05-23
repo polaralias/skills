@@ -1,8 +1,8 @@
 interface:
-  display_name: Remotion Explainer Video Production
+  display_name: remotion-explainer-video-production
   short_description: Create illustrated, walkthrough, or hybrid explainer videos in
     Remotion using a multi-pass workflow. Use when a user...
-  default_prompt: 'Use Remotion Explainer Video Production when the task matches this
+  default_prompt: 'Use remotion-explainer-video-production when the task matches this
     skill: Create illustrated, walkthrough, or hybrid explainer videos in Remotion
     using a multi-pass workflow. Use when a user wants scene prompts, composition
     plans, timing layouts, overlay systems, branded walkthrough shells, debug compositions,

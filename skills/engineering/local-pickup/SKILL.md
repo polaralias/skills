@@ -4,11 +4,11 @@ description: Resume work from a local handoff and rebuild trustworthy context be
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.0
+  version: 2.0.1
   updated: '2026-05-23'
 ---
 
-# Local Pickup
+# local-pickup
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

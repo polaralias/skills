@@ -1,8 +1,8 @@
 interface:
-  display_name: Elevenlabs Ai Voice Gen
+  display_name: elevenlabs-ai-voice-gen
   short_description: Write, rewrite, clean, and tag narration scripts for ElevenLabs
     voice generation. Use when the user wants TTS-ready...
-  default_prompt: 'Use Elevenlabs Ai Voice Gen when the task matches this skill: Write,
+  default_prompt: 'Use elevenlabs-ai-voice-gen when the task matches this skill: Write,
     rewrite, clean, and tag narration scripts for ElevenLabs voice generation. Use
     when the user wants TTS-ready copy, voiceover cleanup, narration pacing fixes,
     acronym handling, or selective ElevenLabs v3 tag placement.'

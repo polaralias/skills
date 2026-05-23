@@ -4,11 +4,11 @@ description: Configure shared Polaralias skill defaults outside installed skill 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-22'
+  version: 1.0.1
+  updated: '2026-05-23'
 ---
 
-# Setup Polaralias Skills
+# setup-polaralias-skills
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

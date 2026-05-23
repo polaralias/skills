@@ -1,4 +1,4 @@
-# Query To Knowledge Checklist
+# query-to-knowledge checklist
 
 - read code and canonical docs before asking questions
 - read `AGENTS.md`, the glossary file, and active plans when present

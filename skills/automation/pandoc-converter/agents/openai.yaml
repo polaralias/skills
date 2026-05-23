@@ -1,8 +1,8 @@
 interface:
-  display_name: Pandoc Converter
+  display_name: pandoc-converter
   short_description: Run Pandoc conversions through a small wrapper that preserves
     predictable defaults while still allowing arbitrary...
-  default_prompt: 'Use Pandoc Converter when the task matches this skill: Run Pandoc
+  default_prompt: 'Use pandoc-converter when the task matches this skill: Run Pandoc
     conversions through a small wrapper that preserves predictable defaults while
     still allowing arbitrary Pandoc flags. Use when converting between markup or document
     formats and when you want `--wrap=none` unless a different wrap mode is requested.'

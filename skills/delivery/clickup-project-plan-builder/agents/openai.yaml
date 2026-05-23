@@ -1,8 +1,8 @@
 interface:
-  display_name: Clickup Project Plan Builder
+  display_name: clickup-project-plan-builder
   short_description: Design and build ClickUp project-planning structures, including
     hierarchy, tags, and saved views for Gantt-led or...
-  default_prompt: 'Use Clickup Project Plan Builder when the task matches this skill:
+  default_prompt: 'Use clickup-project-plan-builder when the task matches this skill:
     Design and build ClickUp project-planning structures, including hierarchy, tags,
     and saved views for Gantt-led or board-led delivery. Use when a user wants a project
     brief turned into a practical ClickUp planning surface rather than a generic task

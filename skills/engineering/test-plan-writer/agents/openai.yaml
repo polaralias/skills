@@ -1,8 +1,8 @@
 interface:
-  display_name: Test Plan Writer
+  display_name: test-plan-writer
   short_description: Build proportionate QA test plans and test cases from requirements,
     acceptance criteria, stories, change notes, or...
-  default_prompt: 'Use Test Plan Writer when the task matches this skill: Build proportionate
+  default_prompt: 'Use test-plan-writer when the task matches this skill: Build proportionate
     QA test plans and test cases from requirements, acceptance criteria, stories,
     change notes, or specifications. Use when a user wants requirement-to-test coverage,
     a structured plan, or a review of whether a draft test set is missing important

@@ -1,8 +1,8 @@
 interface:
-  display_name: Knowledge Transfer Documentation Writer
+  display_name: knowledge-transfer-documentation-writer
   short_description: Write structured knowledge transfer documentation from authoritative
     product, design, implementation, or discovery...
-  default_prompt: 'Use Knowledge Transfer Documentation Writer when the task matches
+  default_prompt: 'Use knowledge-transfer-documentation-writer when the task matches
     this skill: Write structured knowledge transfer documentation from authoritative
     product, design, implementation, or discovery source material. Use when a user
     wants a feature, workflow, or work package turned into a concise, navigable internal

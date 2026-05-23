@@ -1,4 +1,4 @@
-# Local Handoff Checklist
+# local-handoff checklist
 
 - confirm the session really needs a continuation artifact
 - find the project root

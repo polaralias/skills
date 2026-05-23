@@ -1,8 +1,8 @@
 interface:
-  display_name: Release Note Writer
+  display_name: release-note-writer
   short_description: Write structured release notes from authoritative planning material,
     shipped implementation detail, and supporting...
-  default_prompt: 'Use Release Note Writer when the task matches this skill: Write
+  default_prompt: 'Use release-note-writer when the task matches this skill: Write
     structured release notes from authoritative planning material, shipped implementation
     detail, and supporting documentation. Use when a user wants one or more product
     changes turned into concise, customer-facing release notes with stable structure,

@@ -4,11 +4,11 @@ description: Resolve open repository questions into durable knowledge. Use when 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
+  version: 1.1.1
   updated: '2026-05-23'
 ---
 
-# Query To Knowledge
+# query-to-knowledge
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

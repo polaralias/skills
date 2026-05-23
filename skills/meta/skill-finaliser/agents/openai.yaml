@@ -1,5 +1,5 @@
 interface:
-  display_name: "Skill Finaliser"
+  display_name: "skill-finaliser"
   short_description: "Finalise draft skills with metadata, icons, tests, and package hygiene"
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg

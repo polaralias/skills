@@ -1,8 +1,8 @@
 interface:
-  display_name: Feedback Rice Prioritiser
+  display_name: feedback-rice-prioritiser
   short_description: Turn messy customer or user feedback into a clean, product-ready
     problem statement and prioritisation draft. Use...
-  default_prompt: 'Use Feedback Rice Prioritiser when the task matches this skill:
+  default_prompt: 'Use feedback-rice-prioritiser when the task matches this skill:
     Turn messy customer or user feedback into a clean, product-ready problem statement
     and prioritisation draft. Use when a user shares feedback and wants a structured
     RICE item, feature request, backlog candidate, or prioritised product note. The

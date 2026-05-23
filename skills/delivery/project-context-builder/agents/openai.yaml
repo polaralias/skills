@@ -1,8 +1,8 @@
 interface:
-  display_name: Project Context Builder
+  display_name: project-context-builder
   short_description: Create or refresh the canonical PROJECT.md for a real project
     or programme. Use when scattered notes, files, chats,...
-  default_prompt: 'Use Project Context Builder when the task matches this skill: Create
+  default_prompt: 'Use project-context-builder when the task matches this skill: Create
     or refresh the canonical PROJECT.md for a real project or programme. Use when
     scattered notes, files, chats, and board context need to be consolidated into
     one durable context layer that other people and agents can rely on.'

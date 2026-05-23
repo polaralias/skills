@@ -1,8 +1,8 @@
 interface:
-  display_name: Agenda Generator
+  display_name: agenda-generator
   short_description: Draft meeting agendas in either a lean working format or a more
     formal sectioned format. Use when a user wants an...
-  default_prompt: 'Use Agenda Generator when the task matches this skill: Draft meeting
+  default_prompt: 'Use agenda-generator when the task matches this skill: Draft meeting
     agendas in either a lean working format or a more formal sectioned format. Use
     when a user wants an agenda written from a simple prompt, a meeting title, or
     a more complex stakeholder context.'

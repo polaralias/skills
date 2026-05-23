@@ -1,8 +1,8 @@
 interface:
-  display_name: Llm Instruction Reviewer
+  display_name: llm-instruction-reviewer
   short_description: Inspect prompts, skills, agent instructions, system prompts,
     and related LLM instruction artifacts for execution...
-  default_prompt: 'Use Llm Instruction Reviewer when the task matches this skill:
+  default_prompt: 'Use llm-instruction-reviewer when the task matches this skill:
     Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction
     artifacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency,
     overloaded logic, missing behavior coverage, and conflicts across referenced files.

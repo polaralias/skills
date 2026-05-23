@@ -4,11 +4,11 @@ description: Generate Excel Gantt charts from a list of tasks, whether that list
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.0.1
+  updated: '2026-05-23'
 ---
 
-# Tasklist Gantt Creator
+# tasklist-gantt-creator
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

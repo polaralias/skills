@@ -1,8 +1,8 @@
 interface:
-  display_name: Project Support
+  display_name: project-support
   short_description: Orient, validate, and route real project work before a more specialised
     project skill takes over. Use when the user...
-  default_prompt: 'Use Project Support when the task matches this skill: Orient, validate,
+  default_prompt: 'Use project-support when the task matches this skill: Orient, validate,
     and route real project work before a more specialised project skill takes over.
     Use when the user needs help deciding whether something is a true project, locating
     or checking PROJECT.md, validating project lookup metadata, or choosing the next

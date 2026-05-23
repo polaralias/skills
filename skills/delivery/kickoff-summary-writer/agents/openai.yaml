@@ -1,8 +1,8 @@
 interface:
-  display_name: Kickoff Summary Writer
+  display_name: kickoff-summary-writer
   short_description: Turn kickoff, discovery, or onboarding source material into an
     evidence-backed synthesis with traceable references,...
-  default_prompt: 'Use Kickoff Summary Writer when the task matches this skill: Turn
+  default_prompt: 'Use kickoff-summary-writer when the task matches this skill: Turn
     kickoff, discovery, or onboarding source material into an evidence-backed synthesis
     with traceable references, then package it for the right audience. Use when a
     user wants a kickoff summary, discovery recap, implementation overview, or similar

@@ -11,4 +11,4 @@ if ! command -v python >/dev/null 2>&1; then
 fi
 
 python -m pip install -r "${REQUIREMENTS_FILE}"
-echo "Tasklist Gantt Creator dependencies installed."
+echo "tasklist-gantt-creator dependencies installed."

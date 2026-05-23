@@ -4,11 +4,11 @@ description: Turn natural-language meeting requests or pasted scheduling batches
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.0.1
+  updated: '2026-05-23'
 ---
 
-# Scheduling Assistant
+# scheduling-assistant
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 

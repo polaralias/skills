@@ -4,11 +4,11 @@ description: Finalise a software repository for public release by closing develo
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: "1.0.0"
-  updated: "2026-05-23"
+  version: "1.0.1"
+  updated: '2026-05-23'
 ---
 
-# Repo Publish Finaliser
+# repo-publish-finaliser
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
