@@ -1,0 +1,14 @@
+interface:
+  display_name: Repo Knowledge Engineering
+  short_description: Keep the repository knowledge base trustworthy as canonical docs, plans, decisions, glossary, and evidence change.
+  default_prompt: Use Repo Knowledge Engineering to align canonical docs, plans, decisions, glossary, reading order, and validation evidence so a fresh agent can continue from tracked repository truth. Do not write tests, eval harnesses, CI logic, or application code unless that implementation work is explicitly requested.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

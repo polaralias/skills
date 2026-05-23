@@ -1,18 +1,18 @@
 ---
-name: pickup
+name: local-pickup
 description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 2.0.0
+  updated: '2026-05-23'
 ---
 
-# Pickup
+# Local Pickup
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
-This skill produces chat output. Include this proof line in the response: `pickup was used in this response.`
+This skill produces chat output. Include this proof line in the response: `local-pickup was used in this response.`
 
 Resume from the project's own continuation artifacts, not from memory.
 
@@ -57,7 +57,7 @@ Then classify the restart path:
 
 - continue directly
 - continue after correction
-- stop and rediscover via `repository-dissection`
+- stop and rediscover via `repo-dissection`
 
 ### 4. Rebuild the immediate work context
 
@@ -72,10 +72,10 @@ This summary should be short and should separate verified current truth from inh
 
 ### 5. Continue with the right downstream skill
 
-- Use `repository-dissection` if the handoff points into an area whose truth is still unclear.
+- Use `repo-dissection` if the handoff points into an area whose truth is still unclear.
 - Use `query-to-knowledge` if the next step depends on unresolved terminology, design trade-offs, or contradictory local knowledge.
 - Use `tdd` if you are about to change behavior.
-- Use `repository-knowledge-engineering` if the next step is primarily alignment across docs, code, plans, and tests.
+- Use `repo-knowledge-engineering` if the next step is primarily alignment across repository truth surfaces after implementation or validation work.
 
 ## Fallbacks
 
@@ -92,11 +92,11 @@ This summary should be short and should separate verified current truth from inh
 - If canonical docs and the handoff both disagree with code or tests, stop pretending continuity is intact and escalate to deeper rediscovery.
 - Prefer a short verified restart over a long inherited narrative.
 
-If pickup discovers a meaningful mismatch, refresh the handoff or leave a short mismatch note before the session ends so the next restart does not rediscover the same problem.
+If local-pickup discovers a meaningful mismatch, refresh the handoff or leave a short mismatch note before the session ends so the next restart does not rediscover the same problem.
 
 ## Output Shape
 
-At pickup time, produce:
+At local-pickup time, produce:
 
 - the chosen handoff path
 - the canonical docs you relied on

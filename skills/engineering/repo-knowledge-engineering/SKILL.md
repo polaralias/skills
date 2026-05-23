@@ -1,18 +1,18 @@
 ---
-name: repository-knowledge-engineering
-description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, or aligning code, tests, plans, and maintained knowledge after changes land.
+name: repo-knowledge-engineering
+description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, or aligning canonical docs, plans, decisions, glossary, reading order, and validation evidence after changes land.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 2.0.0
+  updated: '2026-05-23'
 ---
 
-# Repository Knowledge Engineering
+# Repo Knowledge Engineering
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
-This skill produces chat output. Include this proof line in the response: `repository-knowledge-engineering was used in this response.`
+This skill produces chat output. Include this proof line in the response: `repo-knowledge-engineering was used in this response.`
 
 Use this skill to engineer the repository knowledge base as a working system.
 
@@ -34,12 +34,14 @@ The repository knowledge base includes the docs and working surfaces agents rely
 - handoff artifacts
 - dated evidence when validation happens
 
-This skill is broader than test harnessing and later in the flow than repository dissection.
+This skill owns the repository knowledge system, not implementation work.
+It may document what tests, evaluation harnesses, CI checks, or validation runs prove, but it does not author or repair test code, eval harnesses, CI logic, or application code unless the user explicitly asks for that work or another implementation skill is also invoked.
+It is later in the flow than repository dissection.
 
 ## Use This Instead Of
 
-- Use `repository-dissection` when the repository truth is still unclear and you need to turn implicit understanding into explicit documented understanding.
-- Use `tdd` when the main job is behavior change through red-green-refactor.
+- Use `repo-dissection` when the repository truth is still unclear and you need to turn implicit understanding into explicit documented understanding.
+- Use `tdd` when the main job is behavior change through red-green-refactor, including adding or repairing tests and implementation code.
 - Use this skill when the main job is to shape or maintain the repository knowledge base itself.
 
 ## Phases
@@ -64,7 +66,7 @@ Use this skill to absorb newly resolved knowledge into the right artifacts:
 
 ### 3. Alignment
 
-Use this skill to keep the knowledge base synchronized with code, tests, and current support truth after work lands.
+Use this skill to keep the knowledge base synchronized with current repository truth, including code outcomes, validated behavior, and current support truth after work lands.
 
 ### 4. Tranche Completion
 
@@ -94,8 +96,8 @@ Use this skill to close a tranche honestly:
 
 Classify the work before editing:
 
-- behavior change
-- harness change
+- behavior change already resolved elsewhere
+- validation-evidence or documentation change
 - contract clarification
 - documentation correction
 - plan-state update
@@ -107,17 +109,17 @@ If the slice changes repository truth, the canonical knowledge base must move wi
 
 For the current slice, check whether you must update:
 
-- tests or harness code
 - support matrix or support-status docs
 - README or root navigation
 - architecture, reliability, or security docs
 - `GLOSSARY.md` if domain language or glossary truth changed
 - `docs/decisions/` if a durable decision changed or was resolved
 - active plans or debt trackers
-- CI or harness status docs when repair work changed what the harness now proves
+- validation, CI-status, or evidence docs when other work changed what the repository now proves
 - evidence notes if new validation happened
 
 Do not update everything by default. Update the exact files future contributors would trust for this change.
+Do not treat this step as permission to write or repair tests, evaluation harnesses, CI jobs, or application code.
 
 ### 4. Preserve knowledge boundaries
 
@@ -136,12 +138,12 @@ Do not update everything by default. Update the exact files future contributors 
 - If glossary language changed, update `GLOSSARY.md` in the same slice.
 - If a durable decision was made or invalidated, update `docs/decisions/` if the repository uses decision records.
 - If a plan assumption became false, update the plan immediately.
-- If behavior is now repaired and test-protected, move it out of `known broken`, `proposed`, or future-tense plan language in the same slice.
+- If behavior is now repaired and validated elsewhere, move it out of `known broken`, `proposed`, or future-tense plan language in the same slice.
 - If navigation changed, update the reading order so future agents do not rediscover the repository from scratch.
 
 ### 6. Promote new truth
 
-- If behavior changed and is now tested, promote it from plan, risk, or exploratory language into canonical contract docs.
+- If behavior changed and is now validated, promote it from plan, risk, or exploratory language into canonical contract docs.
 - If a risk narrowed but did not disappear, restate the narrower remaining risk rather than just marking the section done.
 - If a handoff contains context important enough for future work, promote that truth into tracked docs before later tranches depend on it.
 
@@ -180,6 +182,7 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - Do not widen support claims based on manifests or generated docs alone.
 - Do not let README or entry docs lag behind known contract changes.
 - Do not delete evidence just because the current contract improved.
+- Do not write or repair tests, eval harnesses, CI jobs, or application code from this skill alone.
 - Prefer a small number of strong canonical docs over a growing pile of loose notes.
 - Create `GLOSSARY.md` or `docs/decisions/` when they would materially improve the repository knowledge base; do not create them as empty ceremony.
 - Correct the root reading order before polishing lower-level docs when the entrypoint is misleading.

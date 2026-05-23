@@ -10,4 +10,4 @@
 - record branch, verification state, and local-state assumptions when relevant
 - record verification status and the next concrete task
 - finish by telling the user the handoff path and optionally reminding them about `.gitignore` if they do not want to share handoff documents
-- point the next session at the recommended pickup skill
+- point the next session at the recommended `local-pickup` skill

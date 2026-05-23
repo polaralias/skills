@@ -31,10 +31,11 @@ For each skill, the line count tells you how many lines to read from `SKILL.md` 
 - `skills/documentation/knowledge-transfer-documentation-writer/SKILL.md`: read first `9` lines
 - `skills/documentation/process-document-writer/SKILL.md`: read first `9` lines
 - `skills/engineering/local-handoff/SKILL.md`: read first `9` lines
-- `skills/engineering/pickup/SKILL.md`: read first `9` lines
+- `skills/engineering/local-pickup/SKILL.md`: read first `9` lines
 - `skills/engineering/query-to-knowledge/SKILL.md`: read first `9` lines
-- `skills/engineering/repository-dissection/SKILL.md`: read first `9` lines
-- `skills/engineering/repository-knowledge-engineering/SKILL.md`: read first `9` lines
+- `skills/engineering/repo-dissection/SKILL.md`: read first `9` lines
+- `skills/engineering/repo-knowledge-engineering/SKILL.md`: read first `9` lines
+- `skills/engineering/repo-publish-finaliser/SKILL.md`: read first `9` lines
 - `skills/engineering/test-plan-writer/SKILL.md`: read first `9` lines
 - `skills/media/elevenlabs-ai-voice-gen/SKILL.md`: read first `9` lines
 - `skills/media/remotion-explainer-video-production/SKILL.md`: read first `9` lines

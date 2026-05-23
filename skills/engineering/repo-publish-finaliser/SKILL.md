@@ -4,7 +4,7 @@ description: Finalise a software repository for public release by closing develo
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: "0.1.0"
+  version: "1.0.0"
   updated: "2026-05-23"
 ---
 
@@ -60,8 +60,10 @@ Close the repo surface in the same tranche:
 - collapse "accepted limitations" into canonical docs instead of leaving them as open debt if they are intentional
 - update reading order links when file names or canonical surfaces change
 - add or tighten `.gitignore` when cache or local artifacts are reappearing
+- after deleting or moving files, check for now-empty directories and remove them when they no longer carry intentional structure
 
 Prefer deletion over passive clutter for redundant archive files. If an archive doc remains, make sure it cannot be mistaken for active work.
+Do not remove empty directories that the repository intentionally preserves for tooling, packaging, or documented conventions unless you also keep that convention explicit.
 
 ## Step 4: Run a bounded publish-safety scan
 
@@ -115,6 +117,7 @@ Before closing:
 
 - rerun the verification baseline after edits
 - confirm the repo tree is not polluted by caches or local artifacts
+- confirm cleanup did not leave empty directories behind unless they are intentionally preserved
 - confirm a fresh contributor could understand the current truth from tracked docs alone
 - if asked, stage, commit, and push only after the repo surface is clean
 
@@ -124,6 +127,7 @@ Report:
 
 - what changed
 - what was deleted, archived, or promoted
+- whether any empty directories were removed or intentionally kept
 - what publish-safety issues were found, if any
 - what verification was run
 - any intentional constraints that remain

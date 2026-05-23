@@ -20,8 +20,8 @@ The job is to turn ambiguity into durable repository knowledge without burning t
 
 ## Use This Instead Of
 
-- Use `repository-dissection` when the whole repository is still unclear and you first need to establish what is actually there.
-- Use `repository-knowledge-engineering` when the knowledge base already exists and the main job is to establish structure, evolve it, or keep it aligned after changes.
+- Use `repo-dissection` when the whole repository is still unclear and you first need to establish what is actually there.
+- Use `repo-knowledge-engineering` when the knowledge base already exists and the main job is to establish structure, evolve it, or keep it aligned after changes.
 - Use this skill when the missing piece is local uncertainty: unclear terms, unresolved trade-offs, contradictory claims, or under-specified behavior.
 
 ## Workflow
@@ -112,7 +112,7 @@ Do not continue the questioning pattern once the answer is already established b
 
 This skill resolves uncertainty and captures new knowledge.
 
-It does not own the whole knowledge base. Once the open questions are resolved, hand off to `repository-knowledge-engineering` when the larger task becomes:
+It does not own the whole knowledge base. Once the open questions are resolved, hand off to `repo-knowledge-engineering` when the larger task becomes:
 
 - reshaping the documentation foundation
 - aligning many artifacts after implementation

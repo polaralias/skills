@@ -1,7 +1,7 @@
 # Test prompts
 
 ## 1. Happy path
-Prompt: "Use pickup to resume work from the latest relevant handoff in this repository."
+Prompt: "Use local-pickup to resume work from the latest relevant handoff in this repository."
 Expected:
 - the skill chooses the most relevant recent handoff
 - it re-checks canonical docs and current repo state before continuing
@@ -23,4 +23,4 @@ Expected:
 Prompt: "The handoff, docs, and code all disagree about what the repo currently does."
 Expected:
 - the skill classifies the restart as needing correction or deeper rediscovery
-- it points toward `repository-dissection` rather than continuing blindly
+- it points toward `repo-dissection` rather than continuing blindly

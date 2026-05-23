@@ -1,4 +1,4 @@
-# Repository Knowledge Engineering Checklist
+# Repo Knowledge Engineering Checklist
 
 - identify active docs, specs, plans, tests, archive docs, and local handoffs
 - identify `AGENTS.md` or other operating guidance when present
@@ -6,6 +6,7 @@
 - identify the canonical reading order before polishing secondary docs
 - establish the knowledge-base structure if it does not yet exist
 - update docs in the same slice as behavior changes
+- document validation evidence and test status when relevant without authoring tests, eval harnesses, CI jobs, or application code from this skill alone
 - update `GLOSSARY.md` when glossary or domain language changes
 - update `docs/decisions/` when a durable decision changes and the repository uses decision records
 - update active plans and support truth in the same slice when behavior moved

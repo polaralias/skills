@@ -13,4 +13,4 @@
 - capture resolved terms in the glossary file such as `GLOSSARY.md` or `CONTEXT.md`
 - capture durable decisions in `docs/decisions/`
 - capture support-boundary, contract, or plan outcomes in the right canonical artifact
-- hand off to repository-knowledge-engineering when the main job becomes broad knowledge-base maintenance
+- hand off to repo-knowledge-engineering when the main job becomes broad knowledge-base maintenance

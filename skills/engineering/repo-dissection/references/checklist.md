@@ -1,4 +1,4 @@
-# Repository Dissection Checklist
+# Repo Dissection Checklist
 
 - map the repo before changing it
 - read `AGENTS.md` first when present

@@ -17,11 +17,11 @@ There are two main areas:
 
 Location: [skills/engineering](./skills/engineering)
 
-- [repository-dissection](./skills/engineering/repository-dissection): dissect inherited or unclear repositories and turn assumptions into verified documented understanding.
+- [repo-dissection](./skills/engineering/repo-dissection): dissect inherited or unclear repositories and turn assumptions into verified documented understanding.
 - [query-to-knowledge](./skills/engineering/query-to-knowledge): resolve open repo questions into durable knowledge and canonical documentation.
-- [repository-knowledge-engineering](./skills/engineering/repository-knowledge-engineering): keep the repository knowledge base aligned with code, tests, plans, and docs.
+- [repo-knowledge-engineering](./skills/engineering/repo-knowledge-engineering): keep the repository knowledge base aligned across canonical docs, plans, decisions, glossary, reading order, and validation evidence.
 - [local-handoff](./skills/engineering/local-handoff): write a dated local handoff so the next session can resume safely.
-- [pickup](./skills/engineering/pickup): resume from a local handoff and rebuild trustworthy context before editing.
+- [local-pickup](./skills/engineering/local-pickup): resume from a local handoff and rebuild trustworthy context before editing.
 - [test-plan-writer](./skills/engineering/test-plan-writer): turn requirements and change notes into proportionate QA plans and test cases.
 
 ### Automation
@@ -117,26 +117,26 @@ I am not forking `tdd` here at the moment.
 
 Use the upstream [`tdd` skill from mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) alongside the engineering family:
 
-- use `repository-dissection` first when the codebase truth is unclear
+- use `repo-dissection` first when the codebase truth is unclear
 - use `query-to-knowledge` when terms, decisions, or local behavior are still unresolved
 - use `tdd` when doing behavior-changing implementation work
-- use `repository-knowledge-engineering` to keep code, tests, and docs aligned in the same slice
+- use `repo-knowledge-engineering` to keep the repository knowledge base aligned in the same slice after implementation or validation work lands
 - use `local-handoff` when pausing
-- use `pickup` when resuming
+- use `local-pickup` when resuming
 
 ## Recommended Flows
 
 ### Inherited unclear repo
 
-`repository-dissection -> query-to-knowledge -> tdd -> repository-knowledge-engineering -> local-handoff`
+`repo-dissection -> query-to-knowledge -> tdd -> repo-knowledge-engineering -> local-handoff`
 
 ### Resumed implementation tranche
 
-`pickup -> tdd -> repository-knowledge-engineering -> local-handoff`
+`local-pickup -> tdd -> repo-knowledge-engineering -> local-handoff`
 
 ### Docs or support alignment pass
 
-`pickup -> repository-knowledge-engineering -> local-handoff`
+`local-pickup -> repo-knowledge-engineering -> local-handoff`
 
 ### Support-aware rule
 

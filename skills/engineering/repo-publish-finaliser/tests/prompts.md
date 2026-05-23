@@ -31,3 +31,10 @@ Prompt: "Use $repo-publish-finaliser to close the debt tracker and align the can
 Expected:
 - Update README, glossary or architecture surfaces when needed.
 - Remove pseudo-debt wording if the remaining constraints are intentional.
+
+## 6. Empty directory cleanup
+Prompt: "Use $repo-publish-finaliser after deleting stale files and make sure the repo does not keep empty directories by accident."
+Expected:
+- Check for empty directories left behind by file deletion or moves.
+- Remove them when they are just cleanup residue.
+- Keep them only when the repository intentionally preserves that structure.

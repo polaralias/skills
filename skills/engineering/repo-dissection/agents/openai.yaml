@@ -1,7 +1,7 @@
 interface:
-  display_name: Repository Dissection
+  display_name: Repo Dissection
   short_description: Dissect an unclear repository and turn it into documented, verified understanding.
-  default_prompt: Use Repository Dissection to map the repository, verify what is actually true in docs, code, and runtime, classify the mismatches, and bootstrap a usable documentation foundation.
+  default_prompt: Use Repo Dissection to map the repository, verify what is actually true in docs, code, and runtime, classify the mismatches, and bootstrap a usable documentation foundation.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

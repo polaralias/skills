@@ -22,5 +22,5 @@ Expected:
 ## 4. Handoff boundary
 Prompt: "The main job is now broad doc-system maintenance across glossary, README, and decision records."
 Expected:
-- the skill recognizes that the broader job belongs to `repository-knowledge-engineering`
+- the skill recognizes that the broader job belongs to `repo-knowledge-engineering`
 - it avoids owning the whole knowledge-base maintenance pass itself

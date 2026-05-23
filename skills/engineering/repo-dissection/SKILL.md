@@ -1,18 +1,18 @@
 ---
-name: repository-dissection
+name: repo-dissection
 description: Dissect an inherited, unclear, or vibe-coded repository and turn it into an explicit documented understanding. Use when you need to map structure, treat docs as unverified claims, validate real runtime behavior, classify mismatches between docs, code, and runtime, and bootstrap the first usable documentation foundation.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 2.0.0
+  updated: '2026-05-23'
 ---
 
-# Repository Dissection
+# Repo Dissection
 
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
-This skill produces chat output. Include this proof line in the response: `repository-dissection was used in this response.`
+This skill produces chat output. Include this proof line in the response: `repo-dissection was used in this response.`
 
 Use this skill to take a repository from implicit, folklore-driven, or vibe-coded understanding to explicit, documented understanding.
 
@@ -39,7 +39,7 @@ The goal is to make the repository legible enough that later work can proceed ag
 ## Use This Instead Of
 
 - Use this skill when the repository is still unclear, inherited, contradictory, or underdocumented.
-- Use `repository-knowledge-engineering` once the repository knowledge base exists and the main job is to establish, evolve, or align that system.
+- Use `repo-knowledge-engineering` once the repository knowledge base exists and the main job is to establish, evolve, or align that system.
 - Use `tdd` when the main job is behavior change through red-green-refactor.
 
 ## Workflow
@@ -170,7 +170,7 @@ End by naming the best next skill:
 
 - `query-to-knowledge` when terminology, contradictions, or local decisions are still unresolved
 - `tdd` when the behavior is now understood and code needs to change
-- `repository-knowledge-engineering` when the truth is known and the next job is building, reshaping, or aligning the knowledge base
+- `repo-knowledge-engineering` when the truth is known and the next job is building, reshaping, or aligning the knowledge base
 - `local-handoff` when the dissection pass is ending without immediate continuation
 
 ## Decision Rules

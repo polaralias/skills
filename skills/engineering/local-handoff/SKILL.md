@@ -108,6 +108,6 @@ Once the handoff is complete:
 
 ## Relationship To Other Skills
 
-- Use `pickup` to consume this artifact in the next session.
-- Use `repository-dissection` when the current truth is still unclear.
-- Use `repository-knowledge-engineering` when the next session is mainly about keeping code, tests, and docs aligned.
+- Use `local-pickup` to consume this artifact in the next session.
+- Use `repo-dissection` when the current truth is still unclear.
+- Use `repo-knowledge-engineering` when the next session is mainly about keeping repository truth surfaces aligned after implementation or validation work.

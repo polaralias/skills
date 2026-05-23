@@ -72,8 +72,10 @@ Remove or ignore:
 - editor swap files
 - local scratch notes
 - build outputs not meant for source control
+- empty directories left behind after file deletion or moves
 
 If the repo lacks a proper `.gitignore`, add one.
+Keep an empty directory only when the repository intentionally documents that convention or tooling depends on it.
 
 ## 5. Image and binary metadata
 
@@ -95,3 +97,11 @@ Delete archive surfaces when they:
 - are no longer needed as historical evidence
 
 Keep them only when they provide real, non-misleading historical value.
+
+## 7. Empty directory sweep
+
+After cleanup work:
+
+- scan for directories that no longer contain tracked files or intentional placeholder content
+- remove empty directories that exist only because earlier file deletion left them behind
+- keep directories that are intentionally preserved by convention, documented setup, or required placeholder files
