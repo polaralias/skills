@@ -1,11 +1,11 @@
 ---
 name: query-to-knowledge
-description: Resolve open repository questions into durable knowledge. Use when terminology is fuzzy, decisions are still soft, docs and code disagree, or a plan needs pressure-testing before implementation. This skill batches tightly related questions, minimizes token waste, and captures resolved results into the repository knowledge base such as `GLOSSARY.md`, `docs/decisions/`, and canonical docs.
+description: Resolve open repository questions into durable knowledge. Use when terminology is fuzzy, decisions are still soft, docs and code disagree, or a plan needs pressure-testing before implementation. This skill asks the largest useful set of repository questions in one turn, minimizes token waste, and captures resolved results into the repository knowledge base such as `GLOSSARY.md`, `docs/decisions/`, and canonical docs.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
-  updated: '2026-05-21'
+  version: 1.1.0
+  updated: '2026-05-23'
 ---
 
 # Query To Knowledge
@@ -44,18 +44,17 @@ When the repository can answer 80 percent of the question, answer that part from
 
 ### 2. Build a question batch instead of a question queue
 
-Ask a small batch of tightly related questions in one turn.
+Ask one comprehensive set of questions for the current ambiguity before waiting for a reply.
 
-Default batch size:
-
-- 2 to 5 questions
-
-Only ask one question at a time when the next question genuinely depends on the answer.
+Include all missing user judgments that are useful to resolve now, as long as the questions stay relevant to the same decision or ambiguity.
+Use conditional phrasing when needed instead of splitting dependent questions into separate turns.
+Only ask fewer questions when adding more would create noise, topic drift, or an unreasonably hard reply.
 
 Within a batch:
 
 - keep each question short
-- keep all questions on one theme
+- ask the largest useful set rather than a token small batch
+- keep all questions relevant to the current decision or ambiguity
 - avoid repeating context already established
 - include a recommended answer only when it materially sharpens the decision
 
