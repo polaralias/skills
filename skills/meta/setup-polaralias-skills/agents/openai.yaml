@@ -1,12 +1,7 @@
 interface:
-  display_name: setup-polaralias-skills
-  short_description: Create or refresh shared Polaralias defaults for branded
-    skills.
-  default_prompt: 'Use setup-polaralias-skills when the task matches this skill:
-    configure shared Polaralias skill defaults outside installed skill folders.
-    Use when a user wants to set or refresh cross-repo defaults such as branding,
-    typography, logos, palette values, footer text, output tone, or reusable asset
-    paths for other Polaralias skills.'
+  display_name: "Setup Polaralias Skills"
+  short_description: Create or refresh shared Polaralias defaults for branded skills, including tracker and structured-output preferences.
+  default_prompt: "Use setup-polaralias-skills to create or refresh shared Polaralias defaults outside installed skill folders, including branding, typography, reusable asset paths, and tracker or structured-output preferences that downstream skills can consume."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

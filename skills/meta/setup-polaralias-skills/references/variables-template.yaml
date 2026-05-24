@@ -19,6 +19,25 @@ palette:
 tone:
   adjectives: []
   avoid: []
+delivery:
+  issue_tracker:
+  publish_recommendation:
+  default_project:
+  default_team:
+  epic_label:
+  feature_label:
+  task_label:
+  issue_type_map:
+    epic:
+    feature:
+    task:
+  fields:
+    parent:
+    labels:
+    area:
+    priority:
+    acceptance_criteria:
+    notes:
 assets:
   docx_theme_logo_path:
   docx_theme_logo_protected_path:

@@ -1,11 +1,11 @@
 ---
 name: project-packager
-description: Turn an existing PROJECT.md into audience-specific or system-ready project outputs without rediscovering the project from scratch. Use when the project truth already exists and the user needs a reusable package, briefing, handoff, or derivative context artifact.
+description: Turn an existing PROJECT.md into audience-specific or system-ready project outputs without rediscovering the project from scratch. Use when the project truth already exists and the user needs a reusable package, briefing, handoff, or derivative context artifact. Shorthand PP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # project-packager

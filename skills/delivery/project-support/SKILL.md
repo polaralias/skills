@@ -1,11 +1,11 @@
 ---
 name: project-support
-description: Orient, validate, and route real project work before a more specialised project skill takes over. Use when the user needs help deciding whether something is a true project, locating or checking PROJECT.md, validating project lookup metadata, or choosing the next appropriate project-management skill.
+description: Orient, validate, and route real project work before a more specialised project skill takes over. Use when the user needs help deciding whether something is a true project, locating or checking PROJECT.md, validating project lookup metadata, or choosing the next appropriate project-management skill. Shorthand PS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # project-support

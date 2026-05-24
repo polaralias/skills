@@ -1,11 +1,11 @@
 ---
 name: skill-finaliser
-description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package. Use when extracting a zipped skill, normalising SKILL.md frontmatter, aligning agents/openai.yaml to the expected interface shape, tightening trigger descriptions, adding a license file, creating or refreshing tests/prompts.md, generating or fixing an icon, checking package hygiene, and validating that bundled references, scripts, and tests are proportionate to the skill's purpose.
+description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package. Use when extracting a zipped skill, normalising SKILL.md frontmatter, aligning agents/openai.yaml to the expected interface shape, tightening trigger descriptions, adding a license file, creating or refreshing tests/prompts.md, generating or fixing an icon, checking package hygiene, and validating that bundled references, scripts, and tests are proportionate to the skill's purpose. Shorthand SF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # skill-finaliser

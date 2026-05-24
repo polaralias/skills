@@ -1,11 +1,11 @@
 ---
 name: llm-instruction-reviewer
-description: Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction artifacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency, overloaded logic, missing behavior coverage, and conflicts across referenced files. Use when a user wants a review before publication, repair, or evaluation.
+description: Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction artifacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency, overloaded logic, missing behavior coverage, and conflicts across referenced files. Use when a user wants a review before publication, repair, or evaluation. Shorthand LLMIR.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # llm-instruction-reviewer

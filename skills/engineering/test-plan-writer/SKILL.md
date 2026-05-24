@@ -1,11 +1,11 @@
 ---
 name: test-plan-writer
-description: Build proportionate QA test plans and test cases from requirements, acceptance criteria, stories, change notes, or specifications. Use when a user wants requirement-to-test coverage, a structured plan, or a review of whether a draft test set is missing important behavior.
+description: Build proportionate QA test plans and test cases from requirements, acceptance criteria, stories, change notes, or specifications. Use when a user wants requirement-to-test coverage, a structured plan, or a review of whether a draft test set is missing important behavior. Shorthand TPW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # test-plan-writer

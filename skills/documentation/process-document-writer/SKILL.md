@@ -1,11 +1,11 @@
 ---
 name: process-document-writer
-description: Create or revise formal process documents and structured operating procedures from notes, examples, or existing documents. Use when a user wants a practical SOP, workflow, governance process, runbook, or similar operational document with the final `.docx` generation handled by a dedicated document tool.
+description: Create or revise formal process documents and structured operating procedures from notes, examples, or existing documents. Use when a user wants a practical SOP, workflow, governance process, runbook, or similar operational document with the final `.docx` generation handled by a dedicated document tool. Shorthand PDW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # process-document-writer

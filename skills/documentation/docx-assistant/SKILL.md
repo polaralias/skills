@@ -1,11 +1,11 @@
 ---
 name: docx-assistant
-description: Use this skill whenever the task is fundamentally about a Microsoft Word document or a `.docx` file. It is the primary route for creating, revising, reviewing, repairing, validating, formatting, or returning Word documents in this environment. Trigger it for explicit Word or `.docx` requests, for formal deliverables such as reports, proposals, policies, plans, SOPs, guides, letters, handouts, questionnaires, templates, runbooks, and similar business documents, and for edit workflows that must preserve existing document structure. Also use it for tracked changes, reviewer comments, page numbering, headers and footers, formatting preservation, search-and-replace, and converting rough notes into a finished document artifact. Do not use it for chat-only drafting, PDF-only work, spreadsheets, slide decks, Google Docs workflows, or unrelated software changes.
+description: Use this skill whenever the task is fundamentally about a Microsoft Word document or a `.docx` file. It is the primary route for creating, revising, reviewing, repairing, validating, formatting, or returning Word documents in this environment. Trigger it for explicit Word or `.docx` requests, for formal deliverables such as reports, proposals, policies, plans, SOPs, guides, letters, handouts, questionnaires, templates, runbooks, and similar business documents, and for edit workflows that must preserve existing document structure. Also use it for tracked changes, reviewer comments, page numbering, headers and footers, formatting preservation, search-and-replace, and converting rough notes into a finished document artifact. Do not use it for chat-only drafting, PDF-only work, spreadsheets, slide decks, Google Docs workflows, or unrelated software changes. Shorthand DXA.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.1
-  updated: '2026-05-23'
+  version: 1.2.0
+  updated: '2026-05-24'
 ---
 
 # docx-assistant

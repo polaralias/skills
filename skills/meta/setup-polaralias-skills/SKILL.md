@@ -1,11 +1,11 @@
 ---
 name: setup-polaralias-skills
-description: Configure shared Polaralias skill defaults outside installed skill folders. Use when a user wants to set or refresh cross-repo defaults such as branding, typography, logos, palette values, footer text, output tone, or reusable asset paths for other Polaralias skills.
+description: Configure shared Polaralias skill defaults outside installed skill folders. Use when a user wants to set or refresh cross-repo defaults such as branding, typography, logos, palette values, footer text, output tone, reusable asset paths, or structured output and tracker preferences for other Polaralias skills. Shorthand SPS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.2.0
+  updated: '2026-05-24'
 ---
 
 # setup-polaralias-skills
@@ -36,7 +36,7 @@ Do not write persistent user customization into an installed skill directory unl
 ## What these files are for
 
 - `profile.md`: human-readable style contract, tone, and usage notes
-- `variables.yaml`: stable keys for brand assets, typography, palette, and reusable defaults, including logo paths and TTF-backed font inputs for skills that need them
+- `variables.yaml`: stable keys for brand assets, typography, palette, reusable defaults, and structured output or tracker preferences for skills that need them
 
 Use the templates in [references/profile-template.md](./references/profile-template.md), [references/variables-template.yaml](./references/variables-template.yaml), and [references/config-contract.md](./references/config-contract.md) as the starting point.
 
@@ -70,6 +70,8 @@ Collect or confirm:
 - palette defaults
 - footer or attribution text
 - reusable asset paths
+- preferred issue tracker or local task surface when relevant
+- issue or work-package output preferences when relevant
 - any branded do/don't rules
 
 If the user only wants partial setup, record only what they actually confirmed and leave the rest explicitly blank or commented in the YAML template.
@@ -132,3 +134,4 @@ Downstream Polaralias skills should resolve defaults in this order:
 If no shared config is found, the consuming skill should continue with packaged defaults and say that no shared Polaralias variables were found, so defaults were used.
 
 When a consuming skill needs concrete asset paths, use the canonical keys described in [references/config-contract.md](./references/config-contract.md) instead of inventing new ad hoc variable names.
+When a consuming skill shapes issue-ready or tracker-ready output, use the structured output keys from the shared contract before inventing new tracker labels, publication targets, or hierarchy defaults.

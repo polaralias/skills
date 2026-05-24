@@ -1,11 +1,11 @@
 ---
 name: elevenlabs-ai-voice-gen
-description: Write, rewrite, clean, and tag narration scripts for ElevenLabs voice generation. Use when the user wants TTS-ready copy, voiceover cleanup, narration pacing fixes, acronym handling, or selective ElevenLabs v3 tag placement.
+description: Write, rewrite, clean, and tag narration scripts for ElevenLabs voice generation. Use when the user wants TTS-ready copy, voiceover cleanup, narration pacing fixes, acronym handling, or selective ElevenLabs v3 tag placement. Shorthand EAVG.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # elevenlabs-ai-voice-gen

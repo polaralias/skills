@@ -1,11 +1,11 @@
 ---
 name: implementation-plan-writer
-description: Produce a customer-facing implementation plan from kickoff material, local guidance, and confirmed delivery assumptions. Use when a user needs a structured onboarding or implementation plan that carries a customer from setup through go-live without expanding into generic project-management overhead.
+description: Produce a customer-facing implementation plan from kickoff material, local guidance, and confirmed delivery assumptions. Use when a user needs a structured onboarding or implementation plan that carries a customer from setup through go-live without expanding into generic project-management overhead. Shorthand IPW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # implementation-plan-writer

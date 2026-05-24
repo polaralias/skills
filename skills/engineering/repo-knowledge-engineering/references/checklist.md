@@ -3,6 +3,7 @@
 - identify active docs, specs, plans, tests, archive docs, and local handoffs
 - identify `AGENTS.md` or other operating guidance when present
 - separate current verified behavior from desired end state
+- identify where epic-level or product-truth docs should live and whether they are canonical yet
 - identify the canonical reading order before polishing secondary docs
 - establish the knowledge-base structure if it does not yet exist
 - update docs in the same slice as behavior changes

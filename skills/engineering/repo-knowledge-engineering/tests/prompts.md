@@ -36,6 +36,7 @@ Expected:
 Prompt: "Replicate a docs-first workflow here: create the documentation spine and execution-plan surfaces first, then stop before writing code."
 Expected:
 - the skill establishes a minimal canonical documentation spine
+- it defines where product or epic-level truth should live
 - it records assumptions, decisions, and next-step reading order
 - it stops at repository knowledge artifacts rather than drifting into implementation
 
@@ -45,3 +46,9 @@ Expected:
 - the skill captures what validation evidence exists and where it lives
 - it updates canonical docs and evidence notes proportionately
 - it does not treat missing tests as permission to author them
+
+## 8. Epic truth vs feature decomposition boundary
+Prompt: "Set the canonical product truth and reading order for this repo, but do not break the epic into feature packages yet."
+Expected:
+- the skill treats epic-level truth and framework setup as part of repository knowledge engineering
+- it does not drift into feature decomposition that belongs to `doc-driven-development`

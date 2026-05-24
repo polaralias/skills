@@ -1,11 +1,11 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, or aligning canonical docs, plans, decisions, glossary, reading order, and validation evidence after changes land.
+description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, or aligning canonical docs, plans, decisions, glossary, reading order, and validation evidence after changes land. Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.1
-  updated: '2026-05-23'
+  version: 2.2.0
+  updated: '2026-05-24'
 ---
 
 # repo-knowledge-engineering
@@ -19,6 +19,7 @@ Use this skill to engineer the repository knowledge base as a working system.
 That can mean:
 
 - establishing the first durable knowledge structure
+- defining the repository's canonical product and epic-level truth surfaces
 - evolving that structure as the repository matures
 - aligning the knowledge base after code or documentation changes land
 
@@ -41,6 +42,7 @@ It is later in the flow than repository dissection.
 ## Use This Instead Of
 
 - Use `repo-dissection` when the repository truth is still unclear and you need to turn implicit understanding into explicit documented understanding.
+- Use `doc-driven-development` when the repository truth already exists and the main job is to decompose that truth into feature contracts, work packages, and acceptance artifacts before coding.
 - Use `tdd` when the main job is behavior change through red-green-refactor, including adding or repairing tests and implementation code.
 - Use this skill when the main job is to shape or maintain the repository knowledge base itself.
 
@@ -52,6 +54,7 @@ Use this skill to create or reshape the knowledge base:
 
 - define the reading order
 - decide which artifacts are canonical
+- define where end-state product truth and epic-level scope live
 - choose where glossary, decisions, plans, and support truth live
 - create the minimum documentation spine the repository actually needs
 
@@ -85,6 +88,7 @@ Use this skill to close a tranche honestly:
 - Separate:
   - evidence docs
   - desired-state or contract docs
+  - epic-level or product-truth docs
   - execution-plan docs
   - generated or derived docs
 - Keep local handoffs explicitly subordinate to tracked canonical truth.

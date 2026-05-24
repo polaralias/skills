@@ -1,11 +1,11 @@
 ---
 name: pandoc-converter
-description: Run Pandoc conversions through a small wrapper that preserves predictable defaults while still allowing arbitrary Pandoc flags. Use when converting between markup or document formats and when you want `--wrap=none` unless a different wrap mode is requested.
+description: Run Pandoc conversions through a small wrapper that preserves predictable defaults while still allowing arbitrary Pandoc flags. Use when converting between markup or document formats and when you want `--wrap=none` unless a different wrap mode is requested. Shorthand PC.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # pandoc-converter

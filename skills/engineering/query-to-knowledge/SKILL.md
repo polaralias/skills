@@ -1,11 +1,11 @@
 ---
 name: query-to-knowledge
-description: Resolve open repository questions into durable knowledge. Use when terminology is fuzzy, decisions are still soft, docs and code disagree, or a plan needs pressure-testing before implementation. This skill asks the largest useful set of repository questions in one turn, minimizes token waste, and captures resolved results into the repository knowledge base such as `GLOSSARY.md`, `docs/decisions/`, and canonical docs.
+description: Resolve open repository questions into durable knowledge. Use when terminology is fuzzy, decisions are still soft, docs and code disagree, or a plan needs pressure-testing before implementation. This skill asks the largest useful set of repository questions in one turn, minimizes token waste, and captures resolved results into the repository knowledge base such as `GLOSSARY.md`, `docs/decisions/`, and canonical docs. Shorthand QTK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.1
-  updated: '2026-05-23'
+  version: 1.3.0
+  updated: '2026-05-24'
 ---
 
 # query-to-knowledge
@@ -22,6 +22,7 @@ The job is to turn ambiguity into durable repository knowledge without burning t
 
 - Use `repo-dissection` when the whole repository is still unclear and you first need to establish what is actually there.
 - Use `repo-knowledge-engineering` when the knowledge base already exists and the main job is to establish structure, evolve it, or keep it aligned after changes.
+- Use `doc-driven-development` when the main job is to decompose a resolved epic or product outcome into feature contracts, work packages, and acceptance artifacts before implementation.
 - Use this skill when the missing piece is local uncertainty: unclear terms, unresolved trade-offs, contradictory claims, or under-specified behavior.
 
 ## Workflow
@@ -116,6 +117,12 @@ It does not own the whole knowledge base. Once the open questions are resolved, 
 - reshaping the documentation foundation
 - aligning many artifacts after implementation
 - maintaining the reading order and knowledge system as a whole
+
+Hand off to `doc-driven-development` when the larger task becomes:
+
+- decomposing epic-level truth into feature-level contracts
+- turning feature contracts into acceptance artifacts
+- preparing implementation-ready work packages before coding
 
 When the remaining uncertainty is no longer conceptual but behavioral, switch to `tdd`.
 

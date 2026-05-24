@@ -44,6 +44,28 @@ Not every skill needs every palette key. Missing values should fall back to pack
 - `tone.adjectives`
 - `tone.avoid`
 
+## Structured output and tracker preferences
+
+- `delivery.issue_tracker`
+- `delivery.publish_recommendation`
+- `delivery.default_project`
+- `delivery.default_team`
+- `delivery.epic_label`
+- `delivery.feature_label`
+- `delivery.task_label`
+- `delivery.issue_type_map.epic`
+- `delivery.issue_type_map.feature`
+- `delivery.issue_type_map.task`
+- `delivery.fields.parent`
+- `delivery.fields.labels`
+- `delivery.fields.area`
+- `delivery.fields.priority`
+- `delivery.fields.acceptance_criteria`
+- `delivery.fields.notes`
+
+Use these keys when a consuming skill needs issue-ready or tracker-ready output.
+Missing values should fall back to the skill's packaged defaults or the current user's explicit instructions.
+
 ## Skill-specific asset paths
 
 - `assets.docx_theme_logo_path`
@@ -66,3 +88,15 @@ For `docx-assistant`, these keys map cleanly to the documented theme inputs:
 - `accent_icon_path` or `assets.docx_theme_accent_icon_path` -> `DOCX_THEME_ACCENT_ICON_PATH`
 
 If both a general key and a skill-specific asset key are present, prefer the skill-specific key for that skill.
+
+## Delivery guidance
+
+For `doc-driven-development`, these keys support issue-ready packaging without making tracker formatting the main method:
+
+- `delivery.issue_tracker` -> preferred publication target such as GitHub, Linear, or local markdown
+- `delivery.publish_recommendation` -> whether the skill should explicitly recommend publishing once packages are stable
+- `delivery.default_project` and `delivery.default_team` -> default routing hints when the user does not restate them
+- `delivery.issue_type_map.*` -> preferred naming for epic, feature, and task layers
+- `delivery.fields.*` -> preferred field names for parent links, labels, area, priority, acceptance criteria, and notes
+
+Consumers should still prefer direct user instructions over shared defaults.

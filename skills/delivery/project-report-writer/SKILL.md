@@ -1,11 +1,11 @@
 ---
 name: project-report-writer
-description: Build project reports from the freshest credible delivery signals available, then validate them against structured execution data and durable project context. Use when the user wants a status report, health view, launch-readiness picture, risk summary, milestone review, or similar project reporting output.
+description: Build project reports from the freshest credible delivery signals available, then validate them against structured execution data and durable project context. Use when the user wants a status report, health view, launch-readiness picture, risk summary, milestone review, or similar project reporting output. Shorthand PRW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.1
-  updated: '2026-05-23'
+  version: 1.2.0
+  updated: '2026-05-24'
 ---
 
 # project-report-writer

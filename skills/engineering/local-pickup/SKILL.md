@@ -1,11 +1,11 @@
 ---
 name: local-pickup
-description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area.
+description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area. Shorthand LP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.1
-  updated: '2026-05-23'
+  version: 2.1.0
+  updated: '2026-05-24'
 ---
 
 # local-pickup

@@ -1,11 +1,11 @@
 ---
 name: training-plan-writer
-description: 'Produce paired customer-facing training plans: a concise operational version and a more detailed facilitator-grade version. Use when a user needs training design built from agreed scope, customer objectives, and practical UAT or sandbox workflows rather than generic project-management content.'
+description: 'Produce paired customer-facing training plans: a concise operational version and a more detailed facilitator-grade version. Use when a user needs training design built from agreed scope, customer objectives, and practical UAT or sandbox workflows rather than generic project-management content. Shorthand TRPW.'
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # training-plan-writer

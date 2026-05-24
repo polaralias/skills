@@ -1,11 +1,11 @@
 ---
 name: mermaid-flowchart-designer
-description: Turn rough notes, screenshots, or existing Mermaid code into cleaner Mermaid flowcharts or architecture diagrams. Use when a user wants a process map, system view, Mermaid cleanup, or a better-presented diagram with code-first output and optional rendered artifacts.
+description: Turn rough notes, screenshots, or existing Mermaid code into cleaner Mermaid flowcharts or architecture diagrams. Use when a user wants a process map, system view, Mermaid cleanup, or a better-presented diagram with code-first output and optional rendered artifacts. Shorthand MFD.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-23'
+  version: 1.1.0
+  updated: '2026-05-24'
 ---
 
 # mermaid-flowchart-designer

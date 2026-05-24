@@ -26,6 +26,9 @@ Use this file for human-readable style guidance that multiple Polaralias skills 
 - Footer or attribution text:
 - Common callout or section styles:
 - Reusable document/video/report notes:
+- Preferred issue tracker or task surface:
+- Preferred issue hierarchy and labels:
+- Publication guidance for issue-ready work packages:
 
 ## Do and don't rules
 

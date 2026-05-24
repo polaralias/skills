@@ -27,3 +27,10 @@ Expected:
 - the files are still created
 - unknown values remain blank or commented in the template
 - the response notes that downstream skills will use packaged defaults for missing keys
+
+## 5. Add tracker and output defaults
+Prompt: "Set shared Polaralias defaults for DDD so it knows we publish to Linear with epic, feature, and task layers."
+Expected:
+- the skill captures tracker and structured output preferences in the shared config
+- it keeps those defaults outside installed skill folders
+- it reports that downstream skills such as `doc-driven-development` can now consume them
