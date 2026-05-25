@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="repo setup icon">
-  <rect width="128" height="128" rx="24" fill="#102a43"/>
-  <path d="M28 38h72v14H28zm0 24h44v14H28zm0 24h72v14H28z" fill="#f0b429"/>
-  <path d="M84 60l16 16-16 16" fill="none" stroke="#d9e2ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="repo setup icon">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b" />
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3" />
+  <circle cx="93" cy="35" r="10" fill="#e40117" fill-opacity="0.22" /><path d="M26 112L44 112L35 97L26 112Z" fill="#3f4956" fill-opacity="0.34" /><path d="M43 112L65 112L54 93L43 112Z" fill="#e40117" fill-opacity="0.32" /><path d="M63 112L85 112L74 94L63 112Z" fill="#d6d7dc" fill-opacity="0.22" /><path d="M82 112L100 112L91 97L82 112Z" fill="#3f4956" fill-opacity="0.34" /><path d="M22 8H14C12.9 8 12 8.9 12 10V23.5L14 21.5V10H22M23 12L27 16H23M10 12C8.9 12 8 12.9 8 14V28C8 29.1 8.9 30 10 30H28C29.1 30 30 29.1 30 28V18L24 12M19 27L14 22L15.4 20.6L19 24.2L26.6 16.6L28 18" fill="#333d4b" transform="translate(29 27) scale(2.35)" />
+  <path d="M22 8H14C12.9 8 12 8.9 12 10V23.5L14 21.5V10H22M23 12L27 16H23M10 12C8.9 12 8 12.9 8 14V28C8 29.1 8.9 30 10 30H28C29.1 30 30 29.1 30 28V18L24 12M19 27L14 22L15.4 20.6L19 24.2L26.6 16.6L28 18" fill="#fdfdfd" transform="translate(26 24) scale(2.35)" />
 </svg>

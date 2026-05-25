@@ -4,7 +4,7 @@ description: Establish, evolve, and keep the repository knowledge base trustwort
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.3.0
+  version: 2.3.1
   updated: '2026-05-25'
 ---
 

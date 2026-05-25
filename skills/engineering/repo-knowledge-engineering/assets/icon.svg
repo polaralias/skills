@@ -1,12 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
-  <rect x="8" y="8" width="112" height="112" rx="24" fill="#4f2b7f"/>
-  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#e4d8f3" stroke-opacity="0.35" stroke-width="3"/>
-  <circle cx="92" cy="34" r="10" fill="#ffffff" fill-opacity="0.16"/>
-  <path d="M30 40C30 35 34 31 39 31H67L82 46V88C82 93 78 97 73 97H39C34 97 30 93 30 88V40Z" fill="#3f2364"/>
-  <path d="M26 36C26 31 30 27 35 27H63L78 42V84C78 89 74 93 69 93H35C30 93 26 89 26 84V36Z" fill="#FFFFFF"/>
-  <path d="M63 27V42H78" fill="#e9def8"/>
-  <path d="M42 50H62M42 60H62M42 70H56" stroke="#4f2b7f" stroke-width="6" stroke-linecap="round"/>
-  <path d="M73 57H94V87H73L64 79V65L73 57Z" fill="#3f2364"/>
-  <path d="M69 53H90V83H69L60 75V61L69 53Z" fill="#FFFFFF"/>
-  <path d="M75 61V75M82 61V75M75 68H82" stroke="#4f2b7f" stroke-width="6" stroke-linecap="round"/>
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b" />
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3" />
+  <circle cx="93" cy="35" r="10" fill="#e40117" fill-opacity="0.22" /><path d="M26 112L44 112L35 97L26 112Z" fill="#3f4956" fill-opacity="0.34" /><path d="M43 112L65 112L54 93L43 112Z" fill="#e40117" fill-opacity="0.32" /><path d="M63 112L85 112L74 94L63 112Z" fill="#d6d7dc" fill-opacity="0.22" /><path d="M82 112L100 112L91 97L82 112Z" fill="#3f4956" fill-opacity="0.34" /><path d="M30 40C30 35 34 31 39 31H67L82 46V88C82 93 78 97 73 97H39C34 97 30 93 30 88V40Z" fill="#3f2364" />
+  <path d="M26 36C26 31 30 27 35 27H63L78 42V84C78 89 74 93 69 93H35C30 93 26 89 26 84V36Z" fill="#FFFFFF" />
+  <path d="M63 27V42H78" fill="#e9def8" />
+  <path d="M42 50H62M42 60H62M42 70H56" stroke="#4f2b7f" stroke-width="6" stroke-linecap="round" />
+  <path d="M73 57H94V87H73L64 79V65L73 57Z" fill="#3f2364" />
+  <path d="M69 53H90V83H69L60 75V61L69 53Z" fill="#FFFFFF" />
+  <path d="M75 61V75M82 61V75M75 68H82" stroke="#4f2b7f" stroke-width="6" stroke-linecap="round" />
 </svg>

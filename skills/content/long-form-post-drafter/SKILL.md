@@ -4,7 +4,7 @@ description: Draft evidence-grounded long-form posts such as long LinkedIn piece
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
+  version: 1.2.1
   updated: '2026-05-25'
 ---
 

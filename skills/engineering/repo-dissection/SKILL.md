@@ -4,7 +4,7 @@ description: Dissect an inherited, unclear, or vibe-coded repository and turn it
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.2.0
+  version: 2.2.1
   updated: '2026-05-25'
 ---
 

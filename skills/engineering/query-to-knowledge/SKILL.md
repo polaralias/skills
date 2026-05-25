@@ -4,7 +4,7 @@ description: Resolve open repository questions into durable knowledge. Use when 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.0
+  version: 1.3.1
   updated: '2026-05-24'
 ---
 

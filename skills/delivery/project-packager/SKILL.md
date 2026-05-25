@@ -4,7 +4,7 @@ description: Turn an existing PROJECT.md into audience-specific or system-ready 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
+  version: 1.2.1
   updated: '2026-05-25'
 ---
 
