@@ -2,29 +2,18 @@
 
 [![skills.sh](https://skills.sh/b/polaralias/skills)](https://skills.sh/polaralias/skills)
 
-A curated library of reusable agent skills for engineering, delivery, content, design, documentation, and automation work.
+Skills Workbench is a curated library of reusable agent skills for engineering, delivery, content, design, documentation, and automation work.
 
-## Repo Versioning
+## What This Repository Contains
 
-This repository now has a repo-level `VERSION` file used for GitHub Releases.
+The repository packages skills as portable folders with:
 
-Repo release semantics:
+- `SKILL.md` instructions and trigger metadata
+- optional `scripts/` helpers
+- optional `references/` documents
+- optional `assets/` such as icons or templates
 
-- adding, deleting, or renaming a packaged skill is a repo-major bump
-- one changed packaged skill is usually a repo-patch bump
-- more than one changed packaged skill in the same release is at least a repo-minor bump
-- if any changed skill's own `metadata.version` makes a larger semver jump, the repo release must match that larger jump
-
-The release workflow validates the repo `VERSION` against the previous tag and the changed skill packages before publishing `vX.Y.Z`.
-
-## Layout
-
-There are two main areas:
-
-- active skill families under [skills](./skills)
-- future notes and not-yet-packaged ideas under [future-consideration](./future-consideration)
-
-Documented three-letter all-caps acronym shorthands such as `RKE`, `QTK`, and `DDD` are valid invocation forms for the corresponding skills.
+The main `skills/` tree contains active packaged skills. The `future-consideration/` tree holds ideas and drafts that are not yet packaged for active use.
 
 ## Active Skill Families
 
@@ -32,148 +21,98 @@ Documented three-letter all-caps acronym shorthands such as `RKE`, `QTK`, and `D
 
 Location: [skills/engineering](./skills/engineering)
 
-- [repo-setup](./skills/engineering/repo-setup) (RST): bootstrap a repository with licensing, governance docs, draft-release scaffolding, a WIP GitHub description, and PR-based protection on `main`.
-- [engineering-workflow-orchestrator](./skills/engineering/engineering-workflow-orchestrator) (EWO): coordinate the engineering skill flow, keep workflow stage explicit, and optionally shape Codex and Claude Code hook scaffolding around compaction and resume.
-- [doc-driven-development](./skills/engineering/doc-driven-development) (DDD): turn epic or end-state product truth into feature contracts, implementation-planning notes, work packages, and acceptance artifacts before coding.
-- [repo-dissection](./skills/engineering/repo-dissection) (RDS): dissect inherited or unclear repositories and turn assumptions into verified documented understanding.
-- [query-to-knowledge](./skills/engineering/query-to-knowledge) (QTK): resolve open repo questions into durable knowledge and canonical documentation.
-- [repo-knowledge-engineering](./skills/engineering/repo-knowledge-engineering) (RKE): establish and maintain the repository knowledge framework, canonical product truth, reading order, plans, decisions, glossary, tracker alignment, and validation evidence.
-- [repo-publish-finaliser](./skills/engineering/repo-publish-finaliser) (RPF): finalise a repository for public release, including publish-safety scanning, release-automation decisions, and final description cleanup.
-- [local-handoff](./skills/engineering/local-handoff) (LHO): write a dated local handoff so the next session can resume safely.
-- [local-pickup](./skills/engineering/local-pickup) (LPK): resume from a local handoff and rebuild trustworthy context before editing.
-- [tracker-publisher](./skills/engineering/tracker-publisher) (TPU): publish stable work packages into GitHub, Linear, or a local task surface without redesigning the hierarchy.
-- [test-plan-writer](./skills/engineering/test-plan-writer) (TPW): turn requirements and change notes into proportionate QA plans and test cases.
+- <img src="./skills/engineering/repo-setup/assets/icon.svg" alt="repo-setup icon" width="22"> [repo-setup](./skills/engineering/repo-setup) (RST): bootstrap a repository with licensing, governance docs, draft-release scaffolding, a WIP GitHub description, and PR-based protection on `main`.
+- <img src="./skills/engineering/engineering-workflow-orchestrator/assets/icon.svg" alt="engineering-workflow-orchestrator icon" width="22"> [engineering-workflow-orchestrator](./skills/engineering/engineering-workflow-orchestrator) (EWO): coordinate the engineering skill flow, keep workflow stage explicit, and optionally shape Codex and Claude Code hook scaffolding around compaction and resume.
+- <img src="./skills/engineering/doc-driven-development/assets/icon.svg" alt="doc-driven-development icon" width="22"> [doc-driven-development](./skills/engineering/doc-driven-development) (DDD): turn epic or end-state product truth into feature contracts, implementation-planning notes, work packages, and acceptance artifacts before coding.
+- <img src="./skills/engineering/repo-dissection/assets/icon.svg" alt="repo-dissection icon" width="22"> [repo-dissection](./skills/engineering/repo-dissection) (RDS): dissect inherited or unclear repositories and turn assumptions into verified documented understanding.
+- <img src="./skills/engineering/query-to-knowledge/assets/icon.svg" alt="query-to-knowledge icon" width="22"> [query-to-knowledge](./skills/engineering/query-to-knowledge) (QTK): resolve open repo questions into durable knowledge and canonical documentation.
+- <img src="./skills/engineering/repo-knowledge-engineering/assets/icon.svg" alt="repo-knowledge-engineering icon" width="22"> [repo-knowledge-engineering](./skills/engineering/repo-knowledge-engineering) (RKE): establish and maintain the repository knowledge framework, canonical product truth, reading order, plans, decisions, glossary, tracker alignment, and validation evidence.
+- <img src="./skills/engineering/repo-publish-finaliser/assets/icon.svg" alt="repo-publish-finaliser icon" width="22"> [repo-publish-finaliser](./skills/engineering/repo-publish-finaliser) (RPF): finalise a repository for public release, including publish-safety scanning, release-automation decisions, and final description cleanup.
+- <img src="./skills/engineering/local-handoff/assets/icon.svg" alt="local-handoff icon" width="22"> [local-handoff](./skills/engineering/local-handoff) (LHO): write a dated local handoff so the next session can resume safely.
+- <img src="./skills/engineering/local-pickup/assets/icon.svg" alt="local-pickup icon" width="22"> [local-pickup](./skills/engineering/local-pickup) (LPK): resume from a local handoff and rebuild trustworthy context before editing.
+- <img src="./skills/engineering/tracker-publisher/assets/icon.svg" alt="tracker-publisher icon" width="22"> [tracker-publisher](./skills/engineering/tracker-publisher) (TPU): publish stable work packages into GitHub, Linear, or a local task surface without redesigning the hierarchy.
+- <img src="./skills/engineering/test-plan-writer/assets/icon.svg" alt="test-plan-writer icon" width="22"> [test-plan-writer](./skills/engineering/test-plan-writer) (TPW): turn requirements and change notes into proportionate QA plans and test cases.
 
 ### Automation
 
 Location: [skills/automation](./skills/automation)
 
-- [pandoc-converter](./skills/automation/pandoc-converter) (PDC): run Pandoc conversions with predictable defaults while still allowing custom flags.
-- [tasklist-gantt-creator](./skills/automation/tasklist-gantt-creator) (TGC): generate stakeholder-ready Excel Gantt charts from task lists or planning exports.
+- <img src="./skills/automation/pandoc-converter/assets/icon.svg" alt="pandoc-converter icon" width="22"> [pandoc-converter](./skills/automation/pandoc-converter) (PDC): run Pandoc conversions with predictable defaults while still allowing custom flags.
+- <img src="./skills/automation/tasklist-gantt-creator/assets/icon.svg" alt="tasklist-gantt-creator icon" width="22"> [tasklist-gantt-creator](./skills/automation/tasklist-gantt-creator) (TGC): generate stakeholder-ready Excel Gantt charts from task lists or planning exports.
 
 ### Content
 
 Location: [skills/content](./skills/content)
 
-- [agenda-generator](./skills/content/agenda-generator) (AGN): draft lean or formal meeting agendas from simple prompts or richer context.
-- [linkedin-short-post-drafter](./skills/content/linkedin-short-post-drafter) (LSP): write short LinkedIn-style posts for updates, launches, events, and capability highlights.
-- [long-form-post-drafter](./skills/content/long-form-post-drafter) (LFP): build evidence-grounded long-form posts, launch articles, and blog-style content.
-- [meeting-pack-processor](./skills/content/meeting-pack-processor) (MPP): turn notes or transcripts into internal packs, follow-up emails, and justified routing outputs.
-- [release-note-writer](./skills/content/release-note-writer) (RNW): turn shipped change detail into concise, customer-facing release notes.
-- [scheduling-assistant](./skills/content/scheduling-assistant) (SCH): turn meeting requests into calendar-aware slot proposals and ready-to-send emails.
+- <img src="./skills/content/agenda-generator/assets/icon.svg" alt="agenda-generator icon" width="22"> [agenda-generator](./skills/content/agenda-generator) (AGN): draft lean or formal meeting agendas from simple prompts or richer context.
+- <img src="./skills/content/linkedin-short-post-drafter/assets/icon.svg" alt="linkedin-short-post-drafter icon" width="22"> [linkedin-short-post-drafter](./skills/content/linkedin-short-post-drafter) (LSP): write short LinkedIn-style posts for updates, launches, events, and capability highlights.
+- <img src="./skills/content/long-form-post-drafter/assets/icon.svg" alt="long-form-post-drafter icon" width="22"> [long-form-post-drafter](./skills/content/long-form-post-drafter) (LFP): build evidence-grounded long-form posts, launch articles, and blog-style content.
+- <img src="./skills/content/meeting-pack-processor/assets/icon.svg" alt="meeting-pack-processor icon" width="22"> [meeting-pack-processor](./skills/content/meeting-pack-processor) (MPP): turn notes or transcripts into internal packs, follow-up emails, and justified routing outputs.
+- <img src="./skills/content/release-note-writer/assets/icon.svg" alt="release-note-writer icon" width="22"> [release-note-writer](./skills/content/release-note-writer) (RNW): turn shipped change detail into concise, customer-facing release notes.
+- <img src="./skills/content/scheduling-assistant/assets/icon.svg" alt="scheduling-assistant icon" width="22"> [scheduling-assistant](./skills/content/scheduling-assistant) (SCH): turn meeting requests into calendar-aware slot proposals and ready-to-send emails.
 
 ### Delivery
 
 Location: [skills/delivery](./skills/delivery)
 
-- [ai-initiative-builder](./skills/delivery/ai-initiative-builder) (AIB): guide early AI initiative discovery, shaping, and prioritisation.
-- [ai-initiative-deep-dive-and-scoping](./skills/delivery/ai-initiative-deep-dive-and-scoping) (ADS): pressure-test and scope AI initiatives that are ready for deeper validation.
-- [clickup-project-plan-builder](./skills/delivery/clickup-project-plan-builder) (CPP): turn project briefs into practical ClickUp structures, hierarchy, tags, and views.
-- [feedback-rice-prioritiser](./skills/delivery/feedback-rice-prioritiser) (FRP): convert messy feedback into clean product problem statements and RICE drafts.
-- [implementation-plan-writer](./skills/delivery/implementation-plan-writer) (IPW): produce customer-facing implementation plans from kickoff material and confirmed assumptions.
-- [kickoff-summary-writer](./skills/delivery/kickoff-summary-writer) (KSW): turn kickoff and discovery material into evidence-backed summaries for the right audience.
-- [project-context-builder](./skills/delivery/project-context-builder) (PCB): create or refresh a canonical `PROJECT.md` from scattered project context.
-- [project-packager](./skills/delivery/project-packager) (PKG): turn an existing `PROJECT.md` into audience-specific or system-ready project outputs.
-- [project-report-writer](./skills/delivery/project-report-writer) (PRW): build project reports from fresh delivery signals, structured execution data, and durable context.
-- [project-support](./skills/delivery/project-support) (PRS): orient and validate real project work before a more specialized project skill takes over.
-- [training-plan-writer](./skills/delivery/training-plan-writer) (TRW): create paired customer-facing and facilitator-grade training plans from agreed scope.
+- <img src="./skills/delivery/ai-initiative-builder/assets/icon.svg" alt="ai-initiative-builder icon" width="22"> [ai-initiative-builder](./skills/delivery/ai-initiative-builder) (AIB): guide early AI initiative discovery, shaping, and prioritisation.
+- <img src="./skills/delivery/ai-initiative-deep-dive-and-scoping/assets/icon.svg" alt="ai-initiative-deep-dive-and-scoping icon" width="22"> [ai-initiative-deep-dive-and-scoping](./skills/delivery/ai-initiative-deep-dive-and-scoping) (ADS): pressure-test and scope AI initiatives that are ready for deeper validation.
+- <img src="./skills/delivery/clickup-project-plan-builder/assets/icon.svg" alt="clickup-project-plan-builder icon" width="22"> [clickup-project-plan-builder](./skills/delivery/clickup-project-plan-builder) (CPP): turn project briefs into practical ClickUp structures, hierarchy, tags, and views.
+- <img src="./skills/delivery/feedback-rice-prioritiser/assets/icon.svg" alt="feedback-rice-prioritiser icon" width="22"> [feedback-rice-prioritiser](./skills/delivery/feedback-rice-prioritiser) (FRP): convert messy feedback into clean product problem statements and RICE drafts.
+- <img src="./skills/delivery/implementation-plan-writer/assets/icon.svg" alt="implementation-plan-writer icon" width="22"> [implementation-plan-writer](./skills/delivery/implementation-plan-writer) (IPW): produce customer-facing implementation plans from kickoff material and confirmed assumptions.
+- <img src="./skills/delivery/kickoff-summary-writer/assets/icon.svg" alt="kickoff-summary-writer icon" width="22"> [kickoff-summary-writer](./skills/delivery/kickoff-summary-writer) (KSW): turn kickoff and discovery material into evidence-backed summaries for the right audience.
+- <img src="./skills/delivery/project-context-builder/assets/icon.svg" alt="project-context-builder icon" width="22"> [project-context-builder](./skills/delivery/project-context-builder) (PCB): create or refresh a canonical `PROJECT.md` from scattered project context.
+- <img src="./skills/delivery/project-packager/assets/icon.svg" alt="project-packager icon" width="22"> [project-packager](./skills/delivery/project-packager) (PKG): turn an existing `PROJECT.md` into audience-specific or system-ready project outputs.
+- <img src="./skills/delivery/project-report-writer/assets/icon.svg" alt="project-report-writer icon" width="22"> [project-report-writer](./skills/delivery/project-report-writer) (PRW): build project reports from fresh delivery signals, structured execution data, and durable context.
+- <img src="./skills/delivery/project-support/assets/icon.svg" alt="project-support icon" width="22"> [project-support](./skills/delivery/project-support) (PRS): orient and validate real project work before a more specialized project skill takes over.
+- <img src="./skills/delivery/training-plan-writer/assets/icon.svg" alt="training-plan-writer icon" width="22"> [training-plan-writer](./skills/delivery/training-plan-writer) (TRW): create paired customer-facing and facilitator-grade training plans from agreed scope.
 
 ### Design
 
 Location: [skills/design](./skills/design)
 
-- [mermaid-flowchart-designer](./skills/design/mermaid-flowchart-designer) (MFD): turn rough notes or existing Mermaid code into clearer flowcharts and architecture diagrams.
-- [source-derived-design-system-builder](./skills/design/source-derived-design-system-builder) (SDS): turn real visual references into a reusable design skill and persistent `DESIGN.md`.
+- <img src="./skills/design/mermaid-flowchart-designer/assets/icon.svg" alt="mermaid-flowchart-designer icon" width="22"> [mermaid-flowchart-designer](./skills/design/mermaid-flowchart-designer) (MFD): turn rough notes or existing Mermaid code into clearer flowcharts and architecture diagrams.
+- <img src="./skills/design/source-derived-design-system-builder/assets/icon.svg" alt="source-derived-design-system-builder icon" width="22"> [source-derived-design-system-builder](./skills/design/source-derived-design-system-builder) (SDS): turn real visual references into a reusable design skill and persistent `DESIGN.md`.
 
 ### Documentation
 
 Location: [skills/documentation](./skills/documentation)
 
-- [docx-assistant](./skills/documentation/docx-assistant) (DXA): create, revise, review, validate, and return `.docx` documents in this environment.
-- [knowledge-transfer-documentation-writer](./skills/documentation/knowledge-transfer-documentation-writer) (KTD): write concise internal knowledge transfer docs from authoritative source material.
-- [process-document-writer](./skills/documentation/process-document-writer) (PDW): create or revise formal process docs, SOPs, runbooks, and operating procedures.
+- <img src="./skills/documentation/docx-assistant/assets/icon.svg" alt="docx-assistant icon" width="22"> [docx-assistant](./skills/documentation/docx-assistant) (DXA): create, revise, review, validate, and return `.docx` documents in this environment.
+- <img src="./skills/documentation/knowledge-transfer-documentation-writer/assets/icon.svg" alt="knowledge-transfer-documentation-writer icon" width="22"> [knowledge-transfer-documentation-writer](./skills/documentation/knowledge-transfer-documentation-writer) (KTD): write concise internal knowledge transfer docs from authoritative source material.
+- <img src="./skills/documentation/process-document-writer/assets/icon.svg" alt="process-document-writer icon" width="22"> [process-document-writer](./skills/documentation/process-document-writer) (PDW): create or revise formal process docs, SOPs, runbooks, and operating procedures.
 
 ### Media
 
 Location: [skills/media](./skills/media)
 
-- [elevenlabs-ai-voice-gen](./skills/media/elevenlabs-ai-voice-gen) (EAV): write and clean narration scripts for ElevenLabs voice generation.
-- [remotion-explainer-video-production](./skills/media/remotion-explainer-video-production) (REV): create Remotion explainer-video plans, timing layouts, overlays, and branded composition guidance.
+- <img src="./skills/media/elevenlabs-ai-voice-gen/assets/icon.svg" alt="elevenlabs-ai-voice-gen icon" width="22"> [elevenlabs-ai-voice-gen](./skills/media/elevenlabs-ai-voice-gen) (EAV): write and clean narration scripts for ElevenLabs voice generation.
+- <img src="./skills/media/remotion-explainer-video-production/assets/icon.svg" alt="remotion-explainer-video-production icon" width="22"> [remotion-explainer-video-production](./skills/media/remotion-explainer-video-production) (REV): create Remotion explainer-video plans, timing layouts, overlays, and branded composition guidance.
 
 ### Meta
 
 Location: [skills/meta](./skills/meta)
 
-- [skill-eval-suite-writer](./skills/meta/skill-eval-suite-writer) (SEW): build evaluation suites, scenario matrices, and grader strategies for skills.
-- [llm-instruction-fixer](./skills/meta/llm-instruction-fixer) (LIF): repair prompts, skills, and other LLM instruction artifacts from a review or fix brief.
-- [llm-instruction-reviewer](./skills/meta/llm-instruction-reviewer) (LIR): inspect prompts and instruction artifacts for execution risks before publication or repair.
-- [skill-finaliser](./skills/meta/skill-finaliser) (SKF): turn draft or imported skills into clean, publishable skill packages.
-- [setup-polaralias-skills](./skills/meta/setup-polaralias-skills) (SPS): create update-safe shared Polaralias defaults under `~/.agents/config/polaralias-skills` with `~/.config` as fallback, including shared tracker and structured-output preferences.
+- <img src="./skills/meta/skill-eval-suite-writer/assets/icon.svg" alt="skill-eval-suite-writer icon" width="22"> [skill-eval-suite-writer](./skills/meta/skill-eval-suite-writer) (SEW): build evaluation suites, scenario matrices, and grader strategies for skills.
+- <img src="./skills/meta/llm-instruction-fixer/assets/icon.svg" alt="llm-instruction-fixer icon" width="22"> [llm-instruction-fixer](./skills/meta/llm-instruction-fixer) (LIF): repair prompts, skills, and other LLM instruction artifacts from a review or fix brief.
+- <img src="./skills/meta/llm-instruction-reviewer/assets/icon.svg" alt="llm-instruction-reviewer icon" width="22"> [llm-instruction-reviewer](./skills/meta/llm-instruction-reviewer) (LIR): inspect prompts and instruction artifacts for execution risks before publication or repair.
+- <img src="./skills/meta/skill-finaliser/assets/icon.svg" alt="skill-finaliser icon" width="22"> [skill-finaliser](./skills/meta/skill-finaliser) (SKF): turn draft or imported skills into clean, publishable skill packages.
+- <img src="./skills/meta/setup-polaralias-skills/assets/icon.svg" alt="setup-polaralias-skills icon" width="22"> [setup-polaralias-skills](./skills/meta/setup-polaralias-skills) (SPS): create update-safe shared Polaralias defaults under `~/.agents/config/polaralias-skills` with `~/.config` as fallback, including shared tracker and structured-output preferences.
 
-## Shared Skill Config
+## Using The Repository
 
-Skills that need durable cross-repo defaults should prefer user-level config outside the installed skill package.
+- browse the packaged skills under [skills](./skills)
+- use [INDEX.md](INDEX.md) if you need the canonical packaged-skill path list
+- keep future or not-yet-packaged ideas under [future-consideration](./future-consideration)
 
-Current convention for Polaralias shared defaults:
+## Versioning
 
-- preferred: `~/.agents/config/polaralias-skills/`
-- fallback: `~/.config/polaralias-skills/`
+This repository uses a repo-level [VERSION](./VERSION) file for GitHub Releases.
 
-Those shared defaults can include both brand assets and structured output preferences such as preferred issue tracker, hierarchy labels, and issue-field naming for downstream skills.
+- adding, deleting, or renaming a packaged skill is a repo-major bump
+- changing more than one packaged skill in one release is at least a repo-minor bump
+- changing exactly one packaged skill is usually a repo-patch bump unless that skill’s own semver bump is larger
 
-This keeps `npx skills update` safe because persistent user customization does not live inside files that the installer may replace.
+## Contributing
 
-## Future Consideration
-
-[future-consideration](./future-consideration) holds future-skill notes, rubrics, and idea fragments that are worth keeping but are not yet ready to package as active skills.
-
-Use it for:
-
-- future public skill ideas
-- reusable methods that need a cleaner standalone package later
-- notes that should not yet be promoted into the active `skills/` tree
-
-## How `tdd` Fits In
-
-I am not forking `tdd` here at the moment.
-
-Use the upstream [`tdd` skill from mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) alongside the engineering family:
-
-- use `repo-setup` (`RST`) first when a repository still needs baseline governance, licensing, draft-release scaffolding, and PR protection before implementation work starts
-- use `engineering-workflow-orchestrator` (`EWO`) when you want one top-level skill to classify the current stage, route the next specialist skill, or set up hook-aware continuity for Codex or Claude Code
-- use `repo-knowledge-engineering` (`RKE`) to establish the documentation framework and epic-level truth
-- use `doc-driven-development` (`DDD`) to decompose that truth into feature contracts, implementation-planning notes, and work packages
-- use `repo-dissection` (`RDS`) first when the codebase truth is unclear
-- use `query-to-knowledge` (`QTK`) when terms, decisions, or local behavior are still unresolved inside those packages
-- use `tracker-publisher` (`TPU`) when stable work packages need to be published into GitHub, Linear, or a local task surface
-- use `tdd` when doing behavior-changing implementation work
-- use `repo-knowledge-engineering` (`RKE`) to keep the repository knowledge base aligned and to run cross-artifact truth checks after implementation or validation work lands
-- use `repo-publish-finaliser` (`RPF`) when the repository needs a deliberate public-release or publish-readiness pass
-- use `local-handoff` (`LHO`) when pausing
-- use `local-pickup` (`LPK`) when resuming
-
-## Recommended Flows
-
-### New repo bootstrap
-
-`repo-setup -> engineering-workflow-orchestrator -> repo-knowledge-engineering -> doc-driven-development`
-
-### Inherited unclear repo
-
-`engineering-workflow-orchestrator -> repo-dissection -> repo-knowledge-engineering -> doc-driven-development -> query-to-knowledge -> tracker-publisher -> tdd -> repo-knowledge-engineering -> local-handoff`
-
-### Resumed implementation tranche
-
-`engineering-workflow-orchestrator -> local-pickup -> repo-knowledge-engineering -> doc-driven-development -> query-to-knowledge -> tracker-publisher -> tdd -> repo-knowledge-engineering -> local-handoff`
-
-### Docs or support alignment pass
-
-`engineering-workflow-orchestrator -> local-pickup -> repo-knowledge-engineering -> local-handoff`
-
-### Publish readiness pass
-
-`engineering-workflow-orchestrator -> local-pickup -> repo-knowledge-engineering -> repo-publish-finaliser -> local-handoff`
-
-### Support-aware rule
-
-Power-user local capability does not automatically equal repository-supported surface.
+For repository workflow, packaging rules, and agent-focused maintenance context, read [AGENTS.md](AGENTS.md).
