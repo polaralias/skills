@@ -60,3 +60,10 @@ Expected:
 - the skill adds a three-letter all-caps alias to the end of the frontmatter description using `Shorthand ABC.`
 - the alias is checked against the local repository surfaces that expose aliases
 - the skill does not silently pick a misleading alias if a clean three-letter choice would collide
+
+## 10. Enforce script placement
+Prompt: "Finalise this skill and make sure its helper scripts are packaged correctly rather than left at repo root."
+Expected:
+- skill-specific executables are placed under the skill's own `scripts/` directory
+- top-level repo script folders are treated as repo-wide utilities only
+- stray cache folders such as `__pycache__` are removed from the packaged skill
