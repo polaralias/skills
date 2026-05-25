@@ -1,4 +1,4 @@
-name: Publish GitHub Release
+name: Publish Skills Release
 
 on:
   push:
@@ -14,6 +14,29 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate repo version semantics
+        shell: bash
+        run: |
+          python scripts/validate_release_version.py "${GITHUB_REF_NAME}"
+          expected_tag="v$(cat VERSION)"
+          if [ "${GITHUB_REF_NAME}" != "${expected_tag}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match ${expected_tag}" >&2
+            exit 1
+          fi
+
+      - name: Upload version metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: skills-version-metadata
+          path: version-metadata.json
 
       - name: Publish release
         shell: bash
@@ -24,7 +47,13 @@ jobs:
           tag="${GITHUB_REF_NAME}"
 
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release edit "$tag" --draft=false --latest --verify-tag
+            gh release upload "$tag" "version-metadata.json#skills-version-metadata.json" --clobber
+            gh release edit "$tag" --draft=false --latest --verify-tag --title "$tag"
           else
-            gh release create "$tag" --verify-tag --generate-notes --latest
+            gh release create "$tag" \
+              "version-metadata.json#skills-version-metadata.json" \
+              --verify-tag \
+              --generate-notes \
+              --latest \
+              --title "$tag"
           fi

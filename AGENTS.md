@@ -30,6 +30,15 @@ Use this versioning method consistently:
 
 If several skills change in one slice, bump each changed skill independently based on the impact to that specific package.
 
+## Repo Release Rule
+
+This repository also has a repo-level `VERSION` file for GitHub Releases.
+
+- adding, deleting, or renaming a packaged skill requires a repo-major bump
+- changing more than one packaged skill in one release requires at least a repo-minor bump
+- changing exactly one packaged skill is usually a repo-patch bump unless that skill's own semver bump is larger
+- if a packaged skill changes and its `metadata.version` does not change, the release validation should fail
+
 ## Repo Maintenance Rule
 
 When you make structural or packaging changes in this repository, update every relevant guidance surface in the same slice.

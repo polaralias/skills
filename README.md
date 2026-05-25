@@ -4,6 +4,19 @@
 
 A curated library of reusable agent skills for engineering, delivery, content, design, documentation, and automation work.
 
+## Repo Versioning
+
+This repository now has a repo-level `VERSION` file used for GitHub Releases.
+
+Repo release semantics:
+
+- adding, deleting, or renaming a packaged skill is a repo-major bump
+- one changed packaged skill is usually a repo-patch bump
+- more than one changed packaged skill in the same release is at least a repo-minor bump
+- if any changed skill's own `metadata.version` makes a larger semver jump, the repo release must match that larger jump
+
+The release workflow validates the repo `VERSION` against the previous tag and the changed skill packages before publishing `vX.Y.Z`.
+
 ## Layout
 
 There are two main areas:

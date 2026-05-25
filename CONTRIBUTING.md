@@ -24,6 +24,7 @@ Use [AGENTS.md](AGENTS.md) as the repo-specific operating guide. This file defin
 - pushes to `main` update the draft release notes
 - pushing a `vX.Y.Z` tag publishes or refreshes the corresponding GitHub Release
 - do not move or reuse published release tags
+- in the skills repo, keep `VERSION` aligned with the changed packaged skills before tagging a release
 
 ## Licensing
 
