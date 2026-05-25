@@ -50,3 +50,16 @@ Prompt: "Use $repo-publish-finaliser and make sure the GitHub repo description n
 Expected:
 - the skill updates a `WIP:` repo description to a finished product-facing form
 - the description matches the publish-ready state
+
+## 9. README tone and placement
+Prompt: "Use $repo-publish-finaliser and make the README suitable for humans, not a meta repo-status note."
+Expected:
+- the skill rewrites the README around what the project is, what it does, and how to use it
+- agent workflow and maintenance detail is moved to `AGENTS.md` or linked there briefly
+- meta publishability language is removed from the README
+
+## 10. README imagery
+Prompt: "Use $repo-publish-finaliser and include the repo banner if there is already a suitable image checked into the repository."
+Expected:
+- the skill checks for an existing banner, logo, or icon asset
+- it includes that asset near the top of the README when doing so improves the public-facing presentation

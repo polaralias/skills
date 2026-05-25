@@ -84,3 +84,9 @@ Canonical version source:
 ## Description cleanup
 
 If setup previously set a `WIP:` GitHub description, finalisation should remove the prefix and tighten the wording so it describes the finished or publish-ready repo accurately.
+
+README cleanup should follow the same principle:
+
+- the README should describe the finished project for humans first
+- agentic or repo-operations detail should live in `AGENTS.md`
+- include a checked-in banner, logo, or icon when the repo already has a suitable asset

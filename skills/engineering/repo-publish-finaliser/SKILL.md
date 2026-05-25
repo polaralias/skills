@@ -4,7 +4,7 @@ description: Finalise a software repository for public release by closing develo
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: "1.1.1"
+  version: "1.1.2"
   updated: '2026-05-25'
 ---
 
@@ -115,6 +115,14 @@ Update the exact docs future agents will trust:
 - architecture and reliability/security docs when behavior or posture changed
 - glossary or decisions surfaces when terminology or durable decisions changed
 - plan and debt trackers so they reflect only real remaining work
+
+Treat the README as a human-facing product or project document first:
+
+- explain what the project is, what it does, how it works, and how to install, run, build, or use it
+- remove meta finalisation language such as "publishable", "ready for publication", "repo is hardened", or similar process-heavy framing unless it is directly useful to an external reader
+- move agent workflow, maintenance routines, release hygiene, and repo-operation detail into `AGENTS.md` or deeper docs instead of centering that material in the README
+- leave at most a short pointer from the README to `AGENTS.md` for agent or contributor operating context
+- if the repo has a suitable checked-in banner, logo, or icon asset, include it near the top of the README in a tasteful, low-noise way
 
 Use explicit status language:
 
