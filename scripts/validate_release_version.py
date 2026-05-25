@@ -171,6 +171,10 @@ def validate_repo_version(current_tag: str | None) -> dict[str, object]:
         required_bump = "minor"
         notes.append("Multiple existing skills changed in one release.")
 
+    if not changed_skills_summary and not rename_or_surface_change:
+        required_bump = repo_bump
+        notes.append("No packaged skill changed; using the explicit repo VERSION bump.")
+
     if repo_bump != required_bump:
         raise ValueError(
             f"VERSION {version_text} is a {repo_bump} bump from {previous_tag}, but the changed skills require {required_bump}"
