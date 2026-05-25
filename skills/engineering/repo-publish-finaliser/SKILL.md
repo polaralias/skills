@@ -4,8 +4,8 @@ description: Finalise a software repository for public release by closing develo
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: "1.0.1"
-  updated: '2026-05-24'
+  version: "1.1.0"
+  updated: '2026-05-25'
 ---
 
 # repo-publish-finaliser
@@ -21,6 +21,20 @@ Use this skill to close a repository honestly and defensibly before publication.
 Treat it as a bounded finalisation pass, not a license to rewrite the project. Prefer explicit closure: either remove stale surfaces, or rewrite them so they match the verified current state.
 
 If the repository already has a reading order, canonical docs, or operating guide, follow those first. If it has a glossary or decisions surface, preserve those knowledge boundaries while you update the repo.
+
+Read [references/release-automation.md](references/release-automation.md) before adding or changing release/version automation.
+
+## Step 0: Decide whether release automation belongs in this pass
+
+Ask or infer early whether the repo should ship with release and version automation.
+
+- If the repo does not need releases, say so plainly and skip this branch.
+- If the repo already has release automation, inspect it before changing anything.
+- If the repo needs release automation, choose the narrowest profile from `references/release-automation.md`.
+- Use the starter workflow assets in sibling skill [repo-setup](../repo-setup) rather than rewriting the same GitHub Action logic from scratch.
+- Do not introduce deprecated Node 20 action pins. Prefer the current action lines already used in the starter profiles.
+
+If release automation is needed, apply it before the final documentation pass so the docs can describe the real release path.
 
 ## Step 1: Establish the active truth surface
 
@@ -110,6 +124,12 @@ Use explicit status language:
 - archived
 
 If there is no active debt, say so plainly and remove pseudo-debt wording.
+
+When the repo has a GitHub description:
+
+- if setup left it in `WIP:` form, replace that with a finished product-facing description
+- keep the final description concise and specific
+- make the description match the now-complete or publish-ready state rather than the setup state
 
 ## Step 6: Finish with a clean outcome
 

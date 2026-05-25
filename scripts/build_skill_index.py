@@ -41,6 +41,7 @@ SKILL_ACRONYMS = {
     "repo-dissection": "RDS",
     "repo-knowledge-engineering": "RKE",
     "repo-publish-finaliser": "RPF",
+    "repo-setup": "RST",
     "scheduling-assistant": "SCH",
     "setup-polaralias-skills": "SPS",
     "skill-eval-suite-writer": "SEW",

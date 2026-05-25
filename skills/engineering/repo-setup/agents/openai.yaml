@@ -1,0 +1,13 @@
+interface:
+  display_name: "repo-setup"
+  short_description: "Bootstrap repo governance and setup."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+  default_prompt: "Use $repo-setup to inspect this repository, choose an appropriate license, scaffold baseline governance files and draft-release setup, set a WIP GitHub description, and enable PR-based main branch protection."
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

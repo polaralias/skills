@@ -32,11 +32,13 @@ Documented three-letter all-caps acronym shorthands such as `RKE`, `QTK`, and `D
 
 Location: [skills/engineering](./skills/engineering)
 
+- [repo-setup](./skills/engineering/repo-setup) (RST): bootstrap a repository with licensing, governance docs, draft-release scaffolding, a WIP GitHub description, and PR-based protection on `main`.
 - [engineering-workflow-orchestrator](./skills/engineering/engineering-workflow-orchestrator) (EWO): coordinate the engineering skill flow, keep workflow stage explicit, and optionally shape Codex and Claude Code hook scaffolding around compaction and resume.
 - [doc-driven-development](./skills/engineering/doc-driven-development) (DDD): turn epic or end-state product truth into feature contracts, implementation-planning notes, work packages, and acceptance artifacts before coding.
 - [repo-dissection](./skills/engineering/repo-dissection) (RDS): dissect inherited or unclear repositories and turn assumptions into verified documented understanding.
 - [query-to-knowledge](./skills/engineering/query-to-knowledge) (QTK): resolve open repo questions into durable knowledge and canonical documentation.
 - [repo-knowledge-engineering](./skills/engineering/repo-knowledge-engineering) (RKE): establish and maintain the repository knowledge framework, canonical product truth, reading order, plans, decisions, glossary, tracker alignment, and validation evidence.
+- [repo-publish-finaliser](./skills/engineering/repo-publish-finaliser) (RPF): finalise a repository for public release, including publish-safety scanning, release-automation decisions, and final description cleanup.
 - [local-handoff](./skills/engineering/local-handoff) (LHO): write a dated local handoff so the next session can resume safely.
 - [local-pickup](./skills/engineering/local-pickup) (LPK): resume from a local handoff and rebuild trustworthy context before editing.
 - [tracker-publisher](./skills/engineering/tracker-publisher) (TPU): publish stable work packages into GitHub, Linear, or a local task surface without redesigning the hierarchy.
@@ -137,6 +139,7 @@ I am not forking `tdd` here at the moment.
 
 Use the upstream [`tdd` skill from mattpocock/skills](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) alongside the engineering family:
 
+- use `repo-setup` (`RST`) first when a repository still needs baseline governance, licensing, draft-release scaffolding, and PR protection before implementation work starts
 - use `engineering-workflow-orchestrator` (`EWO`) when you want one top-level skill to classify the current stage, route the next specialist skill, or set up hook-aware continuity for Codex or Claude Code
 - use `repo-knowledge-engineering` (`RKE`) to establish the documentation framework and epic-level truth
 - use `doc-driven-development` (`DDD`) to decompose that truth into feature contracts, implementation-planning notes, and work packages
@@ -145,10 +148,15 @@ Use the upstream [`tdd` skill from mattpocock/skills](https://github.com/mattpoc
 - use `tracker-publisher` (`TPU`) when stable work packages need to be published into GitHub, Linear, or a local task surface
 - use `tdd` when doing behavior-changing implementation work
 - use `repo-knowledge-engineering` (`RKE`) to keep the repository knowledge base aligned and to run cross-artifact truth checks after implementation or validation work lands
+- use `repo-publish-finaliser` (`RPF`) when the repository needs a deliberate public-release or publish-readiness pass
 - use `local-handoff` (`LHO`) when pausing
 - use `local-pickup` (`LPK`) when resuming
 
 ## Recommended Flows
+
+### New repo bootstrap
+
+`repo-setup -> engineering-workflow-orchestrator -> repo-knowledge-engineering -> doc-driven-development`
 
 ### Inherited unclear repo
 
@@ -161,6 +169,10 @@ Use the upstream [`tdd` skill from mattpocock/skills](https://github.com/mattpoc
 ### Docs or support alignment pass
 
 `engineering-workflow-orchestrator -> local-pickup -> repo-knowledge-engineering -> local-handoff`
+
+### Publish readiness pass
+
+`engineering-workflow-orchestrator -> local-pickup -> repo-knowledge-engineering -> repo-publish-finaliser -> local-handoff`
 
 ### Support-aware rule
 

@@ -38,3 +38,15 @@ Expected:
 - Check for empty directories left behind by file deletion or moves.
 - Remove them when they are just cleanup residue.
 - Keep them only when the repository intentionally preserves that structure.
+
+## 7. Release automation decision
+Prompt: "Use $repo-publish-finaliser and decide whether this repo needs release and version automation before publication."
+Expected:
+- the skill decides early whether release automation belongs in the pass
+- it chooses a repo-type-specific profile instead of inventing an ad hoc workflow
+
+## 8. Final description cleanup
+Prompt: "Use $repo-publish-finaliser and make sure the GitHub repo description no longer looks like a setup-stage WIP."
+Expected:
+- the skill updates a `WIP:` repo description to a finished product-facing form
+- the description matches the publish-ready state

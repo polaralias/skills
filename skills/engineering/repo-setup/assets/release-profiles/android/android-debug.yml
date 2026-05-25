@@ -1,0 +1,71 @@
+name: Android Debug CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_API_LEVEL: "34"
+      ANDROID_BUILD_TOOLS: "34.0.0"
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager \
+            "platform-tools" \
+            "platforms;android-${ANDROID_API_LEVEL}" \
+            "build-tools;${ANDROID_BUILD_TOOLS}"
+      - name: Extract version metadata
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import re
+          text = pathlib.Path("{{version_source_path}}").read_text(encoding="utf-8")
+          version_name = re.search(r'versionName\s*=\s*"([^"]+)"', text).group(1)
+          version_code = re.search(r'versionCode\s*=\s*(\d+)', text).group(1)
+          pathlib.Path("version-metadata.json").write_text(json.dumps({
+            "applicationId": "{{application_id}}",
+            "artifact": "{{artifact_name}}",
+            "versionName": version_name,
+            "versionCode": int(version_code)
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --console=plain
+      - name: Run lint
+        run: ./gradlew lintDebug --console=plain
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --console=plain
+      - name: Prepare debug APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/{{artifact_name}}
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v6
+        with:
+          name: {{artifact_basename}}
+          path: app/build/outputs/apk/debug/{{artifact_name}}
+      - name: Upload version metadata
+        uses: actions/upload-artifact@v6
+        with:
+          name: {{artifact_basename}}-version-metadata
+          path: version-metadata.json
