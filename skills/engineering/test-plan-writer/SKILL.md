@@ -4,7 +4,7 @@ description: Build proportionate QA test plans and test cases from requirements,
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
+  version: 1.1.1
   updated: '2026-05-24'
 ---
 

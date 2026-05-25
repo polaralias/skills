@@ -1,5 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
-  <rect x="20" y="20" width="216" height="216" rx="44" fill="#0F172A"/>
-  <circle cx="182" cy="74" r="24" fill="#F59E0B"/>
-  <path d="M76 170V86h46c28 0 44 15 44 38 0 25-17 40-46 40H98v34H76Zm22-53h19c18 0 27-7 27-20 0-12-9-18-27-18H98v38Z" fill="#F8FAFC"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none" role="img" aria-label="setup-polaralias-skills icon">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b"/>
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3"/>
+  <circle cx="93" cy="35" r="10" fill="#e40117" fill-opacity="0.22"/>
+  <path d="M26 112L44 112L35 97L26 112Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M43 112L65 112L54 93L43 112Z" fill="#e40117" fill-opacity="0.32"/>
+  <path d="M63 112L85 112L74 94L63 112Z" fill="#d6d7dc" fill-opacity="0.22"/>
+  <path d="M82 112L100 112L91 97L82 112Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M76 170V86h46c28 0 44 15 44 38 0 25-17 40-46 40H98v34H76Zm22-53h19c18 0 27-7 27-20 0-12-9-18-27-18H98v38Z" fill="#333d4b" transform="translate(4 4) scale(0.5)"/>
+  <path d="M76 170V86h46c28 0 44 15 44 38 0 25-17 40-46 40H98v34H76Zm22-53h19c18 0 27-7 27-20 0-12-9-18-27-18H98v38Z" fill="#fdfdfd" transform="scale(0.5)"/>
 </svg>

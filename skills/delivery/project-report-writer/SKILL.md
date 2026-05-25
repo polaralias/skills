@@ -4,7 +4,7 @@ description: Build project reports from the freshest credible delivery signals a
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
+  version: 1.2.1
   updated: '2026-05-24'
 ---
 

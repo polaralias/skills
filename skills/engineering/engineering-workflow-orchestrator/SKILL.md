@@ -4,7 +4,7 @@ description: Coordinate a repository engineering session across repo-dissection,
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
+  version: 1.0.1
   updated: '2026-05-25'
 ---
 

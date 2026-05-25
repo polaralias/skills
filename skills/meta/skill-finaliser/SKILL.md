@@ -4,7 +4,7 @@ description: Finalise imported, draft, or half-finished skills into a clean, pub
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.1
+  version: 1.3.2
   updated: '2026-05-25'
 ---
 
