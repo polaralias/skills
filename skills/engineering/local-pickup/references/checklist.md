@@ -7,6 +7,7 @@
 - read the operating guide and canonical docs in order
 - re-check current branch and working tree state
 - re-check runtime facts when the next step depends on them
+- verify workflow-stage and next-skill claims when the handoff recorded them
 - verify any important assumptions against code or tests
 - summarize what is still true and what changed
 - classify whether to continue directly, continue after correction, or rediscover

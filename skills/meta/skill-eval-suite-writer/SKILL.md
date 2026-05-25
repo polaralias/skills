@@ -1,11 +1,11 @@
 ---
 name: skill-eval-suite-writer
-description: Build evaluation suites for skills and closely related LLM instruction artifacts. Use when a user wants a skill-centered test plan, scenario matrix, grader strategy, or runner-specific output such as Waza. Shorthand SESW.
+description: Build evaluation suites for skills and closely related LLM instruction artifacts. Use when a user wants a skill-centered test plan, scenario matrix, grader strategy, or runner-specific output such as Waza. Shorthand SEW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.2.0
+  updated: '2026-05-25'
 ---
 
 # skill-eval-suite-writer

@@ -91,6 +91,14 @@ Rules:
 - move procedural detail into the body
 - keep exclusions only where they genuinely prevent misuse
 - use sentence case and concrete wording
+- in this repository, append a three-letter all-caps alias to the end of the description using `Shorthand ABC.`
+
+For this repository's alias convention:
+
+- default to a three-letter all-caps alias
+- prefer a short distinctive abbreviation of the skill name
+- keep the alias stable once published
+- if a clean three-letter alias would collide or mislead, surface the conflict explicitly rather than silently picking a noisy fallback
 
 Near the top of the body, include the required precedence line:
 
@@ -124,6 +132,7 @@ Rules:
 - `short_description` should stay close to the trigger description
 - `default_prompt` should describe the workflow, not just restate the title
 - if `SKILL.md` changes materially, review `openai.yaml` in the same pass
+- if the local repository exposes aliases in generated indexes or README listings, keep those surfaces aligned in the same slice
 
 ## 4. Reference and script philosophy
 
@@ -291,6 +300,7 @@ Before treating a skill as complete, confirm:
 
 - the folder name and frontmatter `name` agree
 - the trigger description is clear, specific, and within spec limits
+- the repository's alias convention is satisfied, including the three-letter alias in frontmatter and any linked local surfaces that expose aliases
 - any companion metadata reflects the actual skill behavior
 - required precedence language is present
 - bundled references are present and operational

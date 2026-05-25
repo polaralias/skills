@@ -1,11 +1,11 @@
 ---
 name: llm-instruction-fixer
-description: Repair prompts, skills, system instructions, agent prompts, and related LLM instruction artifacts from an existing review, issue list, or explicit fix brief. Use when a user wants reliability problems corrected without casually changing the artifact's intent or scope. Shorthand LLMIF.
+description: Repair prompts, skills, system instructions, agent prompts, and related LLM instruction artifacts from an existing review, issue list, or explicit fix brief. Use when a user wants reliability problems corrected without casually changing the artifact's intent or scope. Shorthand LIF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.2.0
+  updated: '2026-05-25'
 ---
 
 # llm-instruction-fixer

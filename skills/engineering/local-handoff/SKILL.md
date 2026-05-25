@@ -1,11 +1,11 @@
 ---
 name: local-handoff
-description: Create a local continuation handoff for the next session. Use when you are ending a tranche of work and want the next session to resume safely from a dated handoff stored alongside the work instead of a temp file. Shorthand LH.
+description: Create a local continuation handoff for the next session. Use when you are ending a tranche of work and want the next session to resume safely from a dated handoff stored alongside the work instead of a temp file, especially when the handoff should preserve the current engineering workflow stage for the next resume. Shorthand LHO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.3.0
+  updated: '2026-05-25'
 ---
 
 # local-handoff
@@ -53,6 +53,7 @@ The handoff should help the next agent answer:
 - What was the goal of this tranche?
 - What changed?
 - What is still open?
+- Which workflow stage were we in?
 - Which artifacts are canonical?
 - What should happen first in the next session?
 
@@ -73,6 +74,8 @@ Prefer references over repetition:
 
 ## Verification State
 
+## Workflow State
+
 ## Canonical References
 
 ## Changes Made
@@ -86,6 +89,11 @@ Prefer references over repetition:
 
 ## Guardrails
 
+- If the current work follows an explicit multi-skill engineering flow, capture:
+  - current workflow stage
+  - current skill
+  - next likely skill
+- Keep workflow-state short and aligned with any separate workflow metadata the repository maintains.
 - Keep the handoff short enough that a fresh agent will still read the linked docs.
 - Do not duplicate large plan or spec content already captured elsewhere.
 - Do not copy large diffs or long plan bodies into the handoff.
@@ -109,5 +117,6 @@ Once the handoff is complete:
 ## Relationship To Other Skills
 
 - Use `local-pickup` to consume this artifact in the next session.
+- Use `engineering-workflow-orchestrator` when the next session should restart through a coordinated stage model or hook-aware workflow.
 - Use `repo-dissection` when the current truth is still unclear.
 - Use `repo-knowledge-engineering` when the next session is mainly about keeping repository truth surfaces aligned after implementation or validation work.

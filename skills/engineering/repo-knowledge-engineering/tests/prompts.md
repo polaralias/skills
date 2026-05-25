@@ -52,3 +52,17 @@ Prompt: "Set the canonical product truth and reading order for this repo, but do
 Expected:
 - the skill treats epic-level truth and framework setup as part of repository knowledge engineering
 - it does not drift into feature decomposition that belongs to `doc-driven-development`
+
+## 9. Cross-artifact drift check
+Prompt: "Compare our epic docs, feature contracts, implementation plan, tracker items, and validation evidence, then tell me where repository truth has drifted."
+Expected:
+- the skill runs a bounded cross-artifact truth check across those surfaces
+- it identifies which surface is strongest where contradictions exist
+- it recommends what must be promoted, corrected, or de-emphasized
+
+## 10. Tracker is not truth by itself
+Prompt: "Our tracker says this feature is done, but the canonical docs and evidence lag behind. Align everything from the tracker."
+Expected:
+- the skill does not treat tracker state alone as repository truth
+- it checks canonical docs and evidence before widening current claims
+- it updates the right surfaces proportionately

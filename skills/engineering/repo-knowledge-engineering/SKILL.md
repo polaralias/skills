@@ -1,11 +1,11 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, or aligning canonical docs, plans, decisions, glossary, reading order, and validation evidence after changes land. Shorthand RKE.
+description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, running cross-artifact truth checks, or aligning canonical docs, plans, decisions, glossary, reading order, tracker state, and validation evidence after changes land. Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.2.0
-  updated: '2026-05-24'
+  version: 2.3.0
+  updated: '2026-05-25'
 ---
 
 # repo-knowledge-engineering
@@ -21,6 +21,7 @@ That can mean:
 - establishing the first durable knowledge structure
 - defining the repository's canonical product and epic-level truth surfaces
 - evolving that structure as the repository matures
+- running cross-artifact truth checks across docs, plans, trackers, and evidence
 - aligning the knowledge base after code or documentation changes land
 
 The repository knowledge base includes the docs and working surfaces agents rely on to understand and continue the project:
@@ -71,7 +72,17 @@ Use this skill to absorb newly resolved knowledge into the right artifacts:
 
 Use this skill to keep the knowledge base synchronized with current repository truth, including code outcomes, validated behavior, and current support truth after work lands.
 
-### 4. Tranche Completion
+### 4. Analysis
+
+Use this skill to run a cross-artifact check before or after implementation:
+
+- compare epic-level truth to feature contracts
+- compare feature contracts to implementation plans
+- compare implementation plans to work packages or tracker items
+- compare repository claims to validation evidence
+- identify drift, missing promotion, stale plans, or contradictory status language
+
+### 5. Tranche Completion
 
 Use this skill to close a tranche honestly:
 
@@ -125,7 +136,28 @@ For the current slice, check whether you must update:
 Do not update everything by default. Update the exact files future contributors would trust for this change.
 Do not treat this step as permission to write or repair tests, evaluation harnesses, CI jobs, or application code.
 
-### 4. Preserve knowledge boundaries
+### 4. Run a bounded cross-artifact truth check
+
+When the repository has several linked planning and execution surfaces, compare the strongest current artifacts:
+
+- epic or product-truth docs
+- feature contracts
+- implementation-plan docs
+- work packages or tracker items
+- canonical contract docs
+- validation evidence
+
+Check for:
+
+- statements that changed in one surface but not the others
+- open questions that were resolved but never promoted
+- tasks or tracker items that no longer match the accepted contract
+- implementation plans that still describe superseded sequencing
+- validation claims that overstate what the repository actually proves
+
+If drift exists, name which surface is strongest, which surfaces are stale, and what must be promoted, corrected, or de-emphasized.
+
+### 5. Preserve knowledge boundaries
 
 - Keep dated validation notes as evidence.
 - Keep support matrices and root docs as current contract.
@@ -135,7 +167,7 @@ Do not treat this step as permission to write or repair tests, evaluation harnes
 - Keep generated inventories, route tables, and other derived artifacts clearly labeled as derived rather than canonical support truth.
 - Do not silently rewrite old evidence to hide drift; either update the current contract or add a new dated evidence record.
 
-### 5. Update knowledge in the same slice as the work
+### 6. Update knowledge in the same slice as the work
 
 - If behavior changed, update the contract docs in the same tranche.
 - If support status changed, update the support matrix before widening public claims elsewhere.
@@ -145,13 +177,13 @@ Do not treat this step as permission to write or repair tests, evaluation harnes
 - If behavior is now repaired and validated elsewhere, move it out of `known broken`, `proposed`, or future-tense plan language in the same slice.
 - If navigation changed, update the reading order so future agents do not rediscover the repository from scratch.
 
-### 6. Promote new truth
+### 7. Promote new truth
 
 - If behavior changed and is now validated, promote it from plan, risk, or exploratory language into canonical contract docs.
 - If a risk narrowed but did not disappear, restate the narrower remaining risk rather than just marking the section done.
 - If a handoff contains context important enough for future work, promote that truth into tracked docs before later tranches depend on it.
 
-### 7. Keep the language sharp
+### 8. Keep the language sharp
 
 Use explicit status language:
 
@@ -169,7 +201,7 @@ Distinguish:
 - implementation drift
 - evidence strength
 
-### 8. Finish with a trustworthy next-step surface
+### 9. Finish with a trustworthy next-step surface
 
 At the end of the slice, make sure a fresh agent can answer:
 
@@ -187,6 +219,7 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - Do not let README or entry docs lag behind known contract changes.
 - Do not delete evidence just because the current contract improved.
 - Do not write or repair tests, eval harnesses, CI jobs, or application code from this skill alone.
+- Do not treat tracker state as repository truth when canonical docs or evidence disagree.
 - Prefer a small number of strong canonical docs over a growing pile of loose notes.
 - Create `GLOSSARY.md` or `docs/decisions/` when they would materially improve the repository knowledge base; do not create them as empty ceremony.
 - Correct the root reading order before polishing lower-level docs when the entrypoint is misleading.
@@ -207,6 +240,7 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - refreshed glossary or `GLOSSARY.md`
 - new or updated decision record under `docs/decisions/`
 - refreshed active plan or debt tracker
+- cross-artifact drift summary
 - archive compaction or evidence index cleanup when note sprawl exists
 - dated evidence note for new validation
 - local handoff that reflects the new truth

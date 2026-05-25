@@ -1,11 +1,11 @@
 ---
 name: scheduling-assistant
-description: Turn natural-language meeting requests or pasted scheduling batches into calendar-aware slot proposals and ready-to-send emails. Use when a user wants availability checked, similar existing meetings spotted, up to three candidate times proposed, or a scheduling wave handled across multiple requests. Prefer live calendar connectors when they are available. Shorthand SA.
+description: Turn natural-language meeting requests or pasted scheduling batches into calendar-aware slot proposals and ready-to-send emails. Use when a user wants availability checked, similar existing meetings spotted, up to three candidate times proposed, or a scheduling wave handled across multiple requests. Prefer live calendar connectors when they are available. Shorthand SCH.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.2.0
+  updated: '2026-05-25'
 ---
 
 # scheduling-assistant

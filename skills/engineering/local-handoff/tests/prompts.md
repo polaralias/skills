@@ -7,6 +7,12 @@ Expected:
 - the handoff uses the structured sections from `SKILL.md`
 - the response reports the exact handoff path
 
+## 1a. Workflow-aware handoff
+Prompt: "We are pausing during doc-driven-development. Write a local handoff that preserves the current workflow stage and the next likely skill."
+Expected:
+- the handoff includes the workflow-state section
+- it captures the active stage and next likely skill without copying large plan bodies
+
 ## 2. Existing handoff reuse
 Prompt: "Continue the same tranche and refresh today's existing handoff instead of creating another one."
 Expected:

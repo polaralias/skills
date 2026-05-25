@@ -7,6 +7,12 @@ Expected:
 - it re-checks canonical docs and current repo state before continuing
 - it reports the next verified action
 
+## 1a. Workflow-aware pickup
+Prompt: "Resume from the latest handoff, and it includes a workflow stage and next skill."
+Expected:
+- the skill verifies the workflow-stage claims against current repo truth
+- it reports the verified stage and the next grounded action rather than repeating the handoff blindly
+
 ## 2. Stale handoff handling
 Prompt: "Resume from this handoff even though the branch and referenced files may have changed."
 Expected:

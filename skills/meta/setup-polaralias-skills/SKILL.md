@@ -4,8 +4,8 @@ description: Configure shared Polaralias skill defaults outside installed skill 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
-  updated: '2026-05-24'
+  version: 1.3.0
+  updated: '2026-05-25'
 ---
 
 # setup-polaralias-skills
@@ -135,3 +135,4 @@ If no shared config is found, the consuming skill should continue with packaged 
 
 When a consuming skill needs concrete asset paths, use the canonical keys described in [references/config-contract.md](./references/config-contract.md) instead of inventing new ad hoc variable names.
 When a consuming skill shapes issue-ready or tracker-ready output, use the structured output keys from the shared contract before inventing new tracker labels, publication targets, or hierarchy defaults.
+This contract is intended for downstream skills such as `doc-driven-development` and `tracker-publisher`.

@@ -1,11 +1,11 @@
 ---
 name: clickup-project-plan-builder
-description: Design and build ClickUp project-planning structures, including hierarchy, tags, and saved views for Gantt-led or board-led delivery. Use when a user wants a project brief turned into a practical ClickUp planning surface rather than a generic task dump. Shorthand CPPB.
+description: Design and build ClickUp project-planning structures, including hierarchy, tags, and saved views for Gantt-led or board-led delivery. Use when a user wants a project brief turned into a practical ClickUp planning surface rather than a generic task dump. Shorthand CPP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.2.0
+  updated: '2026-05-25'
 ---
 
 # clickup-project-plan-builder

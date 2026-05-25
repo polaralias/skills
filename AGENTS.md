@@ -11,7 +11,7 @@ Read [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/IND
 - Treat each `SKILL.md` as the source of truth for that skill.
 - If you only need trigger metadata, read just the frontmatter first using the line counts in [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md).
 - Read beyond the frontmatter only when you are actually using or updating that skill.
-- Treat documented all-caps acronym shorthands in [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md) and [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) as valid invocation forms for the matching skill.
+- Treat documented three-letter all-caps acronym shorthands in [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md) and [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) as valid invocation forms for the matching skill.
 - Use [scripts/build_skill_index.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/build_skill_index.py) to regenerate [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) after any frontmatter or skill-path change.
 - Use [`.agents/skills/skill-finaliser`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser>) as the preferred local path when finalising or normalising skill packages.
 - Keep package validation under [`.agents/skills/skill-finaliser/scripts/validate_skill_package.py`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser/scripts/validate_skill_package.py>) rather than duplicating a second repo-level validator.
@@ -44,3 +44,14 @@ Usually that means checking and updating:
 - the changed skill's `metadata.version`
 
 Do not leave the tree changed while the repo guidance still points at old paths, old family membership, or old packaging rules.
+
+## Shared Git Workflow
+
+- work from a short-lived branch created from `main`
+- do not commit directly to `main`
+- use branch names prefixed with `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`, or `test/`
+- keep one logical change per branch and pull request
+- open a pull request before merging to `main`, including for solo work
+- prefer squash merge unless multiple commits carry durable review value
+- delete the merged or closed feature branch after the work is finished; never delete `main`
+- use tags in `vX.Y.Z` format for releases and do not move published tags

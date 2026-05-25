@@ -8,6 +8,7 @@
 - reference canonical docs instead of duplicating them
 - exclude secrets and sensitive values from the handoff
 - record branch, verification state, and local-state assumptions when relevant
+- record the current workflow stage, current skill, and next skill when the session follows an explicit engineering workflow
 - record verification status and the next concrete task
 - finish by telling the user the handoff path and optionally reminding them about `.gitignore` if they do not want to share handoff documents
 - point the next session at the recommended `local-pickup` skill

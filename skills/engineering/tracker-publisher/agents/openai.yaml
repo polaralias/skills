@@ -1,0 +1,14 @@
+interface:
+  display_name: "Tracker Publisher"
+  short_description: Publish stable work packages into GitHub, Linear, or a local task surface.
+  default_prompt: "Use tracker-publisher to publish or render stable work packages into GitHub, Linear, or a local task surface using shared tracker defaults when they exist, without redesigning the hierarchy or the behavioral contract."
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

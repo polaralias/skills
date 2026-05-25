@@ -1,11 +1,11 @@
 ---
 name: local-pickup
-description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area. Shorthand LP.
+description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area, including workflow-aware handoffs that preserve the prior engineering stage. Shorthand LPK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.1.0
-  updated: '2026-05-24'
+  version: 2.3.0
+  updated: '2026-05-25'
 ---
 
 # local-pickup
@@ -43,6 +43,7 @@ Treat the handoff as an input, not as unquestioned truth.
 - Check the current branch when available.
 - Confirm that the referenced files still exist.
 - Confirm that the cited plan or support status still matches the current state.
+- If the handoff includes workflow-state fields, confirm that the current stage and proposed next skill still match the strongest current evidence.
 - When the next step depends on runtime claims such as a device IP, auth mode, managed launcher, or external route, re-check them before relying on the handoff.
 - If the project moved on since the handoff was written, name the drift clearly.
 
@@ -65,6 +66,7 @@ Before editing, summarize:
 
 - the intended goal of the current session
 - the verified current state
+- the verified workflow stage and next skill when the handoff captured them
 - any stale or risky assumptions from the handoff
 - the first next step you will take
 
@@ -73,6 +75,7 @@ This summary should be short and should separate verified current truth from inh
 ### 5. Continue with the right downstream skill
 
 - Use `repo-dissection` if the handoff points into an area whose truth is still unclear.
+- Use `engineering-workflow-orchestrator` if the user wants the resumed session routed through the broader engineering workflow or hook-aware continuity.
 - Use `query-to-knowledge` if the next step depends on unresolved terminology, design trade-offs, or contradictory local knowledge.
 - Use `tdd` if you are about to change behavior.
 - Use `repo-knowledge-engineering` if the next step is primarily alignment across repository truth surfaces after implementation or validation work.
@@ -101,6 +104,7 @@ At local-pickup time, produce:
 - the chosen handoff path
 - the canonical docs you relied on
 - the verified current objective
+- the verified workflow stage when the handoff captured it
 - the immediate next action
 
 Then begin the work.

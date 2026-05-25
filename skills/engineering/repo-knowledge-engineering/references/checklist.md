@@ -6,6 +6,7 @@
 - identify where epic-level or product-truth docs should live and whether they are canonical yet
 - identify the canonical reading order before polishing secondary docs
 - establish the knowledge-base structure if it does not yet exist
+- compare epic docs, feature contracts, implementation plans, tracker items, and evidence when several truth surfaces coexist
 - update docs in the same slice as behavior changes
 - document validation evidence and test status when relevant without authoring tests, eval harnesses, CI jobs, or application code from this skill alone
 - update `GLOSSARY.md` when glossary or domain language changes
@@ -15,4 +16,5 @@
 - keep local handoffs subordinate to tracked docs
 - keep archive docs evidence-backed and de-emphasized
 - label evidence, canonical, execution, and generated surfaces clearly when they coexist
+- name which surface is strongest when cross-artifact drift exists
 - scan for publish-safety leakage before public release

@@ -1,0 +1,14 @@
+interface:
+  display_name: "Engineering Workflow Orchestrator"
+  short_description: Coordinate the engineering skill flow and optional Codex or Claude hook scaffolding.
+  default_prompt: "Use engineering-workflow-orchestrator to classify the current engineering workflow stage, route to the right downstream skill, keep workflow-state explicit, and recommend or shape Codex and Claude Code hook scaffolding when continuity across compaction or resume matters."
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

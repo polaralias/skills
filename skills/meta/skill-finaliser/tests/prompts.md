@@ -53,3 +53,10 @@ Expected:
 - the target skill contains `## Response proof`
 - the instruction says to include `<skill-name> was used in this response.`
 - the instruction is not copied into generated documents unless the skill explicitly outputs chat text
+
+## 9. Apply the alias convention
+Prompt: "Finalise this new skill and make sure it follows the repo alias convention too."
+Expected:
+- the skill adds a three-letter all-caps alias to the end of the frontmatter description using `Shorthand ABC.`
+- the alias is checked against the local repository surfaces that expose aliases
+- the skill does not silently pick a misleading alias if a clean three-letter choice would collide

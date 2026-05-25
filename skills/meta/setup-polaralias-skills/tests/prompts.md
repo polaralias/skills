@@ -34,3 +34,9 @@ Expected:
 - the skill captures tracker and structured output preferences in the shared config
 - it keeps those defaults outside installed skill folders
 - it reports that downstream skills such as `doc-driven-development` can now consume them
+
+## 6. Shared tracker defaults for publisher
+Prompt: "Set shared Polaralias defaults so tracker-publisher knows we use GitHub labels and a local markdown fallback."
+Expected:
+- the skill captures tracker and fallback output preferences in shared config
+- it reports that downstream skills such as `tracker-publisher` can now consume them

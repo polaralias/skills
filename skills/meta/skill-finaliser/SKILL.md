@@ -1,11 +1,11 @@
 ---
 name: skill-finaliser
-description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package. Use when extracting a zipped skill, normalising SKILL.md frontmatter, aligning agents/openai.yaml to the expected interface shape, tightening trigger descriptions, adding a license file, creating or refreshing tests/prompts.md, generating or fixing an icon, checking package hygiene, and validating that bundled references, scripts, and tests are proportionate to the skill's purpose. Shorthand SF.
+description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package. Use when extracting a zipped skill, normalising SKILL.md frontmatter, creating the skill alias convention, aligning agents/openai.yaml to the expected interface shape, tightening trigger descriptions, adding a license file, creating or refreshing tests/prompts.md, generating or fixing an icon, checking package hygiene, and validating that bundled references, scripts, and tests are proportionate to the skill's purpose. Shorthand SKF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.3.0
+  updated: '2026-05-25'
 ---
 
 # skill-finaliser
@@ -33,6 +33,7 @@ By the end of the pass, the target skill should have:
 - a canonical folder under the target skills directory
 - a polished `SKILL.md` with clear trigger wording
 - a one-line `description` frontmatter field rather than a folded multi-line YAML description
+- a three-letter all-caps alias added to the frontmatter description using the local shorthand convention
 - the required precedence line near the top of `SKILL.md`
 - a skill name that reads like a capability or deliverable
 - `agents/openai.yaml` aligned to the skill's actual behaviour
@@ -63,6 +64,7 @@ Identify:
 - whether local files are stable resources or stale guidance
 - whether executable resources exist
 - whether generated clutter is present
+- what three-letter alias should represent the skill consistently across repo surfaces
 
 ### 2. Normalise the folder
 
@@ -110,6 +112,12 @@ The `description` is the primary trigger. Make it explicit about:
 
 Keep the description under 1024 characters.
 Keep the `description` on one physical YAML line rather than using an indented folded multi-line value.
+Append the local alias marker at the end of the description using the existing repo convention:
+
+`Shorthand ABC.`
+
+Create a three-letter all-caps alias by default.
+If a clean three-letter alias would collide or become misleading, stop and surface the conflict instead of inventing a noisy variant silently.
 
 Move these out of the frontmatter:
 
@@ -156,6 +164,7 @@ Rules:
 - `short_description` should stay close to the trigger description
 - `default_prompt` should tell another model how to use the skill without duplicating the full `SKILL.md`
 - if the icon exists, point both icon fields to `assets/icon.svg`
+- if the local repository surfaces use skill aliases, confirm the companion metadata still matches the final named skill and alias-bearing trigger description
 
 ### 5. Create `assets/icon.svg`
 
@@ -273,6 +282,7 @@ After the main packaging pass, do a second look across the skill stack:
 
 Also confirm:
 
+- the skill's three-letter alias is reflected anywhere the local repo convention expects it
 - the response-proof instruction exists where the skill produces chat output
 - the precedence line is present near the top of `SKILL.md`
 - the skill is in a good state to hand off to `skill-eval-suite-writer` if the user wants formal evaluation coverage later
@@ -284,6 +294,7 @@ Before finishing, confirm:
 - folder name matches the skill name
 - frontmatter is complete and internally consistent
 - `description` is under 1024 characters, trigger-focused, and kept on one YAML line
+- the three-letter alias is present in the frontmatter description and propagated to the local alias surfaces when this repository expects them
 - `agents/openai.yaml` matches the final `SKILL.md`
 - `assets/icon.svg` exists and uses the package style if the skill ships with an icon
 - the license file exists
@@ -300,6 +311,7 @@ Stop and fix the skill if you find any of these:
 
 - `description` exceeds 1024 characters or is padded with low-signal workflow detail
 - `description` contains live URLs, document-reading instructions, or long section lists that belong in the body
+- the skill is missing its three-letter alias marker in frontmatter where this repository expects one
 - `openai.yaml` describes a different skill than `SKILL.md`
 - the target skill produces chat responses but is missing the `<skill-name> was used in this response.` instruction
 - the target skill is missing the required precedence line

@@ -1,11 +1,11 @@
 ---
 name: linkedin-short-post-drafter
-description: Draft LinkedIn-first short-form posts such as company updates, capability highlights, event posts, launch snippets, and founder-style social copy. Use when the user wants lighter external content rather than a full article or blog. Shorthand LSPD.
+description: Draft LinkedIn-first short-form posts such as company updates, capability highlights, event posts, launch snippets, and founder-style social copy. Use when the user wants lighter external content rather than a full article or blog. Shorthand LSP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
-  updated: '2026-05-24'
+  version: 1.2.0
+  updated: '2026-05-25'
 ---
 
 # linkedin-short-post-drafter
