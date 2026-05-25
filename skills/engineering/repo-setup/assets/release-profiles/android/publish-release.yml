@@ -1,0 +1,98 @@
+name: Publish Android Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_API_LEVEL: "34"
+      ANDROID_BUILD_TOOLS: "34.0.0"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager \
+            "platform-tools" \
+            "platforms;android-${ANDROID_API_LEVEL}" \
+            "build-tools;${ANDROID_BUILD_TOOLS}"
+      - name: Resolve version metadata
+        id: version
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import re
+          text = pathlib.Path("{{version_source_path}}").read_text(encoding="utf-8")
+          version_name = re.search(r'versionName\s*=\s*"([^"]+)"', text).group(1)
+          version_code = re.search(r'versionCode\s*=\s*(\d+)', text).group(1)
+          pathlib.Path("version-metadata.json").write_text(json.dumps({
+            "applicationId": "{{application_id}}",
+            "artifact": "{{artifact_name}}",
+            "versionName": version_name,
+            "versionCode": int(version_code)
+          }, indent=2) + "\n", encoding="utf-8")
+          PY
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          data = json.load(open("version-metadata.json", encoding="utf-8"))
+          print(f"version_name={data['versionName']}")
+          print(f"version_code={data['versionCode']}")
+          PY
+      - name: Validate tag matches versionName
+        shell: bash
+        run: |
+          expected_tag="v${{ steps.version.outputs.version_name }}"
+          if [ "${GITHUB_REF_NAME}" != "${expected_tag}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match ${expected_tag}" >&2
+            exit 1
+          fi
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --console=plain
+      - name: Prepare release assets
+        run: cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/{{artifact_name}}
+      - name: Publish release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          title="${tag} (code ${{ steps.version.outputs.version_code }})"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" \
+              "app/build/outputs/apk/debug/{{artifact_name}}#{{artifact_name}}" \
+              "version-metadata.json#{{artifact_basename}}-version-metadata.json" \
+              --clobber
+            gh release edit "$tag" --draft=false --latest --verify-tag --title "$title"
+          else
+            gh release create "$tag" \
+              "app/build/outputs/apk/debug/{{artifact_name}}#{{artifact_name}}" \
+              "version-metadata.json#{{artifact_basename}}-version-metadata.json" \
+              --verify-tag \
+              --generate-notes \
+              --latest \
+              --title "$title"
+          fi
