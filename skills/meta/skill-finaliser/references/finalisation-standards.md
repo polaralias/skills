@@ -67,6 +67,7 @@ Keep the main `SKILL.md` operational but not overloaded.
 - stable deep reference material in `references/`
 - executable logic in `scripts/`
 - static assets in `assets/`
+- repository-root script folders only for repo-wide maintenance utilities, not one skill's executable helpers
 
 Do not bury essential activation logic several files deep.
 
@@ -146,6 +147,13 @@ Bundle stable dependencies that the skill truly relies on, such as:
 - example payloads
 - stable guidance docs
 - reference material that defines file format or output structure
+
+Placement rule:
+
+- keep skill-specific scripts inside the packaged skill under `scripts/`
+- keep skill-specific reference docs inside the packaged skill under `references/`
+- keep skill-specific templates and static resources inside the packaged skill under `assets/`
+- reserve top-level repo script directories for repository-wide tooling such as index builders, validators, or release-maintenance utilities
 
 ### 4.2 What should stay dynamic
 

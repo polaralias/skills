@@ -4,7 +4,7 @@ description: Finalise imported, draft, or half-finished skills into a clean, pub
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.0
+  version: 1.3.1
   updated: '2026-05-25'
 ---
 
@@ -75,11 +75,19 @@ Place the skill in the target skills directory using this baseline shape:
 ├── SKILL.md
 ├── agents/openai.yaml
 ├── assets/icon.svg
+├── scripts/ ...optional
 ├── tests/prompts.md
 └── references/ ...optional
 ```
 
 Keep only files that materially support the skill. Do not add README-style extras.
+
+Packaging rule:
+
+- skill-specific executable code belongs under that skill's own `scripts/` directory
+- stable skill-specific documentation belongs under that skill's own `references/` directory
+- stable skill-specific templates or static resources belong under that skill's own `assets/` directory
+- top-level repository script folders are for repository-wide maintenance utilities only, not for one skill's runtime helpers
 
 Remove generated clutter if present, especially:
 
@@ -210,6 +218,12 @@ Treat these as allowed local resources:
 - reference files describing stable formats or output structure
 - intentionally bundled guidance that should travel with the skill
 
+Resource-boundary rule:
+
+- if a script exists only to support one packaged skill, keep it inside that skill package under `scripts/`
+- do not leave skill-specific helpers in top-level repo script directories
+- if a top-level script is retained, it should serve repository-wide packaging, indexing, validation, or release maintenance rather than a single skill's runtime behavior
+
 Only use dynamic runtime lookups for explicit per-run context when the skill truly depends on them.
 
 Do not allow fallback wording like:
@@ -320,6 +334,7 @@ Stop and fix the skill if you find any of these:
 - executable scripts exist but there is no credible smoke test, validation path, or acknowledged testing gap
 - the instruction surface still contains obvious contradictions, ambiguity, or cross-file drift after finalisation
 - generated folders such as `node_modules` or `__pycache__` are present in the packaged skill
+- a skill-specific executable lives in a top-level repo script directory instead of the packaged skill's own `scripts/` folder
 
 ## Resources
 
