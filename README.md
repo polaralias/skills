@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Skills%20Banner.png" alt="Skills Workbench banner" width="960" />
+</p>
+
 # Skills Workbench
 
 [![skills.sh](https://skills.sh/b/polaralias/skills)](https://skills.sh/polaralias/skills)
