@@ -80,7 +80,7 @@ jobs:
         run: |
           set -euo pipefail
           tag="${GITHUB_REF_NAME}"
-          title="${tag} (code ${{ steps.version.outputs.version_code }})"
+          title="${tag}"
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" \
               "app/build/outputs/apk/debug/{{artifact_name}}#{{artifact_name}}" \
