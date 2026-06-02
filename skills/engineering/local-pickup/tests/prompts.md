@@ -13,6 +13,19 @@ Expected:
 - the skill verifies the workflow-stage claims against current repo truth
 - it reports the verified stage and the next grounded action rather than repeating the handoff blindly
 
+## 1b. Post-compact continuity pickup
+Prompt: "Resume from the saved post-compact continuity artifacts for this project."
+Expected:
+- the skill checks for a deterministic manifest or restart supplement before scanning handoff files
+- it uses the restart supplement for quick orientation and the referenced handoff for deeper context
+- it still verifies the claims against current repo truth before continuing
+
+## 1c. Manifest drift handling
+Prompt: "Use local-pickup, but the continuity manifest points to a handoff path that no longer exists."
+Expected:
+- the skill reports the broken manifest reference plainly
+- it falls back to the strongest current local continuation evidence instead of pretending the manifest is authoritative
+
 ## 2. Stale handoff handling
 Prompt: "Resume from this handoff even though the branch and referenced files may have changed."
 Expected:

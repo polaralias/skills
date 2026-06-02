@@ -4,8 +4,8 @@ description: Coordinate a repository engineering session across repo-dissection,
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.1
-  updated: '2026-05-25'
+  version: 1.2.0
+  updated: '2026-06-02'
 ---
 
 # engineering-workflow-orchestrator
@@ -18,6 +18,14 @@ Use this skill to coordinate the engineering skill stack as one explicit workflo
 
 This skill does not replace the specialist skills.
 It decides which one should take over next, keeps the current stage explicit, and can set up workflow-aware hook scaffolding for Codex and Claude Code when the user wants the session state preserved across compaction or resume.
+
+When hook-aware continuity is requested, this skill may define a lightweight artifact flow in which:
+
+- `PreCompact` preserves a durable thread artifact when the host exposes one
+- a subagent or helper step derives a max-verbosity handoff plus a short restart supplement from that saved artifact and current repo state
+- `PostCompact` consumes the saved supplement and routes the resumed session through `local-pickup` or the next downstream skill
+
+Do not assume both hosts expose the same compaction lifecycle. Ground hook setup in the verified host documentation before describing a runnable flow.
 
 Read [references/workflow-state-contract.md](./references/workflow-state-contract.md) before defining workflow-stage metadata.
 Read [references/hook-support.md](./references/hook-support.md) before configuring hooks.
@@ -117,11 +125,27 @@ When the user wants compaction-aware or resume-aware continuity:
 - use hooks to surface workflow-state and handoff expectations
 - do not claim the hooks directly execute a skill body unless the host platform truly supports that
 
+For richer continuity, prefer a deterministic artifact contract over a vague reminder-only hook flow when the host documents the required compaction events.
+
+- `PreCompact` should:
+  - save a raw transcript or equivalent durable thread artifact when the host makes that available
+  - pass the saved artifact path, project root, and target handoff path into a helper or subagent step
+  - produce a max-verbosity handoff and a short restart supplement
+  - write a machine-readable manifest that `PostCompact` can consume without searching heuristically
+- `PostCompact` should:
+  - read the manifest or equivalent deterministic output
+  - consume the short restart supplement rather than the full verbose handoff body
+  - restore workflow-stage context and route the resumed session through `local-pickup` or the next downstream skill
+
+Treat the raw saved transcript as the authority record, and the verbose handoff as a derived continuation artifact.
+
+If the host does not document stable `PreCompact` and `PostCompact` hooks, do not invent a compaction-aware implementation. Fall back to the thinner `SessionStart` or manual-handoff pattern and say the richer flow is not currently grounded for that host.
+
 Use hooks to reinforce the workflow, for example:
 
 - `SessionStart`: surface active workflow-state and canonical references
-- `PreCompact`: remind the session to refresh local handoff or workflow-state before compaction
-- `PostCompact`: restate the saved workflow stage and route the next step through `local-pickup` or the next downstream skill
+- `PreCompact`: preserve the continuity artifacts or remind the session to refresh them before compaction
+- `PostCompact`: consume the saved supplement, restate the saved workflow stage, and route the next step through `local-pickup` or the next downstream skill
 
 ### 5. Keep orchestration subordinate to truth
 
@@ -154,4 +178,5 @@ When using this skill, produce:
 - Do not invent extra stages when the existing stage model is enough.
 - Do not use hooks as an excuse to skip `local-handoff` or `local-pickup`.
 - Do not pretend native compaction and local workflow-state solve the same problem.
+- Do not treat a derived verbose handoff as more authoritative than the saved raw transcript or current repo truth.
 - Prefer a thin, legible workflow over a meta-layer that hides the real work.

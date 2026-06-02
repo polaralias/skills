@@ -13,6 +13,21 @@ Expected:
 - the handoff includes the workflow-state section
 - it captures the active stage and next likely skill without copying large plan bodies
 
+## 1b. Max-verbosity handoff
+Prompt: "LHO max. Write a detailed standalone handoff for this tranche so the next session can act without relying on the thread."
+Expected:
+- the skill switches to max-verbosity mode
+- the handoff keeps the standard section backbone
+- it expands current state, verification state, risks, and next steps with source-backed detail
+- it does not treat verbosity as permission to include secrets or large raw dumps
+
+## 1c. Hook-driven non-interactive max handoff
+Prompt: "A continuity hook requested a max-verbosity handoff. Use the strongest available evidence and do not ask follow-up questions."
+Expected:
+- the skill writes a max-verbosity handoff without blocking on questions
+- it states missing or uncertain inputs explicitly
+- it records a point-in-time as-of basis when possible
+
 ## 2. Existing handoff reuse
 Prompt: "Continue the same tranche and refresh today's existing handoff instead of creating another one."
 Expected:

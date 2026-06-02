@@ -40,3 +40,10 @@ Prompt: "Set shared Polaralias defaults so tracker-publisher knows we use GitHub
 Expected:
 - the skill captures tracker and fallback output preferences in shared config
 - it reports that downstream skills such as `tracker-publisher` can now consume them
+
+## 7. Continuity defaults for hook-aware skills
+Prompt: "Set shared Polaralias defaults so hook-aware skills back up transcripts under my home directory, prefer max handoff mode during compaction-aware flows, and use a deterministic continuity manifest path."
+Expected:
+- the skill captures continuity preferences in shared config using stable contract keys
+- it keeps those defaults outside installed skill folders
+- it reports that downstream skills such as `engineering-workflow-orchestrator` can consume them

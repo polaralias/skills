@@ -38,6 +38,14 @@ delivery:
     priority:
     acceptance_criteria:
     notes:
+continuity:
+  preferred_mode:
+  transcript_backup_root:
+  manifest_relative_path:
+  restart_supplement_relative_path:
+  handoff_relative_dir:
+  handoff_filename_pattern:
+  precompact_capture_enabled:
 assets:
   docx_theme_logo_path:
   docx_theme_logo_protected_path:

@@ -1,8 +1,8 @@
 {
+  "_note": "Illustrative continuity pattern only. Verify current Codex support for compaction hooks before using PreCompact or PostCompact.",
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "*",
         "hooks": [
           {
             "type": "command",
@@ -13,19 +13,33 @@
     ],
     "PreCompact": [
       {
-        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "python .codex/hooks/check_workflow_state.py --pre-compact"
+            "command": "python .codex/hooks/backup_transcript.py"
+          },
+          {
+            "type": "command",
+            "command": "python .codex/hooks/run_verbose_handoff_capture.py"
+          },
+          {
+            "type": "command",
+            "command": "python .codex/hooks/write_continuity_manifest.py --phase precompact"
           }
         ]
       }
     ],
     "PostCompact": [
       {
-        "matcher": "*",
         "hooks": [
+          {
+            "type": "command",
+            "command": "python .codex/hooks/read_continuity_manifest.py"
+          },
+          {
+            "type": "command",
+            "command": "python .codex/hooks/write_restart_supplement.py"
+          },
           {
             "type": "command",
             "command": "python .codex/hooks/emit_workflow_context.py --post-compact"
