@@ -29,6 +29,9 @@ Use this file for human-readable style guidance that multiple Polaralias skills 
 - Preferred issue tracker or task surface:
 - Preferred issue hierarchy and labels:
 - Publication guidance for issue-ready work packages:
+- Preferred continuity mode for compaction-aware flows:
+- Preferred transcript backup location:
+- Preferred manifest or restart supplement naming rules:
 
 ## Do and don't rules
 

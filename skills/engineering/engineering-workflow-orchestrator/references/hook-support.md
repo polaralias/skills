@@ -11,13 +11,18 @@ Relevant surfaces:
 - `.codex/hooks.json`
 - equivalent inline Codex config when the project uses that instead of a dedicated hooks file
 
-Relevant events for this workflow:
+For this skill package, treat Codex compaction continuity as unverified unless you have a current official Codex reference for stable `PreCompact` and `PostCompact` hooks.
 
-- `SessionStart`
-- `PreCompact`
-- `PostCompact`
+What is safe to assume here:
 
-Use these events to surface workflow-state, remind the session to refresh a handoff before compaction, and restate the saved workflow stage after compaction.
+- project-local hook config can exist under `.codex/hooks.json`
+- thin session-start workflow surfacing is a reasonable example
+
+What is not packaged here as a runnable example:
+
+- a Codex `PreCompact` to transcript-backup to manifest to `PostCompact` flow
+
+Do not present a richer Codex compaction lifecycle as implemented unless you have verified current official support.
 
 ## Claude Code
 
@@ -31,18 +36,44 @@ Relevant events for this workflow:
 - `PreCompact`
 - `PostCompact`
 
-Use the same contract across both hosts where possible so the workflow-state stays portable.
+Claude Code's official docs also support:
+
+- project-local hook scripts referenced from `.claude/settings.json`
+- `${CLAUDE_PROJECT_DIR}` for project-relative script paths
+- `transcript_path` in `PreCompact` and `PostCompact` input payloads
+
+Use the same artifact contract across hosts where possible, but only Claude Code gets the full runnable compaction example in this package because that is the host whose lifecycle is documented for this flow.
 
 ## Recommended behavior
 
 - keep hooks small and deterministic
 - point them at project-local helper scripts or compact shell commands
-- prefer reminders, validation, and state surfacing over large generated narratives
+- prefer deterministic artifact generation and state surfacing over large inline generated narratives
 - avoid writing sensitive values into workflow-state or handoff artifacts
 - keep `local-handoff` and `local-pickup` as the durable skills for pause and resume logic
+
+When the host supports it, a stronger continuity pattern is:
+
+- `PreCompact`: copy or persist the raw transcript artifact first
+- `PreCompact`: invoke a helper or subagent to derive:
+  - a max-verbosity handoff
+  - a short restart supplement
+  - a machine-readable manifest
+- `PostCompact`: read the manifest and consume the short restart supplement
+
+Prefer a deterministic filename or manifest path so `PostCompact` does not have to guess which artifact to load.
+Keep the raw transcript backup outside the repo by default unless the user explicitly wants it stored locally with the project.
+
+See also:
+
+- Claude Code settings: [https://code.claude.com/docs/en/settings](https://code.claude.com/docs/en/settings)
+- Claude Code hooks: [https://code.claude.com/docs/en/hooks](https://code.claude.com/docs/en/hooks)
+- install notes for the packaged helper: [claude-continuity-hook-install.md](./claude-continuity-hook-install.md)
+- continuity manifest example: [continuity-manifest.example.json](./continuity-manifest.example.json)
+- continuity helper script template: [claude-continuity-hook.py](../scripts/claude-continuity-hook.py)
 
 ## Example hook responsibilities
 
 - `SessionStart`: show active workflow stage, current goal, and canonical refs
-- `PreCompact`: verify whether workflow-state and handoff are present and current
-- `PostCompact`: restate workflow stage and recommend `local-pickup` or the next downstream skill
+- `PreCompact`: verify whether workflow-state is current, persist the raw transcript if available, and refresh the derived handoff artifacts
+- `PostCompact`: restate workflow stage from the saved supplement and recommend `local-pickup` or the next downstream skill

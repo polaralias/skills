@@ -11,6 +11,9 @@ Prompt: "Set up this engineering workflow so compaction and resume keep the curr
 Expected:
 - the skill describes hook setup only through supported Codex and Claude surfaces
 - it keeps hooks thin and routes pause or resume through `local-handoff` and `local-pickup`
+- it can describe a deterministic `PreCompact` to transcript-backup to subagent to manifest flow when richer continuity is requested
+- it makes `PostCompact` consume a short restart supplement rather than the full verbose handoff
+- it does not claim runnable Codex compaction hooks unless current official support is verified
 
 ## 3. Resume routing
 Prompt: "We have a local handoff and want to continue the current tranche. Use the workflow orchestrator to decide the next skill."

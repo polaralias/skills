@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://polaralias.local/schemas/continuity-manifest.schema.json",
+  "title": "Polaralias Continuity Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "host",
+    "session_id",
+    "project_root",
+    "manifest_path",
+    "handoff_mode",
+    "handoff_path",
+    "restart_supplement_path",
+    "status",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string",
+      "enum": [
+        "claude-code"
+      ]
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "project_root": {
+      "type": "string"
+    },
+    "manifest_path": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "auto",
+        "startup",
+        "resume",
+        "unknown"
+      ]
+    },
+    "transcript_source_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "transcript_backup_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "handoff_mode": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "max"
+      ]
+    },
+    "handoff_path": {
+      "type": "string"
+    },
+    "restart_supplement_path": {
+      "type": "string"
+    },
+    "compact_summary_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "branch": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "head": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "precompact-captured",
+        "postcompact-ready"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

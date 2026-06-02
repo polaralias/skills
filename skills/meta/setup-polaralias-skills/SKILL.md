@@ -1,11 +1,11 @@
 ---
 name: setup-polaralias-skills
-description: Configure shared Polaralias skill defaults outside installed skill folders. Use when a user wants to set or refresh cross-repo defaults such as branding, typography, logos, palette values, footer text, output tone, reusable asset paths, or structured output and tracker preferences for other Polaralias skills. Shorthand SPS.
+description: Configure shared Polaralias skill defaults outside installed skill folders. Use when a user wants to set or refresh cross-repo defaults such as branding, typography, logos, palette values, footer text, output tone, reusable asset paths, continuity preferences, or structured output and tracker preferences for other Polaralias skills. Shorthand SPS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.1
-  updated: '2026-05-25'
+  version: 1.4.0
+  updated: '2026-06-02'
 ---
 
 # setup-polaralias-skills
@@ -72,6 +72,7 @@ Collect or confirm:
 - reusable asset paths
 - preferred issue tracker or local task surface when relevant
 - issue or work-package output preferences when relevant
+- continuity preferences such as transcript backup location, manifest naming, and whether verbose handoff capture is preferred during compaction-aware flows
 - any branded do/don't rules
 
 If the user only wants partial setup, record only what they actually confirmed and leave the rest explicitly blank or commented in the YAML template.
@@ -119,6 +120,7 @@ Tell the user:
 - which path was written
 - which files were created or updated
 - which downstream skills can now read the shared config
+- whether continuity preferences were recorded for hook-aware skills to consume
 - that repo-specific overrides can still exist separately if a particular repository needs different branding
 
 ## Consumer contract
@@ -135,4 +137,5 @@ If no shared config is found, the consuming skill should continue with packaged 
 
 When a consuming skill needs concrete asset paths, use the canonical keys described in [references/config-contract.md](./references/config-contract.md) instead of inventing new ad hoc variable names.
 When a consuming skill shapes issue-ready or tracker-ready output, use the structured output keys from the shared contract before inventing new tracker labels, publication targets, or hierarchy defaults.
+When a consuming skill shapes continuity or hook-aware behavior, use the continuity keys from the shared contract before inventing new transcript-backup paths, handoff mode defaults, or manifest naming rules.
 This contract is intended for downstream skills such as `doc-driven-development` and `tracker-publisher`.

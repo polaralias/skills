@@ -4,8 +4,8 @@ description: Resume work from a local handoff and rebuild trustworthy context be
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.3.1
-  updated: '2026-05-25'
+  version: 2.4.0
+  updated: '2026-06-02'
 ---
 
 # local-pickup
@@ -18,32 +18,47 @@ Resume from the project's own continuation artifacts, not from memory.
 
 Treat the handoff as an input, not as unquestioned truth.
 
+When a continuity manifest or post-compact restart supplement exists, treat those as additional continuation artifacts, not as a replacement for verification.
+
 ## Workflow
 
 ### 1. Find the right handoff
 
 - If the user named a handoff file, use it.
+- If a project-local continuity manifest or restart supplement is explicitly named, use it as the starting artifact and follow it to the referenced handoff.
+- Otherwise check for a deterministic continuity artifact such as a manifest in the project's established continuity location before scanning `docs/handoff/`.
 - Otherwise check `docs/handoff/` in the current project or the repository's established handoff area.
 - Prefer the latest dated handoff that matches the current task.
 - If multiple handoffs are plausible, pick the narrowest topic match rather than simply the newest file.
 - Prefer the handoff whose referenced canonical docs still exist and still point to the same active workstream.
 
+When a manifest exists, prefer the handoff path, restart supplement path, and workflow-state hints it names over heuristic file picking.
+
 ### 2. Read the canonical context
 
-- Read the handoff first.
+- Read the manifest or restart supplement first when one was selected.
+- Then read the referenced handoff.
 - Then read `AGENTS.md` when present.
 - Then read the root reading-order docs.
 - Then read the domain-language file such as `GLOSSARY.md` or `CONTEXT.md` when present.
 - Then read the active plan, support-truth docs, or contract docs the handoff identifies as canonical.
 - Use the current reading order if one exists.
 
+When both a short restart supplement and a verbose handoff exist:
+
+- use the supplement to recover the intended restart path quickly
+- use the verbose handoff for deeper context only where the next step actually needs it
+- treat both as derived artifacts that still require verification against current repo truth
+
 ### 3. Verify the handoff against current state
 
 - Check git status when available.
 - Check the current branch when available.
+- If a continuity manifest exists, confirm that its referenced artifact paths still exist.
 - Confirm that the referenced files still exist.
 - Confirm that the cited plan or support status still matches the current state.
 - If the handoff includes workflow-state fields, confirm that the current stage and proposed next skill still match the strongest current evidence.
+- If the restart supplement or manifest claims a specific handoff mode, as-of time, branch, or commit, treat those as verification inputs rather than accepted facts.
 - When the next step depends on runtime claims such as a device IP, auth mode, managed launcher, or external route, re-check them before relying on the handoff.
 - If the project moved on since the handoff was written, name the drift clearly.
 
@@ -65,6 +80,7 @@ Then classify the restart path:
 Before editing, summarize:
 
 - the intended goal of the current session
+- the chosen continuity artifact path when a manifest or restart supplement was used
 - the verified current state
 - the verified workflow stage and next skill when the handoff captured them
 - any stale or risky assumptions from the handoff
@@ -83,6 +99,7 @@ This summary should be short and should separate verified current truth from inh
 ## Fallbacks
 
 - If no handoff exists, say so plainly and rebuild context from the canonical docs.
+- If a continuity manifest or restart supplement exists but points to missing or stale artifacts, say so plainly and fall back to the strongest current local evidence.
 - If the handoff exists but is obviously stale, preserve it as evidence and proceed from verified current state.
 - If the handoff conflicts with code or docs, trust the strongest current evidence and record the mismatch.
 - If no handoff exists but unfinished local work makes the active stream obvious, rebuild from canonical docs and git state and recommend creating a retrospective handoff at tranche end.
@@ -90,6 +107,7 @@ This summary should be short and should separate verified current truth from inh
 ## Guardrails
 
 - Do not continue on handoff claims alone.
+- Do not treat a post-compact restart supplement as canonical truth; it is only a restart aid.
 - Do not skip the canonical docs just because the handoff looks comprehensive.
 - Do not silently flatten `planned` into `done`.
 - If canonical docs and the handoff both disagree with code or tests, stop pretending continuity is intact and escalate to deeper rediscovery.
@@ -101,6 +119,7 @@ If local-pickup discovers a meaningful mismatch, refresh the handoff or leave a 
 
 At local-pickup time, produce:
 
+- the chosen continuity artifact path when one was used
 - the chosen handoff path
 - the canonical docs you relied on
 - the verified current objective
