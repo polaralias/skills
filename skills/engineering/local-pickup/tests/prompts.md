@@ -7,6 +7,12 @@ Expected:
 - it re-checks canonical docs and current repo state before continuing
 - it reports the next verified action
 
+## 1aa. Local-only handoff discovery
+Prompt: "Use local-pickup to resume from the latest local-only handoff in this repository."
+Expected:
+- the skill checks `local-docs/handoff/` when the repo uses that convention
+- it still verifies the handoff against current repo truth before continuing
+
 ## 1a. Workflow-aware pickup
 Prompt: "Resume from the latest handoff, and it includes a workflow stage and next skill."
 Expected:

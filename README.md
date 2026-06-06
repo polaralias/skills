@@ -19,6 +19,12 @@ The repository packages skills as portable folders with:
 
 The main `skills/` tree contains active packaged skills. The `future-consideration/` tree holds ideas and drafts that are not yet packaged for active use.
 
+## Local-Only Workspace Convention
+
+Use `local-docs/` at the repo root for machine-local notes, handoffs, continuity artifacts, or other working documents that should stay beside the work without being committed.
+
+The repository `.gitignore` should include `local-docs/`. Skills that deal with repository bootstrap or local continuity should preserve tracked defaults such as `docs/handoff/`, but they can route explicitly local-only artifacts into `local-docs/` when that better matches the user's intent.
+
 ## Active Skill Families
 
 ### Engineering

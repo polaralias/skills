@@ -17,6 +17,7 @@ Read [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/IND
 - Keep package validation under [`.agents/skills/skill-finaliser/scripts/validate_skill_package.py`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser/scripts/validate_skill_package.py>) rather than duplicating a second repo-level validator.
 - Keep package structure consistent with the finalized engineering skills and the `skill-finaliser` expectations.
 - For setup or customization skills, keep persistent user configuration outside installed skill folders. Prefer `~/.agents/config/<skill-name>/` and use `~/.config/<skill-name>/` only as fallback.
+- Treat `local-docs/` at the repo root as the standard gitignored workspace for machine-local notes, handoffs, and other local-only artifacts that should live beside the work without becoming tracked documentation.
 
 ## Versioning Rule
 

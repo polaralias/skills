@@ -40,7 +40,7 @@ Prefer a small JSON or YAML file over prose when a hook needs to read it.
     "Confirm whether exports must support CSV and XLSX in the first slice"
   ],
   "tracker_target": "Linear",
-  "handoff_path": "docs/handoff/2026-05-25-reporting-epic.md"
+  "handoff_path": "local-docs/handoff/2026-05-25-reporting-epic.md"
 }
 ```
 
@@ -60,3 +60,4 @@ When `local-handoff` writes a workflow-aware handoff, keep these fields aligned 
 - do not duplicate long plan bodies or large specs
 - update the record when the stage changes materially
 - remove or de-emphasize stale `next_skill` values after the session takes a different path
+- when the handoff is intentionally local-only, point `handoff_path` at the repo's `local-docs/` area rather than inventing a new ignore convention
