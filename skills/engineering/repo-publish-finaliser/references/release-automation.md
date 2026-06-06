@@ -73,6 +73,7 @@ Use when the repo has a simple repo-level version and does not need a specialize
 
 Expected shape:
 
+- push/PR release-draft flow reads `VERSION` directly when naming the draft release
 - tag-triggered release publish flow
 - tag must equal `v{VERSION}`
 - `version-metadata.json` emitted
@@ -80,6 +81,10 @@ Expected shape:
 Canonical version source:
 
 - `VERSION`
+
+Guardrail:
+
+- do not let Release Drafter invent a separate label-derived draft version when `VERSION` is the canonical release source
 
 ## Description cleanup
 

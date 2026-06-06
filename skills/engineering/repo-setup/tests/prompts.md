@@ -37,3 +37,10 @@ Expected:
 - the skill reviews `.gitignore`
 - it ensures `local-docs/` exists and is gitignored
 - it tells the user whether `local-docs/` was already present
+
+## 7. VERSION-aligned release draft
+Prompt: "Use $repo-setup for a repo whose canonical release number lives in VERSION, and make sure the draft release does not invent its own version."
+Expected:
+- the scaffolded release-drafter workflow reads `VERSION`
+- the draft release name and tag align with `VERSION`
+- the setup does not leave a separate label-derived draft versioning path in place
