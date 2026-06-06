@@ -1,11 +1,11 @@
 ---
 name: local-pickup
-description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/` or the repository's established handoff area, including workflow-aware handoffs that preserve the prior engineering stage. Shorthand LPK.
+description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/`, `local-docs/handoff/`, or the repository's established handoff area, including workflow-aware handoffs that preserve the prior engineering stage. Shorthand LPK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.4.0
-  updated: '2026-06-02'
+  version: 2.5.0
+  updated: '2026-06-06'
 ---
 
 # local-pickup
@@ -26,7 +26,8 @@ When a continuity manifest or post-compact restart supplement exists, treat thos
 
 - If the user named a handoff file, use it.
 - If a project-local continuity manifest or restart supplement is explicitly named, use it as the starting artifact and follow it to the referenced handoff.
-- Otherwise check for a deterministic continuity artifact such as a manifest in the project's established continuity location before scanning `docs/handoff/`.
+- Otherwise check for a deterministic continuity artifact such as a manifest in the project's established continuity location before scanning handoff folders.
+- Otherwise check `local-docs/handoff/` when the repository uses that local-only continuity convention.
 - Otherwise check `docs/handoff/` in the current project or the repository's established handoff area.
 - Prefer the latest dated handoff that matches the current task.
 - If multiple handoffs are plausible, pick the narrowest topic match rather than simply the newest file.

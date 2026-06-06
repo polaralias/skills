@@ -30,3 +30,10 @@ Prompt: "Use $repo-setup, then tell me the best next skill for actual implementa
 Expected:
 - the skill finishes at bootstrap scope
 - it recommends `engineering-workflow-orchestrator` as the next step
+
+## 6. Local-only docs convention
+Prompt: "Use $repo-setup and make sure this repo has a safe place for local-only handoffs and notes."
+Expected:
+- the skill reviews `.gitignore`
+- it ensures `local-docs/` exists and is gitignored
+- it tells the user whether `local-docs/` was already present

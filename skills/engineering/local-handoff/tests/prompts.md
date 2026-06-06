@@ -7,6 +7,13 @@ Expected:
 - the handoff uses the structured sections from `SKILL.md`
 - the response reports the exact handoff path
 
+## 1aa. Local-only handoff path
+Prompt: "We are pausing this tranche. Keep the handoff local-only and use the repo's gitignored local-docs area."
+Expected:
+- the skill prefers `local-docs/handoff/` when that convention is available
+- it keeps the same handoff structure and safety guardrails
+- it reports the exact local-only handoff path
+
 ## 1a. Workflow-aware handoff
 Prompt: "We are pausing during doc-driven-development. Write a local handoff that preserves the current workflow stage and the next likely skill."
 Expected:

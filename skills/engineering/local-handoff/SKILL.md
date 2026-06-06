@@ -4,8 +4,8 @@ description: Create a local continuation handoff for the next session. Use when 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.0
-  updated: '2026-06-02'
+  version: 1.5.0
+  updated: '2026-06-06'
 ---
 
 # local-handoff
@@ -47,6 +47,8 @@ When the trigger is ambiguous, use **standard** and offer max-verbosity only if 
 
 - Use `docs/handoff/` under the project root by default.
 - Create the directory if it does not exist.
+- If the user explicitly wants the handoff kept local-only rather than tracked, prefer `local-docs/handoff/` when the repo already has a root `local-docs/` convention.
+- If `local-docs/` is missing but the user wants a local-only handoff, say that `local-docs/` is the preferred gitignored location and create `local-docs/handoff/` only if the user wants that convention applied now.
 
 If the repository already has an established continuous handoff folder, use that instead of creating a parallel convention.
 
@@ -190,7 +192,7 @@ Once the handoff is complete:
 - tell the user the handoff is complete
 - tell them the exact handoff path
 - for max-verbosity handoffs, tell them it is a point-in-time reference that should be re-verified before acting on environment-sensitive steps
-- remind them that if they do not want to share handoff documents, they may want to add that handoff path to the target repository's `.gitignore`
+- if the handoff was tracked under `docs/handoff/` but they want future handoffs kept local-only, remind them that `local-docs/handoff/` is the preferred gitignored location when that repo uses the `local-docs/` convention
 
 ## Relationship To Other Skills
 

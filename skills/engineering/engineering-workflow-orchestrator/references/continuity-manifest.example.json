@@ -8,7 +8,7 @@
   "transcript_source_path": "/Users/example/.claude/projects/example-project/00893aaf.jsonl",
   "transcript_backup_path": "/Users/example/.agents/state/transcripts/example-project/2026-06-02/abc123.jsonl",
   "handoff_mode": "max",
-  "handoff_path": "/repo/example-project/docs/handoff/2026-06-02-session-handoff.md",
+  "handoff_path": "/repo/example-project/local-docs/handoff/2026-06-02-session-handoff.md",
   "restart_supplement_path": "/repo/example-project/.claude/continuity/restart-supplement.md",
   "compact_summary_path": "/repo/example-project/.claude/continuity/compact-summary.md",
   "branch": "feat/continuity-hooks",

@@ -4,6 +4,7 @@
 - choose mode: `standard` by default, `max-verbosity` only when the trigger is clear
 - find the project root
 - ensure `docs/handoff/` exists or choose the project's established handoff area
+- if the user wants a local-only handoff, prefer `local-docs/handoff/` when the repo uses that convention
 - update an existing same-day same-stream handoff when that is the cleanest continuation path
 - use a dated deterministic filename
 - in `standard` mode, reference canonical docs instead of duplicating them
@@ -15,5 +16,5 @@
 - record the current workflow stage, current skill, and next skill when the session follows an explicit engineering workflow
 - record verification status and the next concrete task
 - add optional appendices only when they materially improve restart safety
-- finish by telling the user the handoff path and optionally reminding them about `.gitignore` if they do not want to share handoff documents
+- finish by telling the user the handoff path and, when relevant, remind them that future local-only handoffs can live under `local-docs/handoff/`
 - point the next session at the recommended `local-pickup` skill

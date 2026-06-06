@@ -4,8 +4,8 @@ description: Coordinate a repository engineering session across repo-dissection,
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
-  updated: '2026-06-02'
+  version: 1.3.0
+  updated: '2026-06-06'
 ---
 
 # engineering-workflow-orchestrator
@@ -124,6 +124,7 @@ When the user wants compaction-aware or resume-aware continuity:
 - keep hooks lightweight and stage-aware
 - use hooks to surface workflow-state and handoff expectations
 - do not claim the hooks directly execute a skill body unless the host platform truly supports that
+- if the repo uses a gitignored `local-docs/` convention and the user wants local-only continuity artifacts, prefer configuring the handoff target under `local-docs/handoff/` rather than teaching ad hoc `.gitignore` exceptions
 
 For richer continuity, prefer a deterministic artifact contract over a vague reminder-only hook flow when the host documents the required compaction events.
 
