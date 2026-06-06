@@ -119,6 +119,8 @@ Location: [skills/meta](./skills/meta)
 
 This repository uses a repo-level [VERSION](./VERSION) file for GitHub Releases.
 
+Any merged change that modifies packaged skills, repo packaging guidance, or release-validation behavior should update `VERSION` in the same slice rather than leaving the repo-level release number for later cleanup.
+
 - adding, deleting, or renaming a packaged skill is a repo-major bump
 - changing more than one packaged skill in one release is at least a repo-minor bump
 - changing exactly one packaged skill is usually a repo-patch bump unless that skill’s own semver bump is larger
