@@ -4,7 +4,7 @@ description: Bootstrap a repository with baseline governance, licensing, branch 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.0
+  version: 1.2.0
   updated: '2026-06-06'
 ---
 
@@ -64,6 +64,11 @@ Also make the local-only docs convention explicit:
 - ensure the root `.gitignore` contains `local-docs/`
 - ensure a root `local-docs/` folder exists for machine-local notes and continuity artifacts
 - keep tracked project documentation in normal repo paths; use `local-docs/` only for intentionally local-only material
+
+When scaffolding release automation around a repo-level `VERSION` file:
+
+- make the draft-release flow read `VERSION` directly for the draft name and tag
+- do not leave Release Drafter on an independent label-derived version path when `VERSION` is the canonical source of release truth
 
 ### 4. Create or refresh repo-admin configuration
 

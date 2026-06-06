@@ -23,9 +23,25 @@ jobs:
   update-release-draft:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Read repo version
+        id: repo-version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(cat VERSION)"
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+
       - name: Update release draft
         uses: release-drafter/release-drafter@v7
         with:
           config-name: release-drafter.yml
+          version: ${{ steps.repo-version.outputs.version }}
+          name: v${{ steps.repo-version.outputs.version }}
+          tag: v${{ steps.repo-version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
