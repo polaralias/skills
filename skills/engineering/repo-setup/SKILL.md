@@ -1,11 +1,11 @@
 ---
 name: repo-setup
-description: Bootstrap a repository with baseline governance, licensing, branch protection, draft-release scaffolding, and a GitHub description. Use when a user wants to set up a new repo, scaffold publish-readiness, choose a license, apply standard contributor or agent docs, or turn on PR-based protection for `main` before active engineering work begins. Set the initial GitHub description in a clear WIP form and recommend `engineering-workflow-orchestrator` as the next step when setup is complete. Shorthand RST.
+description: Bootstrap a repository with baseline governance, licensing, CODEOWNERS, repository rulesets, draft-release scaffolding, and a GitHub description. Use when a user wants to set up a new repo, scaffold publish-readiness, choose a license, apply standard contributor or agent docs, or require reviewed pull requests on the default branch before active engineering work begins. Set the initial GitHub description in a clear WIP form and recommend `engineering-workflow-orchestrator` as the next step when setup is complete. Shorthand RST.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
-  updated: '2026-06-06'
+  version: 2.0.0
+  updated: '2026-07-16'
 ---
 
 # repo-setup
@@ -21,6 +21,7 @@ This is a bootstrap skill, not a final release skill. Set up the repo early, kee
 Read [references/license-selection.md](./references/license-selection.md) before choosing a license.
 Read [references/polaralias-defaults.md](./references/polaralias-defaults.md) before applying defaults.
 Read [references/repo-admin-config.md](./references/repo-admin-config.md) before creating or updating `repo-admin.json`.
+Read [references/github-rulesets.md](./references/github-rulesets.md) before creating or changing protection rules.
 
 Use [scripts/repo_setup.py](./scripts/repo_setup.py) for deterministic file rendering and GitHub settings whenever possible.
 
@@ -54,8 +55,23 @@ Use the script layer first:
   - `AGENTS.md` baseline block
   - `.github/release-drafter.yml`
   - `.github/workflows/release-drafter.yml`
+- `.github/CODEOWNERS` when one or more owners are configured
 - `set-description` to set a concise GitHub repo description in WIP form
-- `set-branch-protection` to enforce PR-based protection on `main`
+- `set-branch-protection` to idempotently create or update the configured repository ruleset
+
+Commit and push `.github/CODEOWNERS` to the branch before enabling code-owner review. The branch must already contain an initial commit. The script refuses to create a code-owner requirement when the remote branch has no CODEOWNERS file.
+
+The baseline ruleset should:
+
+- require one approving review
+- require code-owner review
+- require review-thread resolution
+- block non-fast-forward updates and branch deletion
+- target the named default branch
+
+Treat bypass as an explicit policy choice. `--organization-admin-bypass` is only for organisation-owned repositories and is verified before use. Do not paste numeric role identifiers or ruleset identifiers into templates; discover the ruleset by its configured name and use the ID returned by GitHub only for that operation.
+
+After applying the ruleset, verify the stored rule. If classic branch protection also exists, report the overlap and leave it untouched until the user deliberately reconciles the two protection layers.
 
 Use the Polaralias defaults profile unless the repo has explicit override requirements.
 
@@ -79,6 +95,7 @@ When scaffolding release automation around a repo-level `VERSION` file:
   - chosen license
   - summary text
   - whether PR enforcement is on
+  - code owners and named ruleset policy
   - whether release automation is expected later
 
 ### 5. Keep the description honest
@@ -101,7 +118,9 @@ When using this skill, report:
 - the governance files added or updated
 - whether `local-docs/` already existed or was created
 - whether `.gitignore` already covered `local-docs/` or was updated
-- whether branch protection with PR requirement was enabled
+- whether CODEOWNERS is present on the protected branch
+- whether the named repository ruleset was verified
+- whether classic branch protection also remains active
 - the GitHub description that was set
 - whether `repo-admin.json` was added or updated
 - the recommended next skill
@@ -113,4 +132,6 @@ When using this skill, report:
 - Do not remove existing release automation during setup unless the user explicitly asks for replacement.
 - Keep the WIP description concise and product-facing.
 - Do not turn `local-docs/` into tracked canonical documentation.
+- Do not remove classic protection merely because a ruleset was added; surface the overlap first.
+- Do not hardcode repository ruleset IDs, numeric role IDs, or organisation-specific owners.
 - Recommend `engineering-workflow-orchestrator` rather than assuming the next implementation stage.

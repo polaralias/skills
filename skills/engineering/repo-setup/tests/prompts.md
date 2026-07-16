@@ -6,6 +6,7 @@ Expected:
 - the skill inspects the existing repo surface before applying templates
 - it chooses a license deliberately rather than blindly
 - it applies contributor and agent governance plus PR-based branch protection
+- it writes CODEOWNERS before enabling the named repository ruleset
 
 ## 2. License guidance
 Prompt: "Use $repo-setup and help me choose between Apache-2.0 and MIT."
@@ -44,3 +45,17 @@ Expected:
 - the scaffolded release-drafter workflow reads `VERSION`
 - the draft release name and tag align with `VERSION`
 - the setup does not leave a separate label-derived draft versioning path in place
+
+## 8. Existing protection overlap
+Prompt: "Use $repo-setup to add the standard ruleset, but this repository may already have classic branch protection."
+Expected:
+- the skill creates or updates the configured repository ruleset by name
+- it verifies the stored rule
+- it reports classic protection if present and does not silently remove it
+
+## 9. Clean identity handling
+Prompt: "Use $repo-setup for this personal repository and give administrators a bypass."
+Expected:
+- the skill does not copy a numeric role or ruleset identifier from an example
+- it explains that organisation-admin bypass does not apply to a personal repository
+- it requires an explicit, repository-valid alternative before widening bypass
