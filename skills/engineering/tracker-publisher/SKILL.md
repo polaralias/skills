@@ -1,11 +1,11 @@
 ---
 name: tracker-publisher
-description: Publish implementation-ready work packages into GitHub, Linear, or a local task surface. Use when feature contracts and work packages already exist and the main job is adapting them into tracker-ready artifacts or publishing them with shared output defaults. Shorthand TPU.
+description: Publish implementation-ready work packages or repository-local task records into GitHub, Linear, or another external tracker. Use when the source hierarchy and acceptance surface already exist and the remaining job is adapting or publishing them with shared output defaults. Do not use it to design work packages or maintain the repository-local task lifecycle. Shorthand TPU.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.1
-  updated: '2026-05-25'
+  version: 2.0.0
+  updated: '2026-07-16'
 ---
 
 # tracker-publisher
@@ -22,8 +22,9 @@ It assumes the decomposition, acceptance surface, and implementation planning al
 ## Use This Instead Of
 
 - Use `doc-driven-development` when the work still needs feature decomposition, implementation planning, or acceptance shaping.
+- Use `repo-task-lifecycle` when the user wants durable repository-local task records, status transitions, workstreams, evidence, or an index.
 - Use `setup-polaralias-skills` when shared tracker or structured-output defaults need to be created or refreshed.
-- Use this skill when the work packages are already strong enough and the main job is formatting or publishing them into GitHub, Linear, or a local task surface.
+- Use this skill when stable work packages or local task records need formatting or publication into an external tracker.
 
 ## Inputs
 
@@ -34,6 +35,7 @@ Use concrete source material:
 - acceptance criteria
 - implementation notes
 - parent-child hierarchy already resolved in `doc-driven-development`
+- repository-local task records already maintained by `repo-task-lifecycle`, when present
 
 If shared Polaralias config exists, read its tracker and output defaults first.
 
@@ -85,7 +87,7 @@ Choose the lightest viable output:
 
 - direct publication if the environment exposes the needed tracker tool
 - import-ready rows or payloads if a connector is expected later
-- local markdown task surface when the user wants repository-local tracking
+- a reviewable source-to-target mapping when the user wants approval before external mutation
 
 If live publication is not available, produce the nearest tracker-ready representation rather than pretending publication happened.
 
@@ -103,6 +105,8 @@ Tell the user:
 - Do not repack weak or unresolved work as if it were ready.
 - Do not redesign the hierarchy while publishing.
 - Do not let tracker field shape override the original behavioral contract.
+- Do not make the external tracker the hidden owner of repository-local task status unless repository policy explicitly establishes that authority.
+- Do not create or update `tasks/`; route local lifecycle work to `repo-task-lifecycle`.
 - Prefer simple tracker artifacts over dense payloads with unused fields.
 - Preserve parent-child relationships when they already exist.
 - If the environment cannot publish live, say so directly and emit tracker-ready artifacts instead.
@@ -111,5 +115,4 @@ Tell the user:
 
 - published tracker items when live tooling exists
 - tracker-ready payloads or rows when live tooling does not exist
-- local markdown task surfaces when requested
 - a short publication summary with assumptions and remaining gaps

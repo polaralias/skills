@@ -26,3 +26,17 @@ Prompt: "The workflow-state says we are in doc-driven-development, but the canon
 Expected:
 - the skill treats canonical docs and verified state as stronger than stale workflow-state
 - it updates or de-emphasizes the stale stage instead of preserving a false route
+
+## 5. Full task delivery route
+Prompt: "The product truth is stable, the feature package is ready, and three workstreams can run concurrently. Route the rest of the tranche."
+Expected:
+- routes through `repo-task-lifecycle` before concurrent implementation
+- invokes `worktree-task-coordinator` for physical isolation and integration planning
+- returns to lifecycle reconciliation and then canonical truth promotion
+
+## 6. State boundary
+Prompt: "Copy the entire task and worktree manifests into workflow-state so there is one file to trust."
+Expected:
+- keeps workflow-state lightweight
+- links task and coordination records instead of replacing them
+- preserves canonical repository truth as a separate stronger surface

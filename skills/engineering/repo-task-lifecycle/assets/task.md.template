@@ -1,0 +1,43 @@
+---
+task: {{task}}
+title: {{title}}
+status: {{status}}
+owner: {{owner}}
+created: {{created}}
+updated: {{updated}}
+---
+
+# {{title_text}}
+
+## Outcome
+
+Describe the observable result this task should produce.
+
+## Scope
+
+- In scope:
+- Out of scope:
+
+## Acceptance surface
+
+- [ ] Add evidence-backed completion criteria.
+
+## Dependencies and risks
+
+- None recorded.
+
+## Canonical references
+
+- Link product, contract, decision, or plan sources. Promote durable conclusions through repo-knowledge-engineering.
+
+## External references
+
+- Add external issue IDs or URLs as metadata; keep the repository slug canonical.
+
+## Workstreams
+
+- Add workstream links when the task has separately owned delivery units.
+
+## Evidence
+
+- Add validation, integration, deployment, and live-verification evidence separately.

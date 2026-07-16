@@ -24,3 +24,16 @@ Prompt: "Publish these work packages even though some acceptance criteria are st
 Expected:
 - the skill refuses to treat unresolved packages as publication-ready
 - it sends the work back toward `doc-driven-development`
+
+## 5. Repository-local tracking boundary
+Prompt: "Create a repository-local task ledger and keep its workstream statuses current."
+Expected:
+- routes creation and maintenance to `repo-task-lifecycle`
+- does not treat local Markdown as merely an external tracker export
+
+## 6. Publish local records externally
+Prompt: "These repository task records are stable; publish them to GitHub issues without renaming the local task folders."
+Expected:
+- preserves local slugs and hierarchy
+- records or reports the external mapping
+- does not transfer lifecycle ownership silently to GitHub

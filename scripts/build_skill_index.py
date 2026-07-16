@@ -42,6 +42,7 @@ SKILL_ACRONYMS = {
     "repo-knowledge-engineering": "RKE",
     "repo-publish-finaliser": "RPF",
     "repo-setup": "RST",
+    "repo-task-lifecycle": "RTL",
     "scheduling-assistant": "SCH",
     "setup-polaralias-skills": "SPS",
     "skill-eval-suite-writer": "SEW",
@@ -51,6 +52,7 @@ SKILL_ACRONYMS = {
     "test-plan-writer": "TPW",
     "tracker-publisher": "TPU",
     "training-plan-writer": "TRW",
+    "worktree-task-coordinator": "WTC",
 }
 
 
