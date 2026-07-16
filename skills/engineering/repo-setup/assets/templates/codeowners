@@ -1,0 +1,5 @@
+# Default ownership for review requests.
+* {{code_owners_line}}
+
+# Changes to ownership policy require the same owners to review them.
+/.github/CODEOWNERS {{code_owners_line}}
