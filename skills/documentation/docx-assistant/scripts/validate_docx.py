@@ -24,14 +24,12 @@ from docx_ooxml import (
     COMMENTS_EXTENDED_REL_TYPE,
     COMMENTS_IDS_REL_TYPE,
     CONTENT_TYPES_PART,
-    DOCUMENT_RELS_PART,
     DocxArchive,
     NUMBERING_PART,
     NS,
     SETTINGS_PART,
     STYLES_PART,
     comment_id_set,
-    comment_first_para_id,
     defined_abstract_num_ids,
     defined_num_ids,
     defined_style_ids,
@@ -74,7 +72,13 @@ def has_xml_declaration(raw_xml: bytes) -> bool:
     return raw_xml.lstrip().startswith(b"<?xml")
 
 
-def comment_paragraph_structure_warnings(comment_id: str, paragraph_index: int, paragraph) -> list[str]:
+def comment_paragraph_structure_warnings(
+    comment_id: str,
+    paragraph_index: int,
+    paragraph,
+    *,
+    require_annotation_reference: bool,
+) -> list[str]:
     warnings: list[str] = []
 
     para_id = paragraph.get(qn("w14", "paraId"))
@@ -93,9 +97,9 @@ def comment_paragraph_structure_warnings(comment_id: str, paragraph_index: int, 
 
     runs = paragraph.findall(f"./{qn('w', 'r')}")
     reference_run = next((run for run in runs if run.find(f"./{qn('w', 'annotationRef')}") is not None), None)
-    if reference_run is None:
+    if reference_run is None and require_annotation_reference:
         warnings.append(f"Comment {comment_id} paragraph {paragraph_index} is missing the annotation reference run")
-    else:
+    elif reference_run is not None:
         style = reference_run.find(f"./{qn('w', 'rPr')}/{qn('w', 'rStyle')}")
         if style is None or style.get(qn("w", "val")) != "CommentReference":
             warnings.append(
@@ -230,16 +234,18 @@ def validate_docx(path: Path) -> dict:
     archive = DocxArchive.load(path)
     errors: list[str] = []
     warnings: list[str] = []
+    document_part = archive.main_document_part()
+    document_rels_part = archive.main_document_rels_part()
 
-    required = ["_rels/.rels", CONTENT_TYPES_PART, "word/document.xml"]
+    required = ["_rels/.rels", CONTENT_TYPES_PART, document_part]
     for name in required:
         if not archive.has(name):
             errors.append(f"Missing required part: {name}")
 
     if archive.has(CONTENT_TYPES_PART) and b"<ct:Types" in archive.entries[CONTENT_TYPES_PART]:
         errors.append("[Content_Types].xml must use the default package namespace, not a ct: prefix")
-    if archive.has(DOCUMENT_RELS_PART) and b"<rels:Relationships" in archive.entries[DOCUMENT_RELS_PART]:
-        errors.append("word/_rels/document.xml.rels must use the default package namespace, not a rels: prefix")
+    if archive.has(document_rels_part) and b"<rels:Relationships" in archive.entries[document_rels_part]:
+        errors.append(f"{document_rels_part} must use the default package namespace, not a rels: prefix")
 
     for name, raw_xml in archive.entries.items():
         if name.endswith(".xml") and not has_xml_declaration(raw_xml):
@@ -384,9 +390,9 @@ def validate_docx(path: Path) -> dict:
                     errors.append(f"{story_part} contains a commentRangeStart before w:pPr")
                     break
 
-    document_root = archive.read_xml("word/document.xml")
-    document_rels_root = archive.read_xml(DOCUMENT_RELS_PART) if archive.has(DOCUMENT_RELS_PART) else None
-    for section_index, sect_pr in enumerate(section_properties(document_root), start=1):
+    document_root = archive.read_xml(document_part) if archive.has(document_part) else None
+    document_rels_root = archive.read_xml(document_rels_part) if archive.has(document_rels_part) else None
+    for section_index, sect_pr in enumerate(section_properties(document_root) if document_root is not None else [], start=1):
         seen_header_types: set[str] = set()
         seen_footer_types: set[str] = set()
         for tag, expected_rel_type, seen_types in (
@@ -404,7 +410,7 @@ def validate_docx(path: Path) -> dict:
                     errors.append(f"Section {section_index} {tag} is missing r:id")
                     continue
                 if document_rels_root is None:
-                    errors.append(f"Section {section_index} {tag} references {rel_id} but {DOCUMENT_RELS_PART} is missing")
+                    errors.append(f"Section {section_index} {tag} references {rel_id} but {document_rels_part} is missing")
                     continue
                 rel = relationship_by_id(document_rels_root, rel_id)
                 if rel is None:
@@ -415,7 +421,7 @@ def validate_docx(path: Path) -> dict:
                         f"Section {section_index} {tag} uses relationship {rel_id} with wrong type {rel.get('Type')}"
                     )
                     continue
-                target = resolve_relationship_target("word/document.xml", rel.get("Target") or "")
+                target = resolve_relationship_target(document_part, rel.get("Target") or "")
                 if not target or not archive.has(target):
                     errors.append(f"Section {section_index} {tag} relationship {rel_id} targets missing part {target or '<empty>'}")
                     continue
@@ -463,17 +469,23 @@ def validate_docx(path: Path) -> dict:
 
         seen_para_ids: set[str] = set()
         seen_text_ids: set[str] = set()
-        first_para_ids: dict[str, str] = {}
+        comment_para_ids: dict[str, str] = {}
         for comment in comments_root.findall(f"./{qn('w', 'comment')}"):
             comment_id = comment.get(qn("w", "id"), "")
-            first_para_id = comment_first_para_id(comment)
-            if comment_id and first_para_id:
-                first_para_ids[first_para_id] = comment_id
             for paragraph_index, paragraph in enumerate(comment.findall(f"./{qn('w', 'p')}"), start=1):
-                warnings.extend(comment_paragraph_structure_warnings(comment_id, paragraph_index, paragraph))
+                warnings.extend(
+                    comment_paragraph_structure_warnings(
+                        comment_id,
+                        paragraph_index,
+                        paragraph,
+                        require_annotation_reference=paragraph_index == 1,
+                    )
+                )
 
                 para_id = paragraph.get(qn("w14", "paraId"))
                 if para_id:
+                    if comment_id:
+                        comment_para_ids[para_id] = comment_id
                     if para_id in seen_para_ids:
                         warnings.append(f"Duplicate w14:paraId found in comments.xml: {para_id}")
                     else:
@@ -499,9 +511,9 @@ def validate_docx(path: Path) -> dict:
                     warnings.append(f"{COMMENT_EXTENDED_PART} contains duplicate commentEx paraId {para_id}")
                 else:
                     seen_comment_ex_para_ids.add(para_id)
-                if para_id not in first_para_ids:
+                if para_id not in comment_para_ids:
                     errors.append(f"{COMMENT_EXTENDED_PART} references missing comment paraId {para_id}")
-                if parent_para_id and parent_para_id not in first_para_ids:
+                if parent_para_id and parent_para_id not in comment_para_ids:
                     errors.append(
                         f"{COMMENT_EXTENDED_PART} commentEx paraId {para_id} references missing parent paraId {parent_para_id}"
                     )
@@ -519,27 +531,30 @@ def validate_docx(path: Path) -> dict:
                     warnings.append(f"{COMMENT_IDS_PART} contains duplicate commentId paraId {para_id}")
                 else:
                     seen_comments_ids_para_ids.add(para_id)
-                if para_id not in first_para_ids:
+                if para_id not in comment_para_ids:
                     errors.append(f"{COMMENT_IDS_PART} references missing comment paraId {para_id}")
                 if not durable_id:
                     warnings.append(f"{COMMENT_IDS_PART} paraId {para_id} is missing durableId")
 
-        rels_root = archive.read_xml(DOCUMENT_RELS_PART) if archive.has(DOCUMENT_RELS_PART) else None
+        rels_root = archive.read_xml(document_rels_part) if archive.has(document_rels_part) else None
         if rels_root is None or not any(
-            rel.get("Type") == COMMENTS_REL_TYPE and rel.get("Target") == "comments.xml"
+            rel.get("Type") == COMMENTS_REL_TYPE
+            and resolve_relationship_target(document_part, rel.get("Target") or "") == COMMENT_PART
             for rel in rels_root.findall("./*")
         ):
-            errors.append("word/comments.xml exists but document.xml.rels has no comments relationship")
+            errors.append(f"word/comments.xml exists but {document_rels_part} has no comments relationship")
         if comment_ids and (rels_root is None or not any(
-            rel.get("Type") == COMMENTS_EXTENDED_REL_TYPE and rel.get("Target") == "commentsExtended.xml"
+            rel.get("Type") == COMMENTS_EXTENDED_REL_TYPE
+            and resolve_relationship_target(document_part, rel.get("Target") or "") == COMMENT_EXTENDED_PART
             for rel in rels_root.findall("./*")
         )):
-            errors.append("Comments exist but document.xml.rels has no commentsExtended relationship")
+            errors.append(f"Comments exist but {document_rels_part} has no commentsExtended relationship")
         if comment_ids and (rels_root is None or not any(
-            rel.get("Type") == COMMENTS_IDS_REL_TYPE and rel.get("Target") == "commentsIds.xml"
+            rel.get("Type") == COMMENTS_IDS_REL_TYPE
+            and resolve_relationship_target(document_part, rel.get("Target") or "") == COMMENT_IDS_PART
             for rel in rels_root.findall("./*")
         )):
-            errors.append("Comments exist but document.xml.rels has no commentsIds relationship")
+            errors.append(f"Comments exist but {document_rels_part} has no commentsIds relationship")
 
         if content_types_root is None:
             errors.append("[Content_Types].xml is missing; cannot validate comment content types")
@@ -574,9 +589,11 @@ def validate_docx(path: Path) -> dict:
             }
             for comment in comments_root.findall(f"./{qn('w', 'comment')}"):
                 comment_id = comment.get(qn("w", "id"))
-                first_para = comment.find(f"./{qn('w', 'p')}")
-                para_id = first_para.get(qn("w14", "paraId")) if first_para is not None else None
-                if comment_id and para_id in reply_para_ids:
+                para_ids = {
+                    paragraph.get(qn("w14", "paraId"))
+                    for paragraph in comment.findall(f"./{qn('w', 'p')}")
+                }
+                if comment_id and para_ids.intersection(reply_para_ids):
                     threaded_reply_ids.add(comment_id)
         reply_parent_map = threaded_reply_parent_map(archive) if archive.has(COMMENT_EXTENDED_PART) else {}
         missing_reply_anchors = sorted(

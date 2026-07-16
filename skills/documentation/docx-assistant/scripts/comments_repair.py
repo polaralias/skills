@@ -28,6 +28,7 @@ def repair_comments(
     rebuild_reply_anchors: bool = False,
 ) -> dict[str, int]:
     archive = DocxArchive.load(input_docx)
+    archive.normalise_main_document_part()
     stats = {
         "comments_present": 0,
         "story_parts_touched": 0,

@@ -4,8 +4,8 @@ description: Use this skill whenever the task is fundamentally about a Microsoft
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.1
-  updated: '2026-05-24'
+  version: 1.3.0
+  updated: '2026-07-16'
 ---
 
 # docx-assistant
@@ -194,6 +194,20 @@ Interpretation:
 - `none`: generation only
 
 Use `fast` for short, low-risk, mostly textual documents. Use `thorough` for final, externally shared, structurally dense, or layout-sensitive outputs.
+
+## Comments and threaded replies
+
+Before replying to existing comments, run `scripts/comments_extract.py` and use the extracted comment IDs rather than inferring IDs from visible order or anchor position.
+
+Threading is keyed through `word/commentsExtended.xml`. A reply's `w15:paraIdParent` must point to the paragraph ID Word already uses to identify the parent comment. For multi-paragraph comments this can be a later paragraph, so do not assume the first paragraph is the thread key.
+
+`scripts/comments_reply.py` and `scripts/comments_repair.py` automatically normalize Word Online and co-authoring package shapes such as `word/document2.xml` to the standard `word/document.xml` shape required for reliable desktop Word threading. This also updates package relationships and content types and removes orphaned `[trash]/*` co-authoring residue.
+
+After adding or repairing threaded replies:
+
+1. Run `scripts/validate_docx.py` on the result.
+2. For review deliverables, open the result in desktop Word and confirm that replies are nested and Word does not offer to repair the file.
+3. Pay particular attention to replies whose parent comment contains multiple paragraphs. Word's own handling of that case can be inconsistent; if a reply does not nest, add that individual reply manually in Word.
 
 ## Font embed rules
 

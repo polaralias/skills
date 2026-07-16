@@ -24,6 +24,16 @@ Use this file as the final shipping gate for generated `.docx` files.
 - tables stay within the page and remain readable
 - there is no accidental duplication of cover and body chrome across sections
 
+## Comment and threading checks
+
+- The authoritative main document part is `word/document.xml` after replies are added or comments are repaired.
+- No `[trash]/*` co-authoring residue remains in the final package.
+- Every `w15:commentEx` `w15:paraId` resolves to a paragraph in its comment.
+- Every `w15:paraIdParent` resolves to a top-level parent comment key.
+- Comment metadata retains its namespace declarations and `mc:Ignorable` prefixes.
+- The final document passes `scripts/validate_docx.py` without structural errors.
+- For review deliverables, replies—especially replies to multi-paragraph comments—have been confirmed as nested in desktop Word without a repair prompt.
+
 ## Hold-the-file conditions
 
 Do not ship the document if:
@@ -32,3 +42,4 @@ Do not ship the document if:
 - a required custom font was not embedded
 - page chrome conflicts with the cover
 - layout lint still reports unresolved serious issues
+- threaded replies are unresolved, display as top-level comments, or cause Word to offer a repair

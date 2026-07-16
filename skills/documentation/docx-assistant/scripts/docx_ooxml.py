@@ -7,7 +7,7 @@ surgery.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -47,6 +47,9 @@ COMMENTS_IDS_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordp
 COMMENT_PART = "word/comments.xml"
 COMMENT_EXTENDED_PART = "word/commentsExtended.xml"
 COMMENT_IDS_PART = "word/commentsIds.xml"
+PACKAGE_RELS_PART = "_rels/.rels"
+OFFICE_DOCUMENT_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"
+DEFAULT_DOCUMENT_PART = "word/document.xml"
 DOCUMENT_RELS_PART = "word/_rels/document.xml.rels"
 CONTENT_TYPES_PART = "[Content_Types].xml"
 NUMBERING_PART = "word/numbering.xml"
@@ -54,6 +57,9 @@ STYLES_PART = "word/styles.xml"
 SETTINGS_PART = "word/settings.xml"
 HEADER_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header"
 FOOTER_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer"
+FOOTNOTES_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footnotes"
+ENDNOTES_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes"
+STORY_REL_TYPES = {HEADER_REL_TYPE, FOOTER_REL_TYPE, FOOTNOTES_REL_TYPE, ENDNOTES_REL_TYPE}
 HEADER_FOOTER_REL_TYPES = {HEADER_REL_TYPE, FOOTER_REL_TYPE}
 CONTENT_TYPE_STYLE = "application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"
 CONTENT_TYPE_NUMBERING = "application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"
@@ -116,7 +122,12 @@ def normalised_root_for_serialization(root: etree.Element) -> etree.Element:
 
 
 def xml_bytes(root: etree.Element) -> bytes:
-    return etree.tostring(normalised_root_for_serialization(root), encoding="utf-8", xml_declaration=True)
+    return etree.tostring(
+        normalised_root_for_serialization(root),
+        encoding="utf-8",
+        xml_declaration=True,
+        standalone=True,
+    )
 
 
 def clone_element(node: etree.Element) -> etree.Element:
@@ -155,6 +166,20 @@ def resolve_relationship_target(source_part: str, target: str) -> str:
 def relative_relationship_target(source_part: str, target_part: str) -> str:
     base_dir = posixpath.dirname(source_part)
     return posixpath.relpath(target_part, base_dir or ".")
+
+
+def resolve_main_document_part(
+    package_rels_root: etree.Element,
+    *,
+    fallback: str = DEFAULT_DOCUMENT_PART,
+) -> str:
+    for rel in package_rels_root.findall(f"./{qn('rels', 'Relationship')}"):
+        if rel.get("Type") != OFFICE_DOCUMENT_REL_TYPE or rel.get("TargetMode") == "External":
+            continue
+        target = resolve_relationship_target("", rel.get("Target") or "")
+        if target:
+            return target
+    return fallback
 
 
 def next_relationship_id(rels_root: etree.Element) -> str:
@@ -452,6 +477,7 @@ def iter_comment_anchor_ids(paragraph: etree.Element) -> set[str]:
 class DocxArchive:
     input_path: Path
     entries: dict[str, bytes]
+    _main_document_part: str | None = field(default=None, init=False, repr=False)
 
     @classmethod
     def load(cls, input_path: Path) -> "DocxArchive":
@@ -478,13 +504,109 @@ class DocxArchive:
                 archive.writestr(name, self.entries[name])
 
     def story_parts(self) -> list[str]:
-        return story_part_names(self.entries.keys())
+        main_part = self.main_document_part()
+        ordered: list[str] = []
+        if self.has(main_part):
+            ordered.append(main_part)
+        for part_name in self.related_story_parts(main_part):
+            if part_name not in ordered:
+                ordered.append(part_name)
+        for part_name in story_part_names(self.entries.keys()):
+            if part_name == DEFAULT_DOCUMENT_PART and main_part != DEFAULT_DOCUMENT_PART:
+                continue
+            if part_name not in ordered:
+                ordered.append(part_name)
+        return ordered
+
+    def main_document_part(self) -> str:
+        if self._main_document_part is not None:
+            return self._main_document_part
+        resolved = DEFAULT_DOCUMENT_PART
+        if self.has(PACKAGE_RELS_PART):
+            resolved = resolve_main_document_part(self.read_xml(PACKAGE_RELS_PART))
+        if not self.has(resolved) and self.has(DEFAULT_DOCUMENT_PART):
+            resolved = DEFAULT_DOCUMENT_PART
+        self._main_document_part = resolved
+        return resolved
+
+    def main_document_rels_part(self) -> str:
+        return part_relationship_name(self.main_document_part())
+
+    def related_story_parts(self, main_part: str | None = None) -> list[str]:
+        main_part = main_part or self.main_document_part()
+        rels_part = part_relationship_name(main_part)
+        if not self.has(rels_part):
+            return []
+        related: list[str] = []
+        rels_root = self.read_xml(rels_part)
+        for rel in rels_root.findall(f"./{qn('rels', 'Relationship')}"):
+            if rel.get("Type") not in STORY_REL_TYPES or rel.get("TargetMode") == "External":
+                continue
+            target = resolve_relationship_target(main_part, rel.get("Target") or "")
+            if target and self.has(target) and target not in related:
+                related.append(target)
+        return related
 
     def document_root(self) -> etree.Element:
-        return self.read_xml("word/document.xml")
+        return self.read_xml(self.main_document_part())
 
     def save_document_root(self, root: etree.Element) -> None:
-        self.set_xml("word/document.xml", root)
+        self.set_xml(self.main_document_part(), root)
+
+    def normalise_main_document_part(self) -> bool:
+        current_part = self.main_document_part()
+        if current_part == DEFAULT_DOCUMENT_PART:
+            return False
+        if not self.has(current_part):
+            raise ValueError(f"Resolved main document part is missing: {current_part}")
+
+        current_rels_part = part_relationship_name(current_part)
+        default_rels_part = part_relationship_name(DEFAULT_DOCUMENT_PART)
+        self.entries[DEFAULT_DOCUMENT_PART] = self.entries.pop(current_part)
+        if self.has(current_rels_part):
+            self.entries[default_rels_part] = self.entries.pop(current_rels_part)
+
+        if self.has(PACKAGE_RELS_PART):
+            package_rels = self.read_xml(PACKAGE_RELS_PART)
+            for rel in package_rels.findall(f"./{qn('rels', 'Relationship')}"):
+                if rel.get("Type") == OFFICE_DOCUMENT_REL_TYPE and rel.get("TargetMode") != "External":
+                    rel.set("Target", DEFAULT_DOCUMENT_PART)
+            self.set_xml(PACKAGE_RELS_PART, package_rels)
+
+        if self.has(CONTENT_TYPES_PART):
+            content_types = self.read_xml(CONTENT_TYPES_PART)
+            current_name = f"/{current_part}"
+            default_name = f"/{DEFAULT_DOCUMENT_PART}"
+            matching = [
+                node
+                for node in content_types.findall(f"./{qn('ct', 'Override')}")
+                if node.get("PartName") in {current_name, default_name}
+            ]
+            source_override = next((node for node in matching if node.get("PartName") == current_name), None)
+            if source_override is not None:
+                source_override.set("PartName", default_name)
+                for duplicate in matching:
+                    if duplicate is not source_override:
+                        content_types.remove(duplicate)
+            self.set_xml(CONTENT_TYPES_PART, content_types)
+
+        if self.has(default_rels_part):
+            rels_root = self.read_xml(default_rels_part)
+            for rel in rels_root.findall(f"./{qn('rels', 'Relationship')}"):
+                target = rel.get("Target") or ""
+                if rel.get("TargetMode") == "External" or not target.startswith("/"):
+                    continue
+                resolved = resolve_relationship_target(DEFAULT_DOCUMENT_PART, target)
+                if resolved:
+                    rel.set("Target", relative_relationship_target(DEFAULT_DOCUMENT_PART, resolved))
+            self.set_xml(default_rels_part, rels_root)
+
+        for name in list(self.entries):
+            if name.startswith("[trash]/"):
+                self.remove(name)
+
+        self._main_document_part = DEFAULT_DOCUMENT_PART
+        return True
 
     def content_types_root(self) -> etree.Element:
         return self.read_xml(CONTENT_TYPES_PART)
@@ -1040,8 +1162,9 @@ def ensure_tracking_disabled(archive: DocxArchive) -> None:
     archive.save_settings_root(settings_root)
 
 def ensure_comments_relationship(archive: DocxArchive) -> None:
-    if archive.has(DOCUMENT_RELS_PART):
-        rels = archive.read_xml(DOCUMENT_RELS_PART)
+    document_rels_part = archive.main_document_rels_part()
+    if archive.has(document_rels_part):
+        rels = archive.read_xml(document_rels_part)
     else:
         rels = new_relationships_root()
 
@@ -1070,7 +1193,7 @@ def ensure_comments_relationship(archive: DocxArchive) -> None:
             },
         )
         existing_ids.add(rel.get("Id", ""))
-    archive.set_xml(DOCUMENT_RELS_PART, rels)
+    archive.set_xml(document_rels_part, rels)
 
 
 def ensure_comments_content_type(archive: DocxArchive) -> None:
@@ -1099,16 +1222,17 @@ def ensure_comments_content_type(archive: DocxArchive) -> None:
 
 
 def remove_comments_relationship(archive: DocxArchive) -> None:
-    if not archive.has(DOCUMENT_RELS_PART):
+    document_rels_part = archive.main_document_rels_part()
+    if not archive.has(document_rels_part):
         return
-    rels = archive.read_xml(DOCUMENT_RELS_PART)
+    rels = archive.read_xml(document_rels_part)
     changed = False
     for rel in list(rels.findall(f"./{qn('rels', 'Relationship')}")):
         if rel.get("Type") in {COMMENTS_REL_TYPE, COMMENTS_EXTENDED_REL_TYPE, COMMENTS_IDS_REL_TYPE}:
             rels.remove(rel)
             changed = True
     if changed:
-        archive.set_xml(DOCUMENT_RELS_PART, rels)
+        archive.set_xml(document_rels_part, rels)
 
 
 def remove_comments_content_type(archive: DocxArchive) -> None:
@@ -1193,8 +1317,10 @@ def clone_section_chrome(
     clone_break_type: bool = False,
     clone_internal_targets: bool = True,
 ) -> dict[str, int]:
+    document_part = archive.main_document_part()
+    document_rels_part = archive.main_document_rels_part()
     document_root = archive.document_root()
-    document_rels = archive.read_xml(DOCUMENT_RELS_PART)
+    document_rels = archive.read_xml(document_rels_part)
     sections = section_properties(document_root)
     if source_section_index < 1 or source_section_index > len(sections):
         raise ValueError(f"Section {source_section_index} is out of range")
@@ -1247,7 +1373,7 @@ def clone_section_chrome(
             rel = relationship_by_id(document_rels, rel_id)
             if rel is None:
                 continue
-            source_part = resolve_relationship_target("word/document.xml", rel.get("Target") or "")
+            source_part = resolve_relationship_target(document_part, rel.get("Target") or "")
             if not source_part or source_part not in archive.entries:
                 continue
             cloned_part = clone_part_subtree(
@@ -1263,7 +1389,7 @@ def clone_section_chrome(
                 {
                     "Id": new_rel_id,
                     "Type": rel.get("Type") or "",
-                    "Target": relative_relationship_target("word/document.xml", cloned_part),
+                    "Target": relative_relationship_target(document_part, cloned_part),
                 },
             )
             target_sect.append(
@@ -1280,7 +1406,7 @@ def clone_section_chrome(
         stats["target_sections_updated"] += 1
 
     archive.save_document_root(document_root)
-    archive.set_xml(DOCUMENT_RELS_PART, document_rels)
+    archive.set_xml(document_rels_part, document_rels)
     return stats
 
 
@@ -1390,6 +1516,22 @@ def comment_first_para_id(comment: etree.Element) -> str | None:
     return paragraph.get(qn("w14", "paraId"))
 
 
+def comment_thread_para_id(
+    comment: etree.Element,
+    comments_extended_root: etree.Element,
+) -> str | None:
+    paragraph_ids = {
+        paragraph.get(qn("w14", "paraId"))
+        for paragraph in comment.findall(f"./{qn('w', 'p')}")
+        if paragraph.get(qn("w14", "paraId"))
+    }
+    for node in comments_extended_root.findall(f"./{qn('w15', 'commentEx')}"):
+        para_id = node.get(qn("w15", "paraId"))
+        if para_id in paragraph_ids:
+            return para_id
+    return comment_first_para_id(comment)
+
+
 def existing_comment_extension_map(comments_extended_root: etree.Element) -> dict[str, dict[str, str]]:
     mapping: dict[str, dict[str, str]] = {}
     for node in comments_extended_root.findall(f"./{qn('w15', 'commentEx')}"):
@@ -1458,7 +1600,13 @@ def ensure_comment_reference_paragraph(paragraph: etree.Element) -> None:
     style.set(qn("w", "val"), "CommentReference")
 
 
-def normalise_comment_paragraph(paragraph: etree.Element, *, used_para_ids: set[str] | None = None, used_text_ids: set[str] | None = None) -> str:
+def normalise_comment_paragraph(
+    paragraph: etree.Element,
+    *,
+    used_para_ids: set[str] | None = None,
+    used_text_ids: set[str] | None = None,
+    ensure_reference: bool = True,
+) -> str:
     para_id = paragraph.get(qn("w14", "paraId"))
     while not para_id or (used_para_ids is not None and para_id in used_para_ids):
         para_id = random_word_id()
@@ -1477,7 +1625,8 @@ def normalise_comment_paragraph(paragraph: etree.Element, *, used_para_ids: set[
         paragraph.set(qn("w", "rsidR"), random_word_id())
     if not paragraph.get(qn("w", "rsidRDefault")):
         paragraph.set(qn("w", "rsidRDefault"), paragraph.get(qn("w", "rsidR"), random_word_id()))
-    ensure_comment_reference_paragraph(paragraph)
+    if ensure_reference:
+        ensure_comment_reference_paragraph(paragraph)
 
     content_run = None
     for run in paragraph.findall(f"./{qn('w', 'r')}"):
@@ -1495,7 +1644,8 @@ def normalise_comment_paragraph(paragraph: etree.Element, *, used_para_ids: set[
 
 
 def rebuild_comment_metadata_parts(archive: DocxArchive, comments_root: etree.Element) -> None:
-    existing_extensions = existing_comment_extension_map(archive.comments_extended_root())
+    original_comments_extended_root = archive.comments_extended_root()
+    existing_extensions = existing_comment_extension_map(original_comments_extended_root)
     existing_ids = existing_comment_id_map(archive.comments_ids_root())
 
     comments_extended_root = archive.comments_extended_root()
@@ -1508,11 +1658,21 @@ def rebuild_comment_metadata_parts(archive: DocxArchive, comments_root: etree.El
     para_ids_seen: set[str] = set()
     text_ids_seen: set[str] = set()
     for comment in comments_root.findall(f"./{qn('w', 'comment')}"):
+        original_thread_para_id = comment_thread_para_id(comment, original_comments_extended_root)
         first_para_id = None
-        for paragraph in comment.findall(f"./{qn('w', 'p')}"):
-            para_id = normalise_comment_paragraph(paragraph, used_para_ids=para_ids_seen, used_text_ids=text_ids_seen)
+        thread_para_id = None
+        for paragraph_index, paragraph in enumerate(comment.findall(f"./{qn('w', 'p')}")):
+            previous_para_id = paragraph.get(qn("w14", "paraId"))
+            para_id = normalise_comment_paragraph(
+                paragraph,
+                used_para_ids=para_ids_seen,
+                used_text_ids=text_ids_seen,
+                ensure_reference=paragraph_index == 0,
+            )
             if not first_para_id:
                 first_para_id = para_id
+            if previous_para_id == original_thread_para_id:
+                thread_para_id = para_id
         if not first_para_id:
             paragraph, first_para_id = build_comment_paragraph(
                 comment_text(comment) or "Reply",
@@ -1521,14 +1681,19 @@ def rebuild_comment_metadata_parts(archive: DocxArchive, comments_root: etree.El
                 run_rsid=random_word_id(),
             )
             comment.append(paragraph)
-        ext = existing_extensions.get(first_para_id or "", {})
+        thread_para_id = thread_para_id or first_para_id
+        ext = existing_extensions.get(original_thread_para_id or "", {})
         append_comment_extension(
             comments_extended_root,
-            first_para_id or "",
+            thread_para_id or "",
             parent_para_id=ext.get("paraIdParent"),
             done=ext.get("done", "0"),
         )
-        append_comment_id_mapping(comments_ids_root, first_para_id or "", existing_ids.get(first_para_id or ""))
+        append_comment_id_mapping(
+            comments_ids_root,
+            thread_para_id or "",
+            existing_ids.get(original_thread_para_id or ""),
+        )
 
     archive.save_comments_extended_root(comments_extended_root)
     archive.save_comments_ids_root(comments_ids_root)
@@ -1543,9 +1708,12 @@ def threaded_reply_parent_map(archive: DocxArchive) -> dict[str, str]:
     para_to_comment_id = {}
     for comment in comments_root.findall(f"./{qn('w', 'comment')}"):
         comment_id = comment.get(qn("w", "id"))
-        para_id = first_paragraph_id(comment)
-        if comment_id and para_id:
-            para_to_comment_id[para_id] = comment_id
+        if not comment_id:
+            continue
+        for paragraph in comment.findall(f"./{qn('w', 'p')}"):
+            para_id = paragraph.get(qn("w14", "paraId"))
+            if para_id:
+                para_to_comment_id[para_id] = comment_id
 
     comments_extended_root = archive.comments_extended_root()
     for node in comments_extended_root.findall(f"./{qn('w15', 'commentEx')}"):

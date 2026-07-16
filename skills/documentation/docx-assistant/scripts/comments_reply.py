@@ -13,7 +13,7 @@ from docx_ooxml import (
     append_comment_extension,
     append_comment_id_mapping,
     build_comment_element,
-    comment_first_para_id,
+    comment_thread_para_id,
     ensure_comments_content_type,
     ensure_comments_relationship,
     insert_reply_anchor,
@@ -24,6 +24,7 @@ from docx_ooxml import (
 
 def add_replies(input_docx: Path, response_map: dict[str, str], output_docx: Path, *, author: str, initials: str) -> None:
     archive = DocxArchive.load(input_docx)
+    archive.normalise_main_document_part()
     if not archive.has(COMMENT_PART):
         raise SystemExit("word/comments.xml not found")
 
@@ -50,7 +51,7 @@ def add_replies(input_docx: Path, response_map: dict[str, str], output_docx: Pat
         parent = comment_index.get(str(comment_id))
         if parent is None:
             raise SystemExit(f"Comment {comment_id} not found")
-        parent_para_id = comment_first_para_id(parent)
+        parent_para_id = comment_thread_para_id(parent, comments_extended_root)
         if not parent_para_id:
             raise SystemExit(f"Comment {comment_id} has no paragraph id to thread replies against")
 
