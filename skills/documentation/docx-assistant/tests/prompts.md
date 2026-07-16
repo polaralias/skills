@@ -43,3 +43,17 @@ Expected behaviour:
 
 - smoke and validation paths are still obvious
 - generated transient folders such as `node_modules` and `__pycache__` are not left behind inside the packaged skill
+
+## 5. Co-authoring comment thread
+
+Prompt:
+`Add an "Updated" reply to comment 7 in this Word Online document and preserve the existing review thread.`
+
+Expected behaviour:
+
+- existing comments are extracted before the reply is added
+- the authoritative main document part is resolved from package relationships rather than assumed to be `word/document.xml`
+- the output is normalized to the standard `word/document.xml` package shape before saving the reply
+- the reply is keyed to the parent's existing `commentEx` paragraph ID, including when that is a later paragraph
+- the result passes `validate_docx.py`
+- the response says that multi-paragraph reply nesting should be confirmed in desktop Word for a final review deliverable
