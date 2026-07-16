@@ -20,6 +20,9 @@ Prefer a small JSON or YAML file over prose when a hook needs to read it.
 - `open_questions`
 - `tracker_target`
 - `handoff_path`
+- `task_record`
+- `workstream_record`
+- `coordination_manifest`
 
 ## Example JSON
 
@@ -60,4 +63,5 @@ When `local-handoff` writes a workflow-aware handoff, keep these fields aligned 
 - do not duplicate long plan bodies or large specs
 - update the record when the stage changes materially
 - remove or de-emphasize stale `next_skill` values after the session takes a different path
+- link to task or worktree records rather than copying their full state into the workflow record
 - when the handoff is intentionally local-only, point `handoff_path` at the repo's `local-docs/` area rather than inventing a new ignore convention

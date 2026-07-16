@@ -4,8 +4,8 @@ description: Turn an epic, end-state product definition, or scoped outcome into 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.1
-  updated: '2026-05-25'
+  version: 1.3.2
+  updated: '2026-07-16'
 ---
 
 # doc-driven-development
@@ -27,7 +27,8 @@ The output is a bounded behavioral contract plus a proportionate implementation 
 - Use `repo-knowledge-engineering` when the repository first needs its canonical documentation framework, reading order, glossary, decisions, plans, or epic-level truth established or aligned.
 - Use `query-to-knowledge` when a feature package still contains unresolved terminology, contradictory claims, or decisions that require user judgment.
 - Use `tdd` when the package is ready for behavior-changing implementation through red-green-refactor.
-- Use `tracker-publisher` when the work packages already exist and the main job is to publish them into GitHub, Linear, or a local task surface.
+- Use `repo-task-lifecycle` when stable work packages need durable repository-local task and workstream records.
+- Use `tracker-publisher` when stable work packages or task records need external tracker publication.
 - Use this skill when the main job is to decompose a resolved outcome into implementation-ready units, implementation-planning notes, and acceptance artifacts.
 
 ## Inputs
@@ -155,7 +156,7 @@ Each package should have:
 
 When a tracker-ready shape is needed, produce issue-ready drafts without binding the method to one tracker unless the user explicitly asks for a specific system.
 If shared Polaralias config exists, consume its tracker and output defaults before inventing field names, labels, or publication preferences.
-Once the package set is stable, recommend handing it to `tracker-publisher` so implementation can run against tracked work rather than chat-only artifacts.
+Once the package set is stable, recommend `repo-task-lifecycle` when the repository needs durable local execution records. Recommend `tracker-publisher` when the remaining job is external tracker publication. The two can coexist: local lifecycle truth should not be redesigned merely to match an external tracker.
 
 ### 8. Preserve traceability
 
@@ -178,6 +179,7 @@ If traceability is weak, tighten the package before handing off to implementatio
 - Do not keep unresolved questions buried inside acceptance criteria.
 - Do not treat tracker formatting as the core output; the contract comes first.
 - Do not publish half-resolved work packages to a tracker just because a tracker exists.
+- Do not maintain task status, workstream evidence, or a repository task index from this skill; hand stable packages to `repo-task-lifecycle`.
 - Prefer a small number of strong feature packages over a long speculative backlog.
 - Keep behavioral statements externally observable.
 - Escalate to `query-to-knowledge` when ambiguity is local and decision-shaped.

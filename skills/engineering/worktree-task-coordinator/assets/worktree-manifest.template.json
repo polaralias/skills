@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task": "delivery-slice",
+  "repository_root": "../../../../example-repository",
+  "worktree_container": "../../../../example-repository-worktrees",
+  "base_revision": "main",
+  "integration_destination": "main",
+  "authority": {
+    "merge": "inherited",
+    "push": "inherited",
+    "deploy": "inherited",
+    "publish": "inherited"
+  },
+  "workstreams": [
+    {
+      "slug": "service-contract",
+      "branch": "feat/service-contract",
+      "worktree": "../../../../example-repository-worktrees/service-contract",
+      "owner": "worker-a",
+      "status": "planned",
+      "owned_paths": ["src/service", "tests/service"],
+      "shared_paths": ["docs/integration.md"],
+      "depends_on": []
+    },
+    {
+      "slug": "client-adapter",
+      "branch": "feat/client-adapter",
+      "worktree": "../../../../example-repository-worktrees/client-adapter",
+      "owner": "worker-b",
+      "status": "planned",
+      "owned_paths": ["src/client", "tests/client"],
+      "shared_paths": ["docs/integration.md"],
+      "depends_on": ["service-contract"]
+    }
+  ],
+  "shared_path_owners": {
+    "docs/integration.md": "client-adapter"
+  },
+  "integration_order": ["service-contract", "client-adapter"],
+  "validation": {
+    "parallel_safe": ["run targeted tests for each owned path"],
+    "serial": ["run the complete suite against the integrated tree"]
+  }
+}

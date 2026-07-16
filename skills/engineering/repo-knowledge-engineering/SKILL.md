@@ -4,8 +4,8 @@ description: Establish, evolve, and keep the repository knowledge base trustwort
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.3.1
-  updated: '2026-05-25'
+  version: 2.3.2
+  updated: '2026-07-16'
 ---
 
 # repo-knowledge-engineering
@@ -44,6 +44,7 @@ It is later in the flow than repository dissection.
 
 - Use `repo-dissection` when the repository truth is still unclear and you need to turn implicit understanding into explicit documented understanding.
 - Use `doc-driven-development` when the repository truth already exists and the main job is to decompose that truth into feature contracts, work packages, and acceptance artifacts before coding.
+- Use `repo-task-lifecycle` when the main job is task status, workstream records, delivery evidence, or the generated local task index.
 - Use `tdd` when the main job is behavior change through red-green-refactor, including adding or repairing tests and implementation code.
 - Use this skill when the main job is to shape or maintain the repository knowledge base itself.
 
@@ -103,6 +104,7 @@ Use this skill to close a tranche honestly:
   - execution-plan docs
   - generated or derived docs
 - Keep local handoffs explicitly subordinate to tracked canonical truth.
+- Keep repository-local task records as execution truth: useful evidence and traceability, but not the sole source for durable product or architecture claims.
 - If `GLOSSARY.md` exists, treat it as the glossary or domain-language source.
 - If `docs/decisions/` exists, treat it as the durable decision-history source.
 - Know which files future agents are expected to trust first.
@@ -220,6 +222,7 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - Do not delete evidence just because the current contract improved.
 - Do not write or repair tests, eval harnesses, CI jobs, or application code from this skill alone.
 - Do not treat tracker state as repository truth when canonical docs or evidence disagree.
+- Do not absorb routine task status or worktree coordination into canonical docs. Promote only durable conclusions, decisions, contracts, and validated support truth.
 - Prefer a small number of strong canonical docs over a growing pile of loose notes.
 - Create `GLOSSARY.md` or `docs/decisions/` when they would materially improve the repository knowledge base; do not create them as empty ceremony.
 - Correct the root reading order before polishing lower-level docs when the entrypoint is misleading.

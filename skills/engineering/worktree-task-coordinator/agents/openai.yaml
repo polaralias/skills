@@ -1,0 +1,13 @@
+interface:
+  display_name: "Worktree Task Coordinator"
+  short_description: "Coordinate safe concurrent Git worktrees."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+  default_prompt: "Use $worktree-task-coordinator to validate a bounded parallel split, record branch and path ownership, coordinate isolated Git worktrees, reconcile the final tree, and preserve existing authority boundaries."
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

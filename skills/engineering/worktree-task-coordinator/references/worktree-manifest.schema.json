@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Worktree coordination manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "task",
+    "repository_root",
+    "worktree_container",
+    "base_revision",
+    "integration_destination",
+    "authority",
+    "workstreams",
+    "shared_path_owners",
+    "integration_order",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "task": {"type": "string", "minLength": 1},
+    "repository_root": {"type": "string", "minLength": 1},
+    "worktree_container": {"type": "string", "minLength": 1},
+    "base_revision": {"type": "string", "minLength": 1},
+    "integration_destination": {"type": "string", "minLength": 1},
+    "authority": {
+      "type": "object",
+      "required": ["merge", "push", "deploy", "publish"],
+      "additionalProperties": false,
+      "properties": {
+        "merge": {"const": "inherited"},
+        "push": {"const": "inherited"},
+        "deploy": {"const": "inherited"},
+        "publish": {"const": "inherited"}
+      }
+    },
+    "workstreams": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["slug", "branch", "worktree", "owner", "status", "owned_paths", "shared_paths", "depends_on"]
+      }
+    },
+    "shared_path_owners": {"type": "object"},
+    "integration_order": {"type": "array", "minItems": 2},
+    "validation": {
+      "type": "object",
+      "required": ["parallel_safe", "serial"]
+    }
+  }
+}

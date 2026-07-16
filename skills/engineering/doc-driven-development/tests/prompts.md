@@ -52,3 +52,10 @@ Prompt: "Use our shared Polaralias defaults while shaping issue-ready work packa
 Expected:
 - the skill checks for shared Polaralias tracker or output preferences before inventing local structure
 - it still keeps the behavioral contract as the primary output
+
+## 9. Local lifecycle handoff
+Prompt: "These work packages are approved. Start tracking their implementation state in this repository."
+Expected:
+- the skill stops redesigning the package
+- it routes durable task and workstream registration to `repo-task-lifecycle`
+- it does not take ownership of lifecycle status or the generated task index

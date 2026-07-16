@@ -66,3 +66,10 @@ Expected:
 - the skill does not treat tracker state alone as repository truth
 - it checks canonical docs and evidence before widening current claims
 - it updates the right surfaces proportionately
+
+## 11. Task ledger boundary
+Prompt: "Copy every workstream status update into the canonical product docs."
+Expected:
+- keeps routine delivery state in `repo-task-lifecycle`
+- promotes only durable product, architecture, decision, or validated support truth
+- preserves links for traceability without duplicating the task ledger
