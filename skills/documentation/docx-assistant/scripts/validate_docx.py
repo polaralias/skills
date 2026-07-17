@@ -316,7 +316,13 @@ def validate_docx(path: Path) -> dict:
             if not target:
                 errors.append(f"{rels_name} contains relationship {rel_id or '<missing>'} without a Target")
                 continue
-            if rel.get("TargetMode") == "External" or source_part is None:
+            if rel.get("TargetMode") == "External":
+                warnings.append(
+                    f"{rels_name} relationship {rel_id or '<missing>'} targets external content; "
+                    "review or remove it before sharing or opening the document in a trusted environment"
+                )
+                continue
+            if source_part is None:
                 continue
             resolved = resolve_relationship_target(source_part, target)
             if not resolved:

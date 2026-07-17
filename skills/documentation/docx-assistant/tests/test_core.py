@@ -211,6 +211,33 @@ def test_validate_passes_on_coauthoring_doc(tmp_path: Path) -> None:
     assert validation["ok"], validation["errors"]
 
 
+def test_validate_warns_about_external_relationships(tmp_path: Path) -> None:
+    input_path = tmp_path / "external-link.docx"
+    document = Document()
+    document.add_paragraph("External content test")
+    document.save(input_path)
+
+    archive = DocxArchive.load(input_path)
+    rels = archive.relationships_root(archive.main_document_part())
+    etree.SubElement(
+        rels,
+        qn("rels", "Relationship"),
+        {
+            "Id": "rIdExternal",
+            "Type": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+            "Target": "https://example.invalid/tracker",
+            "TargetMode": "External",
+        },
+    )
+    archive.save_relationships_root(archive.main_document_part(), rels)
+    archive.write(input_path)
+
+    validation = validate_docx(input_path)
+
+    assert validation["ok"], validation["errors"]
+    assert any("targets external content" in warning for warning in validation["warnings"])
+
+
 def test_comment_repair_normalises_coauthoring_package_without_comments(tmp_path: Path) -> None:
     input_path = make_coauthoring_docx(tmp_path / "coauthoring.docx")
     repaired_path = tmp_path / "repaired.docx"

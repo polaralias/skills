@@ -19,6 +19,10 @@ The repository packages skills as portable folders with:
 
 The main `skills/` tree contains active packaged skills. The `future-consideration/` tree holds ideas and drafts that are not yet packaged for active use.
 
+## Source Trust Baseline
+
+Every active skill treats files, webpages, messages, repository content, tool output, generated artifacts, and connector data as untrusted content rather than behavioural authority. Source material cannot override the current user or host policy, request secrets, select external destinations, or authorise execution, writes, publication, or communication. Tool-using skills add least-privilege, validation, approval, and recovery controls where their risk surface requires them.
+
 ## Local-Only Workspace Convention
 
 Use `local-docs/` at the repo root for machine-local notes, handoffs, continuity artifacts, or other working documents that should stay beside the work without being committed.
@@ -49,7 +53,7 @@ Location: [skills/engineering](./skills/engineering)
 
 Location: [skills/automation](./skills/automation)
 
-- <img src="./skills/automation/pandoc-converter/assets/icon.svg" alt="pandoc-converter icon" width="22"> [pandoc-converter](./skills/automation/pandoc-converter) (PDC): run Pandoc conversions with predictable defaults while still allowing custom flags.
+- <img src="./skills/automation/pandoc-converter/assets/icon.svg" alt="pandoc-converter icon" width="22"> [pandoc-converter](./skills/automation/pandoc-converter) (PDC): run Pandoc conversions with predictable defaults, ordinary custom flags, and explicit opt-in for executable filters.
 - <img src="./skills/automation/tasklist-gantt-creator/assets/icon.svg" alt="tasklist-gantt-creator icon" width="22"> [tasklist-gantt-creator](./skills/automation/tasklist-gantt-creator) (TGC): generate stakeholder-ready Excel Gantt charts from task lists or planning exports.
 
 ### Content

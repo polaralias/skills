@@ -31,6 +31,8 @@ FORMAT_EXTENSION_MAP = {
     "rst": ".rst",
 }
 
+EXECUTABLE_FILTER_FLAGS = ("--filter", "-F", "--lua-filter", "-L")
+
 
 def parse_args() -> tuple[argparse.Namespace, list[str]]:
     parser = argparse.ArgumentParser(
@@ -70,9 +72,29 @@ def parse_args() -> tuple[argparse.Namespace, list[str]]:
         action="store_true",
         help="Print pandoc command and exit without running it",
     )
+    parser.add_argument(
+        "--allow-executable-filters",
+        action="store_true",
+        help="Allow Pandoc filter and Lua-filter flags that can execute local code",
+    )
 
     args, passthrough = parser.parse_known_args()
     return args, passthrough
+
+
+def executable_filter_args(passthrough: list[str]) -> list[str]:
+    """Return passthrough arguments that can cause Pandoc to execute filters."""
+    found: list[str] = []
+    for value in passthrough:
+        if value in EXECUTABLE_FILTER_FLAGS:
+            found.append(value)
+            continue
+        if any(value.startswith(f"{flag}=") for flag in EXECUTABLE_FILTER_FLAGS if flag.startswith("--")):
+            found.append(value)
+            continue
+        if any(value.startswith(flag) and value != flag for flag in ("-F", "-L")):
+            found.append(value)
+    return found
 
 
 def normalize_format_name(fmt: str) -> str:
@@ -154,6 +176,17 @@ def build_command(
 
 def main() -> int:
     args, passthrough = parse_args()
+
+    executable_args = executable_filter_args(passthrough)
+    if executable_args and not args.allow_executable_filters:
+        print(
+            "[ERROR] Pandoc filters can execute local code and are disabled by default: "
+            + ", ".join(executable_args)
+            + ". Re-run with --allow-executable-filters only when the current user explicitly "
+            "requested and trusted those exact filters.",
+            file=sys.stderr,
+        )
+        return 2
 
     input_path = Path(args.input_file)
     if not input_path.exists():
