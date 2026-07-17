@@ -1,11 +1,11 @@
 ---
 name: query-to-knowledge
-description: Resolve open repository questions into durable knowledge. Use when terminology is fuzzy, decisions are still soft, docs and code disagree, or a plan needs pressure-testing before implementation. This skill asks the largest useful set of repository questions in one turn, minimizes token waste, and captures resolved results into the repository knowledge base such as `GLOSSARY.md`, `docs/decisions/`, and canonical docs. Shorthand QTK.
+description: Resolve open repository questions into durable canonical knowledge, including updating OKF-compatible concepts while preserving producer extensions. Use when terminology is fuzzy, decisions are soft, docs, code, or OpenWiki disagree, a plan needs pressure-testing, or resolved answers must be captured into an existing repository knowledge bundle. Ask the largest useful related question set, minimize rediscovery, and preserve the established knowledge format. Shorthand QTK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.1
-  updated: '2026-05-24'
+  version: 1.4.0
+  updated: '2026-07-17'
 ---
 
 # query-to-knowledge
@@ -34,6 +34,7 @@ The job is to turn ambiguity into durable repository knowledge without burning t
 - Read the repository's domain-language file when present, such as `GLOSSARY.md` or `CONTEXT.md`.
 - Read `docs/decisions/` if it exists.
 - Read active plans or contract docs when the repository is already in a repair or design tranche.
+- Detect whether canonical knowledge is an OKF bundle and whether OpenWiki or another producer maintains a separate derived bundle.
 - Separate:
   - questions that can be answered from the repository
   - questions that need the user's judgment
@@ -105,6 +106,17 @@ Default targets:
 - support docs or capability tables for support-boundary conclusions
 - execution plans or debt trackers for unresolved but important open questions
 
+When the canonical target is inside an OKF bundle:
+
+- preserve its non-empty descriptive `type` and every unknown producer-defined field
+- add or refine `title` and one-sentence `description` for retrieval
+- update tags, resource URI, timestamp, authority, verification, and citations only when the resolved knowledge supports the change
+- use the repository's established concept types before inventing synonyms
+- rebuild the affected canonical index and add a `log.md` entry only for a meaningful knowledge event
+- run or hand off to the RKE OKF validator before claiming conformance
+
+If the contradiction exists only in an OpenWiki-produced bundle, capture the verified answer canonically and route the generated-page correction through OpenWiki's producer workflow. Do not silently make `openwiki/` the canonical decision store.
+
 Do not force every resolved point into a decision record. Use the lightest artifact that preserves the truth.
 Do not continue the questioning pattern once the answer is already established by code plus tests. Capture it directly.
 
@@ -117,6 +129,8 @@ It does not own the whole knowledge base. Once the open questions are resolved, 
 - reshaping the documentation foundation
 - aligning many artifacts after implementation
 - maintaining the reading order and knowledge system as a whole
+- migrating or validating a complete OKF bundle
+- reconciling OpenWiki-derived documentation across many canonical concepts
 
 Hand off to `doc-driven-development` when the larger task becomes:
 
@@ -135,6 +149,9 @@ When the remaining uncertainty is no longer conceptual but behavioral, switch to
 - Use the glossary file such as `GLOSSARY.md` or `CONTEXT.md` for vocabulary and concept boundaries, not implementation notes.
 - Use `docs/decisions/` only for durable decisions that future readers would otherwise question.
 - Distinguish between terminology questions, product-decision questions, support-claim questions, and protocol-meaning questions because they capture to different artifacts.
+- Do not replace unknown OKF types or extension fields merely to make the metadata look familiar.
+- Do not put task status, worktree state, or transient handoff content into the canonical OKF bundle.
+- Do not treat an OpenWiki-generated answer as canonical without verification and promotion.
 - If a topic is still too broad after one batch, narrow the next batch instead of broadening the debate.
 
 ## Expected Outputs
@@ -143,4 +160,5 @@ When the remaining uncertainty is no longer conceptual but behavioral, switch to
 - clarified behavior or scope assumptions
 - updated glossary file such as `GLOSSARY.md` or `CONTEXT.md`
 - new or updated decision notes under `docs/decisions/`
+- updated OKF concepts, citations, index entries, and meaningful knowledge log entries when that is the established canonical format
 - a short summary of what is now known and what remains open

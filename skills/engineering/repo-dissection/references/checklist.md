@@ -6,8 +6,12 @@
 - verify the actual runtime path
 - verify stale user-supplied locators instead of assuming they are current
 - treat inventories and manifests as declared surface, not proof of support
+- detect OKF bundles and OpenWiki-managed documentation
+- separate OKF conformance from truth and evidence strength
 - classify documentation, runtime, and behavior mismatches
 - capture the first usable documentation foundation
+- prefer bounded OKF-compatible concepts for new canonical knowledge when appropriate
+- preserve producer ownership and unknown OKF metadata
 - preserve a short reading order for future work
 - stop once the repo is legible enough for the next skill to take over
 - name the next best skill explicitly

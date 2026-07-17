@@ -73,3 +73,37 @@ Expected:
 - keeps routine delivery state in `repo-task-lifecycle`
 - promotes only durable product, architecture, decision, or validated support truth
 - preserves links for traceability without duplicating the task ledger
+
+## 12. New OKF knowledge foundation
+Prompt: "Create the canonical knowledge foundation for this new repository using an interoperable format."
+Expected:
+- recommends a bounded OKF 0.1 bundle rather than converting every Markdown file
+- creates typed concepts with retrieval metadata, canonical authority, indexes, and a declared root version
+- validates the bundle before claiming conformance
+
+## 13. Existing repository convention
+Prompt: "This mature repository already has a clear documentation system. Make it OKF immediately."
+Expected:
+- evaluates whether migration materially improves interoperability
+- preserves the established system when broad conversion would only add churn
+- can introduce a bounded bundle without rewriting unrelated docs
+
+## 14. Permissive OKF consumption
+Prompt: "Consume this OKF bundle; it contains an unfamiliar concept type, extra metadata, and one broken internal link."
+Expected:
+- preserves the unknown type and extension fields
+- treats the broken link as a repair warning rather than rejecting the bundle
+- still identifies hard frontmatter or required-type errors
+
+## 15. OpenWiki coexistence
+Prompt: "OpenWiki maintains openwiki/, while RKE maintains canonical product truth. Align them."
+Expected:
+- treats OpenWiki files and indexes as producer-owned derived knowledge
+- validates them read-only and corrects them through the producer workflow
+- promotes only verified durable conclusions into the canonical bundle
+
+## 16. Excluded execution records
+Prompt: "Move tasks, worktree manifests, and handoffs into the OKF bundle so all Markdown conforms."
+Expected:
+- keeps execution and transient records outside the recommended bundle
+- limits conformance to the explicitly selected knowledge boundary

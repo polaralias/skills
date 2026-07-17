@@ -2,10 +2,13 @@
 
 - identify active docs, specs, plans, tests, archive docs, and local handoffs
 - identify `AGENTS.md` or other operating guidance when present
+- detect existing OKF bundles, `okf_version`, and OpenWiki ownership markers
 - separate current verified behavior from desired end state
 - identify where epic-level or product-truth docs should live and whether they are canonical yet
 - identify the canonical reading order before polishing secondary docs
 - establish the knowledge-base structure if it does not yet exist
+- prefer a bounded OKF 0.1 bundle for new canonical knowledge unless stronger repository conventions already exist
+- keep tasks, worktrees, handoffs, and unrelated plans outside the recommended bundle
 - compare epic docs, feature contracts, implementation plans, tracker items, and evidence when several truth surfaces coexist
 - update docs in the same slice as behavior changes
 - document validation evidence and test status when relevant without authoring tests, eval harnesses, CI jobs, or application code from this skill alone
@@ -16,5 +19,8 @@
 - keep local handoffs subordinate to tracked docs
 - keep archive docs evidence-backed and de-emphasized
 - label evidence, canonical, execution, and generated surfaces clearly when they coexist
+- preserve unknown OKF types and extension fields
+- keep OpenWiki producer-owned and derived; promote only verified durable conclusions
+- build and validate canonical OKF indexes, and validate external producer bundles read-only
 - name which surface is strongest when cross-artifact drift exists
 - scan for publish-safety leakage before public release

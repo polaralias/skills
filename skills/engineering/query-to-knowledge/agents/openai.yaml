@@ -1,7 +1,7 @@
 interface:
-  display_name: query-to-knowledge
-  short_description: Turn repository questions into durable knowledge with disciplined batching and capture.
-  default_prompt: Use query-to-knowledge to resolve open repository questions, ask small high-signal batches, and capture the resolved results in the right canonical knowledge artifacts.
+  display_name: "Query to Knowledge"
+  short_description: Resolve repository ambiguity into canonical OKF-compatible knowledge.
+  default_prompt: Use $query-to-knowledge to resolve repository questions from evidence and focused judgment, then capture the answers in the established canonical format, including OKF concepts, citations, indexes, and producer-safe OpenWiki reconciliation when present.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

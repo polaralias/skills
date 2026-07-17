@@ -1,11 +1,11 @@
 ---
 name: repo-dissection
-description: Dissect an inherited, unclear, or vibe-coded repository and turn it into an explicit documented understanding. Use when you need to map structure, treat docs as unverified claims, validate real runtime behavior, classify mismatches between docs, code, and runtime, and bootstrap the first usable documentation foundation. Shorthand RDS.
+description: Dissect an inherited, unclear, or vibe-coded repository and turn it into explicit documented understanding, including an OKF-compatible initial knowledge foundation when appropriate. Use when mapping structure, treating docs or generated wikis as unverified claims, validating runtime behavior, classifying code/documentation drift, consuming existing OKF or OpenWiki output, or bootstrapping the first trustworthy documentation spine. Shorthand RDS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.2.1
-  updated: '2026-05-25'
+  version: 2.3.0
+  updated: '2026-07-17'
 ---
 
 # repo-dissection
@@ -23,6 +23,7 @@ The goal is to make the repository legible enough that later work can proceed ag
 - Treat documents as claims until verified.
 - Treat code as intended behavior until tested.
 - Treat generated references and manifest-derived docs as declared surface, not proven behavior.
+- Treat OpenWiki and other generated OKF concepts as derived claims until verified.
 - Distinguish between:
   - local source truth
   - packaged or deployed runtime truth
@@ -56,6 +57,7 @@ Start by identifying:
 - docs/spec locations
 - active execution plans when the repository is already in repair mode
 - obvious duplicated or conflicting truth sources
+- OKF bundles, typed concept frontmatter, reserved indexes or logs, and OpenWiki-managed surfaces
 
 Prefer a short reading order and a small docs spine over a broad documentation tree on the first pass.
 
@@ -155,6 +157,19 @@ Good targets include:
 
 Do not create ceremony for its own sake. Create the documentation spine the repository actually needs.
 
+For new canonical knowledge, recommend the bounded OKF 0.1 profile owned by `repo-knowledge-engineering` unless the repository already has a stronger established convention.
+
+When writing an initial OKF concept during dissection:
+
+- put it inside the explicitly selected knowledge bundle, normally `docs/knowledge/`
+- include parseable YAML frontmatter with a non-empty descriptive `type`
+- add `title` and a one-sentence `description`; add tags, resource URI, timestamp, citations, and RKE authority or verification extensions only when supported
+- keep tasks, worktrees, handoffs, and unrelated plans outside the bundle
+- preserve unknown fields and types in existing concepts
+- leave deterministic index generation and final conformance validation to the RKE workflow
+
+If OpenWiki exists, read its bundle as a producer-owned source for orientation. Correct generated documentation through OpenWiki's workflow and do not overwrite its indexes from the dissection pass.
+
 ### 7. Stop when the repo is legible
 
 Stop this skill once:
@@ -181,6 +196,8 @@ End by naming the best next skill:
 - If the repository is small, favor thoroughness over taxonomy.
 - If the repository’s first-contact docs are misleading, rewriting them is part of the dissection, not polish.
 - If inventories, manifests, or generated references exist, treat them as declared surface, not proof of support.
+- If an OKF bundle exists, distinguish syntactic conformance from evidential trust.
+- If OpenWiki output conflicts with code or runtime evidence, preserve the contradiction and route promotion or producer correction through `repo-knowledge-engineering`.
 - If you create many docs, preserve a short reading order at the root.
 
 ## Expected Outputs
@@ -189,6 +206,8 @@ End by naming the best next skill:
 - runtime validation record
 - mismatch classification
 - initial knowledge base or docs spine
+- initial OKF-compatible concepts when the repository adopts that profile
+- inventory and trust classification for existing OKF or OpenWiki surfaces
 - one machine-readable trust artifact when it will prevent future rediscovery, such as a support matrix or validated-vs-declared table
 - repair or refactor plan
 - a clear recommendation for what should happen next

@@ -1,11 +1,11 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, and keep the repository knowledge base trustworthy while engineering work continues. Use when shaping the documentation foundation, refining canonical artifacts, running cross-artifact truth checks, or aligning canonical docs, plans, decisions, glossary, reading order, tracker state, and validation evidence after changes land. Shorthand RKE.
+description: Establish, evolve, and keep a repository knowledge base trustworthy, including generating and consuming Open Knowledge Format bundles and reconciling OpenWiki-derived documentation with canonical truth. Use when shaping the documentation foundation, refining canonical artifacts, adopting OKF-compatible knowledge docs, integrating OpenWiki, running cross-artifact truth checks, or aligning docs, decisions, glossary, reading order, and validation evidence. Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.3.2
-  updated: '2026-07-16'
+  version: 2.4.0
+  updated: '2026-07-17'
 ---
 
 # repo-knowledge-engineering
@@ -35,10 +35,16 @@ The repository knowledge base includes the docs and working surfaces agents rely
 - navigation and reading order
 - handoff artifacts
 - dated evidence when validation happens
+- a bounded Open Knowledge Format bundle when the repository adopts the recommended interoperable knowledge path
+- an OpenWiki-generated bundle when OpenWiki is present as a derived documentation producer
 
 This skill owns the repository knowledge system, not implementation work.
 It may document what tests, evaluation harnesses, CI checks, or validation runs prove, but it does not author or repair test code, eval harnesses, CI logic, or application code unless the user explicitly asks for that work or another implementation skill is also invoked.
 It is later in the flow than repository dissection.
+
+Read [references/okf-0.1-profile.md](./references/okf-0.1-profile.md) before creating, migrating, or validating an OKF bundle.
+Read [references/openwiki-integration.md](./references/openwiki-integration.md) before working in a repository that uses OpenWiki.
+Use [scripts/okf_bundle.py](./scripts/okf_bundle.py) to build canonical indexes and validate OKF conformance.
 
 ## Use This Instead Of
 
@@ -59,6 +65,8 @@ Use this skill to create or reshape the knowledge base:
 - define where end-state product truth and epic-level scope live
 - choose where glossary, decisions, plans, and support truth live
 - create the minimum documentation spine the repository actually needs
+- recommend a bounded OKF 0.1 bundle for new canonical knowledge unless existing repository conventions are stronger
+- define producer and ownership boundaries when OpenWiki or another generator is present
 
 ### 2. Capture
 
@@ -102,14 +110,26 @@ Use this skill to close a tranche honestly:
   - desired-state or contract docs
   - epic-level or product-truth docs
   - execution-plan docs
-  - generated or derived docs
+- generated or derived docs
+- OKF concept bundles and their declared versions
+- OpenWiki producer-owned documentation and update metadata
 - Keep local handoffs explicitly subordinate to tracked canonical truth.
 - Keep repository-local task records as execution truth: useful evidence and traceability, but not the sole source for durable product or architecture claims.
 - If `GLOSSARY.md` exists, treat it as the glossary or domain-language source.
 - If `docs/decisions/` exists, treat it as the durable decision-history source.
 - Know which files future agents are expected to trust first.
+- Detect `openwiki/`, OKF frontmatter, root `okf_version`, and reserved `index.md` or `log.md` surfaces before changing the documentation layout.
 
-### 2. Classify the requested change
+### 2. Choose the knowledge format and ownership model
+
+- Preserve an established repository knowledge format when migration would add churn without improving interoperability.
+- For new or deliberately migrated canonical knowledge, prefer an OKF 0.1 bundle under `docs/knowledge/` or another explicitly selected path.
+- Keep root instructions, tasks, worktrees, handoffs, and unrelated plans outside the bundle by default.
+- Classify every knowledge surface as canonical, evidence, derived, execution, or generated before deciding who may write it.
+- Treat `openwiki/` as OpenWiki-owned derived knowledge unless repository policy explicitly establishes another arrangement.
+- Never let RKE's index builder rewrite OpenWiki-owned indexes.
+
+### 3. Classify the requested change
 
 Classify the work before editing:
 
@@ -122,7 +142,7 @@ Classify the work before editing:
 
 If the slice changes repository truth, the canonical knowledge base must move with it.
 
-### 3. Decide what must stay aligned
+### 4. Decide what must stay aligned
 
 For the current slice, check whether you must update:
 
@@ -134,11 +154,13 @@ For the current slice, check whether you must update:
 - active plans or debt trackers
 - validation, CI-status, or evidence docs when other work changed what the repository now proves
 - evidence notes if new validation happened
+- OKF frontmatter, indexes, logs, citations, and cross-links when the changed artifact is inside a bundle
+- OpenWiki instructions or producer output when the derived wiki is stale
 
 Do not update everything by default. Update the exact files future contributors would trust for this change.
 Do not treat this step as permission to write or repair tests, evaluation harnesses, CI jobs, or application code.
 
-### 4. Run a bounded cross-artifact truth check
+### 5. Run a bounded cross-artifact truth check
 
 When the repository has several linked planning and execution surfaces, compare the strongest current artifacts:
 
@@ -148,6 +170,8 @@ When the repository has several linked planning and execution surfaces, compare 
 - work packages or tracker items
 - canonical contract docs
 - validation evidence
+- canonical OKF concepts
+- relevant OpenWiki concepts or other derived bundles
 
 Check for:
 
@@ -159,7 +183,7 @@ Check for:
 
 If drift exists, name which surface is strongest, which surfaces are stale, and what must be promoted, corrected, or de-emphasized.
 
-### 5. Preserve knowledge boundaries
+### 6. Preserve knowledge boundaries
 
 - Keep dated validation notes as evidence.
 - Keep support matrices and root docs as current contract.
@@ -168,8 +192,10 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - Keep `docs/decisions/` focused on durable decisions, not routine progress notes.
 - Keep generated inventories, route tables, and other derived artifacts clearly labeled as derived rather than canonical support truth.
 - Do not silently rewrite old evidence to hide drift; either update the current contract or add a new dated evidence record.
+- Preserve unknown OKF types and producer-defined frontmatter fields when consuming or updating a bundle.
+- Keep OpenWiki output derived until stronger evidence justifies promotion; correct stale generated docs through the producer workflow.
 
-### 6. Update knowledge in the same slice as the work
+### 7. Update knowledge in the same slice as the work
 
 - If behavior changed, update the contract docs in the same tranche.
 - If support status changed, update the support matrix before widening public claims elsewhere.
@@ -178,14 +204,29 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - If a plan assumption became false, update the plan immediately.
 - If behavior is now repaired and validated elsewhere, move it out of `known broken`, `proposed`, or future-tense plan language in the same slice.
 - If navigation changed, update the reading order so future agents do not rediscover the repository from scratch.
+- If an OKF concept changed meaningfully, update its retrieval metadata and timestamp, rebuild the affected canonical indexes, and add a concise `log.md` entry only when the knowledge event merits one.
 
-### 7. Promote new truth
+### 8. Promote new truth
 
 - If behavior changed and is now validated, promote it from plan, risk, or exploratory language into canonical contract docs.
 - If a risk narrowed but did not disappear, restate the narrower remaining risk rather than just marking the section done.
 - If a handoff contains context important enough for future work, promote that truth into tracked docs before later tranches depend on it.
+- If OpenWiki reveals durable verified knowledge, promote it into the canonical bundle and link back to the derived source rather than copying two independently maintained narratives.
 
-### 8. Keep the language sharp
+### 9. Validate the knowledge bundle
+
+For an RKE-managed bundle, run:
+
+```text
+python scripts/okf_bundle.py build-indexes --bundle <bundle>
+python scripts/okf_bundle.py validate --bundle <bundle> --require-version
+```
+
+For OpenWiki or another external producer, validate read-only without requiring the optional version declaration. Treat broken links and missing recommended metadata as warnings unless repository policy deliberately defines a stricter profile.
+
+Do not claim OKF conformance when hard validation errors remain.
+
+### 10. Keep the language sharp
 
 Use explicit status language:
 
@@ -203,7 +244,7 @@ Distinguish:
 - implementation drift
 - evidence strength
 
-### 9. Finish with a trustworthy next-step surface
+### 11. Finish with a trustworthy next-step surface
 
 At the end of the slice, make sure a fresh agent can answer:
 
@@ -223,6 +264,10 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - Do not write or repair tests, eval harnesses, CI jobs, or application code from this skill alone.
 - Do not treat tracker state as repository truth when canonical docs or evidence disagree.
 - Do not absorb routine task status or worktree coordination into canonical docs. Promote only durable conclusions, decisions, contracts, and validated support truth.
+- Do not place task or worktree records inside the recommended OKF knowledge bundle.
+- Do not force every repository Markdown file into OKF; conformance applies to the selected bundle boundary.
+- Do not treat OKF formatting or OpenWiki generation as evidence that a claim is true.
+- Do not make OpenWiki a required dependency for producing or consuming OKF.
 - Prefer a small number of strong canonical docs over a growing pile of loose notes.
 - Create `GLOSSARY.md` or `docs/decisions/` when they would materially improve the repository knowledge base; do not create them as empty ceremony.
 - Correct the root reading order before polishing lower-level docs when the entrypoint is misleading.
@@ -246,4 +291,6 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - cross-artifact drift summary
 - archive compaction or evidence index cleanup when note sprawl exists
 - dated evidence note for new validation
+- generated or updated OKF concept bundle with a conformance report
+- OpenWiki-to-canonical drift and promotion summary
 - local handoff that reflects the new truth
