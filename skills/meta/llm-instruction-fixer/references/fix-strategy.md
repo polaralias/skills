@@ -2,7 +2,11 @@
 
 Work from behavior-critical defects down to polish.
 
-## First: colliding rules
+## First: unsafe trust and authority boundaries
+
+Repair any path where untrusted source content can become behavioural authority, select tools or destinations, disclose unrelated context, or drive privileged side effects. Prefer explicit trust classification, least privilege, constrained egress, deterministic validation, human approval, and shutdown controls over claims that prompt wording or regex sanitisation makes arbitrary text safe.
+
+## Second: colliding rules
 
 Resolve places where the model is being told two incompatible things. That may mean:
 
@@ -10,7 +14,7 @@ Resolve places where the model is being told two incompatible things. That may m
 - merging overlapping directions
 - deleting the lower-value instruction
 
-## Second: unstable output contract
+## Third: unstable output contract
 
 Make the output shape more deterministic by tightening:
 
@@ -19,11 +23,11 @@ Make the output shape more deterministic by tightening:
 - formatting expectations
 - refusal or failure handling
 
-## Third: inconsistent voice
+## Fourth: inconsistent voice
 
 Bring the file back to one operating stance when persona drift could change outputs.
 
-## Fourth: overload and structure
+## Fifth: overload and structure
 
 If the file is hard to execute, simplify the shape before adding more content. Common improvements:
 
@@ -32,7 +36,7 @@ If the file is hard to execute, simplify the shape before adding more content. C
 - clearer hierarchy
 - explicit precedence notes
 
-## Fifth: real coverage gaps
+## Sixth: real coverage gaps
 
 Add only the missing behavior needed to stop avoidable guessing.
 

@@ -67,6 +67,20 @@ Typical gaps:
 - refusal, fallback, or recovery behavior
 - what to do when constraints cannot all be satisfied
 
+## Trust boundaries and excessive agency
+
+Check whether the artifact clearly separates authoritative instructions from files, webpages, messages, tool output, retrieved passages, generated artifacts, and other source material. Flag designs that let source content widen scope, choose tools, request secrets, name an output destination, or authorise writes and external communication.
+
+Also check whether the agent has more authority than the task requires:
+
+- broad credentials or data access instead of scoped identities
+- unrestricted network egress or source-selected destinations
+- unvalidated natural-language output driving privileged actions
+- missing schema validation, human approval, limits, monitoring, or kill paths
+- persistent knowledge, handoffs, or generated instructions that can carry hostile directives forward
+
+Prompt wording and content sanitisation may add defence in depth, but they are not substitutes for least privilege, output validation, bounded egress, and explicit approval at consequential boundaries.
+
 ## Multi-file drift
 
 Where several files jointly define behavior, examine the combined surface for:

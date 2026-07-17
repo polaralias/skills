@@ -22,6 +22,16 @@ Include incomplete, unusual, or noisy inputs that are still legitimately in scop
 
 Add situations where the skill should narrow scope, decline, defer, or surface a guardrail.
 
+For source-consuming or tool-using skills, include adversarial cases where untrusted content attempts to:
+
+- override the user or host policy
+- obtain secrets or unrelated context
+- select a tool, credential, recipient, webhook, or network destination
+- trigger a write, execution, publication, or external message
+- poison a persistent knowledge file, handoff, generated prompt, or downstream agent instruction
+
+Expected behaviour should verify both non-compliance and safe handling: quote or quarantine the content only when needed as evidence, continue the legitimate task where possible, and require explicit authority for consequential actions.
+
 ## Regression traps
 
 Capture behaviors that are easy to lose during refactors, plus any known weak spots.

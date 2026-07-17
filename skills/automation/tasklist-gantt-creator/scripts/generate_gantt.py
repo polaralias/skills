@@ -109,6 +109,15 @@ def clean_text(value: Any) -> str:
     return "" if text.lower() == "nan" else text
 
 
+def safe_excel_text(value: Any) -> str:
+    """Keep imported labels as text instead of executable spreadsheet formulas."""
+    text = clean_text(value)
+    raw_text = "" if pd.isnull(value) else str(value)
+    if raw_text.startswith(("\t", "\r")) or text.startswith(("=", "+", "-", "@")):
+        return f"'{text}"
+    return text
+
+
 def normalize_id(value: Any) -> str:
     text = clean_text(value)
     if text.endswith(".0"):
@@ -519,9 +528,9 @@ def write_main_sheet(
     status_map = build_status_map(frame, theme)
 
     for _, row in frame.iterrows():
-        values = [row["task_name"], format_cell_date(row["start_date"]), format_cell_date(row["due_date"])]
+        values = [safe_excel_text(row["task_name"]), format_cell_date(row["start_date"]), format_cell_date(row["due_date"])]
         if not omit_owner:
-            values.append(row["owner"] or None)
+            values.append(safe_excel_text(row["owner"]) or None)
         ws.append(values)
         row_idx = ws.max_row
         row_colour = bar_colour(row, colour_by, theme, status_map)
@@ -660,7 +669,7 @@ def build_focus_sheet(wb: Workbook, title: str, rows: list[pd.Series], colour_by
 
     ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=4 + len(week_ranges))
     title_cell = ws.cell(1, 1)
-    title_cell.value = title
+    title_cell.value = safe_excel_text(title)
     title_cell.font = Font(bold=True, size=14, color=theme.text_muted)
     title_cell.alignment = Alignment(horizontal="left", vertical="center")
 
@@ -698,7 +707,7 @@ def build_focus_sheet(wb: Workbook, title: str, rows: list[pd.Series], colour_by
         cell.border = make_border(theme)
 
     status_map = build_status_map(pd.DataFrame(rows), theme)
-    feature_values = ["Feature", feature_row["task_name"], format_cell_date(feature_row["start_date"], True), format_cell_date(feature_row["due_date"], True)]
+    feature_values = ["Feature", safe_excel_text(feature_row["task_name"]), format_cell_date(feature_row["start_date"], True), format_cell_date(feature_row["due_date"], True)]
     ws.append(feature_values)
     feature_row_idx = ws.max_row
     for col in range(1, ws.max_column + 1):
@@ -714,7 +723,7 @@ def build_focus_sheet(wb: Workbook, title: str, rows: list[pd.Series], colour_by
     band_toggle = False
     for row in descendants:
         stage, activity = split_stage_activity(row["task_name"])
-        values = [stage, activity, format_cell_date(row["start_date"], True), format_cell_date(row["due_date"], True)]
+        values = [safe_excel_text(stage), safe_excel_text(activity), format_cell_date(row["start_date"], True), format_cell_date(row["due_date"], True)]
         ws.append(values)
         row_idx = ws.max_row
 

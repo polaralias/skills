@@ -62,6 +62,14 @@ Review:
 - data assessment
 - technical feasibility and complexity
 - reusable patterns or building blocks
+- source and instruction trust boundaries
+- prompt-injection and data-exfiltration abuse cases
+- model, connector, and tool permissions
+- permitted egress and output destinations
+- deterministic validation and approval gates
+- monitoring, credential revocation, kill switches, and incident recovery
+
+When a third party operates the model or connector, do not claim control over its internal prompt-injection prevention. Assess the vendor's evidence, minimise the data supplied, red-team the integration, treat its output as untrusted, and prevent that output from independently authorising internal actions.
 
 Maturity path:
 

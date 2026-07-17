@@ -67,8 +67,23 @@ Also note whether the initiative depends on documents, repos, tickets, transcrip
 | Legal/compliance review needed | Yes/No/Unknown |  |  |
 | Security-critical action | Yes/No/Unknown |  |  |
 | Uncontrolled external model/data sharing | Yes/No/Unknown |  |  |
+| Direct or indirect prompt injection | Yes/No/Unknown |  |  |
+| Untrusted retrieved, uploaded, or third-party output | Yes/No/Unknown |  |  |
+| Excessive tool or connector authority | Yes/No/Unknown |  |  |
+| Uncontrolled network egress or output destination | Yes/No/Unknown |  |  |
 
 If a high-risk pattern appears, reshape the initiative around safer scope, human review, redaction, read-only access, audit logging, or explicit exclusion.
+
+For agentic, RAG, connector, or third-party AI paths, also record:
+
+- which inputs are untrusted and how they remain separated from control instructions
+- the minimum data and permissions available to each model or tool
+- deterministic input/output schema validation
+- destinations the workflow may contact
+- human approval for privileged or high-impact actions
+- monitoring, cost/rate limits, credential revocation, and a kill switch
+- adversarial tests for direct and indirect injection
+- what the vendor controls and what the organisation must contain at its own boundary
 
 ## 7. Applicable AI capability
 
