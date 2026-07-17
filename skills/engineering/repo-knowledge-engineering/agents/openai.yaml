@@ -1,7 +1,7 @@
 interface:
   display_name: "Repo Knowledge Engineering"
-  short_description: Keep the repository knowledge base trustworthy as canonical docs, plans, decisions, glossary, and evidence change.
-  default_prompt: Use $repo-knowledge-engineering to align canonical docs, plans, decisions, glossary, reading order, and validation evidence so a fresh agent can continue from tracked repository truth; treat local task records as execution evidence and promote only durable conclusions.
+  short_description: Maintain canonical repository knowledge with OKF and OpenWiki interoperability.
+  default_prompt: Use $repo-knowledge-engineering to create or align canonical repository knowledge, prefer a bounded OKF-compatible bundle for new knowledge, consume existing OKF safely, and reconcile OpenWiki-derived documentation without confusing generated claims with verified truth.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

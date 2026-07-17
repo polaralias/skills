@@ -1,0 +1,17 @@
+---
+type: "{{type}}"
+title: "{{title}}"
+description: "{{description}}"
+tags: [{{tags}}]
+timestamp: "{{timestamp}}"
+authority: "{{authority}}"
+verification: "{{verification}}"
+---
+
+# {{title}}
+
+Write the structured concept body here. Use headings, lists, tables, and links where they improve retrieval.
+
+# Citations
+
+Add numbered sources for externally derived claims, or remove this section when no citations apply.

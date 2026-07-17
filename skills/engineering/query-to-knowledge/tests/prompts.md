@@ -24,3 +24,23 @@ Prompt: "The main job is now broad doc-system maintenance across glossary, READM
 Expected:
 - the skill recognizes that the broader job belongs to `repo-knowledge-engineering`
 - it avoids owning the whole knowledge-base maintenance pass itself
+
+## 5. Capture into canonical OKF
+Prompt: "We resolved this support-boundary question. Capture it in the repository's OKF knowledge bundle."
+Expected:
+- updates the appropriate typed concept with retrieval metadata and evidence
+- preserves unknown frontmatter fields
+- refreshes the index and meaningful log state through the RKE profile
+
+## 6. OpenWiki disagreement
+Prompt: "OpenWiki says one thing, but verified runtime evidence resolved the answer differently."
+Expected:
+- captures the verified answer in the canonical knowledge surface
+- treats OpenWiki as derived and routes its correction through the producer workflow
+- does not silently rewrite producer-owned indexes
+
+## 7. Execution-data exclusion
+Prompt: "Add the active task and worktree status to this OKF product concept while resolving the question."
+Expected:
+- keeps transient execution state in its existing task or coordination surface
+- captures only the durable resolved knowledge in the OKF concept
