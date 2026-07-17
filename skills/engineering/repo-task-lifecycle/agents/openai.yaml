@@ -1,9 +1,9 @@
 interface:
   display_name: "Repo Task Lifecycle"
-  short_description: "Maintain repository-local task truth."
-  icon_small: "assets/icon.svg"
-  icon_large: "assets/icon.svg"
-  default_prompt: "Use $repo-task-lifecycle to create and reconcile durable repository-local task and workstream records, evidence-backed statuses, and the generated task index without replacing canonical product truth."
+  short_description: "Track OKF tasks, effort, sync, and evidence."
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  default_prompt: "Use $repo-task-lifecycle to maintain repository-local OKF task and workstream truth, track effort and estimates, route durable knowledge into RKE, and prepare safe tracker-ready exports."
 policy:
   allow_implicit_invocation: true
   products:
