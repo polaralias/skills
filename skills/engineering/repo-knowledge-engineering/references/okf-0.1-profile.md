@@ -71,10 +71,15 @@ Start from `assets/okf/visualization.md.template`. In addition to the normal ret
 - `source`: bundle-relative link to the canonical source record or index;
 - `renderer`: stable command or producer identity;
 - `output`: bundle-relative link to the derived artifact;
+- `temporal_basis`: event field used for chronological ordering, normally `timestamp`;
+- `history_model`: normally `current-records-only` unless retained historical concepts or versions support reconstruction;
+- `drift_policy`: the comparison heuristic and its evidential limit;
 - `authority: derived` unless the concept body itself records a canonical visualization contract;
 - `verification`: the honest current generation or smoke-test state.
 
 Advance `timestamp` when the visualization's source contract, renderer, output, visual encoding, interpretation, or verification meaningfully changes. Regenerating byte-identical output does not require a concept update. Never use the generated file's modification time as concept freshness.
+
+Temporal order alone does not establish documentation drift. A linked source with a newer timestamp than its target is a useful review candidate, but consumers must label that relationship as a possible signal and inspect semantic content and evidence before changing either concept. A bundle containing only current concepts cannot reconstruct historical fact values merely by moving an as-of control backwards.
 
 ## Reserved files
 

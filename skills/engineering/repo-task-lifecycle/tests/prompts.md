@@ -203,6 +203,8 @@ Expected behaviour:
 - Open in light mode on first use while preserving a later theme choice.
 - Provide labelled controls, a Graph tab, and a full-page Documents tab with a permanent file tree.
 - Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
+- Default to Grid, distinguish record classes by geometry, and expose effort and connection metrics.
+- Offer timestamp-based Timeline and through-date controls without claiming current bodies are historical snapshots.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
 
 ## 20. Durable visualization knowledge
@@ -214,3 +216,14 @@ Expected behaviour:
 - Keep the generated viewer derived and the task Markdown/YAML authoritative.
 - Route a durable `Visualization` concept with source, renderer, output, interpretation, verification, and timestamp to `repo-knowledge-engineering`.
 - Regenerate the viewer through the bundled script rather than hand-editing HTML.
+
+## 21. Possible temporal drift
+
+Prompt: "Use the task graph to find features updated after their linked documentation."
+
+Expected behaviour:
+
+- Compare only records with usable selected timestamps and existing graph relationships.
+- Highlight a newer linked source and older target as a possible review signal.
+- Inspect current semantic content and evidence before declaring drift or changing either record.
+- Route confirmed durable documentation drift through RKE while keeping task-only reconciliation in RTL.

@@ -4,7 +4,7 @@ description: Dissect an inherited, unclear, or vibe-coded repository and turn it
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.5.0
+  version: 2.5.1
   updated: '2026-07-18'
 ---
 
@@ -175,7 +175,8 @@ When writing an initial OKF concept during dissection:
 
 - put it inside the explicitly selected knowledge bundle, normally `docs/knowledge/`
 - include parseable YAML frontmatter with a non-empty descriptive `type`
-- add `title` and a one-sentence `description`; add tags, resource URI, timestamp, citations, and RKE authority or verification extensions only when supported
+- add `title` and a one-sentence `description`; add tags, resource URI, citations, and RKE authority or verification extensions only when supported
+- set an RFC 3339 `timestamp` for the initial meaningful content state, and advance it for every later direct change that alters the concept's meaning; never substitute filesystem or Git time
 - keep tasks, worktrees, handoffs, and unrelated plans outside the bundle
 - preserve unknown fields and types in existing concepts
 - leave deterministic index generation and final conformance validation to the RKE workflow

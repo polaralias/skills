@@ -9,6 +9,9 @@ verification: "{{verification}}"
 source: "{{source}}"
 renderer: "{{renderer}}"
 output: "{{output}}"
+temporal_basis: timestamp
+history_model: current-records-only
+drift_policy: linked-source-newer-than-target-review-signal
 ---
 
 # {{title}}
@@ -28,6 +31,12 @@ The source records remain authoritative. Regenerate the output through the named
 ## Reading the view
 
 Explain the visual encoding, filters, known omissions, and any accessibility alternative.
+
+## Temporal reading and drift
+
+Explain which declared event field drives temporal ordering. Unless retained historical concepts or versions exist, state that the view orders current records and does not reconstruct earlier fact content.
+
+Treat newer-linked-source versus older-target ordering as a possible drift review signal only. Record the evidence needed before changing either concept.
 
 ## Verification
 

@@ -4,7 +4,7 @@ description: Reconcile repository-local task execution truth and canonical repos
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
+  version: 1.0.1
   updated: '2026-07-18'
 ---
 
@@ -71,6 +71,7 @@ When a knowledge surface exists, use `repo-knowledge-engineering` to:
 - update only canonical documents and OKF concepts materially affected by the verified delta
 - promote durable decisions, terminology, architecture, behavior, support boundaries, and operational knowledge out of transient task evidence
 - preserve existing OKF metadata and repository reading order
+- require each specialist lane to advance `timestamp` on every directly changed Task, Workstream, Time Entry, or knowledge concept whose meaning changed; keep Tracker Profile discovery observation distinct under its current profile contract; do not infer freshness from filesystem or Git time
 - rebuild only affected generated indexes or manifests
 - record `knowledge: no-op` when the implementation changed no durable repository truth
 

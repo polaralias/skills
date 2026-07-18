@@ -197,6 +197,9 @@ title: Group
         metadata, _ = okf_bundle.parse_frontmatter(self.bundle / "views" / "task-delivery.md", required=True)
         self.assertEqual("Visualization", metadata["type"])
         self.assertEqual("2026-07-18T12:00:00Z", metadata["timestamp"])
+        self.assertEqual("timestamp", metadata["temporal_basis"])
+        self.assertEqual("current-records-only", metadata["history_model"])
+        self.assertIn("review-signal", metadata["drift_policy"])
 
 
 if __name__ == "__main__":

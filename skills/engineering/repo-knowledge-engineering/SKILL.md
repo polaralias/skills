@@ -4,7 +4,7 @@ description: Establish, evolve, and keep a repository knowledge base trustworthy
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.1.0
+  version: 3.2.0
   updated: '2026-07-18'
 ---
 
@@ -214,6 +214,7 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - If navigation changed, update the reading order so future agents do not rediscover the repository from scratch.
 - If an OKF concept changed meaningfully, update its retrieval metadata and `timestamp` as the explicit portable last-updated value, rebuild the affected canonical indexes, and add a concise `log.md` entry only when the knowledge event merits one. Do not substitute filesystem or Git time.
 - If a visualization becomes a durable repository knowledge surface, create or update a `Visualization` concept. Keep its generated HTML, Mermaid, image, or other output derived and reproducible from the declared canonical source and renderer.
+- For temporal visualizations, record the selected event field, history model, and drift policy. Treat timestamp ordering and a newer linked source as discovery signals only; confirm semantic disagreement against current content and evidence before declaring or repairing drift.
 
 ### 8. Promote new truth
 

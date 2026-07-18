@@ -1,7 +1,7 @@
 interface:
   display_name: "Query to Knowledge"
   short_description: Resolve repository ambiguity into canonical OKF-compatible knowledge.
-  default_prompt: "Use $query-to-knowledge to resolve repository questions from evidence and focused judgment, then capture the answers in the established canonical format, including OKF concepts, citations, indexes, and producer-safe derived-knowledge reconciliation."
+  default_prompt: "Use $query-to-knowledge to resolve repository questions from evidence and focused judgment, then capture the answers in the established canonical format with explicit last-meaningful-change timestamps for changed OKF concepts, citations, indexes, and producer-safe derived-knowledge reconciliation."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

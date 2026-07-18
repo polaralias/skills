@@ -39,6 +39,12 @@ class VisualizationPackageTests(unittest.TestCase):
         self.assertIn('id="record-last-updated"', generated)
         self.assertIn('Last meaningful change', generated)
         self.assertIn('setRecordTime("record-last-updated",d.frontmatter?.timestamp)', generated)
+        self.assertIn('<option value="grid" selected>Grid</option>', generated)
+        self.assertIn('<option value="timeline">Timeline</option>', generated)
+        self.assertIn('id="time-range"', generated)
+        self.assertIn('id="drift-review"', generated)
+        self.assertIn('edge.possible-drift', generated)
+        self.assertIn('.selector(\'node[type = "Time Entry"]\')', generated)
 
 
 if __name__ == "__main__":

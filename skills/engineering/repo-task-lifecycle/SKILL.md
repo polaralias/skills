@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.4.0
+  version: 3.5.0
   updated: '2026-07-18'
 ---
 
@@ -26,7 +26,9 @@ Maintain execution truth as a portable OKF Tasks bundle while integrating with t
 
 Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Prefer the installed `okf-tasks` CLI for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable fallback with the same command surface. Use [scripts/visualize_bundle.py](./scripts/visualize_bundle.py) to generate the light-first interactive Graph and Documents views when a bundle needs local visual review.
 
-Every meaningful Task, Workstream, Time Entry, or Tracker Profile edit must advance its RFC 3339 `timestamp`. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. The viewer exposes those fields separately and remains a derived consumer.
+Every meaningful Task, Workstream, or Time Entry edit must advance its RFC 3339 `timestamp`. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. Tracker Profile discovery uses its separate `discovery.observed_at` contract. The viewer exposes those fields separately and remains a derived consumer.
+
+The viewer defaults to Grid, distinguishes record classes by geometry, surfaces effort and connection metrics, and offers a Timeline plus through-date filtering for `timestamp`, `created`, `started`, and `finished`. Drift review compares selected timestamps across existing links. Treat every highlight as a possible review signal requiring semantic evidence, not proof that the older target is stale or a reconstruction of its earlier content.
 
 ## Ownership and routing
 
@@ -125,6 +127,8 @@ okf-tasks set-status --root <repo> --task <task-slug> --status in-progress
 Update task or workstream evidence in the same change as the signal it describes. Keep Git, integration, deployment/publication, and live verification distinct. A commit or merge does not prove full completion.
 
 Prefer CLI mutations so timestamp, history, rollups, generated indexes, and unknown fields remain consistent. For a necessary direct Markdown/YAML edit, advance `timestamp` in the same change, validate, and regenerate the visualization. When the visual surface itself becomes durable repository knowledge, route its `Visualization` concept through RKE.
+
+When a temporal view exposes a possible source-newer-than-target signal, inspect both current concepts, relationship intent, evidence, and repository history before updating either side. Route confirmed durable knowledge drift through RKE; keep execution-only drift in the task bundle.
 
 Record knowledge links to existing canonical Markdown or OKF concepts. Broken structured relationships are warnings, not permission to fetch or invent targets.
 

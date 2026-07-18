@@ -1,7 +1,7 @@
 interface:
   display_name: "Repo Dissection"
   short_description: Verify an unclear repository and bootstrap interoperable knowledge.
-  default_prompt: "Use $repo-dissection to map the repository, verify docs, code, runtime, and OKF claims, classify mismatches, bootstrap a bounded OKF-compatible knowledge foundation when appropriate, and ask for direction before knowledge changes if OpenWiki is detected."
+  default_prompt: "Use $repo-dissection to map the repository, verify docs, code, runtime, and OKF claims, classify mismatches, bootstrap a bounded OKF-compatible knowledge foundation with explicit last-meaningful-change timestamps when appropriate, and ask for direction before knowledge changes if OpenWiki is detected."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 
