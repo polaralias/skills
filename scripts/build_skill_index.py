@@ -41,6 +41,7 @@ SKILL_ACRONYMS = {
     "repo-dissection": "RDS",
     "repo-knowledge-engineering": "RKE",
     "repo-publish-finaliser": "RPF",
+    "repo-session-alignment": "RSA",
     "repo-setup": "RST",
     "repo-task-lifecycle": "RTL",
     "scheduling-assistant": "SCH",

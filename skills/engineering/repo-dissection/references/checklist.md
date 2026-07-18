@@ -6,7 +6,8 @@
 - verify the actual runtime path
 - verify stale user-supplied locators instead of assuming they are current
 - treat inventories and manifests as declared surface, not proof of support
-- detect OKF bundles and OpenWiki-managed documentation
+- detect OKF bundles
+- detect OpenWiki-managed documentation separately and ask the user for direction before knowledge-surface mutation
 - separate OKF conformance from truth and evidence strength
 - classify documentation, runtime, and behavior mismatches
 - capture the first usable documentation foundation

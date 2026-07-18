@@ -95,12 +95,13 @@ Expected:
 - treats the broken link as a repair warning rather than rejecting the bundle
 - still identifies hard frontmatter or required-type errors
 
-## 15. OpenWiki coexistence
-Prompt: "OpenWiki maintains openwiki/, while RKE maintains canonical product truth. Align them."
+## 15. Existing OpenWiki detection
+Prompt: "This repository contains openwiki/. Align the repository knowledge base."
 Expected:
-- treats OpenWiki files and indexes as producer-owned derived knowledge
-- validates them read-only and corrects them through the producer workflow
-- promotes only verified durable conclusions into the canonical bundle
+- detects the OpenWiki surface before changing repository knowledge
+- recommends RKE as the canonical model and asks whether to migrate, preserve the producer boundary, or follow another explicit direction
+- does not assume an OpenWiki integration or rewrite producer-owned files before the user chooses
+- if the user retains the bundle, consumes any interoperable knowledge strictly through its OKF surface
 
 ## 16. Excluded execution records
 Prompt: "Move tasks, worktree manifests, and handoffs into the OKF bundle so all Markdown conforms."

@@ -1,11 +1,11 @@
 ---
 name: engineering-workflow-orchestrator
-description: Coordinate a repository engineering session across repository knowledge, docs-first decomposition, local task lifecycle, concurrent worktrees, implementation, tracker publication, and continuity. Use when a user wants one top-level skill to classify the current workflow stage, route to the right specialist, keep task and workflow state explicit, or shape Codex and Claude Code hook scaffolding around compaction and resume. Shorthand EWO.
+description: Coordinate a repository engineering session across repository knowledge, docs-first decomposition, local task lifecycle, concurrent worktrees, implementation, task-and-knowledge closure, tracker publication, and continuity. Use when a user wants one top-level skill to classify the current workflow stage, route to the right specialist, keep task and workflow state explicit, close a material session, or shape Codex and Claude Code hook scaffolding around compaction and resume. Shorthand EWO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.5.0
-  updated: '2026-07-17'
+  version: 1.6.0
+  updated: '2026-07-18'
 ---
 
 # engineering-workflow-orchestrator
@@ -45,6 +45,7 @@ Read [references/hook-support.md](./references/hook-support.md) before configuri
 - Use `doc-driven-development` when the upstream truth already exists and the main job is decomposition, implementation planning, and work-package shaping.
 - Use `query-to-knowledge` when narrow contradictions or unresolved terminology need focused resolution.
 - Use `repo-task-lifecycle` when the main job is creating or reconciling durable repository-local task records.
+- Use `repo-session-alignment` when the main job is closing a material engineering session by checking both task execution truth and canonical knowledge truth.
 - Use `worktree-task-coordinator` when an existing task needs two or more concurrent isolated Git workstreams.
 - Use `tracker-publisher` when stable work packages or local task records need external tracker publication.
 - Use `local-handoff` or `local-pickup` directly when the user only wants a continuation artifact or resume pass.
@@ -75,6 +76,7 @@ Default stages:
 - `worktree-task-coordination`
 - `tracker-publisher`
 - `tdd`
+- `repo-session-alignment`
 - `repo-task-lifecycle-reconcile`
 - `repo-knowledge-engineering-close`
 - `local-handoff`
@@ -97,6 +99,7 @@ Skip stages that are unnecessary for the current slice.
   - tracker publication
   - implementation
   - post-implementation truth alignment
+  - end-of-session task-and-knowledge closure
   - pause or resume
 - State the chosen stage plainly.
 
@@ -112,6 +115,7 @@ Route to the narrowest viable downstream skill:
 - two or more independently mergeable concurrent workstreams -> `worktree-task-coordinator`
 - publication into GitHub, Linear, or another external tracker -> `tracker-publisher`
 - behavior-changing implementation -> `tdd`
+- material session or tranche closure -> `repo-session-alignment`
 - pause -> `local-handoff`
 - resume -> `local-pickup`
 
@@ -119,7 +123,9 @@ If the user wants a coordinated session rather than an immediate handoff, keep t
 
 Default delivery route when every stage is justified:
 
-`repo-knowledge-engineering` foundation -> `doc-driven-development` -> `repo-task-lifecycle` registration -> `worktree-task-coordinator` when concurrent -> implementation -> `repo-task-lifecycle` reconciliation -> `repo-knowledge-engineering` promotion.
+`repo-knowledge-engineering` foundation -> `doc-driven-development` -> `repo-task-lifecycle` registration -> `worktree-task-coordinator` when concurrent -> implementation -> `repo-session-alignment`.
+
+`repo-session-alignment` is the default closure engine. It sequences provisional task reconciliation, canonical knowledge promotion, final task reconciliation, and independent bundle validation. Retain `repo-task-lifecycle-reconcile` and `repo-knowledge-engineering-close` as compatible specialist stage labels when a workflow-state record already uses them; do not require callers to invoke them separately at ordinary session close.
 
 Do not force the worktree stage for sequential work. External tracker publication can follow stable work-package or task registration, but it does not replace the repository lifecycle record when that record is the chosen local ledger.
 
@@ -183,9 +189,8 @@ Use hooks to reinforce the workflow, for example:
 
 At tranche end:
 
-- route to `repo-knowledge-engineering` when canonical truth needs to be reconciled
-- route to `repo-task-lifecycle` when task/workstream state or evidence needs reconciliation
-- route to `local-handoff` when work is pausing
+- route every material engineering session through `repo-session-alignment`, which must check both the task and canonical-knowledge lanes even when one is absent or unchanged
+- let `repo-session-alignment` route to `local-handoff` when aligned but unfinished work is pausing
 - keep the final workflow-state aligned with the handoff or the canonical docs
 
 ## Output shape
@@ -197,6 +202,7 @@ When using this skill, produce:
 - the reason that skill is the right next step
 - any workflow-state fields that need updating
 - any hook-install recommendation or hook drift found
+- the task, knowledge, validation, handoff, and overall closure statuses when closing a session
 
 ## Guardrails
 

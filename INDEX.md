@@ -38,6 +38,7 @@ For each skill, the line count tells you how many lines to read from `SKILL.md` 
 - `skills/engineering/repo-dissection/SKILL.md` (RDS): read first `9` lines
 - `skills/engineering/repo-knowledge-engineering/SKILL.md` (RKE): read first `9` lines
 - `skills/engineering/repo-publish-finaliser/SKILL.md` (RPF): read first `9` lines
+- `skills/engineering/repo-session-alignment/SKILL.md` (RSA): read first `9` lines
 - `skills/engineering/repo-setup/SKILL.md` (RST): read first `9` lines
 - `skills/engineering/repo-task-lifecycle/SKILL.md` (RTL): read first `9` lines
 - `skills/engineering/test-plan-writer/SKILL.md` (TPW): read first `9` lines

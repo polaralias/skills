@@ -2,7 +2,7 @@
 
 - read code and canonical docs before asking questions
 - read `AGENTS.md`, the glossary file, and active plans when present
-- detect canonical OKF and producer-owned OpenWiki bundles
+- detect canonical OKF and producer-owned derived bundles
 - separate repo-answerable questions from user-judgment questions
 - separate stale inherited assumptions from genuinely open questions
 - ask the largest useful tightly related question set for the current ambiguity
@@ -16,5 +16,5 @@
 - capture support-boundary, contract, or plan outcomes in the right canonical artifact
 - preserve unknown OKF types and extension fields
 - update concept metadata, citations, indexes, and meaningful logs when OKF is canonical
-- correct OpenWiki-derived contradictions through its producer workflow
+- correct producer-derived contradictions through their owning workflow
 - hand off to repo-knowledge-engineering when the main job becomes broad knowledge-base maintenance
