@@ -36,6 +36,9 @@ class VisualizationPackageTests(unittest.TestCase):
         self.assertIn('id="reader-tree"', generated)
         self.assertIn("function labelButtons()", generated)
         self.assertIn("function showReaderDocument(path)", generated)
+        self.assertIn('id="record-last-updated"', generated)
+        self.assertIn('Last meaningful change', generated)
+        self.assertIn('setRecordTime("record-last-updated",d.frontmatter?.timestamp)', generated)
 
 
 if __name__ == "__main__":

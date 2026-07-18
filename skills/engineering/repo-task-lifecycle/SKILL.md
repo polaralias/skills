@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.3.0
+  version: 3.4.0
   updated: '2026-07-18'
 ---
 
@@ -26,10 +26,13 @@ Maintain execution truth as a portable OKF Tasks bundle while integrating with t
 
 Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Prefer the installed `okf-tasks` CLI for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable fallback with the same command surface. Use [scripts/visualize_bundle.py](./scripts/visualize_bundle.py) to generate the light-first interactive Graph and Documents views when a bundle needs local visual review.
 
+Every meaningful Task, Workstream, Time Entry, or Tracker Profile edit must advance its RFC 3339 `timestamp`. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. The viewer exposes those fields separately and remains a derived consumer.
+
 ## Ownership and routing
 
 - This skill owns task records, workstream records, lifecycle state, effort entries, estimates, sprint points, evidence, external mappings, and the generated task index.
 - `repo-knowledge-engineering` owns canonical repository and product truth, OKF knowledge concepts, reading order, decisions, glossary, and durable knowledge promotion.
+- `repo-knowledge-engineering` also owns a durable `Visualization` concept when a derived task or knowledge view needs a repository-visible source, renderer, output, interpretation, and verification contract. The generated view itself remains derived.
 - `query-to-knowledge` resolves terminology, contradictions, and decisions that prevent a task becoming ready.
 - `doc-driven-development` turns resolved product truth into feature contracts, acceptance surfaces, and stable work packages. Register those packages here once their shape is actionable.
 - `worktree-task-coordinator` owns physical worktrees, branch/path isolation, integration order, and concurrent delivery manifests.
@@ -120,6 +123,8 @@ okf-tasks set-status --root <repo> --task <task-slug> --status in-progress
 ```
 
 Update task or workstream evidence in the same change as the signal it describes. Keep Git, integration, deployment/publication, and live verification distinct. A commit or merge does not prove full completion.
+
+Prefer CLI mutations so timestamp, history, rollups, generated indexes, and unknown fields remain consistent. For a necessary direct Markdown/YAML edit, advance `timestamp` in the same change, validate, and regenerate the visualization. When the visual surface itself becomes durable repository knowledge, route its `Visualization` concept through RKE.
 
 Record knowledge links to existing canonical Markdown or OKF concepts. Broken structured relationships are warnings, not permission to fetch or invent targets.
 

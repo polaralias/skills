@@ -202,4 +202,15 @@ Expected behaviour:
 - Generate the viewer with the bundled `scripts/visualize_bundle.py` implementation.
 - Open in light mode on first use while preserving a later theme choice.
 - Provide labelled controls, a Graph tab, and a full-page Documents tab with a permanent file tree.
+- Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
+
+## 20. Durable visualization knowledge
+
+Prompt: "This task map is now a maintained repository view; document how it is generated and verified."
+
+Expected behaviour:
+
+- Keep the generated viewer derived and the task Markdown/YAML authoritative.
+- Route a durable `Visualization` concept with source, renderer, output, interpretation, verification, and timestamp to `repo-knowledge-engineering`.
+- Regenerate the viewer through the bundled script rather than hand-editing HTML.

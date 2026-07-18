@@ -174,6 +174,30 @@ title: Group
 
         self.assertEqual((self.bundle / "index.md").read_text(encoding="utf-8"), original)
 
+    def test_visualization_template_is_an_okf_concept_with_explicit_freshness(self) -> None:
+        template = MODULE_PATH.parents[1] / "assets" / "okf" / "visualization.md.template"
+        rendered = template.read_text(encoding="utf-8")
+        for old, new in {
+            "{{title}}": "Task delivery map",
+            "{{description}}": "Describes the generated task delivery view.",
+            "{{tags}}": "visualization, tasks",
+            "{{timestamp}}": "2026-07-18T12:00:00Z",
+            "{{authority}}": "derived",
+            "{{verification}}": "verified-working",
+            "{{source}}": "../../../tasks/index.md",
+            "{{renderer}}": "okf-tasks visualize",
+            "{{output}}": "../../../local-docs/tasks.html",
+        }.items():
+            rendered = rendered.replace(old, new)
+        self.write("views/task-delivery.md", rendered)
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
+        metadata, _ = okf_bundle.parse_frontmatter(self.bundle / "views" / "task-delivery.md", required=True)
+        self.assertEqual("Visualization", metadata["type"])
+        self.assertEqual("2026-07-18T12:00:00Z", metadata["timestamp"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,34 @@
+---
+type: Visualization
+title: "{{title}}"
+description: "{{description}}"
+tags: [{{tags}}]
+timestamp: "{{timestamp}}"
+authority: "{{authority}}"
+verification: "{{verification}}"
+source: "{{source}}"
+renderer: "{{renderer}}"
+output: "{{output}}"
+---
+
+# {{title}}
+
+## Purpose
+
+Describe the question this view answers and its intended audience.
+
+## Source and generation
+
+- Canonical source: [{{source}}]({{source}})
+- Renderer: `{{renderer}}`
+- Derived output: [{{output}}]({{output}})
+
+The source records remain authoritative. Regenerate the output through the named renderer; do not hand-edit the derived artifact.
+
+## Reading the view
+
+Explain the visual encoding, filters, known omissions, and any accessibility alternative.
+
+## Verification
+
+Record the generation or smoke check that supports the current `verification` value.
