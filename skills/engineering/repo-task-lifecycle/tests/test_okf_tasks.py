@@ -216,6 +216,64 @@ class LifecycleTests(unittest.TestCase):
         errors = okf_tasks.validate_bundle(self.root / "tasks")
         self.assertTrue(any("status_map requires ready" in error for error in errors), errors)
 
+    def test_project_can_save_and_reuse_a_default_tracker_profile(self) -> None:
+        trackers = self.root / "tasks" / "trackers"
+        trackers.mkdir(parents=True)
+        for slug, system in (("github-main", "github"), ("linear-engineering", "linear")):
+            okf_tasks.write_document(
+                trackers / f"{slug}.md",
+                {"type": "Tracker Profile", "tracker": slug, "system": system},
+                f"# {slug}\n",
+            )
+
+        result = okf_tasks.tracker_set_default(
+            arguments(root=str(self.root), bundle="tasks", tracker="linear-engineering")
+        )
+
+        self.assertEqual(0, result)
+        self.assertEqual("linear-engineering", okf_tasks.resolve_tracker_slug(trackers.parent, None))
+        github, _ = okf_tasks.read_document(trackers / "github-main.md")
+        linear, _ = okf_tasks.read_document(trackers / "linear-engineering.md")
+        self.assertNotIn("default", github)
+        self.assertIs(linear["default"], True)
+        parsed = okf_tasks.build_parser().parse_args([
+            "tracker", "sync", "--root", str(self.root), "--task", "first-task", "--direction", "push",
+        ])
+        self.assertIsNone(parsed.tracker)
+
+    def test_tracker_selection_prompts_with_available_profiles_when_no_default_is_safe(self) -> None:
+        trackers = self.root / "tasks" / "trackers"
+        trackers.mkdir(parents=True)
+        for slug in ("clickup-delivery", "linear-engineering"):
+            okf_tasks.write_document(
+                trackers / f"{slug}.md",
+                {"type": "Tracker Profile", "tracker": slug},
+                f"# {slug}\n",
+            )
+
+        with self.assertRaisesRegex(SystemExit, "clickup-delivery, linear-engineering"):
+            okf_tasks.resolve_tracker_slug(trackers.parent, None)
+
+    def test_bundle_rejects_multiple_default_tracker_profiles(self) -> None:
+        trackers = self.root / "tasks" / "trackers"
+        trackers.mkdir(parents=True)
+        for slug, system, host in (
+            ("github-main", "github", "https://github.com"),
+            ("linear-engineering", "linear", "https://api.linear.app"),
+        ):
+            okf_tasks.write_document(trackers / f"{slug}.md", {
+                "type": "Tracker Profile", "tracker": slug, "default": True,
+                "system": system, "host": host, "resource": "issue",
+                "scope": {"kind": "repository" if system == "github" else "team", "id": slug, "key": slug},
+                "sync": {"mode": "push", "authority": "repository"},
+                "status_map": {status: status for status in okf_tasks.STATUSES},
+                "field_map": {"tags": {"remote": "labels", "strategy": "managed-subset", "managed_prefix": "okf:"}},
+                "discovery": {"observed_at": "2026-07-18T12:00:00Z", "fingerprint": "sha256:fixture"},
+            }, f"# {slug}\n")
+
+        errors = okf_tasks.validate_bundle(trackers.parent)
+        self.assertTrue(any("only one default Tracker Profile" in error for error in errors), errors)
+
     def test_tracker_init_builds_a_linear_profile_from_discovery(self) -> None:
         okf_tasks.init_bundle(arguments(root=str(self.root), bundle=None, placement="root", force=False))
         discovery_path = self.root / "linear-discovery.json"
@@ -242,10 +300,13 @@ class LifecycleTests(unittest.TestCase):
             status_map=[], force=False,
         ))
         self.assertEqual(0, result)
-        profile, _ = okf_tasks.read_document(self.root / "tasks" / "trackers" / "linear-engineering.md")
+        profile, profile_body = okf_tasks.read_document(self.root / "tasks" / "trackers" / "linear-engineering.md")
         self.assertEqual("blocked-uuid", profile["status_map"]["blocked"])
         self.assertEqual("review-uuid", profile["status_map"]["validation"])
         self.assertEqual("managed-subset", profile["field_map"]["tags"]["strategy"])
+        self.assertIn("## Setup evidence", profile_body)
+        self.assertIn("`ENG`", profile_body)
+        self.assertIn("runtime environment", profile_body)
         self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
 
     def test_all_first_class_providers_have_live_discovery_adapters(self) -> None:

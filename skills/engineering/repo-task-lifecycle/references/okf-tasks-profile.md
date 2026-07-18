@@ -97,6 +97,8 @@ Store relative complexity separately under `sprint_points` with numeric `value`,
 
 Store reusable provider configuration in `trackers/<tracker-slug>.md` using `type: Tracker Profile`. Require provider `system`, HTTPS `host`, `resource`, stable `scope`, separate sync `mode` and `authority`, a complete `status_map`, explicit `field_map`, and fingerprinted `discovery` metadata. Credentials never belong in repository records.
 
+A profile may declare `default: true`; at most one profile in a bundle may do so. An explicit tracker selection takes precedence, followed by the saved default and then a sole profile. Several profiles without one default require an explicit choice. During setup, discover repository/project, Linear team, or ClickUp List candidates in the current project context, prompt when the destination is ambiguous, and save the confirmed profile. Preserve the generated profile body's setup evidence rather than reducing it to an opaque system/ID pair.
+
 Store each task binding under `external` with `tracker`, `system`, `host`, `kind`, `scope`, provider-global opaque `id`, human-facing `key`, canonical `url`, and per-binding `sync`. The `(system, host, kind, id)` tuple is unique across the bundle. Keep the task slug canonical. Task-level `sync` is invalid.
 
 Use `managed-subset` for portable tags unless OKF deliberately owns the whole remote label set. Tracker-authoritative bidirectional status mappings must be round-trippable. A same-field local and remote change since the binding base is a conflict and must never be silently resolved. Provider writes require read-back verification.

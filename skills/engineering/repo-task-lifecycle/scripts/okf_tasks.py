@@ -626,6 +626,49 @@ def suggested_status_map(system: str, statuses_value: Any) -> dict[str, str]:
     return mapping
 
 
+def tracker_profile_documents(bundle: Path) -> list[tuple[Path, dict[str, Any], str]]:
+    documents: list[tuple[Path, dict[str, Any], str]] = []
+    for path in sorted(bundle.joinpath("trackers").glob("*.md")):
+        metadata, body = read_document(path)
+        if metadata.get("type") == "Tracker Profile" and metadata.get("tracker"):
+            documents.append((path, metadata, body))
+    return documents
+
+
+def resolve_tracker_slug(bundle: Path, requested: str | None) -> str:
+    if requested:
+        slug = valid_slug(requested)
+        if not bundle.joinpath("trackers", f"{slug}.md").exists():
+            fail(f"Tracker Profile does not exist: {bundle / 'trackers' / f'{slug}.md'}")
+        return slug
+    profiles = tracker_profile_documents(bundle)
+    defaults = [str(metadata["tracker"]) for _, metadata, _ in profiles if metadata.get("default") is True]
+    if len(defaults) == 1:
+        return defaults[0]
+    if len(defaults) > 1:
+        fail("Multiple default Tracker Profiles are configured; run tracker set-default --tracker <profile> to choose one.")
+    if len(profiles) == 1:
+        return str(profiles[0][1]["tracker"])
+    choices = ", ".join(str(metadata["tracker"]) for _, metadata, _ in profiles) or "none"
+    fail(f"No default Tracker Profile is configured. Available profiles: {choices}. Run tracker set-default --tracker <profile> after choosing the project scope.")
+
+
+def tracker_set_default(args: argparse.Namespace) -> int:
+    bundle = bundle_root(repository_root(args.root), args.bundle)
+    selected = valid_slug(args.tracker)
+    selected_path = bundle / "trackers" / f"{selected}.md"
+    if not selected_path.exists():
+        fail(f"Tracker Profile does not exist: {selected_path}")
+    for path, metadata, body in tracker_profile_documents(bundle):
+        if str(metadata["tracker"]) == selected:
+            metadata["default"] = True
+        else:
+            metadata.pop("default", None)
+        write_document(path, metadata, body)
+    print(f"Saved {selected!r} as the project default Tracker Profile.")
+    return 0
+
+
 def tracker_init(args: argparse.Namespace) -> int:
     root = repository_root(args.root)
     bundle = bundle_root(root, args.bundle)
@@ -682,7 +725,22 @@ def tracker_init(args: argparse.Namespace) -> int:
         },
     }
     title = str(discovery["scope"].get("name") or discovery["scope"].get("key") or tracker)
-    write_document(profile_path, metadata, f"# {title}\n\nTracker mappings discovered for `{system}`.\n")
+    scope = discovery["scope"]
+    profile_body = (
+        f"# {title}\n\n"
+        "## Setup evidence\n\n"
+        f"- Provider system: `{system}`.\n"
+        f"- Resource: `{discovery['resource']}`.\n"
+        f"- Selected {scope.get('kind', 'scope')}: `{scope.get('key')}` (stable ID `{scope.get('id')}`).\n"
+        f"- Discovery observed: `{now}` with fingerprint `{metadata['discovery']['fingerprint']}`.\n"
+        "- Authentication was read from the runtime environment; no credential or credential reference is stored here.\n"
+        f"- Project default selected: `{'yes' if getattr(args, 'default', False) else 'no'}`.\n\n"
+        "## Mapping review\n\n"
+        "Status and field mappings were proposed from provider discovery. Review lossy mappings before enabling tracker-authoritative pull synchronization.\n"
+    )
+    write_document(profile_path, metadata, profile_body)
+    if getattr(args, "default", False):
+        tracker_set_default(argparse.Namespace(root=str(root), bundle=args.bundle, tracker=tracker))
     print(f"Initialized Tracker Profile {tracker!r} at {profile_path}")
     return 0
 
@@ -852,7 +910,8 @@ def create_remote_record(
 
 def tracker_create_remote(args: argparse.Namespace) -> int:
     root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
-    task_file = task_path(bundle, valid_slug(args.task)); profile_file = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
+    task_file = task_path(bundle, valid_slug(args.task)); profile_file = bundle / "trackers" / f"{tracker}.md"
     if not task_file.exists() or not profile_file.exists(): fail("Task and Tracker Profile must both exist before remote creation.")
     task, body = read_document(task_file); profile, _ = read_document(profile_file)
     findings = egress_findings(body, root)
@@ -899,7 +958,8 @@ def get_remote_record(
 
 def tracker_import_remote(args: argparse.Namespace) -> int:
     root = repository_root(args.root); bundle = bundle_root(root, args.bundle); slug = valid_slug(args.slug)
-    profile_file = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
+    profile_file = bundle / "trackers" / f"{tracker}.md"
     if not profile_file.exists(): fail(f"Tracker Profile does not exist: {profile_file}")
     profile, _ = read_document(profile_file)
     token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
@@ -964,8 +1024,9 @@ def update_remote_record(
 
 def tracker_sync(args: argparse.Namespace) -> int:
     root = repository_root(args.root); bundle = bundle_root(root, args.bundle); task_file = task_path(bundle, valid_slug(args.task))
-    task, body = read_document(task_file); profile_file = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"; profile, _ = read_document(profile_file)
-    bindings = [item for item in task.get("external", []) if isinstance(item, dict) and item.get("tracker") == args.tracker]
+    tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
+    task, body = read_document(task_file); profile_file = bundle / "trackers" / f"{tracker}.md"; profile, _ = read_document(profile_file)
+    bindings = [item for item in task.get("external", []) if isinstance(item, dict) and item.get("tracker") == tracker]
     if len(bindings) != 1: fail("Tracker synchronization requires exactly one matching external binding on the task.")
     binding = bindings[0]; token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
     token = os.environ.get(token_env, ""); requester = getattr(args, "requester", request_json)
@@ -1122,7 +1183,8 @@ def link_external(args: argparse.Namespace) -> int:
     path = task_path(bundle, valid_slug(args.task))
     if not path.exists():
         fail(f"Task does not exist: {args.task}")
-    profile_path = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
+    profile_path = bundle / "trackers" / f"{tracker}.md"
     if not profile_path.exists():
         fail(f"Tracker Profile does not exist: {profile_path}")
     profile, _ = read_document(profile_path)
@@ -1141,7 +1203,7 @@ def link_external(args: argparse.Namespace) -> int:
     if args.remote_revision:
         binding_sync.update(remote_revision=args.remote_revision, base={"remote": args.remote_revision})
     external.append({
-        "tracker": args.tracker, "system": system, "host": host, "kind": profile.get("resource"),
+        "tracker": tracker, "system": system, "host": host, "kind": profile.get("resource"),
         "scope": {"id": scope.get("id"), "key": scope.get("key")},
         "id": args.id, "key": args.key, "url": args.url, "sync": binding_sync,
     })
@@ -1149,7 +1211,7 @@ def link_external(args: argparse.Namespace) -> int:
     metadata["timestamp"] = utc_now()
     write_document(path, metadata, body)
     build_index(bundle)
-    print(f"Linked {args.tracker}:{args.key} to task {args.task!r}.")
+    print(f"Linked {tracker}:{args.key} to task {args.task!r}.")
     return 0
 
 
@@ -1612,6 +1674,8 @@ def validate_tracker_profile(path: Path, profile: dict[str, Any], errors: list[s
         errors.append(f"{path}: type must be Tracker Profile")
     if profile["tracker"] != path.stem or not SLUG_PATTERN.fullmatch(str(profile["tracker"])):
         errors.append(f"{path}: tracker slug must match its filename")
+    if "default" in profile and type(profile["default"]) is not bool:
+        errors.append(f"{path}: default must be a boolean")
     if profile["system"] not in TRACKER_SYSTEMS:
         errors.append(f"{path}: unsupported tracker system")
     parsed_host = urlsplit(str(profile["host"]))
@@ -1830,6 +1894,7 @@ def validate_bundle(bundle: Path) -> list[str]:
             errors.append(f"{path}: non-reserved Markdown concept requires a non-empty type")
 
     tracker_profiles: dict[str, dict[str, Any]] = {}
+    default_tracker_profiles: list[str] = []
     for path in sorted(bundle.joinpath("trackers").glob("*.md")):
         try:
             profile, _ = read_document(path)
@@ -1838,6 +1903,12 @@ def validate_bundle(bundle: Path) -> list[str]:
         validate_tracker_profile(path, profile, errors)
         if profile.get("tracker"):
             tracker_profiles[str(profile["tracker"])] = profile
+            if profile.get("default") is True:
+                default_tracker_profiles.append(str(profile["tracker"]))
+    if len(default_tracker_profiles) > 1:
+        errors.append(
+            f"{bundle / 'trackers'}: only one default Tracker Profile is allowed; found {', '.join(default_tracker_profiles)}"
+        )
 
     parsed_tasks: list[tuple[Path, dict[str, Any], str]] = []
     for path in sorted(bundle.glob("*/task.md")):
@@ -2057,8 +2128,13 @@ def build_parser() -> argparse.ArgumentParser:
     tracker_initialize.add_argument("--mode", choices=sorted(SYNC_MODES), default="manual")
     tracker_initialize.add_argument("--authority", choices=sorted(SYNC_AUTHORITIES), default="manual")
     tracker_initialize.add_argument("--status-map", action="append", help="Override with local=remote-id-or-name")
+    tracker_initialize.add_argument("--default", action="store_true", help="Save this profile as the project default")
     tracker_initialize.add_argument("--force", action="store_true")
     tracker_initialize.set_defaults(func=tracker_init)
+    tracker_default_parser = tracker_commands.add_parser("set-default", help="Save the project default Tracker Profile")
+    add_location_arguments(tracker_default_parser)
+    tracker_default_parser.add_argument("--tracker", required=True)
+    tracker_default_parser.set_defaults(func=tracker_set_default)
     for name, function, help_text in (
         ("inspect", tracker_inspect, "Print a resolved profile as JSON"),
         ("validate", tracker_validate_command, "Validate one Tracker Profile"),
@@ -2077,7 +2153,7 @@ def build_parser() -> argparse.ArgumentParser:
     tracker_refresh_parser.set_defaults(func=tracker_refresh)
     tracker_create_parser = tracker_commands.add_parser("create", help="Create, verify, and bind a remote record from a task")
     add_location_arguments(tracker_create_parser)
-    tracker_create_parser.add_argument("--tracker", required=True)
+    tracker_create_parser.add_argument("--tracker", help="Profile slug; defaults to the saved or sole project profile")
     tracker_create_parser.add_argument("--task", required=True)
     tracker_create_parser.add_argument("--api-base")
     tracker_create_parser.add_argument("--token-env")
@@ -2088,7 +2164,7 @@ def build_parser() -> argparse.ArgumentParser:
     tracker_create_parser.set_defaults(func=tracker_create_remote)
     tracker_import_parser = tracker_commands.add_parser("import", help="Import a remote record as a conformant local task")
     add_location_arguments(tracker_import_parser)
-    tracker_import_parser.add_argument("--tracker", required=True)
+    tracker_import_parser.add_argument("--tracker", help="Profile slug; defaults to the saved or sole project profile")
     tracker_import_parser.add_argument("--remote-key", required=True, help="Issue number, IID, identifier, or task ID")
     tracker_import_parser.add_argument("--slug", required=True)
     tracker_import_parser.add_argument("--status", choices=STATUSES, help="Required when the remote mapping is lossy")
@@ -2097,7 +2173,7 @@ def build_parser() -> argparse.ArgumentParser:
     tracker_import_parser.set_defaults(func=tracker_import_remote)
     tracker_sync_parser = tracker_commands.add_parser("sync", help="Push or pull one bound task with conflict-safe reconciliation")
     add_location_arguments(tracker_sync_parser)
-    tracker_sync_parser.add_argument("--tracker", required=True)
+    tracker_sync_parser.add_argument("--tracker", help="Profile slug; defaults to the saved or sole project profile")
     tracker_sync_parser.add_argument("--task", required=True)
     tracker_sync_parser.add_argument("--direction", choices=("push", "pull"), required=True)
     tracker_sync_parser.add_argument("--api-base")
@@ -2138,7 +2214,7 @@ def build_parser() -> argparse.ArgumentParser:
     external = subparsers.add_parser("link-external", help="Add an external tracker mapping")
     add_location_arguments(external)
     external.add_argument("--task", required=True)
-    external.add_argument("--tracker", required=True)
+    external.add_argument("--tracker", help="Profile slug; defaults to the saved or sole project profile")
     external.add_argument("--id", required=True)
     external.add_argument("--key", required=True)
     external.add_argument("--url", required=True)

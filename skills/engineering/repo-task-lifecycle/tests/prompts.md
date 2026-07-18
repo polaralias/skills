@@ -170,3 +170,15 @@ Expected behaviour:
 - Preserve unknown task fields and unknown concept types.
 - Validate the selected task bundle without rewriting unrelated OKF knowledge.
 - Report incompatible extensions rather than deleting them.
+
+## 17. Project-default tracker destination
+
+Prompt: "We are working in this project. Sync the new tasks to the usual Linear or ClickUp list without making me repeat it every time."
+
+Expected behaviour:
+
+- Discover candidate teams or Lists in the current project context before writing.
+- Prompt when several writable destinations are plausible.
+- Save the confirmed Tracker Profile as the single project default without storing credentials.
+- Use the saved default when later create, import, sync, or link commands omit `--tracker`.
+- Stop with the available profile names when no unambiguous default exists.
