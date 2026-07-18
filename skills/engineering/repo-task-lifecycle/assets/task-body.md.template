@@ -1,0 +1,30 @@
+# {{title}}
+
+## Outcome
+
+{{description}}
+
+## Scope
+
+- In scope:
+- Out of scope:
+
+## Acceptance
+
+- [ ] Add evidence-backed completion criteria.
+
+## Dependencies and risks
+
+- None recorded.
+
+## Related knowledge
+
+- Link established product, architecture, decision, runbook, or other canonical sources.
+
+## Workstreams
+
+- Add workstream links when delivery has separately owned units.
+
+## Evidence
+
+- Add validation, integration, deployment, and live-verification evidence separately.
