@@ -182,3 +182,48 @@ Expected behaviour:
 - Save the confirmed Tracker Profile as the single project default without storing credentials.
 - Use the saved default when later create, import, sync, or link commands omit `--tracker`.
 - Stop with the available profile names when no unambiguous default exists.
+
+## 18. Installed command-line interface
+
+Prompt: "Use the task lifecycle tooling, but do not make me invoke a Python file by path."
+
+Expected behaviour:
+
+- Prefer the installed `okf-tasks` command for lifecycle, estimate, tracker, export, index, and validation operations.
+- Keep command names and arguments identical to the portable reference implementation.
+- Fall back to `python scripts/okf_tasks.py` only when the distribution is unavailable.
+
+## 19. Local visual review
+
+Prompt: "Give me a visual way to explore the task relationships and read all of the Markdown documents."
+
+Expected behaviour:
+
+- Generate the viewer with the bundled `scripts/visualize_bundle.py` implementation.
+- Open in light mode on first use while preserving a later theme choice.
+- Provide labelled controls, a Graph tab, and a full-page Documents tab with a permanent file tree.
+- Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
+- Default to Grid, distinguish record classes by geometry, and expose effort and connection metrics.
+- Offer timestamp-based Timeline and through-date controls without claiming current bodies are historical snapshots.
+- Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
+
+## 20. Durable visualization knowledge
+
+Prompt: "This task map is now a maintained repository view; document how it is generated and verified."
+
+Expected behaviour:
+
+- Keep the generated viewer derived and the task Markdown/YAML authoritative.
+- Route a durable `Visualization` concept with source, renderer, output, interpretation, verification, and timestamp to `repo-knowledge-engineering`.
+- Regenerate the viewer through the bundled script rather than hand-editing HTML.
+
+## 21. Possible temporal drift
+
+Prompt: "Use the task graph to find features updated after their linked documentation."
+
+Expected behaviour:
+
+- Compare only records with usable selected timestamps and existing graph relationships.
+- Highlight a newer linked source and older target as a possible review signal.
+- Inspect current semantic content and evidence before declaring drift or changing either record.
+- Route confirmed durable documentation drift through RKE while keeping task-only reconciliation in RTL.

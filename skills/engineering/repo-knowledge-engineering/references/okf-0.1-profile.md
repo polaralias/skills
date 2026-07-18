@@ -28,7 +28,7 @@ Recommended fields are:
 - `description`: one-sentence retrieval summary
 - `resource`: absolute URI for an underlying asset, when one exists
 - `tags`: short YAML string list
-- `timestamp`: ISO 8601 datetime of the last meaningful content change
+- `timestamp`: ISO 8601 datetime of the last meaningful content change; this is the portable last-updated value, not filesystem or Git time
 
 Preserve unknown types and producer-defined fields when reading or round-tripping a bundle.
 
@@ -61,6 +61,25 @@ OKF has no central type registry. Prefer descriptive values such as:
 - `Reference`
 
 Reuse an established repository type before inventing a synonym.
+
+### Visualization concepts
+
+Use `type: Visualization` when a durable repository concept must explain how to generate, interpret, and verify a visual view of other OKF or repository records. A Visualization concept is canonical metadata about a derived view; the rendered HTML, Mermaid, image, or other output remains derived.
+
+Start from `assets/okf/visualization.md.template`. In addition to the normal retrieval fields and explicit `timestamp`, record:
+
+- `source`: bundle-relative link to the canonical source record or index;
+- `renderer`: stable command or producer identity;
+- `output`: bundle-relative link to the derived artifact;
+- `temporal_basis`: event field used for chronological ordering, normally `timestamp`;
+- `history_model`: normally `current-records-only` unless retained historical concepts or versions support reconstruction;
+- `drift_policy`: the comparison heuristic and its evidential limit;
+- `authority: derived` unless the concept body itself records a canonical visualization contract;
+- `verification`: the honest current generation or smoke-test state.
+
+Advance `timestamp` when the visualization's source contract, renderer, output, visual encoding, interpretation, or verification meaningfully changes. Regenerating byte-identical output does not require a concept update. Never use the generated file's modification time as concept freshness.
+
+Temporal order alone does not establish documentation drift. A linked source with a newer timestamp than its target is a useful review candidate, but consumers must label that relationship as a possible signal and inspect semantic content and evidence before changing either concept. A bundle containing only current concepts cannot reconstruct historical fact values merely by moving an as-of control backwards.
 
 ## Reserved files
 

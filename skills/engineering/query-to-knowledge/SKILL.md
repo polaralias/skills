@@ -4,7 +4,7 @@ description: Resolve open repository questions into durable canonical knowledge,
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.6.0
+  version: 1.6.1
   updated: '2026-07-18'
 ---
 
@@ -119,7 +119,8 @@ When the canonical target is inside an OKF bundle:
 
 - preserve its non-empty descriptive `type` and every unknown producer-defined field
 - add or refine `title` and one-sentence `description` for retrieval
-- update tags, resource URI, timestamp, authority, verification, and citations only when the resolved knowledge supports the change
+- update tags, resource URI, authority, verification, and citations only when the resolved knowledge supports the change
+- whenever the capture directly changes a concept's meaning, advance its RFC 3339 `timestamp` as Last meaningful change; never substitute filesystem, Git, generation, or observation time
 - use the repository's established concept types before inventing synonyms
 - rebuild the affected canonical index and add a `log.md` entry only for a meaningful knowledge event
 - run or hand off to the RKE OKF validator before claiming conformance

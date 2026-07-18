@@ -30,6 +30,7 @@ Prompt: "This new repository has no documentation foundation. Bootstrap one that
 Expected:
 - recommends a bounded OKF-compatible knowledge bundle
 - creates typed concepts with useful retrieval metadata rather than converting every Markdown file
+- records an explicit RFC 3339 timestamp for the initial meaningful concept state
 - hands index generation and conformance validation to `repo-knowledge-engineering`
 
 ## 6. Existing OpenWiki detection

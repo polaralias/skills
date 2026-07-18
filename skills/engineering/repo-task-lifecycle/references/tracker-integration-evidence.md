@@ -13,10 +13,10 @@ Use this reference when establishing or reviewing an external tracker connection
 7. Run `tracker refresh` after provider configuration changes and retain setup, validation, and live-test evidence with the profile or delivery record.
 
 ```text
-python scripts/okf_tasks.py tracker init --root <repo> --tracker linear-engineering --system linear --scope ENG --mode bidirectional --authority repository --default
-python scripts/okf_tasks.py tracker set-default --root <repo> --tracker linear-engineering
-python scripts/okf_tasks.py tracker create --root <repo> --task new-task
-python scripts/okf_tasks.py tracker sync --root <repo> --task new-task --direction push
+okf-tasks tracker init --root <repo> --tracker linear-engineering --system linear --scope ENG --mode bidirectional --authority repository --default
+okf-tasks tracker set-default --root <repo> --tracker linear-engineering
+okf-tasks tracker create --root <repo> --task new-task
+okf-tasks tracker sync --root <repo> --task new-task --direction push
 ```
 
 Selection order is explicit `--tracker`, saved project default, then sole profile. Several profiles without one default must stop with candidates for confirmation.

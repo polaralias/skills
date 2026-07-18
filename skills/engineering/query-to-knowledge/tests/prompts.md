@@ -30,6 +30,7 @@ Prompt: "We resolved this support-boundary question. Capture it in the repositor
 Expected:
 - updates the appropriate typed concept with retrieval metadata and evidence
 - preserves unknown frontmatter fields
+- advances `timestamp` because the resolved answer changes the concept's meaning
 - refreshes the index and meaningful log state through the RKE profile
 
 ## 6. Generated-knowledge disagreement

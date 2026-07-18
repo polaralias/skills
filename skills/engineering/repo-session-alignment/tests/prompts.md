@@ -68,3 +68,10 @@ Expected:
 - checks both lanes and reports `tasks: not present` and `knowledge: not established`
 - does not bootstrap either surface
 - reports a complete no-mutation closure when no other obligation remains
+
+## 11. Timestamp reconciliation
+Prompt: "Close the session after changing task evidence and a linked canonical concept."
+Expected:
+- advances the task and concept timestamps independently when each meaningfully changed
+- preserves created, activity, completion, provider-observation, filesystem, and Git times as distinct signals
+- validates both bundle roots after reconciliation

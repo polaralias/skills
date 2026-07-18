@@ -21,6 +21,8 @@ An OKF task bundle and an OKF knowledge bundle are independently conformant bund
 6. Validate each affected bundle independently.
 7. Produce a handoff when unfinished work must survive the session boundary.
 
+Every directly changed OKF record whose meaning changes must advance its RFC 3339 `timestamp`. This applies independently in both lanes and must not be inferred from filesystem modification or Git commit time.
+
 The provisional task pass prevents stale progress and time records from shaping promotion. The final task pass prevents a task from closing before its durable-knowledge obligation is satisfied.
 
 ## Status vocabulary

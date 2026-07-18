@@ -1,7 +1,7 @@
 interface:
   display_name: "Repo Knowledge Engineering"
   short_description: "Maintain canonical repository knowledge with OKF."
-  default_prompt: "Use $repo-knowledge-engineering to create or align canonical repository knowledge, prefer a bounded OKF-compatible bundle for new knowledge, consume existing OKF safely, and ask for direction before changing knowledge surfaces when OpenWiki is detected."
+  default_prompt: "Use $repo-knowledge-engineering to create or align canonical repository knowledge with explicit last-meaningful-change timestamps, document maintained temporal or other derived views as OKF Visualization concepts, treat timestamp drift as a review signal requiring semantic evidence, consume existing OKF safely, and ask for direction before changing knowledge surfaces when OpenWiki is detected."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 
