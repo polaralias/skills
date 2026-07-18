@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import json
 import re
 from dataclasses import dataclass, field
@@ -446,6 +447,112 @@ def generate_html(graph: dict[str, Any], name: str) -> str:
         .replace('$("reset").onclick=()=>{$("search").value="";activeType="";for(const item of filters.children)item.setAttribute("aria-pressed",String(!item.dataset.type));filter();cy.animate({fit:{eles:cy.elements(),padding:72},duration:560,easing:"ease-out"})}', '$("reset").onclick=()=>{$("search").value="";activeType="";temporalField="timestamp";driftReview=false;$("temporal-field").value="timestamp";$("drift-review").setAttribute("aria-pressed","false");$("layout").value="grid";for(const item of filters.children)item.setAttribute("aria-pressed",String(!item.dataset.type));updateTemporalRange(true);runLayout("grid")}')
         .replace('setTheme(document.documentElement.dataset.theme);filter();if(graph.nodes[0])', 'setTheme(document.documentElement.dataset.theme);updateTemporalRange(true);if(graph.nodes[0])')
     )
+
+
+def build_relationship_view(graph: dict[str, Any]) -> dict[str, Any]:
+    """Add visual-only bundle labels and stable lanes without changing canonical edges."""
+    grouped = deepcopy(graph)
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for node in grouped["nodes"]:
+        record_id = str(node["data"]["id"])
+        parts = record_id.split("/")
+        group_key = parts[0] if len(parts) > 1 and parts[0] != "tasks" else "bundle"
+        groups.setdefault(group_key, []).append(node)
+    bundle_nodes: list[dict[str, Any]] = []
+    type_rows = {"Task": 0, "Workstream": 1, "Time Entry": 2, "Tracker Profile": 3}
+    for group_index, (group_key, members) in enumerate(groups.items()):
+        group_id = f"__bundle__/{group_key}"
+        column = group_index % 2
+        row = group_index // 2
+        base_x = 230 + column * 620
+        base_y = 80 + row * 245
+        by_type: dict[int, list[dict[str, Any]]] = {}
+        for member in members:
+            type_row = type_rows.get(str(member["data"].get("type")), 4)
+            by_type.setdefault(type_row, []).append(member)
+        for type_row, row_members in by_type.items():
+            for member_index, member in enumerate(row_members):
+                offset = (member_index - (len(row_members) - 1) / 2) * 250
+                member["data"]["relationshipPosition"] = {
+                    "x": base_x + offset,
+                    "y": base_y + type_row * 75,
+                }
+        bundle_nodes.append(
+            {
+                "data": {
+                    "id": group_id,
+                    "label": group_key.replace("-", " ").title(),
+                    "type": "Bundle",
+                    "status": f"{len(members)} records",
+                    "description": "Visual grouping only; relationships remain the explicit graph edges.",
+                    "tags": [],
+                    "frontmatter": {},
+                    "color": "#64748b",
+                    "virtual": True,
+                    "relationshipPosition": {"x": base_x - 100, "y": base_y - 50},
+                }
+            }
+        )
+    grouped["nodes"] = bundle_nodes + grouped["nodes"]
+    return grouped
+
+
+def generate_relationship_html(graph: dict[str, Any], name: str) -> str:
+    """Render an edge-first review page with records grouped by source bundle."""
+    rendered = generate_html(build_relationship_view(graph), name)
+    rendered = rendered.replace("OKF Tasks · derived bundle view", "OKF Tasks · relationship map")
+    rendered = rendered.replace("#graph{position:absolute;inset:0}", "#graph{position:absolute;inset:165px 0 0}")
+    rendered = rendered.replace(
+        '<option value="cose">Force layout</option>',
+        '<option value="relationship" selected>Relationship layout</option><option value="cose">Force layout</option>',
+    ).replace('<option value="grid" selected>Grid</option>', '<option value="grid">Grid</option>')
+    rendered = rendered.replace(
+        'layout:{name:"grid",animate:true,animationDuration:520,animationEasing:"ease-out",padding:88,nodeRepulsion:24000,idealEdgeLength:170,edgeElasticity:.15,nestingFactor:1.1}',
+        'layout:{name:"preset",positions:node=>node.data("relationshipPosition"),fit:false}',
+    )
+    rendered = rendered.replace(
+        'function runLayout(name){if(name!=="timeline")',
+        'function runLayout(name){if(name==="relationship"){cy.layout({name:"preset",positions:node=>node.data("relationshipPosition")||node.position(),fit:false,animate:true,animationDuration:650,animationEasing:"ease-out"}).run();cy.zoom(1);cy.pan({x:0,y:0});return}if(name!=="timeline")',
+    )
+    rendered = rendered.replace(
+        '$("layout").value="grid";for(const item',
+        '$("layout").value="relationship";for(const item',
+    ).replace('runLayout("grid")', 'runLayout("relationship")')
+    rendered = rendered.replace(
+        '$("record-count").textContent=graph.nodes.length;',
+        '$("record-count").textContent=graph.nodes.filter(node=>!node.data.virtual).length;',
+    )
+    rendered = rendered.replace(
+        'for(const n of graph.nodes)index[n.data.id]=n.data;',
+        'for(const n of graph.nodes)if(!n.data.virtual)index[n.data.id]=n.data;',
+    )
+    rendered = rendered.replace(
+        'if(graph.nodes[0])show(graph.nodes[0].data.id)',
+        'const firstRecord=graph.nodes.find(node=>!node.data.virtual);if(firstRecord)show(firstRecord.data.id)',
+    )
+    rendered = rendered.replace(
+        'if(!dim)visible++',
+        'if(!dim&&!d.virtual)visible++',
+    ).replace(
+        '${visible} of ${graph.nodes.length} records',
+        '${visible} of ${graph.nodes.filter(node=>!node.data.virtual).length} records',
+    )
+    rendered = rendered.replace(
+        '.selector("edge.possible-drift")',
+        '.selector(\'node[virtual]\').style({width:1,height:1,"background-image":"none","background-opacity":0,"border-width":0,label:"data(label)",color:"#64748b","font-family":"JetBrains Mono","font-size":12,"font-weight":500,"text-valign":"center","text-halign":"left","text-margin-x":8,"text-transform":"uppercase","overlay-opacity":0}).selector("edge.possible-drift")',
+    )
+    rendered = rendered.replace(
+        '<span class="legend-item"><i class="legend-dot" style="background:#059669"></i>Time</span>',
+        '<span class="legend-item"><i class="legend-dot" style="background:#059669"></i>Time</span><span class="legend-item"><i class="legend-boundary"></i>Bundle lane</span>',
+    )
+    rendered = rendered.replace(
+        "</style>",
+        ".legend-boundary{width:12px;height:8px;border:1px dashed var(--line-strong)}\n"
+        ".graph-core.relationship-map #graph{inset:0}\n"
+        "</style>",
+        1,
+    )
+    return rendered
 
 
 def write_or_check(path: Path, content: str, check: bool) -> None:

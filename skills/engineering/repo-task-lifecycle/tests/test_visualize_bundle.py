@@ -46,6 +46,37 @@ class VisualizationPackageTests(unittest.TestCase):
         self.assertIn('edge.possible-drift', generated)
         self.assertIn('.selector(\'node[type = "Time Entry"]\')', generated)
 
+    def test_bundled_viewer_exposes_relationship_focused_rendering(self) -> None:
+        graph = {
+            "nodes": [
+                {
+                    "data": {
+                        "id": "example/tasks/ship/task",
+                        "label": "Ship",
+                        "type": "Task",
+                        "status": "ready",
+                        "description": "Ship the work.",
+                        "tags": [],
+                        "frontmatter": {},
+                        "color": "#2563eb",
+                    }
+                }
+            ],
+            "edges": [],
+            "bodies": {},
+            "sources": {},
+            "frontmatters": {},
+            "documents": [],
+            "types": ["Task"],
+            "palette": {},
+        }
+        generated = visualize_bundle.generate_relationship_html(graph, "Relationships")
+        self.assertIn('OKF Tasks · relationship map', generated)
+        self.assertIn('<option value="relationship" selected>Relationship layout</option>', generated)
+        self.assertIn('node[virtual]', generated)
+        self.assertIn('Bundle lane', generated)
+        self.assertIn('"relationshipPosition":', generated)
+
 
 if __name__ == "__main__":
     unittest.main()
