@@ -182,3 +182,13 @@ Expected behaviour:
 - Save the confirmed Tracker Profile as the single project default without storing credentials.
 - Use the saved default when later create, import, sync, or link commands omit `--tracker`.
 - Stop with the available profile names when no unambiguous default exists.
+
+## 18. Installed command-line interface
+
+Prompt: "Use the task lifecycle tooling, but do not make me invoke a Python file by path."
+
+Expected behaviour:
+
+- Prefer the installed `okf-tasks` command for lifecycle, estimate, tracker, export, index, and validation operations.
+- Keep command names and arguments identical to the portable reference implementation.
+- Fall back to `python scripts/okf_tasks.py` only when the distribution is unavailable.
