@@ -1,10 +1,10 @@
 ---
 name: repo-task-lifecycle
-description: Create and maintain durable OKF Tasks bundles with repository-local tasks, workstreams, lifecycle transitions, time entries, effort estimates, sprint points, evidence, knowledge links, first-class GitHub, GitLab, Linear, and ClickUp Tracker Profiles, safe create/import/sync operations, export payloads, and generated indexes. Use when work needs a backlog or execution history beside code, must survive chat or tracker state, needs agent-forward time tracking, or must synchronize safely with an external tracker while routing unresolved product truth through RKE/QTK/DDD. Do not use it to create canonical product truth or manage physical Git worktrees. Shorthand RTL.
+description: Create and maintain durable OKF Tasks bundles with repository-local tasks, workstreams, lifecycle transitions, time entries, effort estimates, sprint points, evidence, knowledge links, interactive graph and document views, first-class GitHub, GitLab, Linear, and ClickUp Tracker Profiles, safe create/import/sync operations, export payloads, and generated indexes. Use when work needs a backlog or execution history beside code, must survive chat or tracker state, needs agent-forward time tracking or visual review, or must synchronize safely with an external tracker while routing unresolved product truth through RKE/QTK/DDD. Do not use it to create canonical product truth or manage physical Git worktrees. Shorthand RTL.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.2.0
+  version: 3.3.0
   updated: '2026-07-18'
 ---
 
@@ -24,7 +24,7 @@ This skill produces chat output. Include this proof line in the response: `repo-
 
 Maintain execution truth as a portable OKF Tasks bundle while integrating with the repository knowledge-engineering workflow.
 
-Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Prefer the installed `okf-tasks` CLI for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable fallback with the same command surface.
+Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Prefer the installed `okf-tasks` CLI for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable fallback with the same command surface. Use [scripts/visualize_bundle.py](./scripts/visualize_bundle.py) to generate the light-first interactive Graph and Documents views when a bundle needs local visual review.
 
 ## Ownership and routing
 

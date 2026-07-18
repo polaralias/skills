@@ -192,3 +192,14 @@ Expected behaviour:
 - Prefer the installed `okf-tasks` command for lifecycle, estimate, tracker, export, index, and validation operations.
 - Keep command names and arguments identical to the portable reference implementation.
 - Fall back to `python scripts/okf_tasks.py` only when the distribution is unavailable.
+
+## 19. Local visual review
+
+Prompt: "Give me a visual way to explore the task relationships and read all of the Markdown documents."
+
+Expected behaviour:
+
+- Generate the viewer with the bundled `scripts/visualize_bundle.py` implementation.
+- Open in light mode on first use while preserving a later theme choice.
+- Provide labelled controls, a Graph tab, and a full-page Documents tab with a permanent file tree.
+- Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
