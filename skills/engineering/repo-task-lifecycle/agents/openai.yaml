@@ -1,9 +1,9 @@
 interface:
   display_name: "Repo Task Lifecycle"
-  short_description: "Track OKF tasks, effort, provider sync, and evidence."
+  short_description: "Track OKF tasks, project-default provider sync, and evidence."
   icon_small: "./assets/icon.svg"
   icon_large: "./assets/icon.svg"
-  default_prompt: "Use $repo-task-lifecycle to maintain repository-local OKF task and workstream truth, track effort and estimates, route durable knowledge into RKE, and configure or safely reconcile first-class GitHub, GitLab, Linear, and ClickUp Tracker Profiles."
+  default_prompt: "Use $repo-task-lifecycle to maintain repository-local OKF task and workstream truth, track effort and estimates, route durable knowledge into RKE, and configure project-default or explicitly selected GitHub, GitLab, Linear, and ClickUp Tracker Profiles safely."
 policy:
   allow_implicit_invocation: true
   products:

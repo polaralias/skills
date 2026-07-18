@@ -81,13 +81,14 @@ The task slug remains canonical repository identity. Store external identities a
 
 Before creating, importing, or synchronising:
 
-1. Initialise a Tracker Profile from live provider discovery or a reviewed discovery snapshot.
-2. Verify provider system, HTTPS host, resource kind, stable scope, sync mode, authority, complete status map, explicit field map, managed-label ownership, and discovery fingerprint.
-3. Keep credentials in runtime environment variables only; never persist them in task or profile records.
-4. Confirm the task or work package is stable and run deterministic egress checks on the exact payload before create or push.
-5. Bind the task with `(system, host, kind, id)`, a human-facing key, canonical URL, per-binding sync state, remote revision, and reconciliation base.
-6. Preserve non-owned labels, use stable provider field IDs, read writes back, and advance the base only after verification.
-7. Stop on provider drift or conflicts where both sides changed the same field since the base.
+1. Discover candidate provider surfaces in the current repository/project context and ask the user when more than one writable repository, project, team, or List is plausible.
+2. Initialise a Tracker Profile from live provider discovery or a reviewed discovery snapshot and save the confirmed project default.
+3. Verify provider system, HTTPS host, resource kind, stable scope, sync mode, authority, complete status map, explicit field map, managed-label ownership, discovery fingerprint, and setup evidence.
+4. Keep credentials in runtime environment variables only; never persist them in task or profile records.
+5. Confirm the task or work package is stable and run deterministic egress checks on the exact payload before create or push.
+6. Bind the task with `(system, host, kind, id)`, a human-facing key, canonical URL, per-binding sync state, remote revision, and reconciliation base.
+7. Preserve non-owned labels, use stable provider field IDs, read writes back, and advance the base only after verification.
+8. Stop on provider drift or conflicts where both sides changed the same field since the base.
 
 Use `tracker refresh` to detect discovery drift without silently remapping. Route unsupported providers and deliberately separate publication workflows to `tracker-publisher` with a checked payload and explicit authority.
 
