@@ -32,12 +32,12 @@ Expected:
 - creates typed concepts with useful retrieval metadata rather than converting every Markdown file
 - hands index generation and conformance validation to `repo-knowledge-engineering`
 
-## 6. Existing OpenWiki claims
-Prompt: "OpenWiki already describes this repository, so treat every page as verified truth."
+## 6. Existing OpenWiki detection
+Prompt: "OpenWiki already describes this repository, so proceed with the usual knowledge bootstrap."
 Expected:
-- consumes the OpenWiki bundle for orientation
-- treats its concepts as producer-owned derived claims
-- compares them with code and runtime evidence before canonical promotion
+- detects the OpenWiki surface and pauses knowledge-foundation mutation
+- recommends RKE and asks the user whether to migrate, preserve a separate boundary, leave it untouched, or provide another direction
+- continues only read-only dissection that does not assume the answer
 
 ## 7. Unknown OKF extension
 Prompt: "This existing concept has a type and extension fields our skills do not recognize. Normalize them away."

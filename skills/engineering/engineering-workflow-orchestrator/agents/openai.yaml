@@ -1,7 +1,7 @@
 interface:
   display_name: "Engineering Workflow Orchestrator"
-  short_description: Coordinate repository truth, tasks, worktrees, implementation, publication, and continuity.
-  default_prompt: "Use $engineering-workflow-orchestrator to classify the current stage, route among repository knowledge, docs-first decomposition, local task lifecycle, concurrent worktrees, implementation, external tracker publication, and continuity, and keep each state surface within its ownership boundary."
+  short_description: "Coordinate engineering workflow and session closure."
+  default_prompt: "Use $engineering-workflow-orchestrator to classify the current stage, route among repository knowledge, docs-first decomposition, local task lifecycle, concurrent worktrees, implementation, repo-session-alignment closure, external tracker publication, and continuity, and keep each state surface within its ownership boundary."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

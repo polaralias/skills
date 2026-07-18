@@ -2,7 +2,8 @@
 
 - identify active docs, specs, plans, tests, archive docs, and local handoffs
 - identify `AGENTS.md` or other operating guidance when present
-- detect existing OKF bundles, `okf_version`, and OpenWiki ownership markers
+- detect existing OKF bundles and `okf_version`
+- detect OpenWiki ownership markers separately, recommend RKE, and ask the user for a migration or preservation direction before knowledge-surface mutation
 - separate current verified behavior from desired end state
 - identify where epic-level or product-truth docs should live and whether they are canonical yet
 - identify the canonical reading order before polishing secondary docs
@@ -20,7 +21,7 @@
 - keep archive docs evidence-backed and de-emphasized
 - label evidence, canonical, execution, and generated surfaces clearly when they coexist
 - preserve unknown OKF types and extension fields
-- keep OpenWiki producer-owned and derived; promote only verified durable conclusions
-- build and validate canonical OKF indexes, and validate external producer bundles read-only
+- preserve producer-owned surfaces until the user resolves their ownership or migration direction
+- build and validate canonical OKF indexes, and validate explicitly retained external OKF bundles read-only
 - name which surface is strongest when cross-artifact drift exists
 - scan for publish-safety leakage before public release

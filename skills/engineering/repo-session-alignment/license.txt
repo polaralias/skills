@@ -1,0 +1,6 @@
+Copyright (c) James Whelan / polaralias.
+
+All rights reserved.
+
+Source repository: https://github.com/polaralias/skills
+

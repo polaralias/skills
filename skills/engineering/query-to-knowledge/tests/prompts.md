@@ -32,11 +32,11 @@ Expected:
 - preserves unknown frontmatter fields
 - refreshes the index and meaningful log state through the RKE profile
 
-## 6. OpenWiki disagreement
-Prompt: "OpenWiki says one thing, but verified runtime evidence resolved the answer differently."
+## 6. Generated-knowledge disagreement
+Prompt: "A producer-owned generated bundle says one thing, but verified runtime evidence resolved the answer differently."
 Expected:
 - captures the verified answer in the canonical knowledge surface
-- treats OpenWiki as derived and routes its correction through the producer workflow
+- treats generated output as derived and routes its correction through the owning workflow
 - does not silently rewrite producer-owned indexes
 
 ## 7. Execution-data exclusion
