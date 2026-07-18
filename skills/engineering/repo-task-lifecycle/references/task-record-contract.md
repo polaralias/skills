@@ -11,7 +11,8 @@ Use this reference to keep OKF Tasks aligned with the proprietary repository-eng
 | Feature contracts, scenarios, acceptance surfaces, and work packages | `doc-driven-development` | Make product truth implementation-ready |
 | Task, workstream, time, estimate, evidence, mapping, and index records | `repo-task-lifecycle` | Durable execution truth |
 | Worktrees, branch/path ownership, and integration order | `worktree-task-coordinator` | Physical concurrency |
-| Provider-specific tracker payload mapping and writes | `tracker-publisher` | External publication |
+| First-class GitHub, GitLab, Linear, and ClickUp profile discovery plus create/import/sync | `repo-task-lifecycle` reference CLI | Scoped external reconciliation |
+| Unsupported providers and separately mediated tracker publication | `tracker-publisher` | External publication outside the first-class adapters |
 | Session continuation | `local-handoff` and `local-pickup` | Temporary restart context |
 | Stage selection | `engineering-workflow-orchestrator` | Route to the narrowest active skill |
 
@@ -24,6 +25,8 @@ Default to:
 ```text
 tasks/
 ├── index.md
+├── trackers/
+│   └── <tracker-slug>.md
 └── <task-slug>/
     ├── task.md
     ├── workstreams/
@@ -76,14 +79,17 @@ Before completion:
 
 The task slug remains canonical repository identity. Store external identities as mappings.
 
-Before publishing:
+Before creating, importing, or synchronising:
 
-1. Confirm the task or work package is stable.
-2. Run `prepare-export` on the exact Markdown source.
-3. Inspect the checked payload.
-4. Give `tracker-publisher` the payload, target system, mapped identity, field authority, and user-authorized mutation scope.
-5. Record the returned external mapping and reconciliation base.
-6. Stop on conflicts where both sides changed an authoritative field.
+1. Initialise a Tracker Profile from live provider discovery or a reviewed discovery snapshot.
+2. Verify provider system, HTTPS host, resource kind, stable scope, sync mode, authority, complete status map, explicit field map, managed-label ownership, and discovery fingerprint.
+3. Keep credentials in runtime environment variables only; never persist them in task or profile records.
+4. Confirm the task or work package is stable and run deterministic egress checks on the exact payload before create or push.
+5. Bind the task with `(system, host, kind, id)`, a human-facing key, canonical URL, per-binding sync state, remote revision, and reconciliation base.
+6. Preserve non-owned labels, use stable provider field IDs, read writes back, and advance the base only after verification.
+7. Stop on provider drift or conflicts where both sides changed the same field since the base.
+
+Use `tracker refresh` to detect discovery drift without silently remapping. Route unsupported providers and deliberately separate publication workflows to `tracker-publisher` with a checked payload and explicit authority.
 
 Never pass raw task source to a live tracker connector when it contains unchecked local links, full paths, secrets, internal-only evidence, or source-supplied destinations.
 

@@ -104,17 +104,18 @@ Expected behaviour:
 - Refuse completion until required workstreams and time entries are closed.
 - Route durable conclusions through `repo-knowledge-engineering`.
 
-## 11. Tracker publication
+## 11. First-class tracker synchronization
 
 Prompt: "Push these tasks to Linear, rename the folders to the new issue IDs, and make the tracker authoritative for everything."
 
 Expected behaviour:
 
 - Retain meaningful repository slugs.
-- Store external IDs as unique mappings.
-- Require explicit record or field authority.
-- Prepare a checked export and route provider mutation to `tracker-publisher`.
-- Do not silently accept total tracker authority.
+- Initialise or inspect a reusable Linear Tracker Profile with team-specific status and field mappings.
+- Store the provider-global ID and human key separately under a scoped `(system, host, kind, id)` binding.
+- Keep sync mode separate from authority and reject a lossy tracker-authoritative bidirectional mapping.
+- Prepare and check the exact payload before an explicitly authorised create or push, then read the write back before advancing the reconciliation base.
+- Route only unsupported providers or separately mediated publication workflows to `tracker-publisher`.
 
 ## 12. Local links in external output
 

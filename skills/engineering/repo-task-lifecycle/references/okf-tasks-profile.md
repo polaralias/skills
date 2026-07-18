@@ -7,6 +7,8 @@ Use `tasks/` as the default operational placement:
 ```text
 tasks/
 ├── index.md
+├── trackers/
+│   └── <tracker-slug>.md
 └── <task-slug>/
     ├── task.md
     ├── workstreams/
@@ -30,7 +32,7 @@ Require these body headings:
 - `## Acceptance`
 - `## Evidence`
 
-Use `owner`, `assignees`, `priority`, `tags`, `parent`, `depends_on`, `external`, and `sync` only when useful. Preserve unknown fields.
+Use `owner`, `assignees`, `priority`, `tags`, `fields`, `parent`, `depends_on`, and `external` only when useful. Preserve unknown fields.
 
 Use task `started` for the first time-entry start, `finished` for final completion, and generated `effort_minutes` for the sum of closed entries. Never infer effort from task start and finish alone.
 
@@ -93,7 +95,11 @@ Store relative complexity separately under `sprint_points` with numeric `value`,
 
 ## External mappings
 
-Store each mapping under `external` with `system`, `id`, and `url`. The `(system, id)` pair is unique across the bundle. Keep the task slug canonical. When `sync` exists, set `authority` to `repository`, `tracker`, or `manual`; optional `field_authority` values use the same vocabulary. A bidirectional adapter records a reconciliation base. The same mapped field changing locally and remotely since that base is a conflict and must never be silently resolved.
+Store reusable provider configuration in `trackers/<tracker-slug>.md` using `type: Tracker Profile`. Require provider `system`, HTTPS `host`, `resource`, stable `scope`, separate sync `mode` and `authority`, a complete `status_map`, explicit `field_map`, and fingerprinted `discovery` metadata. Credentials never belong in repository records.
+
+Store each task binding under `external` with `tracker`, `system`, `host`, `kind`, `scope`, provider-global opaque `id`, human-facing `key`, canonical `url`, and per-binding `sync`. The `(system, host, kind, id)` tuple is unique across the bundle. Keep the task slug canonical. Task-level `sync` is invalid.
+
+Use `managed-subset` for portable tags unless OKF deliberately owns the whole remote label set. Tracker-authoritative bidirectional status mappings must be round-trippable. A same-field local and remote change since the binding base is a conflict and must never be silently resolved. Provider writes require read-back verification.
 
 ## External artifact security
 

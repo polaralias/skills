@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
-"""Reference CLI for OKF Tasks v0.3 bundles."""
+"""Reference CLI for OKF Tasks v0.4 bundles."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
+import os
 import re
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.parse import quote, unquote, urlsplit
+from urllib.request import Request, urlopen
 
 try:
     import yaml
@@ -45,13 +50,17 @@ SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 TASK_HEADINGS = ("Outcome", "Scope", "Acceptance", "Evidence")
 WORKSTREAM_HEADINGS = ("Assigned outcome", "Acceptance and validation", "Evidence", "Handoff")
 SYNC_AUTHORITIES = {"repository", "tracker", "manual"}
+SYNC_MODES = {"push", "pull", "bidirectional", "manual"}
+TRACKER_SYSTEMS = {"github", "gitlab", "linear", "clickup"}
+LABEL_STRATEGIES = {"replace", "managed-subset", "read-only", "ignore"}
+PORTABLE_FIELD_TYPES = {"text", "number", "date", "boolean", "single-select", "multi-select", "user", "url"}
 TIME_STATUSES = {"running", "closed"}
 TIME_METHODS = {"tracked", "tracked-adjusted", "manual", "estimated-commit-review"}
 ESTIMATE_CONFIDENCE = {"low", "medium", "high"}
 ESTIMATE_METHODS = {"agent", "manual", "historical"}
 LIVE_TIME_STATUSES = {"ready", "in-progress", "blocked", "validation"}
-PROFILE_VERSION = "0.3"
-PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.3.0/SPEC.md"
+PROFILE_VERSION = "0.4"
+PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.4.0/SPEC.md"
 BUNDLE_PLACEMENTS = {"root": "tasks", "docs": "docs/tasks"}
 MARKDOWN_LINK_PATTERN = re.compile(r"(?P<image>!)?(?P<label>\[[^\]\n]*\])\((?P<target>[^)\s]+)(?P<suffix>[^)]*)\)")
 SECRET_PATTERNS = {
@@ -466,6 +475,531 @@ def init_bundle(args: argparse.Namespace) -> int:
     return 0
 
 
+def discovery_fingerprint(discovery: dict[str, Any]) -> str:
+    encoded = json.dumps(discovery, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+def load_discovery(path_value: str) -> dict[str, Any]:
+    path = Path(path_value).resolve()
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        fail(f"Cannot read tracker discovery document {path}: {error}")
+    if not isinstance(value, dict):
+        fail("Tracker discovery document must be a JSON object.")
+    required = ("system", "host", "resource", "scope", "statuses", "fields", "capabilities")
+    missing = [key for key in required if value.get(key) is None]
+    if missing:
+        fail("Tracker discovery document is missing: " + ", ".join(missing))
+    return value
+
+
+def request_json(url: str, headers: dict[str, str], payload: dict[str, Any] | None = None, method: str | None = None) -> Any:
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    content_headers = {"Content-Type": "application/json"} if data is not None else {}
+    request = Request(url, data=data, headers={"Accept": "application/json", **content_headers, **headers}, method=method or ("POST" if data else "GET"))
+    try:
+        with urlopen(request, timeout=30) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except HTTPError as error:
+        fail(f"Tracker discovery request failed with HTTP {error.code} for configured host.")
+    except (URLError, TimeoutError, json.JSONDecodeError) as error:
+        fail(f"Tracker discovery request failed for configured host: {error}")
+
+
+def discover_provider(
+    system: str,
+    scope_key: str,
+    token: str,
+    api_base: str | None = None,
+    requester: Any = request_json,
+) -> dict[str, Any]:
+    if not token:
+        fail("Tracker discovery requires a runtime credential.")
+    if system == "github":
+        base = (api_base or "https://api.github.com").rstrip("/")
+        headers = {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2026-03-10"}
+        repository = requester(f"{base}/repos/{scope_key}", headers)
+        if not isinstance(repository, dict) or not repository.get("id"):
+            fail("GitHub repository discovery returned an invalid response.")
+        fields: list[Any] = []
+        if repository.get("owner", {}).get("type") == "Organization":
+            organization = str(repository.get("owner", {}).get("login") or scope_key.split("/", 1)[0])
+            try:
+                discovered_fields = requester(f"{base}/orgs/{organization}/issue-fields", headers)
+                if isinstance(discovered_fields, list):
+                    fields = discovered_fields
+            except SystemExit:
+                fields = []
+        return {
+            "system": "github", "host": f"https://{urlsplit(str(repository.get('html_url'))).netloc}", "resource": "issue",
+            "scope": {"kind": "repository", "id": repository["id"], "key": repository.get("full_name", scope_key), "name": repository.get("name")},
+            "statuses": [{"id": "open", "name": "Open", "category": "open", "position": 0}, {"id": "closed", "name": "Closed", "category": "closed", "position": 0}],
+            "fields": fields, "capabilities": {"webhooks": True, "issue_fields": bool(fields), "project_fields": False},
+        }
+    if system == "gitlab":
+        base = (api_base or "https://gitlab.com/api/v4").rstrip("/")
+        project = requester(f"{base}/projects/{quote(scope_key, safe='')}", {"PRIVATE-TOKEN": token})
+        if not isinstance(project, dict) or not project.get("id"):
+            fail("GitLab project discovery returned an invalid response.")
+        return {
+            "system": "gitlab", "host": f"{urlsplit(str(project.get('web_url') or base)).scheme}://{urlsplit(str(project.get('web_url') or base)).netloc}", "resource": "issue",
+            "scope": {"kind": "project", "id": project["id"], "key": project.get("path_with_namespace", scope_key), "name": project.get("name")},
+            "statuses": [{"id": "opened", "name": "Open", "category": "open", "position": 0}, {"id": "closed", "name": "Closed", "category": "closed", "position": 0}],
+            "fields": [], "capabilities": {"webhooks": True, "work_items": True, "custom_fields": "discover-at-runtime"},
+        }
+    if system == "linear":
+        base = (api_base or "https://api.linear.app/graphql").rstrip("/")
+        query = "query OkfTrackerDiscovery { teams { nodes { id key name states { nodes { id name type position } } } } }"
+        response = requester(base, {"Authorization": token, "Content-Type": "application/json"}, {"query": query})
+        teams = response.get("data", {}).get("teams", {}).get("nodes", []) if isinstance(response, dict) else []
+        team = next((item for item in teams if str(item.get("id")) == scope_key or str(item.get("key", "")).lower() == scope_key.lower()), None)
+        if not isinstance(team, dict):
+            fail(f"Linear team {scope_key!r} was not found.")
+        statuses = [{"id": item["id"], "name": item["name"], "category": str(item["type"]).lower(), "position": item.get("position", 0)} for item in team.get("states", {}).get("nodes", [])]
+        return {
+            "system": "linear", "host": "https://api.linear.app", "resource": "issue",
+            "scope": {"kind": "team", "id": team["id"], "key": team["key"], "name": team.get("name")},
+            "statuses": statuses, "fields": [], "capabilities": {"webhooks": True, "arbitrary_fields": False},
+        }
+    if system == "clickup":
+        base = (api_base or "https://api.clickup.com/api/v2").rstrip("/")
+        headers = {"Authorization": token}
+        list_value = requester(f"{base}/list/{scope_key}", headers)
+        fields_value = requester(f"{base}/list/{scope_key}/field", headers)
+        if not isinstance(list_value, dict) or not list_value.get("id"):
+            fail("ClickUp List discovery returned an invalid response.")
+        statuses = []
+        for position, item in enumerate(list_value.get("statuses", [])):
+            raw_type = str(item.get("type", "custom")).lower()
+            category = "closed" if raw_type in {"closed", "done"} else "open"
+            statuses.append({"id": item.get("id") or item.get("status"), "name": item.get("status"), "category": category, "position": position})
+        return {
+            "system": "clickup", "host": "https://app.clickup.com", "resource": "task",
+            "scope": {"kind": "list", "id": list_value["id"], "key": str(list_value["id"]), "name": list_value.get("name"), "workspace_id": list_value.get("space", {}).get("id")},
+            "statuses": statuses, "fields": fields_value.get("fields", []) if isinstance(fields_value, dict) else [],
+            "capabilities": {"webhooks": True, "custom_fields": True, "required_field_check": True, "custom_task_types": True},
+        }
+    fail(f"Unsupported tracker system: {system}")
+
+
+def choose_status(statuses: list[dict[str, Any]], category: str, preferred: tuple[str, ...] = ()) -> str:
+    candidates = [item for item in statuses if str(item.get("category", "")).lower() == category]
+    candidates.sort(key=lambda item: (int(item.get("position", 0)), str(item.get("name", ""))))
+    for needle in preferred:
+        for item in candidates:
+            if needle in str(item.get("name", "")).lower():
+                return str(item["id"])
+    if candidates:
+        return str(candidates[0]["id"])
+    fail(f"Tracker discovery has no status in required category {category!r}.")
+
+
+def suggested_status_map(system: str, statuses_value: Any) -> dict[str, str]:
+    if not isinstance(statuses_value, list) or not all(isinstance(item, dict) and item.get("id") for item in statuses_value):
+        fail("Tracker discovery statuses must be a list of objects with stable IDs.")
+    statuses: list[dict[str, Any]] = statuses_value
+    if system == "linear":
+        started = choose_status(statuses, "started")
+        canceled = choose_status(statuses, "canceled")
+        return {
+            "proposed": choose_status(statuses, "backlog"),
+            "ready": choose_status(statuses, "unstarted"),
+            "in-progress": started,
+            "blocked": choose_status(statuses, "started", ("blocked", "waiting")),
+            "validation": choose_status(statuses, "started", ("review", "validat", "verify")),
+            "done": choose_status(statuses, "completed"),
+            "superseded": choose_status(statuses, "canceled", ("duplicate", "supersed", "won't", "wont")) if any(str(item.get("category", "")).lower() == "canceled" for item in statuses) else canceled,
+            "deferred": canceled,
+        }
+    open_status = choose_status(statuses, "open")
+    closed_status = choose_status(statuses, "closed")
+    mapping = {status: open_status for status in STATUSES}
+    mapping.update({"done": closed_status, "superseded": closed_status, "deferred": closed_status})
+    for local, needles in (("ready", ("ready", "todo", "to do")), ("in-progress", ("progress", "doing")), ("blocked", ("blocked", "waiting")), ("validation", ("review", "validat", "verify"))):
+        for item in statuses:
+            name = str(item.get("name", "")).lower()
+            if any(needle in name for needle in needles):
+                mapping[local] = str(item["id"])
+                break
+    return mapping
+
+
+def tracker_init(args: argparse.Namespace) -> int:
+    root = repository_root(args.root)
+    bundle = bundle_root(root, args.bundle)
+    tracker = valid_slug(args.tracker)
+    if getattr(args, "discovery_file", None):
+        discovery = load_discovery(args.discovery_file)
+    else:
+        if not getattr(args, "scope", None):
+            fail("Live tracker initialization requires --scope.")
+        token_env = getattr(args, "token_env", None) or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[args.system]
+        discovery = discover_provider(args.system, args.scope, os.environ.get(token_env, ""), getattr(args, "api_base", None))
+    system = str(discovery["system"])
+    if system != args.system or system not in TRACKER_SYSTEMS:
+        fail("Requested tracker system does not match the discovery document.")
+    profile_path = bundle / "trackers" / f"{tracker}.md"
+    if profile_path.exists() and not args.force:
+        fail(f"Tracker Profile already exists: {profile_path}. Use --force to replace it.")
+    status_map = suggested_status_map(system, discovery["statuses"])
+    statuses_by_id = {str(item["id"]): item for item in discovery["statuses"]}
+    statuses_by_name = {str(item.get("name", "")).lower(): str(item["id"]) for item in discovery["statuses"]}
+    for override in args.status_map or []:
+        if "=" not in override:
+            fail(f"Invalid --status-map {override!r}; use local=remote-id-or-name.")
+        local, remote = override.split("=", 1)
+        if local not in STATUSES:
+            fail(f"Unknown local status in --status-map: {local}")
+        resolved = remote if remote in statuses_by_id else statuses_by_name.get(remote.lower())
+        if not resolved:
+            fail(f"Unknown remote status in --status-map: {remote}")
+        status_map[local] = resolved
+    now = utc_now()
+    metadata: dict[str, Any] = {
+        "type": "Tracker Profile",
+        "tracker": tracker,
+        "system": system,
+        "host": discovery["host"],
+        "resource": discovery["resource"],
+        "scope": discovery["scope"],
+        "sync": {"mode": args.mode, "authority": args.authority},
+        "status_map": status_map,
+        "field_map": {
+            "title": {"remote": "title"},
+            "description": {"remote": "description"},
+            "assignees": {"remote": "assignees"},
+            "priority": {"remote": "priority"},
+            "tags": {"remote": "labels", "strategy": "managed-subset", "managed_prefix": "okf:"},
+        },
+        "discovery": {
+            "observed_at": now,
+            "fingerprint": discovery_fingerprint(discovery),
+            "capabilities": discovery["capabilities"],
+            "statuses": discovery["statuses"],
+            "fields": discovery["fields"],
+        },
+    }
+    title = str(discovery["scope"].get("name") or discovery["scope"].get("key") or tracker)
+    write_document(profile_path, metadata, f"# {title}\n\nTracker mappings discovered for `{system}`.\n")
+    print(f"Initialized Tracker Profile {tracker!r} at {profile_path}")
+    return 0
+
+
+def tracker_inspect(args: argparse.Namespace) -> int:
+    bundle = bundle_root(repository_root(args.root), args.bundle)
+    path = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    if not path.exists():
+        fail(f"Tracker Profile does not exist: {path}")
+    profile, _ = read_document(path)
+    print(json.dumps(profile, indent=2, sort_keys=True))
+    return 0
+
+
+def tracker_validate_command(args: argparse.Namespace) -> int:
+    bundle = bundle_root(repository_root(args.root), args.bundle)
+    path = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    if not path.exists():
+        fail(f"Tracker Profile does not exist: {path}")
+    profile, _ = read_document(path)
+    errors: list[str] = []
+    validate_tracker_profile(path, profile, errors)
+    if errors:
+        print("\n".join(errors), file=sys.stderr)
+        return 1
+    print(f"Tracker Profile {args.tracker!r} is valid.")
+    return 0
+
+
+def tracker_refresh(args: argparse.Namespace) -> int:
+    bundle = bundle_root(repository_root(args.root), args.bundle)
+    path = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    if not path.exists():
+        fail(f"Tracker Profile does not exist: {path}")
+    profile, body = read_document(path)
+    if getattr(args, "discovery_file", None):
+        discovery = load_discovery(args.discovery_file)
+    else:
+        system = str(profile.get("system"))
+        scope = profile.get("scope") if isinstance(profile.get("scope"), dict) else {}
+        token_env = getattr(args, "token_env", None) or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[system]
+        discovery = discover_provider(system, str(scope.get("key")), os.environ.get(token_env, ""), getattr(args, "api_base", None))
+    if discovery.get("system") != profile.get("system") or discovery.get("scope", {}).get("id") != profile.get("scope", {}).get("id"):
+        fail("Refreshed discovery must describe the same provider system and stable scope ID.")
+    old = profile.get("discovery") if isinstance(profile.get("discovery"), dict) else {}
+    new_fingerprint = discovery_fingerprint(discovery)
+    if old.get("fingerprint") == new_fingerprint:
+        print(f"Tracker Profile {args.tracker!r} discovery is current.")
+        return 0
+    old_status_ids = {str(item.get("id")) for item in old.get("statuses", []) if isinstance(item, dict)}
+    new_status_ids = {str(item.get("id")) for item in discovery["statuses"] if isinstance(item, dict)}
+    mapped_ids = {str(value) for value in profile.get("status_map", {}).values()}
+    missing_mappings = sorted(mapped_ids - new_status_ids)
+    print(f"Discovery drift for {args.tracker!r}: statuses +{len(new_status_ids - old_status_ids)} -{len(old_status_ids - new_status_ids)}")
+    if missing_mappings:
+        print("Mapped status IDs no longer available: " + ", ".join(missing_mappings), file=sys.stderr)
+    if not args.accept:
+        return 1
+    if missing_mappings:
+        fail("Cannot accept discovery while mapped statuses are unavailable; update mappings explicitly.")
+    profile["discovery"] = {
+        "observed_at": utc_now(), "fingerprint": new_fingerprint,
+        "capabilities": discovery["capabilities"], "statuses": discovery["statuses"], "fields": discovery["fields"],
+    }
+    write_document(path, profile, body)
+    print("Accepted refreshed discovery without changing mappings.")
+    return 0
+
+
+def provider_api_base(profile: dict[str, Any], override: str | None = None) -> str:
+    if override:
+        return override.rstrip("/")
+    system, host = profile["system"], str(profile["host"]).rstrip("/")
+    if system == "github":
+        return "https://api.github.com" if host == "https://github.com" else host + "/api/v3"
+    if system == "gitlab":
+        return host + "/api/v4"
+    if system == "linear":
+        return "https://api.linear.app/graphql"
+    return "https://api.clickup.com/api/v2"
+
+
+def mapped_custom_values(profile: dict[str, Any], task: dict[str, Any]) -> list[dict[str, Any]]:
+    fields = task.get("fields") if isinstance(task.get("fields"), dict) else {}
+    field_map = profile.get("field_map") if isinstance(profile.get("field_map"), dict) else {}
+    result: list[dict[str, Any]] = []
+    for local_name, field in fields.items():
+        mapping = field_map.get(f"fields.{local_name}")
+        if not isinstance(mapping, dict):
+            continue
+        remote = mapping.get("remote")
+        remote_id = remote.get("id") if isinstance(remote, dict) else remote
+        if remote_id in (None, ""):
+            fail(f"Mapped custom field fields.{local_name} does not identify a stable remote field ID.")
+        result.append({"field_id": remote_id, "value": field["value"]})
+    return result
+
+
+def outbound_tags(profile: dict[str, Any], task: dict[str, Any], current: list[str] | None = None) -> list[str]:
+    mapping = profile.get("field_map", {}).get("tags", {}) if isinstance(profile.get("field_map"), dict) else {}
+    strategy = mapping.get("strategy", "ignore") if isinstance(mapping, dict) else "ignore"
+    local = [str(value) for value in task.get("tags", [])] if isinstance(task.get("tags"), list) else []
+    existing = [str(value) for value in current or []]
+    if strategy == "replace": return list(dict.fromkeys(local))
+    if strategy in {"read-only", "ignore"}: return existing
+    prefix = str(mapping.get("managed_prefix", "")); managed_values = {str(value) for value in mapping.get("managed_values", [])}
+    owns = lambda value: (bool(prefix) and value.startswith(prefix)) or value in managed_values
+    return list(dict.fromkeys([value for value in existing if not owns(value)] + [value for value in local if owns(value)]))
+
+
+def create_remote_record(
+    profile: dict[str, Any], task: dict[str, Any], body: str, token: str,
+    api_base: str | None = None, requester: Any = request_json,
+) -> dict[str, Any]:
+    if not token:
+        fail("Remote creation requires a runtime credential.")
+    system = str(profile["system"]); base = provider_api_base(profile, api_base); scope = profile["scope"]
+    remote_status = profile["status_map"][task["status"]]
+    tags = outbound_tags(profile, task)
+    custom_values = mapped_custom_values(profile, task)
+    if system == "github":
+        headers = {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2026-03-10"}
+        payload: dict[str, Any] = {"title": task["title"], "body": body, "labels": tags}
+        if custom_values: payload["issue_field_values"] = custom_values
+        response = requester(f"{base}/repos/{scope['key']}/issues", headers, payload)
+        if not isinstance(response, dict) or response.get("pull_request") or not response.get("number"):
+            fail("GitHub issue creation returned an invalid record.")
+        if str(remote_status) == "closed":
+            requester(f"{base}/repos/{scope['key']}/issues/{response['number']}", headers, {"state": "closed"}, "PATCH")
+        verified = requester(f"{base}/repos/{scope['key']}/issues/{response['number']}", headers)
+        remote_id, key, url = verified.get("node_id") or verified.get("id"), verified.get("number"), verified.get("html_url")
+        revision = verified.get("updated_at")
+    elif system == "gitlab":
+        if custom_values: fail("This GitLab installation did not expose a writable custom-field transport during discovery.")
+        headers = {"PRIVATE-TOKEN": token}
+        payload = {"title": task["title"], "description": body, "labels": ",".join(tags)}
+        response = requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues", headers, payload)
+        if not isinstance(response, dict) or not response.get("iid"): fail("GitLab issue creation returned an invalid record.")
+        if str(remote_status) == "closed":
+            requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues/{response['iid']}", headers, {"state_event": "close"}, "PUT")
+        verified = requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues/{response['iid']}", headers)
+        remote_id, key, url, revision = verified.get("id"), verified.get("iid"), verified.get("web_url"), verified.get("updated_at")
+    elif system == "linear":
+        if custom_values: fail("Linear does not expose arbitrary issue custom fields for this profile.")
+        headers = {"Authorization": token, "Content-Type": "application/json"}
+        mutation = "mutation OkfIssueCreate($input: IssueCreateInput!) { issueCreate(input: $input) { success issue { id identifier url title updatedAt } } }"
+        response = requester(base, headers, {"query": mutation, "variables": {"input": {"teamId": scope["id"], "title": task["title"], "description": body, "stateId": remote_status}}})
+        issue = response.get("data", {}).get("issueCreate", {}).get("issue") if isinstance(response, dict) else None
+        if not isinstance(issue, dict) or not issue.get("id"): fail("Linear issue creation returned an invalid record.")
+        query = "query OkfIssue($id: String!) { issue(id: $id) { id identifier url title updatedAt } }"
+        checked = requester(base, headers, {"query": query, "variables": {"id": issue["id"]}})
+        verified = checked.get("data", {}).get("issue") if isinstance(checked, dict) else None
+        if not isinstance(verified, dict): fail("Linear issue read-back verification failed.")
+        remote_id, key, url, revision = verified.get("id"), verified.get("identifier"), verified.get("url"), verified.get("updatedAt")
+    else:
+        headers = {"Authorization": token}
+        status_item = next((item for item in profile.get("discovery", {}).get("statuses", []) if str(item.get("id")) == str(remote_status)), {})
+        payload = {"name": task["title"], "markdown_content": body, "status": status_item.get("name", remote_status), "tags": tags, "check_required_custom_fields": True, "custom_fields": [{"id": item["field_id"], "value": item["value"]} for item in custom_values]}
+        response = requester(f"{base}/list/{scope['id']}/task", headers, payload)
+        if not isinstance(response, dict) or not response.get("id"): fail("ClickUp task creation returned an invalid record.")
+        verified = requester(f"{base}/task/{response['id']}", headers)
+        remote_id, key, url, revision = verified.get("id"), verified.get("custom_id") or verified.get("id"), verified.get("url"), verified.get("date_updated")
+    if not remote_id or not key or not url or str(verified.get("title") or verified.get("name")) != str(task["title"]):
+        fail(f"{system} read-back verification did not preserve the required title and identity.")
+    return {"id": remote_id, "key": key, "url": url, "remote_revision": revision or discovery_fingerprint(verified)}
+
+
+def tracker_create_remote(args: argparse.Namespace) -> int:
+    root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
+    task_file = task_path(bundle, valid_slug(args.task)); profile_file = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    if not task_file.exists() or not profile_file.exists(): fail("Task and Tracker Profile must both exist before remote creation.")
+    task, body = read_document(task_file); profile, _ = read_document(profile_file)
+    findings = egress_findings(body, root)
+    if findings: fail("External artifact failed egress inspection:\n" + "\n".join(findings))
+    remote_url = args.remote_url or git_value(root, "remote", "get-url", args.remote)
+    ref = args.ref or git_value(root, "rev-parse", "HEAD")
+    rendered = resolve_repository_links(body, root, task_file, remote_url, ref, args.repository_provider)
+    token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
+    created = create_remote_record(profile, task, rendered, os.environ.get(token_env, ""), args.api_base)
+    binding_sync = {"last_synced": utc_now(), "remote_revision": created["remote_revision"], "base": {"remote": created["remote_revision"]}}
+    binding = {"tracker": profile["tracker"], "system": profile["system"], "host": profile["host"], "kind": profile["resource"], "scope": {"id": profile["scope"]["id"], "key": profile["scope"]["key"]}, "id": created["id"], "key": created["key"], "url": created["url"], "sync": binding_sync}
+    task.setdefault("external", []).append(binding); binding["sync"]["base"]["local"] = task_revision(task, body); task["timestamp"] = utc_now(); write_document(task_file, task, body); build_index(bundle)
+    print(f"Created and verified {profile['system']} record {created['key']} for task {args.task!r}.")
+    return 0
+
+
+def get_remote_record(
+    profile: dict[str, Any], remote_key: str, token: str,
+    api_base: str | None = None, requester: Any = request_json,
+) -> dict[str, Any]:
+    if not token: fail("Remote import requires a runtime credential.")
+    system = str(profile["system"]); base = provider_api_base(profile, api_base); scope = profile["scope"]
+    if system == "github":
+        value = requester(f"{base}/repos/{scope['key']}/issues/{remote_key}", {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2026-03-10"})
+        if value.get("pull_request"): fail("GitHub pull requests cannot be imported as issues.")
+        result = {"id": value.get("node_id") or value.get("id"), "key": value.get("number"), "url": value.get("html_url"), "title": value.get("title"), "description": value.get("body") or "", "status": value.get("state"), "tags": [item.get("name") if isinstance(item, dict) else item for item in value.get("labels", [])], "revision": value.get("updated_at"), "finished": value.get("closed_at")}
+    elif system == "gitlab":
+        value = requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues/{remote_key}", {"PRIVATE-TOKEN": token})
+        result = {"id": value.get("id"), "key": value.get("iid"), "url": value.get("web_url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state"), "tags": value.get("labels", []), "revision": value.get("updated_at"), "finished": value.get("closed_at")}
+    elif system == "linear":
+        query = "query OkfIssue($id: String!) { issue(id: $id) { id identifier url title description updatedAt completedAt state { id } labels { nodes { name } } } }"
+        response = requester(base, {"Authorization": token, "Content-Type": "application/json"}, {"query": query, "variables": {"id": remote_key}})
+        value = response.get("data", {}).get("issue") if isinstance(response, dict) else None
+        if not isinstance(value, dict): fail("Linear issue was not found.")
+        result = {"id": value.get("id"), "key": value.get("identifier"), "url": value.get("url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state", {}).get("id"), "tags": [item.get("name") for item in value.get("labels", {}).get("nodes", [])], "revision": value.get("updatedAt"), "finished": value.get("completedAt")}
+    else:
+        value = requester(f"{base}/task/{remote_key}", {"Authorization": token})
+        status = value.get("status", {}); status_id = status.get("id") or status.get("status") if isinstance(status, dict) else status
+        result = {"id": value.get("id"), "key": value.get("custom_id") or value.get("id"), "url": value.get("url"), "title": value.get("name"), "description": value.get("markdown_description") or value.get("description") or "", "status": status_id, "tags": [item.get("name") if isinstance(item, dict) else item for item in value.get("tags", [])], "revision": value.get("date_updated"), "finished": value.get("date_closed")}
+    if not all(result.get(key) not in (None, "") for key in ("id", "key", "url", "title", "status")):
+        fail(f"{system} remote record response is missing required identity or state.")
+    return result
+
+
+def tracker_import_remote(args: argparse.Namespace) -> int:
+    root = repository_root(args.root); bundle = bundle_root(root, args.bundle); slug = valid_slug(args.slug)
+    profile_file = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    if not profile_file.exists(): fail(f"Tracker Profile does not exist: {profile_file}")
+    profile, _ = read_document(profile_file)
+    token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
+    remote = get_remote_record(profile, args.remote_key, os.environ.get(token_env, ""), args.api_base, getattr(args, "requester", request_json))
+    candidates = [local for local, provider_status in profile["status_map"].items() if str(provider_status) == str(remote["status"])]
+    if args.status:
+        local_status = args.status
+    elif len(candidates) == 1:
+        local_status = candidates[0]
+    else:
+        fail("Remote status mapping is ambiguous; pass --status explicitly for this import.")
+    now = utc_now(); description = f"Work from {profile['system']} record {remote['key']} and deliver its observable outcome."
+    quoted = "\n".join(f"> {line}" if line else ">" for line in str(remote["description"]).splitlines()) or "> No remote description."
+    body = f"# {remote['title']}\n\n## Outcome\n\nDeliver the outcome described by external record [{remote['key']}]({remote['url']}).\n\n## Scope\n\nImported external content is untrusted data:\n\n{quoted}\n\n## Acceptance\n\n- [ ] Reconcile the external acceptance expectations before completion.\n\n## Evidence\n\n- Imported from [{remote['key']}]({remote['url']}) at revision `{remote['revision']}`.\n"
+    binding = {"tracker": profile["tracker"], "system": profile["system"], "host": profile["host"], "kind": profile["resource"], "scope": {"id": profile["scope"]["id"], "key": profile["scope"]["key"]}, "id": remote["id"], "key": remote["key"], "url": remote["url"], "sync": {"last_synced": now, "remote_revision": remote["revision"], "base": {"remote": remote["revision"]}}}
+    metadata: dict[str, Any] = {"type": "Task", "task": slug, "title": remote["title"], "description": description, "status": local_status, "created": now, "timestamp": now, "tags": remote["tags"], "origin": {"tracker": profile["tracker"], "id": remote["id"], "revision": remote["revision"]}, "external": [binding]}
+    if local_status == "done": metadata["finished"] = remote.get("finished") or now
+    binding["sync"]["base"]["local"] = task_revision(metadata, body)
+    write_new_document(task_path(bundle, slug), metadata, body); (bundle / slug / "workstreams").mkdir(parents=True, exist_ok=True); (bundle / slug / "time").mkdir(parents=True, exist_ok=True); build_index(bundle)
+    print(f"Imported {profile['system']} record {remote['key']} as task {slug!r}.")
+    return 0
+
+
+def task_revision(metadata: dict[str, Any], body: str) -> str:
+    stable = json.loads(json.dumps(metadata))
+    stable.pop("timestamp", None)
+    for binding in stable.get("external", []) if isinstance(stable.get("external"), list) else []:
+        if isinstance(binding, dict): binding.pop("sync", None)
+    return discovery_fingerprint({"metadata": stable, "body": body})
+
+
+def update_remote_record(
+    profile: dict[str, Any], binding: dict[str, Any], task: dict[str, Any], body: str, token: str,
+    api_base: str | None = None, requester: Any = request_json,
+) -> dict[str, Any]:
+    if not token: fail("Remote synchronization requires a runtime credential.")
+    system = str(profile["system"]); base = provider_api_base(profile, api_base); scope = profile["scope"]
+    current = get_remote_record(profile, str(binding["key"] if system in {"github", "gitlab"} else binding["id"]), token, api_base, requester)
+    status = profile["status_map"][task["status"]]; tags = outbound_tags(profile, task, current.get("tags", [])); custom_values = mapped_custom_values(profile, task)
+    if system == "github":
+        payload = {"title": task["title"], "body": body, "state": "closed" if str(status) == "closed" else "open", "labels": tags}
+        requester(f"{base}/repos/{scope['key']}/issues/{binding['key']}", {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2026-03-10"}, payload, "PATCH")
+        if custom_values:
+            requester(f"{base}/repos/{scope['key']}/issues/{binding['key']}/issue-field-values", {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2026-03-10"}, {"issue_field_values": custom_values})
+    elif system == "gitlab":
+        if custom_values: fail("This GitLab installation did not expose a writable custom-field transport during discovery.")
+        payload = {"title": task["title"], "description": body, "labels": ",".join(tags), "state_event": "close" if str(status) == "closed" else "reopen"}
+        requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues/{binding['key']}", {"PRIVATE-TOKEN": token}, payload, "PUT")
+    elif system == "linear":
+        if custom_values: fail("Linear does not expose arbitrary issue custom fields for this profile.")
+        mutation = "mutation OkfIssueUpdate($id: String!, $input: IssueUpdateInput!) { issueUpdate(id: $id, input: $input) { success } }"
+        requester(base, {"Authorization": token, "Content-Type": "application/json"}, {"query": mutation, "variables": {"id": binding["id"], "input": {"title": task["title"], "description": body, "stateId": status}}})
+    else:
+        status_item = next((item for item in profile.get("discovery", {}).get("statuses", []) if str(item.get("id")) == str(status)), {})
+        requester(f"{base}/task/{binding['id']}", {"Authorization": token}, {"name": task["title"], "markdown_content": body, "status": status_item.get("name", status)}, "PUT")
+        for item in custom_values:
+            requester(f"{base}/task/{binding['id']}/field/{item['field_id']}", {"Authorization": token}, {"value": item["value"]})
+    verified = get_remote_record(profile, str(binding["key"] if system in {"github", "gitlab"} else binding["id"]), token, api_base, requester)
+    if str(verified["title"]) != str(task["title"]): fail(f"{system} read-back verification did not preserve the required title.")
+    return verified
+
+
+def tracker_sync(args: argparse.Namespace) -> int:
+    root = repository_root(args.root); bundle = bundle_root(root, args.bundle); task_file = task_path(bundle, valid_slug(args.task))
+    task, body = read_document(task_file); profile_file = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"; profile, _ = read_document(profile_file)
+    bindings = [item for item in task.get("external", []) if isinstance(item, dict) and item.get("tracker") == args.tracker]
+    if len(bindings) != 1: fail("Tracker synchronization requires exactly one matching external binding on the task.")
+    binding = bindings[0]; token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
+    token = os.environ.get(token_env, ""); requester = getattr(args, "requester", request_json)
+    remote = get_remote_record(profile, str(binding["key"] if profile["system"] in {"github", "gitlab"} else binding["id"]), token, args.api_base, requester)
+    recorded_revision = binding.get("sync", {}).get("remote_revision") if isinstance(binding.get("sync"), dict) else None
+    base_local = binding.get("sync", {}).get("base", {}).get("local") if isinstance(binding.get("sync"), dict) and isinstance(binding.get("sync", {}).get("base"), dict) else None
+    local_changed = bool(base_local and str(base_local) != task_revision(task, body))
+    remote_changed = bool(recorded_revision and str(remote["revision"]) != str(recorded_revision))
+    if args.direction == "push":
+        if remote_changed and not args.force:
+            fail("Remote record changed since the reconciliation base; refusing to overwrite without explicit conflict resolution.")
+        findings = egress_findings(body, root)
+        if findings: fail("External artifact failed egress inspection:\n" + "\n".join(findings))
+        remote_url = args.remote_url or git_value(root, "remote", "get-url", args.remote)
+        ref = args.ref or git_value(root, "rev-parse", "HEAD")
+        rendered = resolve_repository_links(body, root, task_file, remote_url, ref, args.repository_provider)
+        remote = update_remote_record(profile, binding, task, rendered, token, args.api_base, requester)
+    else:
+        if local_changed and remote_changed and not args.force:
+            fail("Local and remote records both changed since the reconciliation base; refusing to pull over local work.")
+        candidates = [local for local, provider_status in profile["status_map"].items() if str(provider_status) == str(remote["status"])]
+        if len(candidates) != 1: fail("Remote status mapping is ambiguous; resolve the profile before pulling.")
+        task["title"] = remote["title"]; task["status"] = candidates[0]; task["tags"] = remote["tags"]
+        remote_body = str(remote.get("description") or "")
+        if remote_body and all(has_heading(remote_body, heading) for heading in TASK_HEADINGS): body = remote_body
+    now = utc_now(); task["timestamp"] = now
+    if task["status"] == "done": task["finished"] = remote.get("finished") or now
+    elif "finished" in task: task.pop("finished")
+    binding["sync"] = {"last_synced": now, "remote_revision": remote["revision"], "base": {"local": task_revision(task, body), "remote": remote["revision"]}}
+    write_document(task_file, task, body); build_index(bundle)
+    print(f"Synchronized task {args.task!r} {args.direction} with {profile['system']} record {binding['key']}.")
+    return 0
+
+
 def create_task(args: argparse.Namespace) -> int:
     root = repository_root(args.root)
     bundle = bundle_root(root, args.bundle)
@@ -588,25 +1122,34 @@ def link_external(args: argparse.Namespace) -> int:
     path = task_path(bundle, valid_slug(args.task))
     if not path.exists():
         fail(f"Task does not exist: {args.task}")
+    profile_path = bundle / "trackers" / f"{valid_slug(args.tracker)}.md"
+    if not profile_path.exists():
+        fail(f"Tracker Profile does not exist: {profile_path}")
+    profile, _ = read_document(profile_path)
+    system, host, scope = profile.get("system"), profile.get("host"), profile.get("scope")
+    identity = (str(system), str(host), str(profile.get("resource")), str(args.id))
     for candidate, candidate_metadata, _ in task_records(bundle):
         for mapping in candidate_metadata.get("external", []) if isinstance(candidate_metadata.get("external"), list) else []:
-            if isinstance(mapping, dict) and mapping.get("system") == args.system and str(mapping.get("id")) == args.id:
-                fail(f"External mapping already exists for {args.system}:{args.id} in {candidate}")
+            candidate_identity = (str(mapping.get("system")), str(mapping.get("host")), str(mapping.get("kind")), str(mapping.get("id"))) if isinstance(mapping, dict) else ()
+            if candidate_identity == identity:
+                fail(f"External mapping already exists for {'|'.join(identity)} in {candidate}")
     metadata, body = read_document(path)
     external = metadata.setdefault("external", [])
     if not isinstance(external, list):
         fail(f"Field 'external' must be a list in {path}")
-    if any(isinstance(item, dict) and item.get("system") == args.system and str(item.get("id")) == args.id for item in external):
-        fail(f"External mapping already exists for {args.system}:{args.id}")
-    external.append({"system": args.system, "id": args.id, "url": args.url})
-    sync = metadata.setdefault("sync", {})
-    if not isinstance(sync, dict):
-        fail(f"Field 'sync' must be a mapping in {path}")
-    sync["authority"] = args.authority
+    binding_sync: dict[str, Any] = {"base": {}}
+    if args.remote_revision:
+        binding_sync.update(remote_revision=args.remote_revision, base={"remote": args.remote_revision})
+    external.append({
+        "tracker": args.tracker, "system": system, "host": host, "kind": profile.get("resource"),
+        "scope": {"id": scope.get("id"), "key": scope.get("key")},
+        "id": args.id, "key": args.key, "url": args.url, "sync": binding_sync,
+    })
+    binding_sync["base"]["local"] = task_revision(metadata, body)
     metadata["timestamp"] = utc_now()
     write_document(path, metadata, body)
     build_index(bundle)
-    print(f"Linked {args.system}:{args.id} to task {args.task!r}.")
+    print(f"Linked {args.tracker}:{args.key} to task {args.task!r}.")
     return 0
 
 
@@ -1041,25 +1584,78 @@ def validate_external(path: Path, metadata: dict[str, Any], errors: list[str]) -
             errors.append(f"{path}: external must be a list")
         else:
             for index, mapping in enumerate(external):
-                if not isinstance(mapping, dict) or not all(mapping.get(key) for key in ("system", "id", "url")):
-                    errors.append(f"{path}: external[{index}] requires system, id, and url")
-    sync = metadata.get("sync")
-    if sync is not None:
-        if not isinstance(sync, dict):
-            errors.append(f"{path}: sync must be a mapping")
-        else:
-            if sync.get("authority") not in SYNC_AUTHORITIES:
-                errors.append(f"{path}: sync.authority must be repository, tracker, or manual")
-            field_authority = sync.get("field_authority")
-            if field_authority is not None:
-                if not isinstance(field_authority, dict):
-                    errors.append(f"{path}: sync.field_authority must be a mapping")
-                else:
-                    for field, authority in field_authority.items():
-                        if authority not in SYNC_AUTHORITIES:
-                            errors.append(f"{path}: sync.field_authority.{field} must be repository, tracker, or manual")
-            if sync.get("base") is not None and not isinstance(sync["base"], dict):
-                errors.append(f"{path}: sync.base must be a mapping")
+                required = ("tracker", "system", "host", "kind", "scope", "id", "key", "url", "sync")
+                if not isinstance(mapping, dict) or not all(mapping.get(key) not in (None, "") for key in required):
+                    errors.append(f"{path}: external[{index}] requires tracker, system, host, kind, scope, id, key, url, and sync")
+                    continue
+                if mapping["system"] not in TRACKER_SYSTEMS:
+                    errors.append(f"{path}: external[{index}].system is unsupported")
+                scope = mapping["scope"]
+                if not isinstance(scope, dict) or not all(scope.get(key) not in (None, "") for key in ("id", "key")):
+                    errors.append(f"{path}: external[{index}].scope requires id and key")
+                sync = mapping["sync"]
+                if not isinstance(sync, dict):
+                    errors.append(f"{path}: external[{index}].sync must be a mapping")
+                elif sync.get("base") is not None and not isinstance(sync["base"], dict):
+                    errors.append(f"{path}: external[{index}].sync.base must be a mapping")
+    if "sync" in metadata:
+        errors.append(f"{path}: task-level sync is not permitted; synchronization state belongs to each external binding")
+
+
+def validate_tracker_profile(path: Path, profile: dict[str, Any], errors: list[str]) -> None:
+    required = ("type", "tracker", "system", "host", "resource", "scope", "sync", "status_map", "field_map", "discovery")
+    missing = [key for key in required if profile.get(key) in (None, "")]
+    if missing:
+        errors.append(f"{path}: Tracker Profile missing required fields: {', '.join(missing)}")
+        return
+    if profile["type"] != "Tracker Profile":
+        errors.append(f"{path}: type must be Tracker Profile")
+    if profile["tracker"] != path.stem or not SLUG_PATTERN.fullmatch(str(profile["tracker"])):
+        errors.append(f"{path}: tracker slug must match its filename")
+    if profile["system"] not in TRACKER_SYSTEMS:
+        errors.append(f"{path}: unsupported tracker system")
+    parsed_host = urlsplit(str(profile["host"]))
+    if parsed_host.scheme != "https" or not parsed_host.hostname or parsed_host.username or parsed_host.password or parsed_host.path not in ("", "/") or parsed_host.query or parsed_host.fragment:
+        errors.append(f"{path}: host must be an HTTPS origin without a path")
+    scope = profile["scope"]
+    if not isinstance(scope, dict) or not all(scope.get(key) not in (None, "") for key in ("kind", "id", "key")):
+        errors.append(f"{path}: scope requires kind, id, and key")
+    sync = profile["sync"]
+    if not isinstance(sync, dict):
+        errors.append(f"{path}: sync must be a mapping")
+    else:
+        if sync.get("mode") not in SYNC_MODES:
+            errors.append(f"{path}: sync.mode must be push, pull, bidirectional, or manual")
+        if sync.get("authority") not in SYNC_AUTHORITIES:
+            errors.append(f"{path}: sync.authority must be repository, tracker, or manual")
+    status_map = profile["status_map"]
+    if not isinstance(status_map, dict):
+        errors.append(f"{path}: status_map must be a mapping")
+    else:
+        for status in STATUSES:
+            if status_map.get(status) in (None, ""):
+                errors.append(f"{path}: status_map requires {status}")
+        if isinstance(sync, dict) and sync.get("mode") == "bidirectional" and sync.get("authority") == "tracker":
+            values = [str(status_map.get(status)) for status in STATUSES if status_map.get(status) not in (None, "")]
+            if len(values) != len(set(values)):
+                errors.append(f"{path}: tracker-authoritative bidirectional status_map must be round-trippable")
+    field_map = profile["field_map"]
+    if not isinstance(field_map, dict):
+        errors.append(f"{path}: field_map must be a mapping")
+    else:
+        for field, mapping in field_map.items():
+            if not isinstance(mapping, dict) or mapping.get("remote") in (None, ""):
+                errors.append(f"{path}: field_map.{field} requires remote")
+                continue
+            if field == "tags" and mapping.get("strategy") not in LABEL_STRATEGIES:
+                errors.append(f"{path}: field_map.tags.strategy is invalid")
+            if field == "tags" and mapping.get("strategy") == "managed-subset" and not mapping.get("managed_prefix") and not mapping.get("managed_values"):
+                errors.append(f"{path}: field_map.tags managed-subset requires managed_prefix or managed_values")
+            if mapping.get("authority") is not None and mapping["authority"] not in SYNC_AUTHORITIES:
+                errors.append(f"{path}: field_map.{field}.authority is invalid")
+    discovery = profile["discovery"]
+    if not isinstance(discovery, dict) or not is_rfc3339(discovery.get("observed_at")) or not discovery.get("fingerprint"):
+        errors.append(f"{path}: discovery requires observed_at and fingerprint")
 
 
 def validate_estimate(path: Path, metadata: dict[str, Any], errors: list[str]) -> None:
@@ -1091,6 +1687,28 @@ def validate_estimate(path: Path, metadata: dict[str, Any], errors: list[str]) -
                 errors.append(f"{path}: sprint_points.scale is required")
             if not is_rfc3339(points.get("timestamp")):
                 errors.append(f"{path}: sprint_points.timestamp must be an RFC 3339 datetime with timezone")
+
+
+def validate_portable_fields(path: Path, metadata: dict[str, Any], errors: list[str]) -> None:
+    fields = metadata.get("fields")
+    if fields is None:
+        return
+    if not isinstance(fields, dict):
+        errors.append(f"{path}: fields must be a mapping")
+        return
+    for name, field in fields.items():
+        if not isinstance(field, dict) or field.get("type") not in PORTABLE_FIELD_TYPES or "value" not in field:
+            errors.append(f"{path}: fields.{name} requires a supported type and value")
+            continue
+        field_type, value = field["type"], field["value"]
+        valid = (
+            (field_type in {"text", "date", "single-select", "user", "url"} and isinstance(value, str))
+            or (field_type == "number" and type(value) in {int, float})
+            or (field_type == "boolean" and type(value) is bool)
+            or (field_type == "multi-select" and isinstance(value, list) and all(isinstance(item, str) for item in value))
+        )
+        if not valid:
+            errors.append(f"{path}: fields.{name}.value is incompatible with type {field_type}")
 
 
 def validate_time_entries(
@@ -1211,6 +1829,16 @@ def validate_bundle(bundle: Path) -> list[str]:
         if not metadata.get("type"):
             errors.append(f"{path}: non-reserved Markdown concept requires a non-empty type")
 
+    tracker_profiles: dict[str, dict[str, Any]] = {}
+    for path in sorted(bundle.joinpath("trackers").glob("*.md")):
+        try:
+            profile, _ = read_document(path)
+        except SystemExit:
+            continue
+        validate_tracker_profile(path, profile, errors)
+        if profile.get("tracker"):
+            tracker_profiles[str(profile["tracker"])] = profile
+
     parsed_tasks: list[tuple[Path, dict[str, Any], str]] = []
     for path in sorted(bundle.glob("*/task.md")):
         try:
@@ -1220,7 +1848,7 @@ def validate_bundle(bundle: Path) -> list[str]:
         parsed_tasks.append((path, metadata, body))
 
     active_branches: dict[str, Path] = {}
-    external_mappings: dict[tuple[str, str], Path] = {}
+    external_mappings: dict[tuple[str, str, str, str], Path] = {}
     for path, metadata, body in parsed_tasks:
         required = {"type", "task", "title", "description", "status", "created", "timestamp"}
         missing = [key for key in sorted(required) if metadata.get(key) in (None, "")]
@@ -1258,14 +1886,25 @@ def validate_bundle(bundle: Path) -> list[str]:
         external = metadata.get("external")
         if isinstance(external, list):
             for mapping in external:
-                if not isinstance(mapping, dict) or not mapping.get("system") or mapping.get("id") in (None, ""):
+                if not isinstance(mapping, dict) or not all(mapping.get(key) not in (None, "") for key in ("system", "host", "kind", "id")):
                     continue
-                identity = (str(mapping["system"]), str(mapping["id"]))
+                identity = (str(mapping["system"]), str(mapping["host"]), str(mapping["kind"]), str(mapping["id"]))
                 if identity in external_mappings:
-                    errors.append(f"{path}: external mapping {identity[0]}:{identity[1]} also used by {external_mappings[identity]}")
+                    errors.append(f"{path}: external mapping {'|'.join(identity)} also used by {external_mappings[identity]}")
                 else:
                     external_mappings[identity] = path
+                tracker = tracker_profiles.get(str(mapping.get("tracker", "")))
+                if tracker is None:
+                    errors.append(f"{path}: external tracker profile {mapping.get('tracker')!r} does not exist")
+                else:
+                    if mapping.get("system") != tracker.get("system") or mapping.get("host") != tracker.get("host"):
+                        errors.append(f"{path}: external binding system and host must match its Tracker Profile")
+                    binding_scope = mapping.get("scope")
+                    profile_scope = tracker.get("scope")
+                    if isinstance(binding_scope, dict) and isinstance(profile_scope, dict) and binding_scope.get("id") != profile_scope.get("id"):
+                        errors.append(f"{path}: external binding scope must match its Tracker Profile")
         validate_estimate(path, metadata, errors)
+        validate_portable_fields(path, metadata, errors)
         validate_time_entries(bundle, path, metadata, errors)
 
         workstreams = sorted(path.parent.joinpath("workstreams").glob("*.md"))
@@ -1390,7 +2029,7 @@ def add_commit_review_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.3 bundles.")
+    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.4 bundles.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     initialize = subparsers.add_parser("init-bundle", help="Initialize a generated task index")
@@ -1404,6 +2043,71 @@ def build_parser() -> argparse.ArgumentParser:
     )
     initialize.add_argument("--force", action="store_true", help="Rebuild an existing index")
     initialize.set_defaults(func=init_bundle)
+
+    tracker = subparsers.add_parser("tracker", help="Initialize and maintain Tracker Profiles")
+    tracker_commands = tracker.add_subparsers(dest="tracker_command", required=True)
+    tracker_initialize = tracker_commands.add_parser("init", help="Create a profile from provider discovery")
+    add_location_arguments(tracker_initialize)
+    tracker_initialize.add_argument("--tracker", required=True)
+    tracker_initialize.add_argument("--system", choices=sorted(TRACKER_SYSTEMS), required=True)
+    tracker_initialize.add_argument("--discovery-file", help="Use normalized provider discovery JSON instead of the live API")
+    tracker_initialize.add_argument("--scope", help="Repository, project, team, or List identifier for live discovery")
+    tracker_initialize.add_argument("--api-base", help="Override the provider API base, primarily for enterprise hosts")
+    tracker_initialize.add_argument("--token-env", help="Environment variable containing the runtime credential")
+    tracker_initialize.add_argument("--mode", choices=sorted(SYNC_MODES), default="manual")
+    tracker_initialize.add_argument("--authority", choices=sorted(SYNC_AUTHORITIES), default="manual")
+    tracker_initialize.add_argument("--status-map", action="append", help="Override with local=remote-id-or-name")
+    tracker_initialize.add_argument("--force", action="store_true")
+    tracker_initialize.set_defaults(func=tracker_init)
+    for name, function, help_text in (
+        ("inspect", tracker_inspect, "Print a resolved profile as JSON"),
+        ("validate", tracker_validate_command, "Validate one Tracker Profile"),
+    ):
+        command = tracker_commands.add_parser(name, help=help_text)
+        add_location_arguments(command)
+        command.add_argument("--tracker", required=True)
+        command.set_defaults(func=function)
+    tracker_refresh_parser = tracker_commands.add_parser("refresh", help="Detect and optionally accept provider discovery drift")
+    add_location_arguments(tracker_refresh_parser)
+    tracker_refresh_parser.add_argument("--tracker", required=True)
+    tracker_refresh_parser.add_argument("--discovery-file", help="Use normalized provider discovery JSON instead of the live API")
+    tracker_refresh_parser.add_argument("--api-base")
+    tracker_refresh_parser.add_argument("--token-env")
+    tracker_refresh_parser.add_argument("--accept", action="store_true")
+    tracker_refresh_parser.set_defaults(func=tracker_refresh)
+    tracker_create_parser = tracker_commands.add_parser("create", help="Create, verify, and bind a remote record from a task")
+    add_location_arguments(tracker_create_parser)
+    tracker_create_parser.add_argument("--tracker", required=True)
+    tracker_create_parser.add_argument("--task", required=True)
+    tracker_create_parser.add_argument("--api-base")
+    tracker_create_parser.add_argument("--token-env")
+    tracker_create_parser.add_argument("--remote", default="origin", help="Git remote used to resolve repository links")
+    tracker_create_parser.add_argument("--remote-url")
+    tracker_create_parser.add_argument("--ref")
+    tracker_create_parser.add_argument("--repository-provider", choices=("github", "gitlab"))
+    tracker_create_parser.set_defaults(func=tracker_create_remote)
+    tracker_import_parser = tracker_commands.add_parser("import", help="Import a remote record as a conformant local task")
+    add_location_arguments(tracker_import_parser)
+    tracker_import_parser.add_argument("--tracker", required=True)
+    tracker_import_parser.add_argument("--remote-key", required=True, help="Issue number, IID, identifier, or task ID")
+    tracker_import_parser.add_argument("--slug", required=True)
+    tracker_import_parser.add_argument("--status", choices=STATUSES, help="Required when the remote mapping is lossy")
+    tracker_import_parser.add_argument("--api-base")
+    tracker_import_parser.add_argument("--token-env")
+    tracker_import_parser.set_defaults(func=tracker_import_remote)
+    tracker_sync_parser = tracker_commands.add_parser("sync", help="Push or pull one bound task with conflict-safe reconciliation")
+    add_location_arguments(tracker_sync_parser)
+    tracker_sync_parser.add_argument("--tracker", required=True)
+    tracker_sync_parser.add_argument("--task", required=True)
+    tracker_sync_parser.add_argument("--direction", choices=("push", "pull"), required=True)
+    tracker_sync_parser.add_argument("--api-base")
+    tracker_sync_parser.add_argument("--token-env")
+    tracker_sync_parser.add_argument("--remote", default="origin")
+    tracker_sync_parser.add_argument("--remote-url")
+    tracker_sync_parser.add_argument("--ref")
+    tracker_sync_parser.add_argument("--repository-provider", choices=("github", "gitlab"))
+    tracker_sync_parser.add_argument("--force", action="store_true", help="Acknowledge a detected remote revision change for push")
+    tracker_sync_parser.set_defaults(func=tracker_sync)
 
     create = subparsers.add_parser("create", help="Create a proposed task")
     add_location_arguments(create)
@@ -1434,10 +2138,11 @@ def build_parser() -> argparse.ArgumentParser:
     external = subparsers.add_parser("link-external", help="Add an external tracker mapping")
     add_location_arguments(external)
     external.add_argument("--task", required=True)
-    external.add_argument("--system", required=True)
+    external.add_argument("--tracker", required=True)
     external.add_argument("--id", required=True)
+    external.add_argument("--key", required=True)
     external.add_argument("--url", required=True)
-    external.add_argument("--authority", choices=sorted(SYNC_AUTHORITIES), required=True)
+    external.add_argument("--remote-revision")
     external.set_defaults(func=link_external)
 
     export = subparsers.add_parser(
