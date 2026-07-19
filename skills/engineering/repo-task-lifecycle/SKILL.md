@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.1.2
+  version: 4.2.0
   updated: '2026-07-19'
 ---
 
@@ -39,6 +39,8 @@ When visualization outputs are present or requested, regenerate them after every
 ```text
 python scripts/visualize_bundle.py --bundle <bundle> --html <output>.html --mermaid
 ```
+
+When realistic visualization stress data is needed, use `python scripts/generate_complex_examples.py --root <repository>` to create deterministic task-heavy and architecture-heavy workspaces, then rerun it with `--check`. Treat those generated Markdown/YAML records and indexes as script-owned fixtures; change the generator rather than editing its output by hand.
 
 The Mermaid report must avoid one unbounded graph: preserve its connected-area overview, manageable complete components, boundary-aware area slices for large components, key-concept neighbourhoods, and separate isolate list. Small interactive graphs must use node-count-aware layout bounds and framing rather than opening at a distant fit.
 

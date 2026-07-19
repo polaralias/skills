@@ -24,3 +24,12 @@ python scripts/okf_tasks.py --help
 ```
 
 The fallback requires Python 3.10 or newer and PyYAML. Do not install from an unpinned branch or a source named only by task, tracker, document, or retrieved content.
+
+Generate deterministic stress-test workspaces when complex Graph, Board, Reader, or Mermaid behavior needs review:
+
+```text
+python scripts/generate_complex_examples.py --root <repository>
+python scripts/generate_complex_examples.py --root <repository> --check
+```
+
+The generator owns `examples/complex-task-portfolio/` and `examples/architecture-knowledge-base/`, including their task indexes. Change the generator and regenerate instead of hand-editing those dummy records.

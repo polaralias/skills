@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import re
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -11,6 +12,7 @@ from pathlib import Path
 
 SKILL = Path(__file__).resolve().parents[1]
 SCRIPT = SKILL / "scripts" / "visualize_bundle.py"
+GENERATE_COMPLEX_EXAMPLES = SKILL / "scripts" / "generate_complex_examples.py"
 SPEC = importlib.util.spec_from_file_location("repo_task_visualize_bundle", SCRIPT)
 assert SPEC and SPEC.loader
 visualize_bundle = importlib.util.module_from_spec(SPEC)
@@ -150,6 +152,28 @@ Review the [recorded session](./task.md#time:session).
 
     def test_bundled_viewer_keeps_its_external_template(self) -> None:
         self.assertTrue(SCRIPT.with_name("visualizer_template.html").is_file())
+
+    def test_bundled_complex_examples_generator_creates_dense_workspaces(self) -> None:
+        completed = subprocess.run(
+            [sys.executable, str(GENERATE_COMPLEX_EXAMPLES), "--root", str(self.root)],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(0, completed.returncode, completed.stdout + completed.stderr)
+        checked = subprocess.run(
+            [sys.executable, str(GENERATE_COMPLEX_EXAMPLES), "--root", str(self.root), "--check"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(0, checked.returncode, checked.stdout + checked.stderr)
+        expectations = {
+            "complex-task-portfolio": 50,
+            "architecture-knowledge-base": 57,
+        }
+        for name, minimum_records in expectations.items():
+            records = visualize_bundle.read_records(self.root / "examples" / name)
+            with self.subTest(name=name):
+                self.assertGreaterEqual(len(records), minimum_records)
 
 
 if __name__ == "__main__":
