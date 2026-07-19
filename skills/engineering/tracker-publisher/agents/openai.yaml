@@ -1,7 +1,7 @@
 interface:
   display_name: "Tracker Publisher"
   short_description: Publish stable work packages or local task records to external trackers.
-  default_prompt: "Use $tracker-publisher to publish or render stable work packages or repo-task-lifecycle records into GitHub, Linear, or another external tracker without redesigning the hierarchy, behavioral contract, or repository-local lifecycle."
+  default_prompt: "Use $tracker-publisher to publish or render stable work packages or repo-task-lifecycle records into GitHub, Linear, or another external tracker without redesigning the hierarchy, behavioural contract, or repository-local lifecycle."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

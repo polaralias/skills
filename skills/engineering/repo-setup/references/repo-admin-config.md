@@ -9,7 +9,7 @@ Keep the config small and deterministic.
 It should answer:
 
 - what repo type is this
-- which license should be applied
+- which licence should be applied
 - what short product summary should appear in GitHub metadata
 - whether PR-based protection is required
 - who owns review requests

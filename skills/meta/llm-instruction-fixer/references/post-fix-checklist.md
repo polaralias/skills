@@ -1,6 +1,6 @@
 # Validation Pass
 
-After editing, check the repaired artifact for these failure modes:
+After editing, check the repaired artefact for these failure modes:
 
 - one contradiction removed but a new one introduced
 - output requirements made less coherent by the fix

@@ -3,7 +3,7 @@ interface:
   short_description: "Bootstrap governance, CODEOWNERS, and repository rulesets."
   icon_small: "assets/icon.svg"
   icon_large: "assets/icon.svg"
-  default_prompt: "Use $repo-setup to inspect this repository, choose an appropriate license, scaffold baseline governance and draft-release files, render CODEOWNERS from explicit owners, set a WIP GitHub description, and verify a named pull-request ruleset for the default branch."
+  default_prompt: "Use $repo-setup to inspect this repository, choose an appropriate licence, scaffold baseline governance and draft-release files, render CODEOWNERS from explicit owners, set a WIP GitHub description, and verify a named pull-request ruleset for the default branch."
 policy:
   allow_implicit_invocation: true
   products:

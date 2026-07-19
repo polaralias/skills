@@ -4,7 +4,7 @@
 
 Start by making the opportunity explicit. The first phase should document the business problem, the current operating pattern, the value at stake, the likely data requirements, the success measures, the key risks, and the AI capability that might actually help.
 
-This phase should end with a discovery artifact that answers the core questions directly. It is not the place to lead with POC or MVP design unless the user explicitly asks for later-stage material.
+This phase should end with a discovery artefact that answers the core questions directly. It is not the place to lead with POC or MVP design unless the user explicitly asks for later-stage material.
 
 The core questions are:
 

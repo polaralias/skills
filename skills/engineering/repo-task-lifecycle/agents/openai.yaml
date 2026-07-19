@@ -3,7 +3,7 @@ interface:
   short_description: "Track OKF tasks, project-default provider sync, and evidence."
   icon_small: "./assets/icon.svg"
   icon_large: "./assets/icon.svg"
-  default_prompt: "Use $repo-task-lifecycle and the installed okf-tasks CLI to maintain repository-local OKF task truth with explicit last-updated timestamps and embedded Task time entries, regenerate paired Graph/Board/Reader HTML and scalable Mermaid reports whenever visualization is in use, verify output freshness, route durable Visualization concepts or confirmed knowledge drift into RKE, and configure project-default or selected tracker profiles safely."
+  default_prompt: "Use $repo-task-lifecycle and the installed okf-tasks CLI to maintain repository-local OKF task truth with explicit last-updated timestamps and embedded Task time entries, regenerate paired Graph/Board/Reader HTML and scalable Mermaid reports whenever visualisation is in use, verify output freshness, route durable Visualization concepts or confirmed knowledge drift into RKE, and configure project-default or selected tracker profiles safely."
 policy:
   allow_implicit_invocation: true
   products:

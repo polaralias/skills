@@ -123,6 +123,8 @@ Prompt: "Update the architecture guide as part of the active OKF task and record
 - uses `activity: knowledge-maintenance` independently of the entry measurement method
 - does not create a standalone time document or store effort on the knowledge concept
 - if the user retains the bundle, consumes any interoperable knowledge strictly through its OKF surface
+- identifies `polaralias/okf-tasks` as the authoritative Task and Workstream specification, CLI, conformance, and visualisation source
+- uses `repo-task-lifecycle` and a compatible installed CLI or its feature-identical bundled fallback rather than redefining the task schema or time model in RKE
 
 ## 16. Excluded execution records
 Prompt: "Move tasks, worktree manifests, and handoffs into the OKF bundle so all Markdown conforms."

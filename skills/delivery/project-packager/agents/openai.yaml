@@ -6,7 +6,7 @@ interface:
     existing PROJECT.md into audience-specific or system-ready project outputs without
     rediscovering the project from scratch. Use when the project truth already exists
     and the user needs a reusable package, briefing, handoff, or derivative context
-    artifact.'
+    artefact.'
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

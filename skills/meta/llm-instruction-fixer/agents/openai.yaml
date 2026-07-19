@@ -1,11 +1,11 @@
 interface:
   display_name: llm-instruction-fixer
   short_description: Repair prompts, skills, system instructions, agent prompts, and
-    related LLM instruction artifacts from an existing...
+    related LLM instruction artefacts from an existing...
   default_prompt: 'Use llm-instruction-fixer when the task matches this skill: Repair
     prompts, skills, system instructions, agent prompts, and related LLM instruction
-    artifacts from an existing review, issue list, or explicit fix brief. Use when
-    a user wants reliability problems corrected without casually changing the artifact''s
+    artefacts from an existing review, issue list, or explicit fix brief. Use when
+    a user wants reliability problems corrected without casually changing the artefact''s
     intent or scope.'
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg

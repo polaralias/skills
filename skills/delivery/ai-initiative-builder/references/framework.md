@@ -4,7 +4,7 @@
 
 The first phase should make the opportunity explicit before anyone starts scoring or scoping it. The aim is to document the business problem, the current way of working, the value at stake, the likely data requirements, the success conditions, the risks, and the type of AI capability that might actually help.
 
-This phase should end with a discovery artifact that answers the core questions directly. It is not the place to jump ahead into POC or MVP design unless the user explicitly asks for a later-stage view.
+This phase should end with a discovery artefact that answers the core questions directly. It is not the place to jump ahead into POC or MVP design unless the user explicitly asks for a later-stage view.
 
 Questions Phase 1 should answer in plain terms:
 

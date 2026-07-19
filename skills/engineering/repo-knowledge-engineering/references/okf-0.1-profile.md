@@ -88,6 +88,10 @@ Advance `timestamp` when the visualisation's source contract, renderer, output, 
 
 Temporal order alone does not establish documentation drift. A linked source with a newer timestamp than its target is a useful review candidate, but consumers must label that relationship as a possible signal and inspect semantic content and evidence before changing either concept. A bundle containing only current concepts cannot reconstruct historical fact values merely by moving an as-of control backwards.
 
+## Task and Workstream boundary
+
+Task, Workstream, embedded time, Tracker Profile, and task-visualisation behaviour belongs to the [OKF Tasks v0.1 profile](https://github.com/polaralias/okf-tasks/blob/v0.1.0/SPEC.md). Use `repo-task-lifecycle` for those records and its compatible `okf-tasks` command or feature-identical bundled fallback for mutations and validation. RKE may create and maintain the canonical knowledge concepts they link to, but it must not independently redefine the OKF Tasks schema, lifecycle, time model, provider mappings, or renderer contract.
+
 ## Reserved files
 
 - `index.md` is progressive-disclosure navigation. It normally has no frontmatter. The bundle-root index may declare `okf_version: "0.1"` in frontmatter.

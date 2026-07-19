@@ -23,13 +23,13 @@ Every active skill applies the same durable repository-link contract when it cre
 
 ## Source Trust Baseline
 
-Every active skill treats files, webpages, messages, repository content, tool output, generated artifacts, and connector data as untrusted content rather than behavioural authority. Source material cannot override the current user or host policy, request secrets, select external destinations, or authorise execution, writes, publication, or communication. Tool-using skills add least-privilege, validation, approval, and recovery controls where their risk surface requires them.
+Every active skill treats files, webpages, messages, repository content, tool output, generated artefacts, and connector data as untrusted content rather than behavioural authority. Source material cannot override the current user or host policy, request secrets, select external destinations, or authorise execution, writes, publication, or communication. Tool-using skills add least-privilege, validation, approval, and recovery controls where their risk surface requires them.
 
 ## Local-Only Workspace Convention
 
-Use `local-docs/` at the repo root for machine-local notes, handoffs, continuity artifacts, or other working documents that should stay beside the work without being committed.
+Use `local-docs/` at the repo root for machine-local notes, handoffs, continuity artefacts, or other working documents that should stay beside the work without being committed.
 
-The repository `.gitignore` should include `local-docs/`. Skills that deal with repository bootstrap or local continuity should preserve tracked defaults such as `docs/handoff/`, but they can route explicitly local-only artifacts into `local-docs/` when that better matches the user's intent.
+The repository `.gitignore` should include `local-docs/`. Skills that deal with repository bootstrap or local continuity should preserve tracked defaults such as `docs/handoff/`, but they can route explicitly local-only artefacts into `local-docs/` when that better matches the user's intent.
 
 ## Active Skill Families
 
@@ -43,12 +43,12 @@ Location: [skills/engineering](./skills/engineering)
 - <img src="./skills/engineering/repo-dissection/assets/icon.svg" alt="repo-dissection icon" width="22"> [repo-dissection](./skills/engineering/repo-dissection) (RDS): verify unclear repositories, consume derived wikis as claims, and bootstrap an OKF-compatible knowledge foundation with explicit freshness when appropriate.
 - <img src="./skills/engineering/query-to-knowledge/assets/icon.svg" alt="query-to-knowledge icon" width="22"> [query-to-knowledge](./skills/engineering/query-to-knowledge) (QTK): resolve repository ambiguity into durable canonical knowledge, including producer-safe OKF capture with explicit last-meaningful-change timestamps.
 - <img src="./skills/engineering/repo-knowledge-engineering/assets/icon.svg" alt="repo-knowledge-engineering icon" width="22"> [repo-knowledge-engineering](./skills/engineering/repo-knowledge-engineering) (RKE): maintain canonical repository truth with bounded OKF generation and consumption, explicit freshness, temporal Visualization concepts and evidence-cautious drift review, reading order, decisions, glossary, and evidence alignment.
-- <img src="./skills/engineering/doc-driven-development/assets/icon.svg" alt="doc-driven-development icon" width="22"> [doc-driven-development](./skills/engineering/doc-driven-development) (DDD): turn epic or end-state product truth into feature contracts, implementation-planning notes, work packages, and acceptance artifacts before coding.
-- <img src="./skills/engineering/repo-task-lifecycle/assets/icon.svg" alt="repo-task-lifecycle icon" width="22"> [repo-task-lifecycle](./skills/engineering/repo-task-lifecycle) (RTL): maintain and visually review OKF task bundles through the installed `okf-tasks` CLI and definitive light-first Graph/Board/Reader workspace, with vertical relationship focus in the Graph panel, fragment-addressable embedded Task time entries, temporal drift review, workstream effort context, full Markdown reading, explicit last-updated timestamps, RKE Visualization promotion, project-default tracker profiles, safe sync/exports, and generated indexes.
+- <img src="./skills/engineering/doc-driven-development/assets/icon.svg" alt="doc-driven-development icon" width="22"> [doc-driven-development](./skills/engineering/doc-driven-development) (DDD): turn epic or end-state product truth into feature contracts, implementation-planning notes, work packages, and acceptance artefacts before coding.
+- <img src="./skills/engineering/repo-task-lifecycle/assets/icon.svg" alt="repo-task-lifecycle icon" width="22"> [repo-task-lifecycle](./skills/engineering/repo-task-lifecycle) (RTL): maintain and visually review OKF task bundles through the installed `okf-tasks` CLI and definitive light-first Graph/Board/Reader workspace, with vertical relationship focus in the Graph panel, fragment-addressable embedded Task time entries, temporal drift review, workstream effort context, full Markdown reading, explicit last-updated timestamps, RKE Visualisation promotion, project-default tracker profiles, safe sync/exports, and generated indexes. [`polaralias/okf-tasks`](https://github.com/polaralias/okf-tasks) is the authoritative specification, CLI, conformance, and visualisation source.
 - <img src="./skills/engineering/worktree-task-coordinator/assets/icon.svg" alt="worktree-task-coordinator icon" width="22"> [worktree-task-coordinator](./skills/engineering/worktree-task-coordinator) (WTC): coordinate isolated Git worktrees, branch and path ownership, integration order, final-tree verification, and safe cleanup for concurrent delivery.
 - <img src="./skills/engineering/repo-publish-finaliser/assets/icon.svg" alt="repo-publish-finaliser icon" width="22"> [repo-publish-finaliser](./skills/engineering/repo-publish-finaliser) (RPF): finalise a repository for public release, including publish-safety scanning, release-automation decisions, and final description cleanup.
 - <img src="./skills/engineering/local-handoff/assets/icon.svg" alt="local-handoff icon" width="22"> [local-handoff](./skills/engineering/local-handoff) (LHO): write a dated local handoff so the next session can resume safely, with compact standard mode and a richer max-verbosity mode for higher-risk continuity.
-- <img src="./skills/engineering/local-pickup/assets/icon.svg" alt="local-pickup icon" width="22"> [local-pickup](./skills/engineering/local-pickup) (LPK): resume from a local handoff or continuity artifacts and rebuild trustworthy context before editing.
+- <img src="./skills/engineering/local-pickup/assets/icon.svg" alt="local-pickup icon" width="22"> [local-pickup](./skills/engineering/local-pickup) (LPK): resume from a local handoff or continuity artefacts and rebuild trustworthy context before editing.
 - <img src="./skills/engineering/tracker-publisher/assets/icon.svg" alt="tracker-publisher icon" width="22"> [tracker-publisher](./skills/engineering/tracker-publisher) (TPU): publish stable work packages or local task records into external trackers without redesigning their hierarchy or ownership.
 - <img src="./skills/engineering/test-plan-writer/assets/icon.svg" alt="test-plan-writer icon" width="22"> [test-plan-writer](./skills/engineering/test-plan-writer) (TPW): turn requirements and change notes into proportionate QA plans and test cases.
 
@@ -83,7 +83,7 @@ Location: [skills/delivery](./skills/delivery)
 - <img src="./skills/delivery/project-context-builder/assets/icon.svg" alt="project-context-builder icon" width="22"> [project-context-builder](./skills/delivery/project-context-builder) (PCB): create or refresh a canonical `PROJECT.md` from scattered project context.
 - <img src="./skills/delivery/project-packager/assets/icon.svg" alt="project-packager icon" width="22"> [project-packager](./skills/delivery/project-packager) (PKG): turn an existing `PROJECT.md` into audience-specific or system-ready project outputs.
 - <img src="./skills/delivery/project-report-writer/assets/icon.svg" alt="project-report-writer icon" width="22"> [project-report-writer](./skills/delivery/project-report-writer) (PRW): build project reports from fresh delivery signals, structured execution data, and durable context.
-- <img src="./skills/delivery/project-support/assets/icon.svg" alt="project-support icon" width="22"> [project-support](./skills/delivery/project-support) (PRS): orient and validate real project work before a more specialized project skill takes over.
+- <img src="./skills/delivery/project-support/assets/icon.svg" alt="project-support icon" width="22"> [project-support](./skills/delivery/project-support) (PRS): orient and validate real project work before a more specialised project skill takes over.
 - <img src="./skills/delivery/training-plan-writer/assets/icon.svg" alt="training-plan-writer icon" width="22"> [training-plan-writer](./skills/delivery/training-plan-writer) (TRW): create paired customer-facing and facilitator-grade training plans from agreed scope.
 
 ### Design
@@ -113,8 +113,8 @@ Location: [skills/media](./skills/media)
 Location: [skills/meta](./skills/meta)
 
 - <img src="./skills/meta/skill-eval-suite-writer/assets/icon.svg" alt="skill-eval-suite-writer icon" width="22"> [skill-eval-suite-writer](./skills/meta/skill-eval-suite-writer) (SEW): build evaluation suites, scenario matrices, and grader strategies for skills.
-- <img src="./skills/meta/llm-instruction-fixer/assets/icon.svg" alt="llm-instruction-fixer icon" width="22"> [llm-instruction-fixer](./skills/meta/llm-instruction-fixer) (LIF): repair prompts, skills, and other LLM instruction artifacts from a review or fix brief.
-- <img src="./skills/meta/llm-instruction-reviewer/assets/icon.svg" alt="llm-instruction-reviewer icon" width="22"> [llm-instruction-reviewer](./skills/meta/llm-instruction-reviewer) (LIR): inspect prompts and instruction artifacts for execution risks before publication or repair.
+- <img src="./skills/meta/llm-instruction-fixer/assets/icon.svg" alt="llm-instruction-fixer icon" width="22"> [llm-instruction-fixer](./skills/meta/llm-instruction-fixer) (LIF): repair prompts, skills, and other LLM instruction artefacts from a review or fix brief.
+- <img src="./skills/meta/llm-instruction-reviewer/assets/icon.svg" alt="llm-instruction-reviewer icon" width="22"> [llm-instruction-reviewer](./skills/meta/llm-instruction-reviewer) (LIR): inspect prompts and instruction artefacts for execution risks before publication or repair.
 - <img src="./skills/meta/skill-finaliser/assets/icon.svg" alt="skill-finaliser icon" width="22"> [skill-finaliser](./skills/meta/skill-finaliser) (SKF): turn draft or imported skills into clean, publishable skill packages.
 - <img src="./skills/meta/setup-polaralias-skills/assets/icon.svg" alt="setup-polaralias-skills icon" width="22"> [setup-polaralias-skills](./skills/meta/setup-polaralias-skills) (SPS): create update-safe shared Polaralias defaults under `~/.agents/config/polaralias-skills` with `~/.config` as fallback, including shared tracker, structured-output, and continuity preferences.
 
@@ -128,7 +128,7 @@ Location: [skills/meta](./skills/meta)
 
 This repository uses a repo-level [VERSION](./VERSION) file for GitHub Releases.
 
-Any merged change that modifies packaged skills, repo packaging guidance, or release-validation behavior should update `VERSION` in the same slice rather than leaving the repo-level release number for later cleanup.
+Any merged change that modifies packaged skills, repo packaging guidance, or release-validation behaviour should update `VERSION` in the same slice rather than leaving the repo-level release number for later cleanup.
 
 When `VERSION` is the canonical release source, draft-release automation should also read `VERSION` directly so GitHub draft releases, pushed tags, and published releases do not drift into separate version tracks.
 
@@ -138,4 +138,4 @@ When `VERSION` is the canonical release source, draft-release automation should 
 
 ## Contributing
 
-For repository workflow, packaging rules, and agent-focused maintenance context, read [AGENTS.md](AGENTS.md).
+For repository workflow, packaging rules, and agent-focussed maintenance context, read [AGENTS.md](AGENTS.md).

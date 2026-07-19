@@ -1,13 +1,13 @@
 # Choosing Graders
 
-Pick the lightest grader that can prove the behavior you care about.
+Pick the lightest grader that can prove the behaviour you care about.
 
 ## Prefer simple checks first
 
 Use straightforward graders when possible:
 
 - required or forbidden text checks
-- artifact existence checks
+- artefact existence checks
 - schema validation
 - limits on tools, turns, runtime, or token budget
 
@@ -17,7 +17,7 @@ Escalate when simple assertions cannot express the requirement:
 
 - diff-based checks when concrete file edits matter
 - model-judged or prompt-judged checks for semantic quality
-- trigger checks when routing behavior is the main target
+- trigger checks when routing behaviour is the main target
 - tool-usage checks when process matters as much as output
 
 ## Good suite shape

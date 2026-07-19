@@ -1,7 +1,7 @@
 interface:
   display_name: "Doc-Driven Development"
-  short_description: Turn epic truth into feature contracts, implementation plans, work packages, and acceptance artifacts.
-  default_prompt: Use $doc-driven-development to turn this epic or scoped outcome into implementation-ready feature contracts, implementation-planning notes, acceptance artifacts, and work packages, then route stable packages to repo-task-lifecycle for durable local execution records or tracker-publisher for external publication.
+  short_description: Turn epic truth into feature contracts, implementation plans, work packages, and acceptance artefacts.
+  default_prompt: Use $doc-driven-development to turn this epic or scoped outcome into implementation-ready feature contracts, implementation-planning notes, acceptance artefacts, and work packages, then route stable packages to repo-task-lifecycle for durable local execution records or tracker-publisher for external publication.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

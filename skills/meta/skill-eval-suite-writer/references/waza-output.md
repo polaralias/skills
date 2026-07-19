@@ -25,7 +25,7 @@ Each task file should usually capture:
 
 - task identifier and label
 - prompt or setup
-- whether trigger behavior matters
+- whether trigger behaviour matters
 - required or forbidden outcomes
 - task-specific graders
 
@@ -37,6 +37,6 @@ Waza is a good fit for:
 - required or forbidden content
 - schema enforcement
 - tool-use limits
-- behavior budgets
+- behaviour budgets
 
 If a simple markdown plan is enough, prefer that instead of forcing a runner format.

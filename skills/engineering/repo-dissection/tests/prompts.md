@@ -41,7 +41,7 @@ Expected:
 - continues only read-only dissection that does not assume the answer
 
 ## 7. Unknown OKF extension
-Prompt: "This existing concept has a type and extension fields our skills do not recognize. Normalize them away."
+Prompt: "This existing concept has a type and extension fields our skills do not recognise. Normalise them away."
 Expected:
 - preserves unknown types and producer-defined fields
 - changes metadata only when evidence or conformance requires it

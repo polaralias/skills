@@ -76,7 +76,7 @@ Missing values should fall back to the skill's packaged defaults or the current 
 - `continuity.handoff_filename_pattern`
 - `continuity.precompact_capture_enabled`
 
-Use these keys when a consuming skill needs shared defaults for hook-aware continuity, transcript backup location, deterministic manifest paths, or preferred verbose handoff behavior during compaction-aware flows.
+Use these keys when a consuming skill needs shared defaults for hook-aware continuity, transcript backup location, deterministic manifest paths, or preferred verbose handoff behaviour during compaction-aware flows.
 Missing values should fall back to the skill's packaged defaults, project-local hook config, or the current user's explicit instructions.
 
 ## Skill-specific asset paths
@@ -119,11 +119,11 @@ Consumers should still prefer direct user instructions over shared defaults.
 For hook-aware consumers such as `engineering-workflow-orchestrator`, `local-handoff`, or future continuity helpers, these keys should be interpreted as:
 
 - `continuity.preferred_mode` -> default handoff depth such as `standard` or `max`
-- `continuity.transcript_backup_root` -> preferred user-level root for raw transcript backup artifacts
+- `continuity.transcript_backup_root` -> preferred user-level root for raw transcript backup artefacts
 - `continuity.manifest_relative_path` -> project-relative manifest path that `PostCompact` or restart helpers should read
 - `continuity.restart_supplement_relative_path` -> project-relative path for the short post-compact restart supplement
 - `continuity.handoff_relative_dir` -> preferred project-relative handoff directory when continuity hooks generate or refresh a handoff
 - `continuity.handoff_filename_pattern` -> naming convention template for deterministic handoff creation
 - `continuity.precompact_capture_enabled` -> whether the user wants the richer continuity flow enabled by default when a host supports it
 
-Consumers should treat raw transcript backups as the authority record, and derived verbose handoffs or restart supplements as secondary artifacts built for restart convenience.
+Consumers should treat raw transcript backups as the authority record, and derived verbose handoffs or restart supplements as secondary artefacts built for restart convenience.

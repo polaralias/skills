@@ -22,7 +22,7 @@ Map source material like this:
 - explicit rollout state -> `Release type`
 - product areas or surfaces touched -> `App(s)`
 - introduction or framing prose -> `# Introduction`
-- outcome-focused value statements -> `# Main benefits`
+- outcome-focussed value statements -> `# Main benefits`
 - user roles or affected groups -> `# Who benefits`
 - grouped capabilities -> `# Functionality/features`
 - explicit decisions or trade-offs -> `# Key decisions and rationale`

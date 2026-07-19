@@ -2,7 +2,7 @@
 
 Prompt: "Use agenda-generator for a representative task."
 
-Expected behavior:
+Expected behaviour:
 - the skill is selected for a matching request
 - the workflow stays within the capability described in `SKILL.md`
 - referenced local files are used when relevant

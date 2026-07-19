@@ -1,6 +1,6 @@
 # Discover and Document template
 
-Use this template for the first structured output of a new or still-rough AI initiative. It is deliberately a discovery artifact, not a prioritisation paper and not a scoping proposal.
+Use this template for the first structured output of a new or still-rough AI initiative. It is deliberately a discovery artefact, not a prioritisation paper and not a scoping proposal.
 
 ## Required Phase 1 output
 

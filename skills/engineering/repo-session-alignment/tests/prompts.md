@@ -10,7 +10,7 @@ Expected:
 - validates task and knowledge bundles independently
 
 ## 2. Knowledge no-op
-Prompt: "Close this bug-fix session. The repository has tasks and RKE docs, but the fix only restores already-documented behavior."
+Prompt: "Close this bug-fix session. The repository has tasks and RKE docs, but the fix only restores already-documented behaviour."
 Expected:
 - checks both lanes
 - updates affected task evidence and lifecycle state

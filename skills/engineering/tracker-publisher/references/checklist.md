@@ -6,4 +6,4 @@
 - map acceptance criteria and implementation notes into the tracker shape
 - prefer the lightest viable output format for the target tracker
 - publish live only when the environment actually supports it
-- emit tracker-ready artifacts instead of pretending publication happened
+- emit tracker-ready artefacts instead of pretending publication happened

@@ -1,6 +1,6 @@
 # CLI setup
 
-The `polaralias/okf-tasks` repository is the authoritative CLI distribution for this skill. The skill does not install or upgrade software silently.
+The [`polaralias/okf-tasks`](https://github.com/polaralias/okf-tasks) repository is the authoritative specification, CLI distribution, conformance suite, and visualisation implementation for this skill. The bundled scripts remain feature-identical fallbacks, not an independent product fork. The skill does not install or upgrade software silently.
 
 Check compatibility first:
 

@@ -14,6 +14,6 @@ Thanks for contributing to `{{repo_name}}`.
 
 ## Repo hygiene
 
-- keep docs and automation changes in the same slice as the behavior they govern
+- keep docs and automation changes in the same slice as the behaviour they govern
 - avoid mixing unrelated changes into the same branch
 - update versioning and release surfaces deliberately when the repo is release-enabled

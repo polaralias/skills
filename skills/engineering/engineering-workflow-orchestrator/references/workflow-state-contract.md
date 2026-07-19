@@ -1,6 +1,6 @@
 # Workflow State Contract
 
-Use this contract when `engineering-workflow-orchestrator` keeps a project-local workflow-state artifact or when it shapes hook-aware continuation behavior.
+Use this contract when `engineering-workflow-orchestrator` keeps a project-local workflow-state artefact or when it shapes hook-aware continuation behaviour.
 
 The record can live in any project-local path the repository already treats as durable session metadata.
 Prefer a small JSON or YAML file over prose when a hook needs to read it.
@@ -62,6 +62,6 @@ When `local-handoff` writes a workflow-aware handoff, keep these fields aligned 
 - keep the record short enough that hooks can read it cheaply
 - do not duplicate long plan bodies or large specs
 - update the record when the stage changes materially
-- remove or de-emphasize stale `next_skill` values after the session takes a different path
+- remove or de-emphasise stale `next_skill` values after the session takes a different path
 - link to task or worktree records rather than copying their full state into the workflow record
 - when the handoff is intentionally local-only, point `handoff_path` at the repo's `local-docs/` area rather than inventing a new ignore convention

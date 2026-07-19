@@ -19,7 +19,7 @@ Prompt: "Refresh my Polaralias shared branding defaults with a new font and logo
 Expected:
 - existing files are inspected first
 - only the changed values are updated
-- the response summarizes what changed
+- the response summarises what changed
 
 ## 4. Leave blanks when the user only knows part of the profile
 Prompt: "Set up the shared config but I only know the brand name, accent colour, and footer text for now."

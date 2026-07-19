@@ -6,7 +6,7 @@ interface:
     QA test plans and test cases from requirements, acceptance criteria, stories,
     change notes, or specifications. Use when a user wants requirement-to-test coverage,
     a structured plan, or a review of whether a draft test set is missing important
-    behavior.'
+    behaviour.'
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

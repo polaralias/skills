@@ -11,7 +11,7 @@
 
 ### Overview
 
-`<1 to 3 sentences on the behavior under test from a user or system perspective>`
+`<1 to 3 sentences on the behaviour under test from a user or system perspective>`
 
 ### Scope
 
@@ -32,7 +32,7 @@ Out of scope:
 - UI or interaction coverage: `<high-level note>`
 - data validation and persistence: `<high-level note>`
 - access control: `<if relevant>`
-- integrations or release behavior: `<if relevant>`
+- integrations or release behaviour: `<if relevant>`
 - accessibility families: `<only where relevant>`
 
 ### Test data

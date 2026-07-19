@@ -4,7 +4,7 @@ description: Establish, evolve, and keep a repository knowledge base trustworthy
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.5.0
+  version: 3.5.1
   updated: '2026-07-19'
 ---
 
@@ -56,13 +56,14 @@ It is later in the flow than repository dissection.
 Read [references/okf-0.1-profile.md](./references/okf-0.1-profile.md) before creating, migrating, or validating an OKF bundle.
 Read [references/openwiki-detection.md](./references/openwiki-detection.md) immediately when an existing OpenWiki surface is detected. Obtain the user's direction before changing repository knowledge surfaces.
 Use [scripts/okf_bundle.py](./scripts/okf_bundle.py) to build canonical indexes and validate OKF conformance.
-Use [assets/okf/visualization.md.template](./assets/okf/visualization.md.template) when a repository needs a durable OKF Visualisation concept describing the source, renderer, output, interpretation, and verification of a derived view.
+Use [assets/okf/visualization.md.template](./assets/okf/visualization.md.template) when a repository needs a durable OKF `Visualization` concept describing the source, renderer, output, interpretation, and verification of a derived view.
+Treat [`polaralias/okf-tasks`](https://github.com/polaralias/okf-tasks) as the authoritative specification, CLI distribution, conformance suite, and visualisation implementation for Task and Workstream records. Route their lifecycle, embedded time, tracker synchronisation, and generated views through `repo-task-lifecycle`; RKE owns the canonical knowledge concepts and links that connect them to execution truth.
 
 ## Link knowledge maintenance to execution truth
 
 When durable knowledge work belongs to an active tracked delivery slice, locate its OKF Task before editing. Keep the Task and every changed durable knowledge concept connected with useful repository-relative Markdown links. Record the work on the parent Task's embedded `time[]` array through `repo-task-lifecycle`, using `activity: knowledge-maintenance`; do not create separate time documents or put effort accounting into the knowledge concept.
 
-For live work, use `okf-tasks start-time --activity knowledge-maintenance` and stop the same entry when the session ends or waits materially. For supplied or reconstructed effort, use `add-time` or `backfill-from-commits` with the same activity. `activity` states what work occurred, while `method` states how its duration was measured. Do not create task ceremony solely for a trivial untracked edit, but never lose the link or time classification when a task already governs the slice.
+For live work, use a compatible `okf-tasks` command from the authoritative distribution, or the feature-identical fallback bundled with `repo-task-lifecycle`, to run `start-time --activity knowledge-maintenance`; stop the same entry when the session ends or waits materially. For supplied or reconstructed effort, use `add-time` or `backfill-from-commits` with the same activity. `activity` states what work occurred, while `method` states how its duration was measured. Do not create task ceremony solely for a trivial untracked edit, but never lose the link or time classification when a task already governs the slice.
 
 ## Use This Instead Of
 

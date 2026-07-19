@@ -25,7 +25,7 @@ Expected:
 Prompt: "The workflow-state says we are in doc-driven-development, but the canonical docs show implementation already started."
 Expected:
 - the skill treats canonical docs and verified state as stronger than stale workflow-state
-- it updates or de-emphasizes the stale stage instead of preserving a false route
+- it updates or de-emphasises the stale stage instead of preserving a false route
 
 ## 5. Full task delivery route
 Prompt: "The product truth is stable, the feature package is ready, and three workstreams can run concurrently. Route the rest of the tranche."

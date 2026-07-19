@@ -1,6 +1,6 @@
 # Review Lenses
 
-Use these lenses to decide whether an instruction artifact is likely to execute cleanly.
+Use these lenses to decide whether an instruction artefact is likely to execute cleanly.
 
 ## Rule collisions
 
@@ -12,7 +12,7 @@ Common forms:
 - unclear priority ordering
 - impossible combinations of constraints
 - output requirements that point in different directions
-- refusal or safety instructions that clash with the stated behavior
+- refusal or safety instructions that clash with the stated behaviour
 
 Representative patterns:
 
@@ -40,7 +40,7 @@ Check whether the file asks the model to sound or behave in ways that do not fit
 Examples:
 
 - warm and conversational in one place, rigid and terse elsewhere
-- deferential phrasing paired with highly assertive behavior
+- deferential phrasing paired with highly assertive behaviour
 - confident tone without uncertainty handling
 
 Raise this only when it can affect outputs, not when it is just a branding preference.
@@ -56,7 +56,7 @@ Models become unreliable when too many rules must be held in working memory at o
 
 The right fix is usually better structure, not more words.
 
-## Missing behavior coverage
+## Missing behaviour coverage
 
 Ask where a capable model would still have to guess.
 
@@ -64,12 +64,12 @@ Typical gaps:
 
 - likely user variants not addressed
 - incomplete or messy input
-- refusal, fallback, or recovery behavior
+- refusal, fallback, or recovery behaviour
 - what to do when constraints cannot all be satisfied
 
 ## Trust boundaries and excessive agency
 
-Check whether the artifact clearly separates authoritative instructions from files, webpages, messages, tool output, retrieved passages, generated artifacts, and other source material. Flag designs that let source content widen scope, choose tools, request secrets, name an output destination, or authorise writes and external communication.
+Check whether the artefact clearly separates authoritative instructions from files, webpages, messages, tool output, retrieved passages, generated artefacts, and other source material. Flag designs that let source content widen scope, choose tools, request secrets, name an output destination, or authorise writes and external communication.
 
 Also check whether the agent has more authority than the task requires:
 
@@ -83,7 +83,7 @@ Prompt wording and content sanitisation may add defence in depth, but they are n
 
 ## Multi-file drift
 
-Where several files jointly define behavior, examine the combined surface for:
+Where several files jointly define behaviour, examine the combined surface for:
 
 - duplicate rules with different wording or meaning
 - inconsistent formatting requirements
