@@ -609,7 +609,7 @@ function graphLayoutMetrics(count){
     componentSpacing:compact?72:130,
     width:compact?Math.max(420,320+count*95):1500,
     height:compact?Math.max(300,240+Math.ceil(count/3)*90):820,
-    minimumZoom:count<=3?1.12:count<=6?.9:count<=8?.72:0
+    minimumZoom:count<=3?1.75:count<=6?1.5:count<=8?1.2:0
   };
 }
 function fitGraph(){
