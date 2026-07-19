@@ -13,7 +13,7 @@ Keep these outside the required bundle unless the repository deliberately choose
 - root `README.md`, `AGENTS.md`, and `CLAUDE.md`
 - task and workstream records
 - worktree coordination manifests
-- transient handoffs and session artifacts
+- transient handoffs and session artefacts
 - implementation plans whose established schema should remain unchanged
 
 Existing repositories may retain their current knowledge structure. Recommend OKF for new or deliberately migrated canonical knowledge, but do not force a broad migration when it would weaken clearer repository conventions.
@@ -44,8 +44,13 @@ Use extension fields sparingly:
 - `verification`: `verified-working`, `verified-limited`, `known-broken`, or `untested`
 - `owner`: maintainer or team responsible for the concept, when known
 - `generated_by`: producer name for generated material, when applicable
+- `navigation`: optional retrieval prominence and first-reading metadata:
+  - `role`: `entry-point`, `foundational`, `supporting`, or `reference`
+  - `order`: non-negative integer; lower sparse values read first within the same role
 
 These fields express RKE semantics. They are not part of the OKF core and consumers must tolerate them as extensions.
+
+Use `navigation` only when a bundle benefits from an explicit starting surface or layered reading path. It does not replace Markdown links, directory hierarchy, concept authority, or Task execution priority. A visual consumer should distinguish entry points and foundational concepts and may highlight a selected role, but should retain unmatched concepts as context by default. ADRs and other decisions should remain descriptive types such as `Architecture Decision` or `Decision`; their type and navigation role may both contribute to presentation.
 
 Do not encode task status or worktree state in this profile.
 
@@ -64,22 +69,22 @@ OKF has no central type registry. Prefer descriptive values such as:
 
 Reuse an established repository type before inventing a synonym.
 
-### Visualization concepts
+### Visualisation concepts
 
-Use `type: Visualization` when a durable repository concept must explain how to generate, interpret, and verify a visual view of other OKF or repository records. A Visualization concept is canonical metadata about a derived view; the rendered HTML, Mermaid, image, or other output remains derived.
+Use `type: Visualization` when a durable repository concept must explain how to generate, interpret, and verify a visual view of other OKF or repository records. A Visualisation concept is canonical metadata about a derived view; the rendered HTML, Mermaid, image, or other output remains derived.
 
 Start from `assets/okf/visualization.md.template`. In addition to the normal retrieval fields and explicit `timestamp`, record:
 
 - `source`: bundle-relative link to the canonical source record or index;
 - `renderer`: stable command or producer identity;
-- `output`: bundle-relative link to the derived artifact;
+- `output`: bundle-relative link to the derived artefact;
 - `temporal_basis`: event field used for chronological ordering, normally `timestamp`;
 - `history_model`: normally `current-records-only` unless retained historical concepts or versions support reconstruction;
 - `drift_policy`: the comparison heuristic and its evidential limit;
-- `authority: derived` unless the concept body itself records a canonical visualization contract;
+- `authority: derived` unless the concept body itself records a canonical visualisation contract;
 - `verification`: the honest current generation or smoke-test state.
 
-Advance `timestamp` when the visualization's source contract, renderer, output, visual encoding, interpretation, or verification meaningfully changes. Regenerating byte-identical output does not require a concept update. Never use the generated file's modification time as concept freshness.
+Advance `timestamp` when the visualisation's source contract, renderer, output, visual encoding, interpretation, or verification meaningfully changes. Regenerating byte-identical output does not require a concept update. Never use the generated file's modification time as concept freshness.
 
 Temporal order alone does not establish documentation drift. A linked source with a newer timestamp than its target is a useful review candidate, but consumers must label that relationship as a possible signal and inspect semantic content and evidence before changing either concept. A bundle containing only current concepts cannot reconstruct historical fact values merely by moving an as-of control backwards.
 

@@ -111,6 +111,15 @@ def validate_concept(path: Path, bundle: Path, report: Report) -> None:
         report.errors.append(Finding(rel, "tags must be a YAML list of non-empty strings"))
     if "timestamp" in metadata and not validate_timestamp(metadata["timestamp"]):
         report.errors.append(Finding(rel, "timestamp must be an ISO 8601 datetime"))
+    if "navigation" in metadata:
+        navigation = metadata["navigation"]
+        if not isinstance(navigation, dict) or not navigation:
+            report.errors.append(Finding(rel, "navigation must be a non-empty mapping"))
+        else:
+            if navigation.get("role") is not None and navigation.get("role") not in {"entry-point", "foundational", "supporting", "reference"}:
+                report.errors.append(Finding(rel, "navigation.role must be entry-point, foundational, supporting, or reference"))
+            if navigation.get("order") is not None and (type(navigation.get("order")) is not int or navigation["order"] < 0):
+                report.errors.append(Finding(rel, "navigation.order must be a non-negative integer"))
     if "resource" in metadata:
         resource = metadata["resource"]
         if not isinstance(resource, str) or not urlparse(resource).scheme:

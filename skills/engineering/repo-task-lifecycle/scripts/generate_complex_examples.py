@@ -136,7 +136,8 @@ def slugify(value: str) -> str:
 
 
 def title(value: str) -> str:
-    return value.replace("-", " ").title()
+    display = value.replace("-", " ").title()
+    return display.replace("Artifacts", "Artefacts")
 
 
 def stamp(value: datetime) -> str:
@@ -196,6 +197,8 @@ def task_metadata(slug: str, task_title: str, status: str, created: datetime, de
         "created": stamp(created),
         "timestamp": stamp(changed),
         "owner": f"team-{group}",
+        "priority": ("high", "high", "medium", "medium", "normal", "normal", "high", "normal")[index % 8],
+        "navigation": {"role": "supporting", "order": 200 + index * 10},
         "tags": [group, "complex-example", f"wave-{index // 2 + 1}"],
     }
     if dependencies:
@@ -266,6 +269,7 @@ def task_portfolio_files() -> dict[Path, str]:
             "timestamp": stamp(base + timedelta(days=group_index * 9 + 8)),
             "owner": f"lead-{group}",
             "branch": f"feat/{group}-programme",
+            "navigation": {"role": "supporting", "order": 300 + group_index * 10},
         }
         related_links = "\n".join(f"- [{title(item)}](../../{item}/task.md)" for item in related)
         files[Path("tasks") / anchor / "workstreams" / f"{group}.md"] = markdown_document(
@@ -307,6 +311,7 @@ Keep the initiative's dependent tasks moving as one inspectable delivery chain.
             "created": stamp(base + timedelta(days=group_index * 9)),
             "timestamp": stamp(base + timedelta(days=group_index * 9 + 8)),
             "tags": [group, "delivery-plan", "complex-example"],
+            "navigation": {"role": "entry-point" if group_index == 0 else "foundational", "order": 10 + group_index * 10},
         }
         files[Path("docs") / f"{group}.md"] = markdown_document(
             metadata,
@@ -334,6 +339,8 @@ This document groups a deliberately busy set of tasks so graph, board, temporal,
 
 This generated dummy workspace stress-tests a task-heavy OKF graph with forty Tasks, five coordinating Workstreams, embedded time evidence, mixed lifecycle states, cross-initiative dependencies, and linked delivery plans.
 
+Task `priority` expresses execution urgency. The independent `navigation` extension marks delivery plans as entry points or foundational reading surfaces; links remain the actual delivery and knowledge relationships.
+
 - [Start with the platform plan](./docs/platform-foundations.md)
 - [Inspect the first delivery task](./tasks/establish-repository-boundaries/task.md)
 - [Follow the final release task](./tasks/approve-general-availability/task.md)
@@ -341,7 +348,7 @@ This generated dummy workspace stress-tests a task-heavy OKF graph with forty Ta
     return files
 
 
-def knowledge_metadata(kind: str, name: str, status: str, created: datetime, tags: list[str]) -> dict[str, Any]:
+def knowledge_metadata(kind: str, name: str, status: str, created: datetime, tags: list[str], role: str = "supporting", order: int = 100) -> dict[str, Any]:
     return {
         "type": kind,
         "title": title(name),
@@ -349,6 +356,7 @@ def knowledge_metadata(kind: str, name: str, status: str, created: datetime, tag
         "status": status,
         "created": stamp(created),
         "timestamp": stamp(created + timedelta(days=7)),
+        "navigation": {"role": role, "order": order},
         "tags": [*tags, "architecture-example"],
     }
 
@@ -363,7 +371,7 @@ def architecture_files() -> dict[Path, str]:
         service_a = SERVICES[index % len(SERVICES)]
         service_b = SERVICES[(index + 3) % len(SERVICES)]
         files[Path("docs/architecture") / f"{name}.md"] = markdown_document(
-            knowledge_metadata("Architecture Document", name, "current", base + timedelta(days=index), ["architecture", "system-design"]),
+            knowledge_metadata("Architecture Document", name, "current", base + timedelta(days=index), ["architecture", "system-design"], "entry-point" if index == 0 else "foundational", 10 + index * 10),
             f"""# {title(name)}
 
 ## Purpose and boundaries
@@ -421,7 +429,7 @@ flowchart LR
             else "- This is the root decision in the example chain."
         )
         files[Path("docs/decisions") / f"adr-{index + 1:03d}-{name}.md"] = markdown_document(
-            knowledge_metadata("Architecture Decision", f"ADR {index + 1:03d}: {name}", status, base + timedelta(days=index * 2), ["adr", "decision"]),
+            knowledge_metadata("Architecture Decision", f"ADR {index + 1:03d}: {name}", status, base + timedelta(days=index * 2), ["adr", "decision"], "foundational", 150 + index * 10),
             f"""# ADR {index + 1:03d}: {title(name)}
 
 ## Context
@@ -456,7 +464,7 @@ Central coordination, implicit conventions, and provider-specific coupling were 
         architecture = ARCHITECTURE_DOCS[(index * 2) % len(ARCHITECTURE_DOCS)]
         interface = INTERFACES[index % len(INTERFACES)]
         files[Path("docs/services") / f"{name}.md"] = markdown_document(
-            knowledge_metadata("Service Design", name, "current", base + timedelta(days=40 + index), ["service", name]),
+            knowledge_metadata("Service Design", name, "current", base + timedelta(days=40 + index), ["service", name], "supporting", 400 + index * 10),
             f"""# {title(name)}
 
 ## Responsibilities
@@ -485,7 +493,7 @@ Central coordination, implicit conventions, and provider-specific coupling were 
         service_b = SERVICES[(index + 2) % len(SERVICES)]
         adr_index = (index * 3 + 1) % len(ADRS)
         files[Path("docs/interfaces") / f"{name}.md"] = markdown_document(
-            knowledge_metadata("Interface Contract", name, "current", base + timedelta(days=55 + index), ["interface", "contract"]),
+            knowledge_metadata("Interface Contract", name, "current", base + timedelta(days=55 + index), ["interface", "contract"], "supporting", 500 + index * 10),
             f"""# {title(name)}
 
 ## Contract
@@ -510,7 +518,7 @@ The interface uses explicit versions, stable identifiers, bounded payloads, and 
         architecture = ARCHITECTURE_DOCS[(index + 4) % len(ARCHITECTURE_DOCS)]
         adr_index = (index * 4 + 2) % len(ADRS)
         files[Path("docs/quality") / f"{name}.md"] = markdown_document(
-            knowledge_metadata("Quality Attribute", name, "current", base + timedelta(days=65 + index), ["quality-attribute", name]),
+            knowledge_metadata("Quality Attribute", name, "current", base + timedelta(days=65 + index), ["quality-attribute", name], "reference", 600 + index * 10),
             f"""# {title(name)} quality attribute
 
 ## Scenario
@@ -556,9 +564,54 @@ When the platform is under realistic load or partial failure, {name} remains mea
 
 This generated dummy workspace stress-tests an architecture-heavy graph with detailed architecture documents, twenty ADRs, service designs, interface contracts, quality attributes, and a small linked implementation backlog.
 
+The system context is the entry point, core architecture and ADRs are foundational, service/interface records are supporting, and quality attributes are references. These are reading-prominence hints rather than authority or dependency claims.
+
 - [Start with the system context](./docs/architecture/system-context.md)
 - [Browse the first architecture decision](./docs/decisions/adr-001-modular-service-boundaries.md)
 - [Inspect architecture readiness work](./tasks/validate-architecture-decision-coverage/task.md)
+"""
+    return files
+
+
+def combined_workspace_files() -> dict[Path, str]:
+    """Combine the delivery-heavy and architecture-heavy fixtures into one linked workspace."""
+    files = task_portfolio_files()
+    for path, content in architecture_files().items():
+        if path != Path("README.md"):
+            files[path] = content
+
+    files[Path("docs/programme-map.md")] = markdown_document(
+        knowledge_metadata(
+            "Knowledge Map",
+            "Programme delivery and architecture map",
+            "current",
+            datetime(2026, 7, 18, 9, tzinfo=timezone.utc),
+            ["entry-point", "delivery", "architecture"],
+            "entry-point",
+            1,
+        ),
+        """# Programme delivery and architecture map
+
+## First reading path
+
+1. [System context](./architecture/system-context.md)
+2. [ADR 001: Modular service boundaries](./decisions/adr-001-modular-service-boundaries.md)
+3. [Platform foundations delivery plan](./platform-foundations.md)
+4. [Establish repository boundaries](../tasks/establish-repository-boundaries/task.md)
+5. [Architecture readiness work](../tasks/validate-architecture-decision-coverage/task.md)
+
+## Why this map exists
+
+This record joins the architecture and delivery surfaces into one intentional graph. Its `navigation` metadata marks it as the primary entry point; the links remain the authoritative reading path and relationship evidence.
+""",
+    )
+    files[Path("README.md")] = """# Combined delivery and architecture workspace
+
+This generated dummy workspace combines the task-heavy portfolio and architecture-heavy knowledge base into one connected review surface. It demonstrates execution priority separately from cross-concept reading prominence.
+
+- [Start with the programme map](./docs/programme-map.md)
+- [Browse the system context](./docs/architecture/system-context.md)
+- [Inspect the delivery chain](./docs/platform-foundations.md)
 """
     return files
 
@@ -595,6 +648,7 @@ def generate(root: Path, check: bool) -> list[str]:
     datasets = {
         "complex-task-portfolio": task_portfolio_files(),
         "architecture-knowledge-base": architecture_files(),
+        "combined-delivery-architecture": combined_workspace_files(),
     }
     errors: list[str] = []
     for name, generated in datasets.items():

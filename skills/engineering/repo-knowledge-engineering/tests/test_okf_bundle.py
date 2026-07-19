@@ -94,6 +94,21 @@ Body.
 
         self.assertTrue(report.conformant)
 
+    def test_navigation_extension_supports_reading_prominence(self) -> None:
+        self.write("concept.md", CONCEPT.replace("producer_extension: preserved", "navigation:\n  role: entry-point\n  order: 10").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
+
+    def test_navigation_extension_rejects_invalid_role_and_order(self) -> None:
+        self.write("concept.md", CONCEPT.replace("producer_extension: preserved", "navigation:\n  role: urgent\n  order: -1").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(any("navigation.role" in finding.message for finding in report.errors))
+        self.assertTrue(any("navigation.order" in finding.message for finding in report.errors))
+
     def test_broken_internal_link_is_only_a_warning(self) -> None:
         self.write("concept.md", CONCEPT)
 

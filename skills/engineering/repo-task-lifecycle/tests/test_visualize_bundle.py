@@ -100,6 +100,10 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("function buildRows()", generated)
         self.assertIn("function buildTree()", generated)
         self.assertIn("function openReader(path)", generated)
+        self.assertIn('id="reading-filter"', generated)
+        self.assertIn('decision:"ADR / decision"', generated)
+        self.assertIn("function applyGraphFilters()", generated)
+        self.assertIn('selector:".filterdim"', generated)
 
     def test_graph_uses_a_compact_vertical_relationship_focus_panel(self) -> None:
         generated = self.generated()
@@ -113,6 +117,9 @@ Review the [recorded session](./task.md#time:session).
         )[0]
         self.assertNotIn("renderMd(", focus)
         self.assertIn("Open in Reader", focus)
+        self.assertIn('function centerGraphFocus(host,anchor)', generated)
+        self.assertIn('graphScrollCue("up",incoming.length,incomingLane)', generated)
+        self.assertIn('graphScrollCue("down",outgoing.length,outgoingLane)', generated)
 
     def test_temporal_drift_markdown_and_theme_controls_are_preserved(self) -> None:
         generated = self.generated()
@@ -169,6 +176,7 @@ Review the [recorded session](./task.md#time:session).
         expectations = {
             "complex-task-portfolio": 50,
             "architecture-knowledge-base": 57,
+            "combined-delivery-architecture": 108,
         }
         for name, minimum_records in expectations.items():
             records = visualize_bundle.read_records(self.root / "examples" / name)

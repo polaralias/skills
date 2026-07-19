@@ -26,7 +26,7 @@ Describe the question this view answers and its intended audience.
 - Renderer: `{{renderer}}`
 - Derived output: [{{output}}]({{output}})
 
-The source records remain authoritative. Regenerate the output through the named renderer; do not hand-edit the derived artifact.
+The source records remain authoritative. Regenerate the output through the named renderer; do not hand-edit the derived artefact.
 
 ## Reading the view
 

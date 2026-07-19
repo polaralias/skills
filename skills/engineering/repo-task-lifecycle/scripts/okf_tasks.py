@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reference CLI for OKF Tasks v0.5 bundles."""
+"""Reference CLI for OKF Tasks v0.1 bundles."""
 
 from __future__ import annotations
 
@@ -69,9 +69,9 @@ TIME_ACTIVITIES = {
 ESTIMATE_CONFIDENCE = {"low", "medium", "high"}
 ESTIMATE_METHODS = {"agent", "manual", "historical"}
 LIVE_TIME_STATUSES = {"ready", "in-progress", "blocked", "validation"}
-PROFILE_VERSION = "0.5"
-PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.5.0/SPEC.md"
-CLI_VERSION = "0.5.0"
+PROFILE_VERSION = "0.1"
+PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.1.0/SPEC.md"
+CLI_VERSION = "0.1.0"
 BUNDLE_PLACEMENTS = {"root": "tasks", "docs": "docs/tasks"}
 MARKDOWN_LINK_PATTERN = re.compile(r"(?P<image>!)?(?P<label>\[[^\]\n]*\])\((?P<target>[^)\s]+)(?P<suffix>[^)]*)\)")
 LINK_GRAPH_EXCLUDED_TYPES = {"tracker profile", "log"}
@@ -1929,6 +1929,15 @@ def validate_bundle(bundle: Path) -> list[str]:
             continue
         if not metadata.get("type"):
             errors.append(f"{path}: non-reserved Markdown concept requires a non-empty type")
+        navigation = metadata.get("navigation")
+        if navigation is not None:
+            if not isinstance(navigation, dict) or not navigation:
+                errors.append(f"{path}: navigation must be a non-empty mapping")
+            else:
+                if navigation.get("role") is not None and navigation.get("role") not in {"entry-point", "foundational", "supporting", "reference"}:
+                    errors.append(f"{path}: navigation.role must be entry-point, foundational, supporting, or reference")
+                if navigation.get("order") is not None and (type(navigation.get("order")) is not int or navigation["order"] < 0):
+                    errors.append(f"{path}: navigation.order must be a non-negative integer")
 
     tracker_profiles: dict[str, dict[str, Any]] = {}
     default_tracker_profiles: list[str] = []
@@ -2238,7 +2247,7 @@ def add_commit_review_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.5 bundles.")
+    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.1 bundles.")
     parser.add_argument("--version", action="version", version=f"%(prog)s {CLI_VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 

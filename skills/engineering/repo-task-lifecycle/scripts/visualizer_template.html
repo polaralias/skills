@@ -12,7 +12,7 @@
   --line:#dcdfd8; --line-strong:#b9beb4;
   --accent:#2b4bc4; --accent-soft:rgba(43,75,196,.09);
   --c-workstream:#275d8c; --c-task:#9c4126; --c-time:#56773d;
-  --c-tracker:#6e7680; --c-knowledge:#7a5a28;
+  --c-tracker:#6e7680; --c-knowledge:#7a5a28; --c-decision:#7246a8;
   --c-drift:#9a6513;
   --serif:Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;
   --ui:"Segoe UI",system-ui,-apple-system,sans-serif;
@@ -25,7 +25,7 @@
   --line:#31363b; --line-strong:#4a5158;
   --accent:#8ca2f0; --accent-soft:rgba(140,162,240,.13);
   --c-workstream:#6fa3cf; --c-task:#d07b5e; --c-time:#93b478;
-  --c-tracker:#99a2ac; --c-knowledge:#c29a55;
+  --c-tracker:#99a2ac; --c-knowledge:#c29a55; --c-decision:#bd8bf0;
   --c-drift:#d2a14d;
   color-scheme:dark;
 }
@@ -69,6 +69,9 @@ svg.glyph{display:inline-block;vertical-align:-2px;flex:none}
 .legend{display:flex;gap:16px;align-items:center;color:var(--muted);font-size:10.5px;flex-wrap:wrap}
 .legend .li{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .legend .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.legend-filter{display:flex;align-items:center;gap:6px;padding:3px 6px;border:1px solid transparent;border-radius:6px;color:var(--muted);white-space:nowrap}
+.legend-filter:hover{color:var(--ink);border-color:var(--line)}
+.legend-filter[aria-pressed="true"]{color:var(--ink);border-color:var(--accent);background:var(--accent-soft)}
 
 /* ── graph ───────────────────────────────── */
 #cy{flex:1;min-height:0}
@@ -236,6 +239,9 @@ button.anc-row:hover .lbl{color:var(--ink)}
 .graph-focus-meta b{display:block;overflow:hidden;margin-top:2px;font-size:10.5px;font-weight:500;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
 .graph-focus-actions{display:flex;gap:7px;margin-top:12px}
 .graph-focus-actions .dbtn{height:29px;margin:0}
+.graph-focus-scroll-cue{position:relative;z-index:3;display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:5px 8px;border-radius:6px;color:var(--muted);font:600 9.5px var(--ui);letter-spacing:.04em}
+.graph-focus-scroll-cue:hover{color:var(--ink);background:var(--surface-2)}
+.graph-focus-scroll-cue .arrow{display:grid;place-items:center;width:18px;height:18px;border:1px solid var(--line-strong);border-radius:50%;font-size:12px;line-height:1}
 
 /* ── markdown ────────────────────────────── */
 .markdown{font:400 14.5px/1.7 var(--serif);color:var(--ink)}
@@ -281,6 +287,15 @@ button.anc-row:hover .lbl{color:var(--ink)}
   <section class="view" id="view-graph">
     <div class="tools">
       <div class="legend" id="graph-legend"></div>
+      <div class="sort-wrap">reading
+        <select id="reading-filter" aria-label="Highlight by reading role">
+          <option value="">all roles</option>
+          <option value="entry-point">start here</option>
+          <option value="foundational">foundational</option>
+          <option value="supporting">supporting</option>
+          <option value="reference">reference</option>
+        </select>
+      </div>
       <div class="sort-wrap" style="margin-left:auto">compare
         <select id="temporal-field" aria-label="Temporal comparison field">
           <option value="timestamp">last changed</option>
@@ -508,7 +523,7 @@ const outgoingOf=path=>edges.filter(e=>e.src===path);
 const linksCount=recId=>{const d=docByRecord[recId];if(!d)return 0;return edges.filter(e=>(e.src===d.path||e.tgt===d.path)&&e.kind!=="contains").length};
 
 /* ── state ─────────────────────────────── */
-const state={view:"graph",layout:"columns",sort:"status",q:"",selected:null,doneOpen:false,readerPath:"",temporalField:"timestamp",drift:false};
+const state={view:"graph",layout:"columns",sort:"status",q:"",selected:null,doneOpen:false,readerPath:"",temporalField:"timestamp",drift:false,graphKind:"",readingRole:""};
 let savedTheme;try{savedTheme=localStorage.getItem("okf-proto-theme")}catch{}
 document.documentElement.dataset.theme=savedTheme||"light";
 
@@ -620,7 +635,13 @@ function fitGraph(){
 function nodeKind(doc){
   const rec=doc.record_id?byId[doc.record_id]:null;
   if(!rec)return "knowledge";
+  if(rec.type==="Architecture Decision"||/\b(?:adr|decision)\b/i.test(rec.type||""))return "decision";
   return {Task:"task",Workstream:"workstream","Tracker Profile":"tracker"}[rec.type]||"knowledge";
+}
+function navigationOf(doc){
+  const rec=doc.record_id?byId[doc.record_id]:null;
+  const nav=rec?.frontmatter?.navigation;
+  return nav&&typeof nav==="object"?nav:{};
 }
 const graphName=doc=>doc.path.split("/").at(-1);
 const graphCrumb=doc=>doc.path.split("/").slice(0,-1).join(" › ");
@@ -629,7 +650,7 @@ function buildGraph(){
   if(cy){cy.destroy();cy=null}
   const palette={
     task:cssVar("--c-task"),workstream:cssVar("--c-workstream"),
-    tracker:cssVar("--c-tracker"),knowledge:cssVar("--c-knowledge")
+    tracker:cssVar("--c-tracker"),knowledge:cssVar("--c-knowledge"),decision:cssVar("--c-decision")
   };
   const edgeColor={
     links:cssVar("--accent"),cites:palette.knowledge,references:palette.knowledge,
@@ -646,7 +667,9 @@ function buildGraph(){
   sorted.forEach((d,i)=>{
     const a=2*Math.PI*i/sorted.length;
     const pos={x:metrics.width/2+metrics.startRadius*Math.cos(a),y:metrics.height/2+metrics.startRadius*Math.sin(a)};
-    els.push({group:"nodes",classes:"main",data:{id:d.path,label:graphName(d),kind:nodeKind(d),deg:deg[d.path]||0},position:{...pos}});
+    const navigation=navigationOf(d),readingOrder=Number.isInteger(navigation.order)?navigation.order:999999;
+    const displayLabel=["entry-point","foundational"].includes(navigation.role)&&readingOrder<999999?`${readingOrder} · ${graphName(d)}`:graphName(d);
+    els.push({group:"nodes",classes:"main",data:{id:d.path,label:graphName(d),displayLabel,kind:nodeKind(d),deg:deg[d.path]||0,readingRole:navigation.role||"",readingOrder},position:{...pos}});
     els.push({group:"nodes",classes:"sub",data:{id:"sub::"+d.path,label:graphCrumb(d),parentPath:d.path},position:{...pos}});
   });
   const driftKeys=state.drift?driftEdgeKeys():new Set();
@@ -660,13 +683,15 @@ function buildGraph(){
     container:host,elements:els,
     style:[
       {selector:"node.main",style:{
-        "shape":"round-rectangle","width":ele=>chipW(ele.data("label")),"height":20,"padding":"6px",
+        "shape":"round-rectangle","width":ele=>chipW(ele.data("displayLabel")),"height":20,"padding":"6px",
         "background-color":cssVar("--surface"),
         "border-width":1.5,"border-color":ele=>palette[ele.data("kind")],
-        "label":"data(label)","font-size":9,"font-family":uiFont,"font-weight":600,
+        "label":"data(displayLabel)","font-size":9,"font-family":uiFont,"font-weight":600,
         "color":cssVar("--ink"),"text-valign":"center","text-halign":"center"
       }},
       {selector:"node.main.hl",style:{"border-width":2.5,"border-color":cssVar("--accent")}},
+      {selector:'node.main[readingRole = "entry-point"]',style:{"border-width":4,"padding":"9px","font-size":10}},
+      {selector:'node.main[readingRole = "foundational"]',style:{"border-width":2.8,"padding":"8px"}},
       {selector:"node.sub",style:{
         "shape":"rectangle","width":3,"height":3,"background-opacity":0,"border-width":0,
         "label":"data(label)","font-size":7,"font-family":uiFont,
@@ -689,7 +714,8 @@ function buildGraph(){
       }},
       {selector:"edge.drift",style:{"line-color":cssVar("--c-drift"),"target-arrow-color":cssVar("--c-drift"),"width":3.4,"opacity":1}},
       {selector:".faded",style:{"opacity":.09,"events":"yes"}},
-      {selector:"node.dimq",style:{"opacity":.12}}
+      {selector:"node.dimq",style:{"opacity":.12}},
+      {selector:".filterdim",style:{"opacity":.08}}
     ],
     layout:{name:"preset"},
     wheelSensitivity:.25
@@ -709,10 +735,15 @@ function buildGraph(){
   });
   cy.on("tap",ev=>{if(ev.target===cy)clearSel()});
   fitGraph();
-  applyGraphFocus();applyGraphSearch();
+  applyGraphFocus();applyGraphSearch();applyGraphFilters();
   // legends
-  $("graph-legend").innerHTML=Object.entries({task:"task",workstream:"workstream",tracker:"tracker",knowledge:"knowledge doc"})
-    .map(([k,l])=>`<span class="li"><span class="dot" style="background:${palette[k]}"></span>${l}</span>`).join("");
+  $("graph-legend").innerHTML=Object.entries({task:"task",workstream:"workstream",decision:"ADR / decision",tracker:"tracker",knowledge:"knowledge doc"})
+    .map(([k,l])=>`<button type="button" class="legend-filter" data-kind="${k}" aria-pressed="${state.graphKind===k}" title="Highlight ${l} nodes; click again to show all types"><span class="dot" style="background:${palette[k]}"></span>${l}</button>`).join("");
+  $("graph-legend").querySelectorAll("[data-kind]").forEach(button=>button.onclick=()=>{
+    state.graphKind=state.graphKind===button.dataset.kind?"":button.dataset.kind;
+    $("graph-legend").querySelectorAll("[data-kind]").forEach(item=>item.setAttribute("aria-pressed",String(item.dataset.kind===state.graphKind)));
+    applyGraphFilters();
+  });
   $("edge-legend").innerHTML=[["links","dashed"],["cites","dotted"],["references","solid"],["sync","dash-dot"],["contains","faint"]]
     .map(([k])=>{const c=edgeColor[k],st=edgeStyle[k];const dash=st==="dashed"?"6 4":st==="dotted"?"2 3":"";
     return `<span class="li"><svg width="30" height="6" viewBox="0 0 30 6"><path d="M0 3h30" stroke="${c}" stroke-width="1.6" ${dash?`stroke-dasharray="${dash}"`:""}/></svg>${k}</span>`}).join("")
@@ -723,6 +754,25 @@ function syncSubs(){ // crumb labels mirror their chip's fade/dim state
     const main=cy.getElementById(s.data("parentPath"));
     s.toggleClass("faded",main.hasClass("faded"));
     s.toggleClass("dimq",main.hasClass("dimq"));
+    s.toggleClass("filterdim",main.hasClass("filterdim"));
+  });
+}
+function applyGraphFilters(){
+  if(!cy)return;
+  cy.batch(()=>{
+    cy.elements().removeClass("filterdim");
+    const active=!!(state.graphKind||state.readingRole);
+    if(active){
+      cy.nodes(".main").forEach(n=>{
+        const matchesKind=!state.graphKind||n.data("kind")===state.graphKind;
+        const matchesRole=!state.readingRole||n.data("readingRole")===state.readingRole;
+        if(!(matchesKind&&matchesRole))n.addClass("filterdim");
+      });
+      cy.edges().forEach(edge=>{
+        if(edge.source().hasClass("filterdim")&&edge.target().hasClass("filterdim"))edge.addClass("filterdim");
+      });
+    }
+    syncSubs();
   });
 }
 function applyGraphFocus(){
@@ -993,6 +1043,19 @@ function graphFocusLane(title,items,direction){
   if(!items.length){const empty=document.createElement("div");empty.className="graph-focus-empty";empty.textContent=`No ${direction} relationships`;cards.append(empty)}
   return lane;
 }
+function graphScrollCue(direction,count,target){
+  const cue=document.createElement("button");cue.type="button";cue.className="graph-focus-scroll-cue";
+  const label=`Scroll ${direction} for ${count} ${direction==="up"?"incoming":"outgoing"} ${count===1?"link":"links"}`;
+  cue.setAttribute("aria-label",label);cue.innerHTML=`<span class="arrow" aria-hidden="true">${direction==="up"?"↑":"↓"}</span><span>${esc(label)}</span>`;
+  cue.onclick=()=>target.scrollIntoView({behavior:"smooth",block:direction==="up"?"start":"end"});
+  return cue;
+}
+function centerGraphFocus(host,anchor){
+  requestAnimationFrame(()=>{
+    const hostBox=host.getBoundingClientRect(),anchorBox=anchor.getBoundingClientRect();
+    host.scrollTop=Math.max(0,host.scrollTop+anchorBox.top-hostBox.top-(host.clientHeight-anchorBox.height)/2);
+  });
+}
 function renderGraphFocus(host){
   const path=selKeyPath(),doc=path?docByPath[path]:null;if(!doc)return;
   const rec=doc.record_id?byId[doc.record_id]:null;
@@ -1003,13 +1066,19 @@ function renderGraphFocus(host){
   top.innerHTML=`<span class="label">Relationship focus</span><span class="count">${incoming.length+outgoing.length} direct</span><button class="x" aria-label="Close relationship focus">✕</button>`;
   top.querySelector(".x").onclick=clearSel;shell.append(top);
   const flow=document.createElement("div");flow.className="graph-focus-flow";
-  flow.append(graphFocusLane("Incoming",incoming,"incoming"));
+  const incomingLane=graphFocusLane("Incoming",incoming,"incoming"),outgoingLane=graphFocusLane("Outgoing",outgoing,"outgoing");
+  flow.append(incomingLane);
   const anchor=document.createElement("article");anchor.className="graph-focus-anchor";
   const changed=rec?.frontmatter?.timestamp,effort=rec?.type==="Task"?effortOf(rec):rec?.type==="Workstream"?wsEffort(rec):0;
-  anchor.innerHTML=`<div class="dk">${rec?typeGlyph(rec.type,rec.status):docGlyph(doc)}<span class="kt">Selected · ${esc(rec?.type||"Document")}</span>${rec?.status?`<span class="chip">${esc(rec.status)}</span>`:""}</div><h2>${esc(rec?.label||doc.title)}</h2><div class="path">${esc(doc.path)}</div>${rec?.description?`<p class="desc">${esc(rec.description)}</p>`:""}<div class="graph-focus-meta"><div><span>Last changed</span><b title="${esc(changed||"")}">${esc(fmtDate(changed))}</b></div><div><span>Effort</span><b>${esc(fmtMin(effort))}</b></div><div><span>Incoming</span><b>${incoming.length}</b></div><div><span>Outgoing</span><b>${outgoing.length}</b></div></div><div class="graph-focus-actions"><button class="dbtn pri" data-open-reader>Open in Reader</button><button class="dbtn sec" data-copy-path>Copy path</button></div>`;
+  const navigation=rec?.frontmatter?.navigation||{},prominence=navigation.role?`${navigation.role}${Number.isInteger(navigation.order)?` · ${navigation.order}`:""}`:"—";
+  const effortOrPriority=rec?.type==="Task"?`${fmtMin(effort)} · ${rec.frontmatter?.priority||"no priority"}`:prominence;
+  anchor.innerHTML=`<div class="dk">${rec?typeGlyph(rec.type,rec.status):docGlyph(doc)}<span class="kt">Selected · ${esc(rec?.type||"Document")}</span>${rec?.status?`<span class="chip">${esc(rec.status)}</span>`:""}</div><h2>${esc(rec?.label||doc.title)}</h2><div class="path">${esc(doc.path)}</div>${rec?.description?`<p class="desc">${esc(rec.description)}</p>`:""}<div class="graph-focus-meta"><div><span>Last changed</span><b title="${esc(changed||"")}">${esc(fmtDate(changed))}</b></div><div><span>${rec?.type==="Task"?"Effort · priority":"Reading prominence"}</span><b>${esc(effortOrPriority)}</b></div><div><span>Incoming</span><b>${incoming.length}</b></div><div><span>Outgoing</span><b>${outgoing.length}</b></div></div><div class="graph-focus-actions"><button class="dbtn pri" data-open-reader>Open in Reader</button><button class="dbtn sec" data-copy-path>Copy path</button></div>`;
   anchor.querySelector("[data-open-reader]").onclick=()=>openReader(doc.path);
   const copy=anchor.querySelector("[data-copy-path]");copy.onclick=()=>{navigator.clipboard?.writeText(doc.path);copy.textContent="Copied";setTimeout(()=>copy.textContent="Copy path",1200)};
-  flow.append(anchor,graphFocusLane("Outgoing",outgoing,"outgoing"));shell.append(flow);host.append(shell);
+  if(incoming.length)flow.append(graphScrollCue("up",incoming.length,incomingLane));
+  flow.append(anchor);
+  if(outgoing.length)flow.append(graphScrollCue("down",outgoing.length,outgoingLane));
+  flow.append(outgoingLane);shell.append(flow);host.append(shell);centerGraphFocus(host,anchor);
 }
 function renderRecordDetail(host,d){
   const kicker=document.createElement("div");kicker.className="dk";
@@ -1127,6 +1196,7 @@ $("layout-seg").querySelectorAll("button").forEach(b=>b.onclick=()=>{
 });
 $("sort-sel").onchange=e=>{state.sort=e.target.value;if(state.view==="board")buildBoard()};
 $("temporal-field").onchange=e=>{state.temporalField=e.target.value;const count=driftEdgeKeys().size;$("drift-count").textContent=count;$("drift-btn").title=`${count} possible timestamp-order signal${count===1?"":"s"}; review semantics before calling content stale.`;if(cy)buildGraph();if(state.view==="board")buildBoard()};
+$("reading-filter").onchange=e=>{state.readingRole=e.target.value;applyGraphFilters()};
 $("drift-btn").onclick=()=>{state.drift=!state.drift;$("drift-btn").setAttribute("aria-pressed",String(state.drift));const count=driftEdgeKeys().size;$("drift-count").textContent=count;$("drift-btn").title=`${count} possible timestamp-order signal${count===1?"":"s"}; review semantics before calling content stale.`;if(cy)buildGraph();if(state.view==="board")buildBoard()};
 $("search").oninput=e=>{
   state.q=e.target.value;

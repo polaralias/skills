@@ -103,7 +103,22 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
 
     def test_cli_version_matches_profile(self) -> None:
-        self.assertEqual("0.5.0", okf_tasks.CLI_VERSION)
+        self.assertEqual("0.1.0", okf_tasks.CLI_VERSION)
+
+    def test_navigation_prominence_is_validated_independently_from_task_priority(self) -> None:
+        self.create_task()
+        path = self.root / "tasks" / "first-task" / "task.md"
+        metadata, body = okf_tasks.read_document(path)
+        metadata["priority"] = "high"
+        metadata["navigation"] = {"role": "entry-point", "order": 10}
+        okf_tasks.write_document(path, metadata, body)
+        self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
+
+        metadata["navigation"] = {"role": "urgent", "order": -1}
+        okf_tasks.write_document(path, metadata, body)
+        errors = okf_tasks.validate_bundle(self.root / "tasks")
+        self.assertTrue(any("navigation.role" in error for error in errors))
+        self.assertTrue(any("navigation.order" in error for error in errors))
 
     def test_create_can_join_an_existing_durable_document_graph(self) -> None:
         guide = self.root / "docs" / "architecture.md"

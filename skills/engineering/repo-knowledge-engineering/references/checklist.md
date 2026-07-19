@@ -4,24 +4,25 @@
 - identify `AGENTS.md` or other operating guidance when present
 - detect existing OKF bundles and `okf_version`
 - detect OpenWiki ownership markers separately, recommend RKE, and ask the user for a migration or preservation direction before knowledge-surface mutation
-- separate current verified behavior from desired end state
+- separate current verified behaviour from desired end state
 - identify where epic-level or product-truth docs should live and whether they are canonical yet
 - identify the canonical reading order before polishing secondary docs
+- use `navigation.role` and sparse `navigation.order` only when machine-readable entry points or reading prominence add value; keep links authoritative
 - establish the knowledge-base structure if it does not yet exist
 - prefer a bounded OKF 0.1 bundle for new canonical knowledge unless stronger repository conventions already exist
 - keep tasks, worktrees, handoffs, and unrelated plans outside the recommended bundle
 - compare epic docs, feature contracts, implementation plans, tracker items, and evidence when several truth surfaces coexist
-- update docs in the same slice as behavior changes
+- update docs in the same slice as behaviour changes
 - document validation evidence and test status when relevant without authoring tests, eval harnesses, CI jobs, or application code from this skill alone
 - update `GLOSSARY.md` when glossary or domain language changes
 - update `docs/decisions/` when a durable decision changes and the repository uses decision records
-- update active plans and support truth in the same slice when behavior moved
+- update active plans and support truth in the same slice when behaviour moved
 - move completed plans out of the active surface
 - keep local handoffs subordinate to tracked docs
-- keep archive docs evidence-backed and de-emphasized
+- keep archive docs evidence-backed and de-emphasised
 - label evidence, canonical, execution, and generated surfaces clearly when they coexist
 - preserve unknown OKF types and extension fields
 - preserve producer-owned surfaces until the user resolves their ownership or migration direction
 - build and validate canonical OKF indexes, and validate explicitly retained external OKF bundles read-only
-- name which surface is strongest when cross-artifact drift exists
+- name which surface is strongest when cross-artefact drift exists
 - scan for publish-safety leakage before public release

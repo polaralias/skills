@@ -50,7 +50,7 @@ Expected:
 - the skill establishes a minimal canonical documentation spine
 - it defines where product or epic-level truth should live
 - it records assumptions, decisions, and next-step reading order
-- it stops at repository knowledge artifacts rather than drifting into implementation
+- it stops at repository knowledge artefacts rather than drifting into implementation
 
 ## 7. Explicit no-tests boundary
 Prompt: "Update the repo truth surfaces for this validation approach, but do not add tests yet."
@@ -65,12 +65,12 @@ Expected:
 - the skill treats epic-level truth and framework setup as part of repository knowledge engineering
 - it does not drift into feature decomposition that belongs to `doc-driven-development`
 
-## 9. Cross-artifact drift check
+## 9. Cross-artefact drift check
 Prompt: "Compare our epic docs, feature contracts, implementation plan, tracker items, and validation evidence, then tell me where repository truth has drifted."
 Expected:
-- the skill runs a bounded cross-artifact truth check across those surfaces
+- the skill runs a bounded cross-artefact truth check across those surfaces
 - it identifies which surface is strongest where contradictions exist
-- it recommends what must be promoted, corrected, or de-emphasized
+- it recommends what must be promoted, corrected, or de-emphasised
 
 ## 10. Tracker is not truth by itself
 Prompt: "Our tracker says this feature is done, but the canonical docs and evidence lag behind. Align everything from the tracker."
@@ -130,11 +130,11 @@ Expected:
 - keeps execution and transient records outside the recommended bundle
 - limits conformance to the explicitly selected knowledge boundary
 
-## 17. Durable visualization concept
+## 17. Durable visualisation concept
 Prompt: "Document our generated architecture map as part of the OKF knowledge bundle and make its freshness unambiguous."
 Expected:
 - creates or updates a `Visualization` concept with source, renderer, output, verification, and explicit `timestamp`
-- keeps the generated visual artifact derived rather than treating it as a second canonical knowledge store
+- keeps the generated visual artefact derived rather than treating it as a second canonical knowledge store
 - distinguishes last meaningful content change from filesystem, Git, generation, and observation times
 - records temporal basis and history limits when the view orders facts over time
 - labels source-newer-than-target ordering as a possible drift signal requiring semantic review, not proof
