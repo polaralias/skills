@@ -603,22 +603,19 @@ const cssVar=name=>getComputedStyle(document.documentElement).getPropertyValue(n
 function graphLayoutMetrics(count){
   const compact=count<=8;
   return {
-    padding:compact?64:40,
-    nodeRepulsion:compact?Math.max(90000,count*22000):Math.min(900000,240000+count*32000),
-    idealEdgeLength:compact?95+count*5:150,
-    componentSpacing:compact?72:130,
-    width:compact?Math.max(420,320+count*95):1500,
-    height:compact?Math.max(300,240+Math.ceil(count/3)*90):820,
-    minimumZoom:count<=3?1.75:count<=6?1.5:count<=8?1.2:0
+    padding:compact?48:40,
+    nodeRepulsion:compact?Math.max(24000,count*6000):Math.min(900000,240000+count*32000),
+    idealEdgeLength:compact?64+count*4:150,
+    componentSpacing:compact?42:130,
+    width:compact?Math.max(460,300+count*64):1500,
+    height:compact?Math.max(300,220+Math.ceil(count/3)*70):820,
+    startRadius:compact?Math.min(190,80+count*14):340
   };
 }
 function fitGraph(){
   if(!cy)return;
-  const count=cy.nodes(".main").length,metrics=graphLayoutMetrics(count),host=$("cy");
-  cy.fit(undefined,metrics.padding);
-  if(host.clientWidth>=700&&metrics.minimumZoom&&cy.zoom()<metrics.minimumZoom){
-    cy.zoom(metrics.minimumZoom);cy.center(cy.nodes(".main"));
-  }
+  const metrics=graphLayoutMetrics(cy.nodes(".main").length);
+  cy.fit(cy.elements(),metrics.padding);
 }
 function nodeKind(doc){
   const rec=doc.record_id?byId[doc.record_id]:null;
@@ -648,7 +645,7 @@ function buildGraph(){
   const metrics=graphLayoutMetrics(sorted.length);
   sorted.forEach((d,i)=>{
     const a=2*Math.PI*i/sorted.length;
-    const pos={x:420+340*Math.cos(a),y:320+340*Math.sin(a)};
+    const pos={x:metrics.width/2+metrics.startRadius*Math.cos(a),y:metrics.height/2+metrics.startRadius*Math.sin(a)};
     els.push({group:"nodes",classes:"main",data:{id:d.path,label:graphName(d),kind:nodeKind(d),deg:deg[d.path]||0},position:{...pos}});
     els.push({group:"nodes",classes:"sub",data:{id:"sub::"+d.path,label:graphCrumb(d),parentPath:d.path},position:{...pos}});
   });
@@ -1138,6 +1135,12 @@ $("search").oninput=e=>{
   if(state.view==="reader")buildTree();
 };
 $("fit-btn").onclick=fitGraph;
+let graphResizeTimer=null;
+window.addEventListener("resize",()=>{
+  if(!cy||state.view!=="graph")return;
+  clearTimeout(graphResizeTimer);
+  graphResizeTimer=setTimeout(()=>{cy.resize();fitGraph()},80);
+});
 $("theme-btn").onclick=()=>{
   const next=document.documentElement.dataset.theme==="light"?"dark":"light";
   document.documentElement.dataset.theme=next;

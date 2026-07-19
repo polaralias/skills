@@ -134,10 +134,10 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("## Connected-area overview", markdown)
         self.assertIn("## Connected component 1", markdown)
         self.assertIn("function graphLayoutMetrics(count)", self.generated())
-        self.assertIn(
-            "minimumZoom:count<=3?1.75:count<=6?1.5:count<=8?1.2:0",
-            self.generated(),
-        )
+        self.assertIn("startRadius:compact?Math.min(190,80+count*14):340", self.generated())
+        self.assertIn("cy.fit(cy.elements(),metrics.padding);", self.generated())
+        self.assertNotIn("minimumZoom", self.generated())
+        self.assertIn('window.addEventListener("resize"', self.generated())
 
     def test_relationship_renderer_uses_the_same_workspace(self) -> None:
         records = visualize_bundle.read_records(self.root)

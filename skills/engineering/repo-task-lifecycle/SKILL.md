@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.1.1
+  version: 4.1.2
   updated: '2026-07-19'
 ---
 
