@@ -25,7 +25,7 @@ These starter profiles intentionally avoid deprecated Node 20-only action pins.
 
 ## Android profile
 
-Use for Android apps where the release artifact should be a debug APK.
+Use for Android apps where the release artefact should be a debug APK.
 
 Expected shape:
 
@@ -33,7 +33,7 @@ Expected shape:
 - tag-triggered GitHub Release publish flow
 - `versionName` and `versionCode` extracted from Gradle
 - `version-metadata.json` emitted
-- artifact named explicitly, for example `audiofocus-debug.apk`
+- artefact named explicitly, for example `audiofocus-debug.apk`
 
 Canonical version source:
 
@@ -69,7 +69,7 @@ Canonical version source:
 
 ## Generic profile
 
-Use when the repo has a simple repo-level version and does not need a specialized parser.
+Use when the repo has a simple repo-level version and does not need a specialised parser.
 
 Expected shape:
 

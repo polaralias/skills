@@ -12,6 +12,10 @@ verification: "{{verification}}"
 
 Write the structured concept body here. Use headings, lists, tables, and links where they improve retrieval.
 
+## Related concepts
+
+- Add at least one meaningful relative link when another governed durable concept exists. An incoming link elsewhere already satisfies connectivity.
+
 # Citations
 
 Add numbered sources for externally derived claims, or remove this section when no citations apply.

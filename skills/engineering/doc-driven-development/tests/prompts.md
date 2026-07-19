@@ -17,14 +17,14 @@ Expected:
 ## 3. Acceptance-first packaging
 Prompt: "I want docs that behave like the contract for later TDD."
 Expected:
-- the skill defines scenarios and acceptance criteria as observable behavior
+- the skill defines scenarios and acceptance criteria as observable behaviour
 - it creates traceability from features to acceptance surfaces
 - it frames the output for downstream implementation rather than tracker noise
 
 ## 4. Local ambiguity escalation
 Prompt: "Break this feature down, but some terms are still fuzzy and the docs disagree."
 Expected:
-- the skill recognizes unresolved ambiguity inside the package
+- the skill recognises unresolved ambiguity inside the package
 - it invokes or recommends `query-to-knowledge` for those local questions
 - it does not hide unresolved questions inside final acceptance criteria
 
@@ -32,14 +32,14 @@ Expected:
 Prompt: "Set up the whole repository documentation framework, then break down this feature."
 Expected:
 - the skill identifies that repository knowledge scaffolding belongs to `repo-knowledge-engineering`
-- it keeps its own role focused on decomposition after that truth surface exists
+- it keeps its own role focussed on decomposition after that truth surface exists
 
 ## 6. Tracker is adapter, not method
 Prompt: "Produce GitHub issue-ready tasks from this feature set."
 Expected:
 - the skill first creates strong feature and acceptance contracts
 - it emits issue-ready work packages only after the contract is clear
-- it does not let tracker formatting replace the behavioral contract
+- it does not let tracker formatting replace the behavioural contract
 
 ## 7. Recommend publisher handoff once the contract is stable
 Prompt: "Break this epic down for implementation and tell me what to do next with the output."
@@ -51,7 +51,7 @@ Expected:
 Prompt: "Use our shared Polaralias defaults while shaping issue-ready work packages for this repo."
 Expected:
 - the skill checks for shared Polaralias tracker or output preferences before inventing local structure
-- it still keeps the behavioral contract as the primary output
+- it still keeps the behavioural contract as the primary output
 
 ## 9. Local lifecycle handoff
 Prompt: "These work packages are approved. Start tracking their implementation state in this repository."

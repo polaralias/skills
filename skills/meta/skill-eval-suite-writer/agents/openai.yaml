@@ -1,10 +1,10 @@
 interface:
   display_name: skill-eval-suite-writer
   short_description: Build evaluation suites for skills and closely related LLM instruction
-    artifacts. Use when a user wants a...
+    artefacts. Use when a user wants a...
   default_prompt: 'Use skill-eval-suite-writer when the task matches this skill: Build
-    evaluation suites for skills and closely related LLM instruction artifacts. Use
-    when a user wants a skill-centered test plan, scenario matrix, grader strategy,
+    evaluation suites for skills and closely related LLM instruction artefacts. Use
+    when a user wants a skill-centred test plan, scenario matrix, grader strategy,
     or runner-specific output such as Waza.'
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg

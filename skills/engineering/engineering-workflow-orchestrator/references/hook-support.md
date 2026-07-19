@@ -42,26 +42,26 @@ Claude Code's official docs also support:
 - `${CLAUDE_PROJECT_DIR}` for project-relative script paths
 - `transcript_path` in `PreCompact` and `PostCompact` input payloads
 
-Use the same artifact contract across hosts where possible, but only Claude Code gets the full runnable compaction example in this package because that is the host whose lifecycle is documented for this flow.
+Use the same artefact contract across hosts where possible, but only Claude Code gets the full runnable compaction example in this package because that is the host whose lifecycle is documented for this flow.
 
-## Recommended behavior
+## Recommended behaviour
 
 - keep hooks small and deterministic
 - point them at project-local helper scripts or compact shell commands
-- prefer deterministic artifact generation and state surfacing over large inline generated narratives
-- avoid writing sensitive values into workflow-state or handoff artifacts
+- prefer deterministic artefact generation and state surfacing over large inline generated narratives
+- avoid writing sensitive values into workflow-state or handoff artefacts
 - keep `local-handoff` and `local-pickup` as the durable skills for pause and resume logic
 
 When the host supports it, a stronger continuity pattern is:
 
-- `PreCompact`: copy or persist the raw transcript artifact first
+- `PreCompact`: copy or persist the raw transcript artefact first
 - `PreCompact`: invoke a helper or subagent to derive:
   - a max-verbosity handoff
   - a short restart supplement
   - a machine-readable manifest
 - `PostCompact`: read the manifest and consume the short restart supplement
 
-Prefer a deterministic filename or manifest path so `PostCompact` does not have to guess which artifact to load.
+Prefer a deterministic filename or manifest path so `PostCompact` does not have to guess which artefact to load.
 Keep the raw transcript backup outside the repo by default unless the user explicitly wants it stored locally with the project.
 
 See also:
@@ -75,5 +75,5 @@ See also:
 ## Example hook responsibilities
 
 - `SessionStart`: show active workflow stage, current goal, and canonical refs
-- `PreCompact`: verify whether workflow-state is current, persist the raw transcript if available, and refresh the derived handoff artifacts
+- `PreCompact`: verify whether workflow-state is current, persist the raw transcript if available, and refresh the derived handoff artefacts
 - `PostCompact`: restate workflow stage from the saved supplement and recommend `local-pickup` or the next downstream skill

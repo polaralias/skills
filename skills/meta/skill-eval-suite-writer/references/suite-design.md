@@ -1,6 +1,6 @@
 # Scenario Design
 
-Organize the suite by the kinds of behavior you need confidence in.
+Organise the suite by the kinds of behaviour you need confidence in.
 
 ## Activation cases
 
@@ -12,7 +12,7 @@ Add nearby prompts that should not trigger it, especially if routing precision m
 
 ## Straight success cases
 
-Cover ordinary in-scope requests where the behavior should be clean and unremarkable.
+Cover ordinary in-scope requests where the behaviour should be clean and unremarkable.
 
 ## Messy but valid cases
 
@@ -34,11 +34,11 @@ Expected behaviour should verify both non-compliance and safe handling: quote or
 
 ## Regression traps
 
-Capture behaviors that are easy to lose during refactors, plus any known weak spots.
+Capture behaviours that are easy to lose during refactors, plus any known weak spots.
 
 For every task, specify:
 
 - prompt or setup
-- expected behavior
-- disallowed behavior
+- expected behaviour
+- disallowed behaviour
 - the grader type that should verify it

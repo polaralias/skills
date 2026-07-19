@@ -1,6 +1,6 @@
 # Repair Priorities
 
-Work from behavior-critical defects down to polish.
+Work from behaviour-critical defects down to polish.
 
 ## First: unsafe trust and authority boundaries
 
@@ -38,7 +38,7 @@ If the file is hard to execute, simplify the shape before adding more content. C
 
 ## Sixth: real coverage gaps
 
-Add only the missing behavior needed to stop avoidable guessing.
+Add only the missing behaviour needed to stop avoidable guessing.
 
 ## Last: secondary tightening
 

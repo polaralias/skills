@@ -2,7 +2,7 @@
 
 Use this file when the user wants a visual report, visual summary, slideshow, presentation, leadership-ready update, deck, or HTML-slide version of a project report.
 
-This file is the source of truth for visual-generation workflow. Keep `SKILL.md` focused on reporting logic and use this file for the visual build process.
+This file is the source of truth for visual-generation workflow. Keep `SKILL.md` focussed on reporting logic and use this file for the visual build process.
 
 ## Workflow
 

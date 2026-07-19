@@ -2,14 +2,14 @@
 
 - map the repo before changing it
 - read `AGENTS.md` first when present
-- separate declared behavior from verified behavior
+- separate declared behaviour from verified behaviour
 - verify the actual runtime path
 - verify stale user-supplied locators instead of assuming they are current
 - treat inventories and manifests as declared surface, not proof of support
 - detect OKF bundles
 - detect OpenWiki-managed documentation separately and ask the user for direction before knowledge-surface mutation
 - separate OKF conformance from truth and evidence strength
-- classify documentation, runtime, and behavior mismatches
+- classify documentation, runtime, and behaviour mismatches
 - capture the first usable documentation foundation
 - prefer bounded OKF-compatible concepts for new canonical knowledge when appropriate
 - preserve producer ownership and unknown OKF metadata

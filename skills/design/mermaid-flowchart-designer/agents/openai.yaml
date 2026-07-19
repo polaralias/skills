@@ -6,7 +6,7 @@ interface:
     Turn rough notes, screenshots, or existing Mermaid code into cleaner Mermaid flowcharts
     or architecture diagrams. Use when a user wants a process map, system view, Mermaid
     cleanup, or a better-presented diagram with code-first output and optional rendered
-    artifacts.'
+    artefacts.'
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

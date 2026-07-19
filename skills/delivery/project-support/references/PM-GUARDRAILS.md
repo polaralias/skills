@@ -5,7 +5,7 @@
 - `PROJECT.md` is the canonical context layer for real projects
 - the index or parent metadata is the lookup anchor
 - boards represent execution state, not full project truth
-- durable project artifacts should live in a stable shared repository
+- durable project artefacts should live in a stable shared repository
 
 ## Good PM discipline
 
@@ -15,7 +15,7 @@
 - separate enduring context from moving status
 - record material decisions and rationale
 - avoid duplicating the same truth across several systems without a reason
-- prefer authoritative artifacts over memory or chat fragments
+- prefer authoritative artefacts over memory or chat fragments
 - call out stale, contradictory, or weakly evidenced context
 
 ## Routing expectations

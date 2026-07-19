@@ -11,7 +11,7 @@ interface:
     and similar business documents, and for edit workflows that must preserve existing
     document structure. Also use it for tracked changes, reviewer comments, page numbering,
     headers and footers, formatting preservation, search-and-replace, and converting
-    rough notes into a finished document artifact. Do not use it for chat-only drafting,
+    rough notes into a finished document artefact. Do not use it for chat-only drafting,
     PDF-only work, spreadsheets, slide decks, Google Docs workflows, or unrelated
     software changes.'
   icon_small: assets/icon.svg

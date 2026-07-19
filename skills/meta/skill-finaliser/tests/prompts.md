@@ -1,7 +1,7 @@
 # Test prompts
 
 ## 1. Import and package a loose skill
-Prompt: "Extract this zipped skill and bring it into the skills folder, updating the frontmatter and adding the placeholder license file."
+Prompt: "Extract this zipped skill and bring it into the skills folder, updating the frontmatter and adding the placeholder licence file."
 Expected:
 - the skill is placed in the correct canonical folder
 - `SKILL.md` frontmatter is normalised

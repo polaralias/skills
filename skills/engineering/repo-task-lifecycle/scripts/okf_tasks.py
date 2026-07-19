@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reference CLI for OKF Tasks v0.4 bundles."""
+"""Reference CLI for OKF Tasks v0.1 bundles."""
 
 from __future__ import annotations
 
@@ -56,13 +56,29 @@ LABEL_STRATEGIES = {"replace", "managed-subset", "read-only", "ignore"}
 PORTABLE_FIELD_TYPES = {"text", "number", "date", "boolean", "single-select", "multi-select", "user", "url"}
 TIME_STATUSES = {"running", "closed"}
 TIME_METHODS = {"tracked", "tracked-adjusted", "manual", "estimated-commit-review"}
+TIME_ACTIVITIES = {
+    "implementation",
+    "review",
+    "validation",
+    "knowledge-maintenance",
+    "research",
+    "planning",
+    "coordination",
+    "other",
+}
 ESTIMATE_CONFIDENCE = {"low", "medium", "high"}
 ESTIMATE_METHODS = {"agent", "manual", "historical"}
 LIVE_TIME_STATUSES = {"ready", "in-progress", "blocked", "validation"}
-PROFILE_VERSION = "0.4"
-PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.4.0/SPEC.md"
+PROFILE_VERSION = "0.1"
+PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.1.0/SPEC.md"
+CLI_VERSION = "0.1.0"
 BUNDLE_PLACEMENTS = {"root": "tasks", "docs": "docs/tasks"}
 MARKDOWN_LINK_PATTERN = re.compile(r"(?P<image>!)?(?P<label>\[[^\]\n]*\])\((?P<target>[^)\s]+)(?P<suffix>[^)]*)\)")
+LINK_GRAPH_EXCLUDED_TYPES = {"tracker profile", "log"}
+LINK_GRAPH_EXCLUDED_TYPE_MARKERS = {"runbook", "handoff", "session", "temporary", "scratch"}
+LINK_GRAPH_EXCLUDED_DIRECTORIES = {
+    ".git", ".venv", "build", "dist", "generated", "node_modules", "runbooks", "scratch", "temp", "temporary", "vendor"
+}
 SECRET_PATTERNS = {
     "private key": re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----"),
     "GitHub token": re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b"),
@@ -127,10 +143,6 @@ def task_path(bundle: Path, slug: str) -> Path:
 
 def workstream_path(bundle: Path, task: str, slug: str) -> Path:
     return bundle / task / "workstreams" / f"{slug}.md"
-
-
-def time_entry_path(bundle: Path, task: str, entry: str) -> Path:
-    return bundle / task / "time" / f"{entry}.md"
 
 
 def parse_datetime(value: str, label: str = "timestamp") -> datetime:
@@ -370,34 +382,39 @@ def task_records(bundle: Path) -> list[tuple[Path, dict[str, Any], str]]:
     return records
 
 
-def time_records(bundle: Path, task: str) -> list[tuple[Path, dict[str, Any], str]]:
-    records: list[tuple[Path, dict[str, Any], str]] = []
-    for path in sorted((bundle / task / "time").glob("*.md")):
-        metadata, body = read_document(path)
-        records.append((path, metadata, body))
-    return records
+def time_entries(metadata: dict[str, Any], path: Path | None = None) -> list[dict[str, Any]]:
+    value = metadata.get("time", [])
+    label = f" in {path}" if path else ""
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        fail(f"Field 'time' must be a list{label}")
+    if not all(isinstance(entry, dict) for entry in value):
+        fail(f"Every time entry must be a mapping{label}")
+    return value
 
 
-def render_time_body(summary: str, basis: str, activity: str) -> str:
-    return load_body_template(
-        "time-entry-body.md.template",
-        {"summary": summary, "basis": basis, "activity": activity},
-    )
+def time_reference(task_record_id: str, entry_id: str) -> str:
+    return f"{task_record_id}#time:{entry_id}"
 
 
-def update_task_time_rollup(bundle: Path, task: str, completion_time: str | None = None) -> None:
-    path = task_path(bundle, task)
-    metadata, body = read_document(path)
-    entries = time_records(bundle, task)
-    starts = [str(entry["started"]) for _, entry, _ in entries if entry.get("started")]
+def update_time_rollup(metadata: dict[str, Any]) -> None:
+    entries = time_entries(metadata)
+    starts = [str(entry["started"]) for entry in entries if entry.get("started")]
     closed_effort = [
         int(entry["effort_minutes"])
-        for _, entry, _ in entries
+        for entry in entries
         if entry.get("status") == "closed" and isinstance(entry.get("effort_minutes"), int)
     ]
     if starts:
         metadata["started"] = min(starts, key=lambda value: parse_datetime(value, "started"))
         metadata["effort_minutes"] = sum(closed_effort)
+
+
+def update_task_time_rollup(bundle: Path, task: str, completion_time: str | None = None) -> None:
+    path = task_path(bundle, task)
+    metadata, body = read_document(path)
+    update_time_rollup(metadata)
     if completion_time is not None:
         metadata["finished"] = completion_time
     metadata["timestamp"] = utc_now()
@@ -409,18 +426,22 @@ def ensure_workstream(bundle: Path, task: str, workstream: str | None) -> None:
         fail(f"Workstream does not exist: {task}/{workstream}")
 
 
-def write_time_entry(
+def append_time_entry(
     bundle: Path,
     task: str,
-    metadata: dict[str, Any],
-    summary: str,
-    basis: str,
-    activity: str,
+    entry: dict[str, Any],
 ) -> Path:
-    entry = valid_slug(str(metadata["entry"]))
-    path = time_entry_path(bundle, task, entry)
-    write_new_document(path, metadata, render_time_body(summary, basis, activity))
-    update_task_time_rollup(bundle, task)
+    path = task_path(bundle, task)
+    metadata, body = read_document(path)
+    entries = time_entries(metadata, path)
+    entry_id = valid_slug(str(entry["id"]))
+    if any(item.get("id") == entry_id for item in entries):
+        fail(f"Time entry already exists: {time_reference(path.with_suffix('').as_posix(), entry_id)}")
+    entries.append(entry)
+    metadata["time"] = entries
+    update_time_rollup(metadata)
+    metadata["timestamp"] = utc_now()
+    write_document(path, metadata, body)
     return path
 
 
@@ -1077,11 +1098,31 @@ def create_task(args: argparse.Namespace) -> int:
     }
     if args.owner:
         metadata["owner"] = args.owner
+    if getattr(args, "depends_on", None):
+        metadata["depends_on"] = list(dict.fromkeys(args.depends_on))
     body = load_body_template(
         "task-body.md.template",
         {"title": args.title, "description": args.description},
     )
-    write_new_document(task_path(bundle, slug), metadata, body)
+    destination = task_path(bundle, slug)
+    related_links: list[str] = []
+    for value in getattr(args, "related", None) or []:
+        target = (root / value).resolve()
+        try:
+            target.relative_to(root)
+        except ValueError:
+            fail(f"Related document must remain inside the repository root: {value}")
+        if not target.is_file() or target.suffix.lower() != ".md":
+            fail(f"Related document must be an existing Markdown file: {value}")
+        relative_target = os.path.relpath(target, destination.parent).replace("\\", "/")
+        label = target.stem.replace("-", " ").replace("_", " ").strip().title()
+        related_links.append(f"- [{label}]({relative_target})")
+    if related_links:
+        body = body.replace(
+            "- Link established product, architecture, decision, or other canonical sources.",
+            "\n".join(related_links),
+        )
+    write_new_document(destination, metadata, body)
     (bundle / slug / "workstreams").mkdir(parents=True, exist_ok=True)
     (bundle / slug / "time").mkdir(parents=True, exist_ok=True)
     build_index(bundle)
@@ -1161,11 +1202,8 @@ def set_status(args: argparse.Namespace) -> int:
                 incomplete.append(str(metadata.get("workstream", candidate.stem)))
         if incomplete:
             fail("Task cannot be done while workstreams remain active: " + ", ".join(incomplete))
-        running = [
-            str(metadata.get("entry", candidate.stem))
-            for candidate, metadata, _ in time_records(bundle, task)
-            if metadata.get("status") == "running"
-        ]
+        task_metadata, _ = read_document(path)
+        running = [str(entry.get("id", "unknown")) for entry in time_entries(task_metadata, path) if entry.get("status") == "running"]
         if running:
             fail("Task cannot be done while time entries remain running: " + ", ".join(running))
     transition(path, args.status, args.force)
@@ -1264,10 +1302,10 @@ def start_time(args: argparse.Namespace) -> int:
     if not path.exists():
         fail(f"Task does not exist: {task}")
     ensure_workstream(bundle, task, args.workstream)
-    task_metadata, _ = read_document(path)
+    task_metadata, task_body = read_document(path)
     if task_metadata.get("status") not in LIVE_TIME_STATUSES:
         fail(f"Cannot start live tracking while task status is {task_metadata.get('status')!r}.")
-    for _, entry, _ in time_records(bundle, task):
+    for entry in time_entries(task_metadata, path):
         if (
             entry.get("status") == "running"
             and entry.get("actor") == args.actor
@@ -1280,30 +1318,31 @@ def start_time(args: argparse.Namespace) -> int:
         f"{default_entry_id(started, args.actor)}-tracked"
     )
     metadata: dict[str, Any] = {
-        "type": "Time Entry",
-        "task": task,
-        "entry": entry,
+        "id": entry,
         "status": "running",
         "actor": args.actor,
         "started": started,
         "method": "tracked",
-        "timestamp": started,
+        "activity": args.activity,
+        "summary": "Live effort session started.",
+        "basis": "Started explicitly by an agent or user; effort is not final until the session is stopped.",
     }
+    if args.note:
+        metadata["summary"] = args.note
     if args.workstream:
         metadata["workstream"] = args.workstream
-    created = write_time_entry(
-        bundle,
-        task,
-        metadata,
-        "Live effort session started.",
-        "Started explicitly by an agent or user; effort is not final until the session is stopped.",
-        args.note or "Work is active.",
-    )
+    status_changed = task_metadata.get("status") == "ready"
     if task_metadata.get("status") == "ready":
-        transition(path, "in-progress", False)
-        update_task_time_rollup(bundle, task)
+        task_metadata["status"] = "in-progress"
+    entries = time_entries(task_metadata, path)
+    entries.append(metadata)
+    task_metadata["time"] = entries
+    update_time_rollup(task_metadata)
+    task_metadata["timestamp"] = utc_now()
+    write_document(path, task_metadata, task_body)
+    if status_changed:
         build_index(bundle)
-    print(f"Started time entry {entry!r} at {started} ({created.relative_to(root)}).")
+    print(f"Started time entry {entry!r} at {started} ({time_reference(path.relative_to(root).with_suffix('').as_posix(), entry)}).")
     return 0
 
 
@@ -1313,27 +1352,31 @@ def select_running_entry(
     entry_name: str | None,
     actor: str | None,
     workstream: str | None,
-) -> tuple[Path, dict[str, Any], str]:
-    candidates = [record for record in time_records(bundle, task) if record[1].get("status") == "running"]
+) -> tuple[Path, dict[str, Any], str, dict[str, Any]]:
+    path = task_path(bundle, task)
+    if not path.exists():
+        fail(f"Task does not exist: {task}")
+    task_metadata, body = read_document(path)
+    candidates = [entry for entry in time_entries(task_metadata, path) if entry.get("status") == "running"]
     if entry_name:
-        candidates = [record for record in candidates if record[1].get("entry") == entry_name]
+        candidates = [entry for entry in candidates if entry.get("id") == entry_name]
     if actor:
-        candidates = [record for record in candidates if record[1].get("actor") == actor]
+        candidates = [entry for entry in candidates if entry.get("actor") == actor]
     if workstream:
-        candidates = [record for record in candidates if record[1].get("workstream") == workstream]
+        candidates = [entry for entry in candidates if entry.get("workstream") == workstream]
     if not candidates:
         fail("No matching running time entry was found.")
     if len(candidates) > 1:
-        names = ", ".join(str(record[1].get("entry", record[0].stem)) for record in candidates)
+        names = ", ".join(str(entry.get("id", "unknown")) for entry in candidates)
         fail(f"Multiple running entries match ({names}); specify --entry or --actor.")
-    return candidates[0]
+    return path, task_metadata, body, candidates[0]
 
 
 def stop_time(args: argparse.Namespace) -> int:
     root = repository_root(args.root)
     bundle = bundle_root(root, args.bundle)
     task = valid_slug(args.task)
-    path, metadata, _ = select_running_entry(bundle, task, args.entry, args.actor, args.workstream)
+    path, task_metadata, body, metadata = select_running_entry(bundle, task, args.entry, args.actor, args.workstream)
     finished = args.finished or utc_now()
     elapsed = duration_minutes(str(metadata["started"]), finished)
     effort = elapsed if args.effort_minutes is None else args.effort_minutes
@@ -1342,6 +1385,11 @@ def stop_time(args: argparse.Namespace) -> int:
     adjusted = effort != elapsed
     if adjusted and not args.note:
         fail("Use --note to explain why active effort differs from wall-clock elapsed time.")
+    basis = (
+        f"Wall-clock session was {elapsed} minutes. Active effort was adjusted to {effort} minutes: {args.note}"
+        if adjusted
+        else f"Active effort equals the {elapsed}-minute explicit start/stop interval."
+    )
     metadata.update(
         {
             "status": "closed",
@@ -1349,21 +1397,15 @@ def stop_time(args: argparse.Namespace) -> int:
             "elapsed_minutes": elapsed,
             "effort_minutes": effort,
             "method": "tracked-adjusted" if adjusted else "tracked",
-            "timestamp": finished,
+            "activity": args.activity or metadata["activity"],
+            "summary": args.note or "Live effort session closed.",
+            "basis": basis,
         }
     )
-    basis = (
-        f"Wall-clock session was {elapsed} minutes. Active effort was adjusted to {effort} minutes: {args.note}"
-        if adjusted
-        else f"Active effort equals the {elapsed}-minute explicit start/stop interval."
-    )
-    write_document(
-        path,
-        metadata,
-        render_time_body("Live effort session closed.", basis, args.note or "Session completed."),
-    )
-    update_task_time_rollup(bundle, task)
-    print(f"Stopped time entry {metadata['entry']!r}: {effort} effort minutes ({elapsed} elapsed).")
+    update_time_rollup(task_metadata)
+    task_metadata["timestamp"] = utc_now()
+    write_document(path, task_metadata, body)
+    print(f"Stopped time entry {metadata['id']!r}: {effort} effort minutes ({elapsed} elapsed).")
     return 0
 
 
@@ -1385,9 +1427,7 @@ def add_time(args: argparse.Namespace) -> int:
         f"{default_entry_id(started, args.actor)}-manual"
     )
     metadata: dict[str, Any] = {
-        "type": "Time Entry",
-        "task": task,
-        "entry": entry,
+        "id": entry,
         "status": "closed",
         "actor": args.actor,
         "started": started,
@@ -1395,18 +1435,13 @@ def add_time(args: argparse.Namespace) -> int:
         "elapsed_minutes": elapsed,
         "effort_minutes": args.effort_minutes,
         "method": "manual",
-        "timestamp": utc_now(),
+        "activity": args.activity,
+        "summary": args.note,
+        "basis": args.note,
     }
     if args.workstream:
         metadata["workstream"] = args.workstream
-    write_time_entry(
-        bundle,
-        task,
-        metadata,
-        "Manual effort entry added.",
-        args.note,
-        f"Recorded {args.effort_minutes} effort minutes manually.",
-    )
+    append_time_entry(bundle, task, metadata)
     print(f"Added manual time entry {entry!r}: {args.effort_minutes} effort minutes.")
     return 0
 
@@ -1546,9 +1581,7 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
         f"{default_entry_id(started, args.actor)}-commit-review"
     )
     metadata: dict[str, Any] = {
-        "type": "Time Entry",
-        "task": task,
-        "entry": entry,
+        "id": entry,
         "status": "closed",
         "actor": args.actor,
         "started": started,
@@ -1556,6 +1589,7 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
         "elapsed_minutes": duration_minutes(started, finished),
         "effort_minutes": effort,
         "method": "estimated-commit-review",
+        "activity": args.activity,
         "confidence": args.confidence,
         "source_commits": [commit["commit"] for commit in commits],
         "estimation": {
@@ -1564,27 +1598,20 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
             "session_count": len(sessions),
             "sessions": sessions,
         },
-        "timestamp": utc_now(),
     }
     if args.workstream:
         metadata["workstream"] = args.workstream
-    activity = "\n".join(
-        f"- `{commit['commit'][:12]}` {commit['timestamp']} — {commit['subject']}" for commit in commits
-    )
     adjustment = f" Manual adjustment: {args.note}" if args.note else ""
     basis = (
         f"Reviewed {len(commits)} commits and grouped them at gaps over {args.session_gap_minutes} minutes. "
         f"Each session includes {args.allowance_minutes} minutes for preparation and review. "
         f"The heuristic proposed {heuristic_effort} minutes; recorded effort is {effort} minutes.{adjustment}"
     )
-    write_time_entry(
-        bundle,
-        task,
-        metadata,
-        "Effort backfilled from a review of repository commits.",
-        basis,
-        activity,
+    metadata.update(
+        summary="Effort backfilled from a review of repository commits.",
+        basis=basis,
     )
+    append_time_entry(bundle, task, metadata)
     print(f"Added commit-review entry {entry!r}: {effort} effort minutes ({args.confidence} confidence).")
     return 0
 
@@ -1597,9 +1624,9 @@ def time_summary(args: argparse.Namespace) -> int:
     if not path.exists():
         fail(f"Task does not exist: {task}")
     metadata, _ = read_document(path)
-    entries = time_records(bundle, task)
-    running = [entry for _, entry, _ in entries if entry.get("status") == "running"]
-    closed = [entry for _, entry, _ in entries if entry.get("status") == "closed"]
+    entries = time_entries(metadata, path)
+    running = [entry for entry in entries if entry.get("status") == "running"]
+    closed = [entry for entry in entries if entry.get("status") == "closed"]
     actual = int(metadata.get("effort_minutes", 0))
     estimate = metadata.get("estimate") if isinstance(metadata.get("estimate"), dict) else None
     points = metadata.get("sprint_points") if isinstance(metadata.get("sprint_points"), dict) else None
@@ -1782,71 +1809,81 @@ def validate_time_entries(
     errors: list[str],
 ) -> None:
     task = str(task_metadata.get("task", task_path_value.parent.name))
-    entries: list[tuple[Path, dict[str, Any], str]] = []
-    running_combinations: dict[tuple[str, str], Path] = {}
-    for path in sorted(task_path_value.parent.joinpath("time").glob("*.md")):
-        try:
-            metadata, body = read_document(path)
-        except SystemExit:
+    raw_entries = task_metadata.get("time", [])
+    if raw_entries is None:
+        raw_entries = []
+    if not isinstance(raw_entries, list):
+        errors.append(f"{task_path_value}: time must be a list")
+        return
+    entries: list[dict[str, Any]] = []
+    running_combinations: dict[tuple[str, str], str] = {}
+    ids: set[str] = set()
+    for index, metadata in enumerate(raw_entries):
+        label = f"{task_path_value}#time[{index}]"
+        if not isinstance(metadata, dict):
+            errors.append(f"{label}: time entry must be a mapping")
             continue
-        entries.append((path, metadata, body))
-        required = {"type", "task", "entry", "status", "actor", "started", "method", "timestamp"}
+        entries.append(metadata)
+        required = {"id", "status", "actor", "started", "method", "activity"}
         missing = [key for key in sorted(required) if metadata.get(key) in (None, "")]
         if missing:
-            errors.append(f"{path}: missing required fields: {', '.join(missing)}")
+            errors.append(f"{label}: missing required fields: {', '.join(missing)}")
             continue
-        if metadata["type"] != "Time Entry":
-            errors.append(f"{path}: type must be Time Entry")
-        if metadata["task"] != task:
-            errors.append(f"{path}: parent task mismatch")
-        if metadata["entry"] != path.stem or not SLUG_PATTERN.fullmatch(str(metadata["entry"])):
-            errors.append(f"{path}: entry slug must match its filename")
+        entry_id = str(metadata["id"])
+        label = f"{task_path_value}#time:{entry_id}"
+        if not SLUG_PATTERN.fullmatch(entry_id):
+            errors.append(f"{label}: id must be lowercase kebab-case")
+        if entry_id in ids:
+            errors.append(f"{label}: duplicate time entry id")
+        ids.add(entry_id)
         if metadata["status"] not in TIME_STATUSES:
-            errors.append(f"{path}: time status must be running or closed")
+            errors.append(f"{label}: time status must be running or closed")
         if metadata["method"] not in TIME_METHODS:
-            errors.append(f"{path}: unknown time method {metadata['method']!r}")
-        for field in ("started", "timestamp"):
-            if not is_rfc3339(metadata[field]):
-                errors.append(f"{path}: {field} must be an RFC 3339 datetime with timezone")
-        for heading in ("Summary", "Basis", "Activity"):
-            if not has_heading(body, heading):
-                errors.append(f"{path}: missing required heading '## {heading}'")
+            errors.append(f"{label}: unknown time method {metadata['method']!r}")
+        if metadata["activity"] not in TIME_ACTIVITIES:
+            errors.append(f"{label}: unknown time activity {metadata['activity']!r}")
+        if not is_rfc3339(metadata["started"]):
+            errors.append(f"{label}: started must be an RFC 3339 datetime with timezone")
         workstream = metadata.get("workstream")
         if workstream and not workstream_path(bundle, task, str(workstream)).exists():
-            errors.append(f"{path}: referenced workstream does not exist")
+            errors.append(f"{label}: referenced workstream does not exist")
         if metadata["status"] == "running":
             if metadata["method"] != "tracked":
-                errors.append(f"{path}: running entries must use method tracked")
+                errors.append(f"{label}: running entries must use method tracked")
             for field in ("finished", "elapsed_minutes", "effort_minutes"):
                 if field in metadata:
-                    errors.append(f"{path}: running entry must not contain {field}")
+                    errors.append(f"{label}: running entry must not contain {field}")
             combination = (str(metadata.get("actor")), str(metadata.get("workstream", "")))
             if combination in running_combinations:
-                errors.append(f"{path}: duplicate running actor/workstream also used by {running_combinations[combination]}")
-            running_combinations[combination] = path
+                errors.append(f"{label}: duplicate running actor/workstream also used by {running_combinations[combination]}")
+            running_combinations[combination] = label
         else:
             for field in ("finished", "effort_minutes"):
                 if metadata.get(field) in (None, ""):
-                    errors.append(f"{path}: closed entry requires {field}")
+                    errors.append(f"{label}: closed entry requires {field}")
             if metadata.get("finished") and not is_rfc3339(metadata["finished"]):
-                errors.append(f"{path}: finished must be an RFC 3339 datetime with timezone")
+                errors.append(f"{label}: finished must be an RFC 3339 datetime with timezone")
             if type(metadata.get("effort_minutes")) is not int or metadata.get("effort_minutes", -1) < 0:
-                errors.append(f"{path}: effort_minutes must be a non-negative integer")
+                errors.append(f"{label}: effort_minutes must be a non-negative integer")
             if metadata.get("elapsed_minutes") is not None:
                 if type(metadata["elapsed_minutes"]) is not int or metadata["elapsed_minutes"] < 0:
-                    errors.append(f"{path}: elapsed_minutes must be a non-negative integer")
+                    errors.append(f"{label}: elapsed_minutes must be a non-negative integer")
                 elif metadata.get("finished") and is_rfc3339(metadata["started"]) and is_rfc3339(metadata["finished"]):
                     try:
                         expected_elapsed = duration_minutes(str(metadata["started"]), str(metadata["finished"]))
                     except SystemExit:
                         expected_elapsed = None
                     if expected_elapsed is not None and metadata["elapsed_minutes"] != expected_elapsed:
-                        errors.append(f"{path}: elapsed_minutes does not match started/finished")
+                        errors.append(f"{label}: elapsed_minutes does not match started/finished")
+            if metadata.get("method") in {"tracked-adjusted", "manual", "estimated-commit-review"} and not str(metadata.get("basis", "")).strip():
+                errors.append(f"{label}: {metadata.get('method')} entry requires basis")
             if metadata["method"] == "estimated-commit-review":
                 if metadata.get("confidence") not in ESTIMATE_CONFIDENCE:
-                    errors.append(f"{path}: commit-review estimate requires low, medium, or high confidence")
+                    errors.append(f"{label}: commit-review estimate requires low, medium, or high confidence")
                 if not isinstance(metadata.get("source_commits"), list) or not metadata["source_commits"]:
-                    errors.append(f"{path}: commit-review estimate requires source_commits")
+                    errors.append(f"{label}: commit-review estimate requires source_commits")
+                if not isinstance(metadata.get("estimation"), dict):
+                    errors.append(f"{label}: commit-review estimate requires estimation")
 
     if not entries:
         if task_metadata.get("started"):
@@ -1857,14 +1894,14 @@ def validate_time_entries(
             errors.append(f"{task_path_value}: done task requires finished")
         return
 
-    starts = [str(metadata["started"]) for _, metadata, _ in entries if metadata.get("started")]
+    starts = [str(metadata["started"]) for metadata in entries if metadata.get("started")]
     if starts:
         earliest = min(starts, key=lambda value: parse_datetime(value, "started"))
         if not task_metadata.get("started") or parse_datetime(str(task_metadata["started"])) != parse_datetime(earliest):
             errors.append(f"{task_path_value}: started must equal the first time-entry start")
     effort = sum(
         int(metadata["effort_minutes"])
-        for _, metadata, _ in entries
+        for metadata in entries
         if metadata.get("status") == "closed" and type(metadata.get("effort_minutes")) is int
     )
     if task_metadata.get("effort_minutes") != effort:
@@ -1872,7 +1909,7 @@ def validate_time_entries(
     if task_metadata.get("status") == "done":
         if not task_metadata.get("finished"):
             errors.append(f"{task_path_value}: done task requires finished")
-        running = [str(metadata.get("entry", path.stem)) for path, metadata, _ in entries if metadata.get("status") == "running"]
+        running = [str(metadata.get("id", "unknown")) for metadata in entries if metadata.get("status") == "running"]
         if running:
             errors.append(f"{task_path_value}: done task has running time entries: {', '.join(running)}")
 
@@ -1892,6 +1929,15 @@ def validate_bundle(bundle: Path) -> list[str]:
             continue
         if not metadata.get("type"):
             errors.append(f"{path}: non-reserved Markdown concept requires a non-empty type")
+        navigation = metadata.get("navigation")
+        if navigation is not None:
+            if not isinstance(navigation, dict) or not navigation:
+                errors.append(f"{path}: navigation must be a non-empty mapping")
+            else:
+                if navigation.get("role") is not None and navigation.get("role") not in {"entry-point", "foundational", "supporting", "reference"}:
+                    errors.append(f"{path}: navigation.role must be entry-point, foundational, supporting, or reference")
+                if navigation.get("order") is not None and (type(navigation.get("order")) is not int or navigation["order"] < 0):
+                    errors.append(f"{path}: navigation.order must be a non-negative integer")
 
     tracker_profiles: dict[str, dict[str, Any]] = {}
     default_tracker_profiles: list[str] = []
@@ -2033,6 +2079,7 @@ def validate_bundle(bundle: Path) -> list[str]:
             expected_index = None
         if expected_index is not None and index.read_text(encoding="utf-8") != expected_index:
             errors.append(f"{index}: generated index is stale")
+    errors.extend(durable_link_graph_errors(bundle))
     return errors
 
 
@@ -2063,10 +2110,110 @@ def bundle_warnings(bundle: Path) -> list[str]:
     return warnings
 
 
+def link_graph_root(bundle: Path) -> Path:
+    """Infer the repository scope used by the CLI's strict durable-link audit."""
+    resolved = bundle.resolve()
+    if resolved.name == "tasks" and resolved.parent.name == "docs":
+        return resolved.parent.parent
+    return resolved.parent
+
+
+def link_graph_concept(path: Path, metadata: dict[str, Any], root: Path) -> bool:
+    try:
+        relative = path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    if path.name in {"index.md", "log.md"}:
+        return False
+    if any(part.lower() in LINK_GRAPH_EXCLUDED_DIRECTORIES for part in relative.parts[:-1]):
+        return False
+    concept_type = str(metadata.get("type", "")).strip().lower()
+    return (
+        bool(concept_type)
+        and concept_type not in LINK_GRAPH_EXCLUDED_TYPES
+        and not any(marker in concept_type for marker in LINK_GRAPH_EXCLUDED_TYPE_MARKERS)
+    )
+
+
+def durable_link_graph_errors(bundle: Path, root: Path | None = None) -> list[str]:
+    """Require durable typed concepts to form one resolved local relationship graph."""
+    root = (root or link_graph_root(bundle)).resolve()
+    concepts: dict[Path, tuple[dict[str, Any], str]] = {}
+    for path in sorted(root.rglob("*.md")):
+        try:
+            metadata, body = read_document(path)
+        except SystemExit:
+            continue
+        if link_graph_concept(path, metadata, root):
+            concepts[path.resolve()] = (metadata, body)
+    if len(concepts) < 2:
+        return []
+
+    adjacency: dict[Path, set[Path]] = {path: set() for path in concepts}
+
+    def connect(source: Path, candidate: Path) -> None:
+        target = candidate.resolve()
+        if target in concepts and target != source:
+            adjacency[source].add(target)
+            adjacency[target].add(source)
+
+    for source, (metadata, body) in concepts.items():
+        for match in MARKDOWN_LINK_PATTERN.finditer(body):
+            if match.group("image"):
+                continue
+            target = match.group("target").strip("<>")
+            if target.startswith("#") or re.match(r"^[a-z][a-z0-9+.-]*:", target, re.IGNORECASE):
+                continue
+            local = unquote(target.split("#", 1)[0].split("?", 1)[0]).replace("\\", "/")
+            if not local:
+                continue
+            connect(source, root / local.lstrip("/") if local.startswith("/") else source.parent / local)
+
+        concept_type = str(metadata.get("type", ""))
+        if concept_type == "Task":
+            structured: list[str] = []
+            if isinstance(metadata.get("parent"), str):
+                structured.append(str(metadata["parent"]))
+            if isinstance(metadata.get("depends_on"), list):
+                structured.extend(str(value) for value in metadata["depends_on"])
+            for target in structured:
+                clean = target.split("#", 1)[0].strip().lstrip("./")
+                if not clean or re.match(r"^[a-z][a-z0-9+.-]*:", clean, re.IGNORECASE):
+                    continue
+                candidate = bundle / clean
+                connect(source, candidate if candidate.suffix == ".md" else candidate.with_suffix(".md"))
+        elif concept_type == "Workstream" and metadata.get("task"):
+            connect(source, bundle / str(metadata["task"]) / "task.md")
+
+    orphans = sorted(path.relative_to(root).as_posix() for path, links in adjacency.items() if not links)
+    errors = [f"{root}: durable link graph contains orphan concept {path}" for path in orphans]
+    remaining = set(adjacency)
+    components: list[set[Path]] = []
+    while remaining:
+        pending = [next(iter(remaining))]
+        component: set[Path] = set()
+        while pending:
+            current = pending.pop()
+            if current in component:
+                continue
+            component.add(current)
+            pending.extend(adjacency[current] - component)
+        remaining -= component
+        components.append(component)
+    if len(components) > 1:
+        summaries = [", ".join(sorted(path.relative_to(root).as_posix() for path in component)[:3]) for component in components]
+        errors.append(f"{root}: durable link graph has {len(components)} disconnected components: {' | '.join(summaries)}")
+    return errors
+
+
 def validate_command(args: argparse.Namespace) -> int:
     root = repository_root(args.root)
     bundle = bundle_root(root, args.bundle)
     errors = validate_bundle(bundle)
+    inferred_root = link_graph_root(bundle)
+    if inferred_root != root.resolve():
+        errors = [error for error in errors if "durable link graph" not in error]
+        errors.extend(durable_link_graph_errors(bundle, root))
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
@@ -2100,7 +2247,8 @@ def add_commit_review_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.4 bundles.")
+    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.1 bundles.")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {CLI_VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     initialize = subparsers.add_parser("init-bundle", help="Initialize a generated task index")
@@ -2191,6 +2339,8 @@ def build_parser() -> argparse.ArgumentParser:
     create.add_argument("--title", required=True)
     create.add_argument("--description", required=True)
     create.add_argument("--owner")
+    create.add_argument("--depends-on", action="append", help="Resolved task concept path such as other-task/task; repeatable")
+    create.add_argument("--related", action="append", help="Existing repository-relative Markdown document to link; repeatable")
     create.set_defaults(func=create_task)
 
     workstream = subparsers.add_parser("add-workstream", help="Add a ready workstream")
@@ -2257,6 +2407,7 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--workstream")
     start.add_argument("--entry")
     start.add_argument("--started", help="RFC 3339 override, primarily for recovery and testing")
+    start.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), default="implementation")
     start.add_argument("--note")
     start.set_defaults(func=start_time)
 
@@ -2268,6 +2419,7 @@ def build_parser() -> argparse.ArgumentParser:
     stop.add_argument("--workstream")
     stop.add_argument("--finished", help="RFC 3339 override, primarily for recovery and testing")
     stop.add_argument("--effort-minutes", type=int)
+    stop.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), help="Override the activity selected at start")
     stop.add_argument("--note")
     stop.set_defaults(func=stop_time)
 
@@ -2281,6 +2433,7 @@ def build_parser() -> argparse.ArgumentParser:
     manual.add_argument("--finished")
     manual.add_argument("--workstream")
     manual.add_argument("--entry")
+    manual.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), default="implementation")
     manual.set_defaults(func=add_time)
 
     review = subparsers.add_parser("review-commits", help="Estimate effort sessions from commit evidence")
@@ -2296,6 +2449,7 @@ def build_parser() -> argparse.ArgumentParser:
     backfill.add_argument("--entry")
     backfill.add_argument("--effort-minutes", type=int, help="Override the transparent heuristic")
     backfill.add_argument("--confidence", choices=sorted(ESTIMATE_CONFIDENCE), default="medium")
+    backfill.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), default="implementation")
     backfill.add_argument("--note")
     backfill.set_defaults(func=backfill_from_commits)
 

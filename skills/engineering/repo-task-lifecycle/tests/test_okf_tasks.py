@@ -102,6 +102,52 @@ class LifecycleTests(unittest.TestCase):
             )
         self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
 
+    def test_cli_version_matches_profile(self) -> None:
+        self.assertEqual("0.1.0", okf_tasks.CLI_VERSION)
+
+    def test_navigation_prominence_is_validated_independently_from_task_priority(self) -> None:
+        self.create_task()
+        path = self.root / "tasks" / "first-task" / "task.md"
+        metadata, body = okf_tasks.read_document(path)
+        metadata["priority"] = "high"
+        metadata["navigation"] = {"role": "entry-point", "order": 10}
+        okf_tasks.write_document(path, metadata, body)
+        self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
+
+        metadata["navigation"] = {"role": "urgent", "order": -1}
+        okf_tasks.write_document(path, metadata, body)
+        errors = okf_tasks.validate_bundle(self.root / "tasks")
+        self.assertTrue(any("navigation.role" in error for error in errors))
+        self.assertTrue(any("navigation.order" in error for error in errors))
+
+    def test_create_can_join_an_existing_durable_document_graph(self) -> None:
+        guide = self.root / "docs" / "architecture.md"
+        okf_tasks.write_document(
+            guide,
+            {
+                "type": "Architecture Concept",
+                "title": "Architecture",
+                "description": "Defines the implementation boundary.",
+                "timestamp": "2026-07-19T09:00:00Z",
+            },
+            "# Architecture\n",
+        )
+        okf_tasks.create_task(
+            arguments(
+                root=str(self.root),
+                slug="linked-task",
+                title="Linked task",
+                description="Implement the architecture.",
+                owner="agent",
+                depends_on=None,
+                related=["docs/architecture.md"],
+            )
+        )
+
+        _, body = okf_tasks.read_document(self.root / "tasks" / "linked-task" / "task.md")
+        self.assertIn("[Architecture](../../docs/architecture.md)", body)
+        self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
+
     def test_active_workstream_prevents_done(self) -> None:
         self.create_task()
         okf_tasks.add_workstream(
@@ -544,6 +590,7 @@ class LifecycleTests(unittest.TestCase):
                 workstream=None,
                 entry=None,
                 started="2026-07-17T08:00:00Z",
+                activity="implementation",
                 note="Implementation started.",
             )
         )
@@ -561,13 +608,14 @@ class LifecycleTests(unittest.TestCase):
                 workstream=None,
                 finished="2026-07-17T20:00:00Z",
                 effort_minutes=150,
+                activity=None,
                 note="The interval included user review waits and unrelated work.",
             )
         )
         task, _ = okf_tasks.read_document(task_path)
         self.assertEqual(150, task["effort_minutes"])
-        time_path = self.root / "tasks" / "first-task" / "time" / "20260717t080000z-agent-tracked.md"
-        entry, _ = okf_tasks.read_document(time_path)
+        entry = task["time"][0]
+        self.assertEqual("20260717t080000z-agent-tracked", entry["id"])
         self.assertEqual(720, entry["elapsed_minutes"])
         self.assertEqual(150, entry["effort_minutes"])
         self.assertEqual("tracked-adjusted", entry["method"])
@@ -593,6 +641,7 @@ class LifecycleTests(unittest.TestCase):
                 workstream=None,
                 entry=None,
                 started="2026-07-17T08:00:00Z",
+                activity="validation",
                 note=None,
             )
         )
@@ -620,11 +669,15 @@ class LifecycleTests(unittest.TestCase):
                 finished="2026-07-17T09:30:00Z",
                 workstream=None,
                 entry=None,
+                activity="review",
             )
         )
         task, _ = okf_tasks.read_document(self.root / "tasks" / "first-task" / "task.md")
         self.assertEqual(45, task["effort_minutes"])
         self.assertEqual("2026-07-17T09:00:00Z", task["started"])
+        self.assertEqual("manual", task["time"][0]["method"])
+        self.assertEqual("review", task["time"][0]["activity"])
+        self.assertEqual("Manual review and acceptance checks.", task["time"][0]["basis"])
         self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
 
     def test_effort_estimate_and_sprint_points_remain_separate(self) -> None:
@@ -709,11 +762,15 @@ class LifecycleTests(unittest.TestCase):
                 entry=None,
                 effort_minutes=None,
                 confidence="medium",
+                activity="implementation",
                 note=None,
             )
         )
         task, _ = okf_tasks.read_document(self.root / "tasks" / "first-task" / "task.md")
         self.assertEqual(180, task["effort_minutes"])
+        self.assertEqual("estimated-commit-review", task["time"][0]["method"])
+        self.assertEqual("implementation", task["time"][0]["activity"])
+        self.assertEqual(hashes, task["time"][0]["source_commits"])
         self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
 
 

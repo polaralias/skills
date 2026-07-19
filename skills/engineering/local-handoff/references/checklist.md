@@ -1,6 +1,6 @@
 # local-handoff checklist
 
-- confirm the session really needs a continuation artifact
+- confirm the session really needs a continuation artefact
 - choose mode: `standard` by default, `max-verbosity` only when the trigger is clear
 - find the project root
 - ensure `docs/handoff/` exists or choose the project's established handoff area

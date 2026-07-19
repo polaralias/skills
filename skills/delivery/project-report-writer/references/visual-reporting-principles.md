@@ -94,7 +94,7 @@ What stays fixed:
 
 The timeline should remain one of the strongest available visual moves when the reporting story depends on gates, milestone slippage, launch windows, or phased progress.
 
-Good timeline behavior:
+Good timeline behaviour:
 
 - make the current position obvious
 - distinguish complete, active, at-risk, and future states clearly

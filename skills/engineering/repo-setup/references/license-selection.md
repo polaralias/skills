@@ -1,8 +1,8 @@
-# License Selection
+# Licence Selection
 
 Use this file before writing `LICENSE`.
 
-This skill is intentionally opinionated around a short list of licenses that fit common bootstrap cases. The user can still choose something else, but do not improvise unfamiliar license text.
+This skill is intentionally opinionated around a short list of licences that fit common bootstrap cases. The user can still choose something else, but do not improvise unfamiliar licence text.
 
 ## Source basis
 
@@ -20,7 +20,7 @@ These summaries are based on the current Choose a License pages:
 Use when the user wants:
 
 - commercial-friendly reuse
-- preservation of copyright and license notices
+- preservation of copyright and licence notices
 - a `NOTICE` mechanism for attribution
 - a patent grant
 

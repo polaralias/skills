@@ -4,7 +4,7 @@ Use this file before applying shared setup templates.
 
 ## Governance defaults
 
-- Default license: `Apache-2.0`
+- Default licence: `Apache-2.0`
 - Add `NOTICE` with `James Whelan / Polaralias`
 - Add `.github/CODEOWNERS` using the configured owner list
 - Require PRs for the default branch with a repository ruleset

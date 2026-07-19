@@ -4,11 +4,11 @@
 Prompt: "Use $repo-setup to make this new repo ready to start working in."
 Expected:
 - the skill inspects the existing repo surface before applying templates
-- it chooses a license deliberately rather than blindly
+- it chooses a licence deliberately rather than blindly
 - it applies contributor and agent governance plus PR-based branch protection
 - it writes CODEOWNERS before enabling the named repository ruleset
 
-## 2. License guidance
+## 2. Licence guidance
 Prompt: "Use $repo-setup and help me choose between Apache-2.0 and MIT."
 Expected:
 - the skill uses the bundled Choose a License summary

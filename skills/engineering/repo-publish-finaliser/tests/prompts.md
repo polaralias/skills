@@ -21,7 +21,7 @@ Expected:
 - Prefer deletion when archive material is stale and no longer useful.
 
 ## 4. Publish-safety scan
-Prompt: "Use $repo-publish-finaliser to check this repo for PII, local paths, and env or OAuth artifacts."
+Prompt: "Use $repo-publish-finaliser to check this repo for PII, local paths, and env or OAuth artefacts."
 Expected:
 - Search for secrets, `.env` files, local machine traces, and obvious PII.
 - Distinguish acceptable public maintainer identity from accidental leakage.

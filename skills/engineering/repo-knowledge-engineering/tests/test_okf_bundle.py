@@ -94,6 +94,21 @@ Body.
 
         self.assertTrue(report.conformant)
 
+    def test_navigation_extension_supports_reading_prominence(self) -> None:
+        self.write("concept.md", CONCEPT.replace("producer_extension: preserved", "navigation:\n  role: entry-point\n  order: 10").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
+
+    def test_navigation_extension_rejects_invalid_role_and_order(self) -> None:
+        self.write("concept.md", CONCEPT.replace("producer_extension: preserved", "navigation:\n  role: urgent\n  order: -1").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(any("navigation.role" in finding.message for finding in report.errors))
+        self.assertTrue(any("navigation.order" in finding.message for finding in report.errors))
+
     def test_broken_internal_link_is_only_a_warning(self) -> None:
         self.write("concept.md", CONCEPT)
 
@@ -101,6 +116,23 @@ Body.
 
         self.assertTrue(report.conformant)
         self.assertTrue(any("broken internal link" in finding.message for finding in report.warnings))
+
+    def test_disconnected_durable_concepts_are_errors(self) -> None:
+        self.write("one.md", CONCEPT.replace("/support/boundary.md", "https://example.test/source"))
+        self.write("two.md", CONCEPT.replace("Request routing", "Second concept").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(any("orphan concept" in finding.message for finding in report.errors))
+        self.assertTrue(any("disconnected components" in finding.message for finding in report.errors))
+
+    def test_runbooks_are_excluded_from_the_durable_graph(self) -> None:
+        self.write("concept.md", CONCEPT.replace("/support/boundary.md", "https://example.test/source"))
+        self.write("runbooks/operator.md", CONCEPT.replace("type: Architecture Concept", "type: Runbook").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
 
     def test_subdirectory_index_cannot_have_frontmatter(self) -> None:
         self.write("group/concept.md", CONCEPT.replace("/support/boundary.md", "https://example.test/source"))
@@ -173,6 +205,33 @@ title: Group
             okf_bundle.build_indexes(self.bundle)
 
         self.assertEqual((self.bundle / "index.md").read_text(encoding="utf-8"), original)
+
+    def test_visualization_template_is_an_okf_concept_with_explicit_freshness(self) -> None:
+        template = MODULE_PATH.parents[1] / "assets" / "okf" / "visualization.md.template"
+        rendered = template.read_text(encoding="utf-8")
+        for old, new in {
+            "{{title}}": "Task delivery map",
+            "{{description}}": "Describes the generated task delivery view.",
+            "{{tags}}": "visualization, tasks",
+            "{{timestamp}}": "2026-07-18T12:00:00Z",
+            "{{authority}}": "derived",
+            "{{verification}}": "verified-working",
+            "{{source}}": "../../../tasks/index.md",
+            "{{renderer}}": "okf-tasks visualize",
+            "{{output}}": "../../../local-docs/tasks.html",
+        }.items():
+            rendered = rendered.replace(old, new)
+        self.write("views/task-delivery.md", rendered)
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
+        metadata, _ = okf_bundle.parse_frontmatter(self.bundle / "views" / "task-delivery.md", required=True)
+        self.assertEqual("Visualization", metadata["type"])
+        self.assertEqual("2026-07-18T12:00:00Z", metadata["timestamp"])
+        self.assertEqual("timestamp", metadata["temporal_basis"])
+        self.assertEqual("current-records-only", metadata["history_model"])
+        self.assertIn("review-signal", metadata["drift_policy"])
 
 
 if __name__ == "__main__":

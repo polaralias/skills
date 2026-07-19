@@ -1,11 +1,11 @@
 interface:
   display_name: llm-instruction-reviewer
   short_description: Inspect prompts, skills, agent instructions, system prompts,
-    and related LLM instruction artifacts for execution...
+    and related LLM instruction artefacts for execution...
   default_prompt: 'Use llm-instruction-reviewer when the task matches this skill:
     Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction
-    artifacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency,
-    overloaded logic, missing behavior coverage, and conflicts across referenced files.
+    artefacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency,
+    overloaded logic, missing behaviour coverage, and conflicts across referenced files.
     Use when a user wants a review before publication, repair, or evaluation.'
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg

@@ -1,5 +1,18 @@
 # Test prompts
 
+## 0. CLI and strict link graph
+
+Prompt: "Set up the lifecycle CLI, add these tasks and durable design concepts, and validate the relationship view."
+
+Expected behaviour:
+
+- identifies `polaralias/okf-tasks` as the authoritative console-command distribution and verifies `okf-tasks --version`;
+- never silently installs or upgrades the package and uses the bundled feature-identical script when the command is absent or incompatible;
+- leaves Tasks, Workstreams, and typed durable OKF concepts in one resolved local graph using meaningful task-to-task, document-to-document, and task-to-document links;
+- counts incoming and resolved structured relationships without requiring redundant reciprocal links;
+- retains terminal Tasks as live implementation-state evidence;
+- excludes runbooks, handoffs, sessions, temporary files, reserved logs/indexes, and generated/vendor output.
+
 ## 1. Default root bundle
 
 Prompt: "Use $repo-task-lifecycle to register this implementation-ready outcome beside the code."
@@ -33,7 +46,7 @@ Expected behaviour:
 
 ## 4. Readiness needs knowledge work
 
-Prompt: "Create a ready task, but the product term and acceptance behavior are contradicted across the docs."
+Prompt: "Create a ready task, but the product term and acceptance behaviour are contradicted across the docs."
 
 Expected behaviour:
 
@@ -104,7 +117,7 @@ Expected behaviour:
 - Refuse completion until required workstreams and time entries are closed.
 - Route durable conclusions through `repo-knowledge-engineering`.
 
-## 11. First-class tracker synchronization
+## 11. First-class tracker synchronisation
 
 Prompt: "Push these tasks to Linear, rename the folders to the new issue IDs, and make the tracker authoritative for everything."
 
@@ -163,7 +176,7 @@ Expected behaviour:
 
 ## 16. Unknown OKF extensions
 
-Prompt: "This task has producer-specific frontmatter and an unknown OKF concept beside it. Normalize both to the fields you recognize."
+Prompt: "This task has producer-specific frontmatter and an unknown OKF concept beside it. Normalise both to the fields you recognise."
 
 Expected behaviour:
 
@@ -182,3 +195,56 @@ Expected behaviour:
 - Save the confirmed Tracker Profile as the single project default without storing credentials.
 - Use the saved default when later create, import, sync, or link commands omit `--tracker`.
 - Stop with the available profile names when no unambiguous default exists.
+
+## 18. Installed command-line interface
+
+Prompt: "Use the task lifecycle tooling, but do not make me invoke a Python file by path."
+
+Expected behaviour:
+
+- Prefer the installed `okf-tasks` command for lifecycle, estimate, tracker, export, index, and validation operations.
+- Keep command names and arguments identical to the portable reference implementation.
+- Fall back to `python scripts/okf_tasks.py` only when the distribution is unavailable.
+
+## 19. Local visual review
+
+Prompt: "Give me a visual way to explore the task relationships and read all of the Markdown documents."
+
+Expected behaviour:
+
+- Generate the viewer with the bundled `scripts/visualize_bundle.py` implementation.
+- Open in light mode on first use while preserving a later theme choice.
+- Provide labelled controls and first-class Graph, Board, and Reader tabs.
+- Keep the complete relationship mesh visible, show labelled edges, and fade unrelated records when a selected document is focussed.
+- Present direct relationships in the Graph panel as a compact vertical Incoming → Selected → Outgoing flow whose connected cards recenter the graph; keep the full document body in Reader.
+- Keep the Board's detailed selection preview with lifecycle status, temporal fields, effort, relationships, rendered Markdown, and raw-source disclosures.
+- Make Reader a near-full-page document view with a searchable repository tree, heading context, internal-link navigation, and safe Mermaid rendering.
+- Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
+- Distinguish document classes through compact chip styling and expose status, effort, temporal values, document availability, and connection metrics without giving disconnected records false prominence.
+- Group Tasks by lifecycle state in Board columns or rows, nest their Workstreams, and summarise committed effort without inventing time.
+- Keep embedded `Task.time[]` entries addressable as Task evidence through `<task>#time:<id>` fragments.
+- Require a stable time `activity` independent of `method`, using `knowledge-maintenance` for RKE sessions.
+- When OKF visualisation is in use, regenerate paired HTML and scalable Mermaid output after meaningful changes and verify freshness before completion.
+- Offer comparison by `timestamp`, `created`, `started`, or `finished` without claiming current bodies are historical snapshots.
+- Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
+
+## 20. Durable visualisation knowledge
+
+Prompt: "This task map is now a maintained repository view; document how it is generated and verified."
+
+Expected behaviour:
+
+- Keep the generated viewer derived and the task Markdown/YAML authoritative.
+- Route a durable `Visualization` concept with source, renderer, output, interpretation, verification, and timestamp to `repo-knowledge-engineering`.
+- Regenerate the viewer through the bundled script rather than hand-editing HTML.
+
+## 21. Possible temporal drift
+
+Prompt: "Use the task graph to find features updated after their linked documentation."
+
+Expected behaviour:
+
+- Compare only records with usable selected timestamps and existing graph relationships.
+- Highlight a newer linked source and older target as a possible review signal.
+- Inspect current semantic content and evidence before declaring drift or changing either record.
+- Route confirmed durable documentation drift through RKE while keeping task-only reconciliation in RTL.

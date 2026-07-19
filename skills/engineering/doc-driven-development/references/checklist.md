@@ -6,7 +6,7 @@
 - decompose by user-visible capability, workflow stage, or domain boundary
 - write bounded feature contracts before task breakdown
 - define scenarios that cover happy path, edge cases, failures, and state transitions
-- turn each feature into observable acceptance artifacts
+- turn each feature into observable acceptance artefacts
 - add only the implementation-planning detail that materially reduces delivery ambiguity
 - invoke `query-to-knowledge` when scenarios expose unresolved terminology or decisions
 - create work packages only after the feature contract is implementation-ready
