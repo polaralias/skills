@@ -112,6 +112,8 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn('node.data("deg")>=4', generated)
         self.assertIn("function focusGraphNeighborhood(path)", generated)
         self.assertIn('name:"concentric"', generated)
+        self.assertIn("minNodeSpacing:10,spacingFactor:.44", generated)
+        self.assertIn("graphViewportFor(focus.union(crumbs),44,1.6)", generated)
         self.assertIn("separateOverlappingNodes(focusNodes", generated)
         template = SCRIPT.with_name("visualizer_template.html").read_text(encoding="utf-8")
         graph_config = template.split("cy=cytoscape({", 1)[1].split("// layout runs", 1)[0]

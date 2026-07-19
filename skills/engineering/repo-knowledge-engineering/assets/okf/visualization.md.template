@@ -32,7 +32,7 @@ The source records remain authoritative. Regenerate the output through the named
 
 ## Reading the view
 
-Explain the visual encoding, filters, known omissions, and any accessibility alternative. For dense graphs, verify that semantic zoom preserves labelled entry-point, foundational, and highly connected landmarks, while selecting a record produces a readable, non-overlapping neighbourhood focus. Exclusions scope only the derived view; they do not change concept authority, connectivity, or conformance.
+Explain the visual encoding, filters, known omissions, and any accessibility alternative. For dense graphs, verify that semantic zoom preserves labelled entry-point, foundational, and highly connected landmarks, while selecting a record produces a close, readable neighbourhood focus with modest padding and every direct node visible and non-overlapping. Exclusions scope only the derived view; they do not change concept authority, connectivity, or conformance.
 
 ## Temporal reading and drift
 

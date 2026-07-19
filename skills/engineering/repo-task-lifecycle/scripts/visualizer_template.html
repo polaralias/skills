@@ -690,12 +690,12 @@ function focusGraphNeighborhood(path){
   cy.stop();cy.nodes(".main").stop();
   const focus=selected.closedNeighborhood(),focusNodes=focus.nodes(".main");
   const crumbs=cy.nodes(".sub").filter(sub=>focusNodes.contains(cy.getElementById(sub.data("parentPath"))));
-  const layout=focus.layout({name:"concentric",fit:false,animate:!!duration,animationDuration:duration,animationEasing:"ease-out-cubic",avoidOverlap:true,minNodeSpacing:20,spacingFactor:.84,startAngle:-Math.PI/2,clockwise:true,concentric:ele=>ele.same(selected)?2:1,levelWidth:()=>1});
+  const layout=focus.layout({name:"concentric",fit:false,animate:!!duration,animationDuration:duration,animationEasing:"ease-out-cubic",avoidOverlap:true,minNodeSpacing:10,spacingFactor:.44,startAngle:-Math.PI/2,clockwise:true,concentric:ele=>ele.same(selected)?2:1,levelWidth:()=>1});
   layout.one("layoutstop",()=>{
     if(token!==graphMotionToken)return;
     separateOverlappingNodes(focusNodes,{gap:16,crumbSpace:10});
     focusNodes.forEach(placeGraphSub);
-    const viewport=graphViewportFor(focus.union(crumbs),84,1.45);
+    const viewport=graphViewportFor(focus.union(crumbs),44,1.6);
     if(duration)cy.animate(viewport,{duration:340,easing:"ease-out-cubic"});
     else{cy.zoom(viewport.zoom);cy.pan(viewport.pan)}
   });
