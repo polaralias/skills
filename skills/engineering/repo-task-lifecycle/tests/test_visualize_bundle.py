@@ -105,6 +105,27 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("function applyGraphFilters()", generated)
         self.assertIn('selector:".filterdim"', generated)
 
+    def test_dense_overview_is_semantic_and_selected_neighbourhood_reflows(self) -> None:
+        generated = self.generated()
+        self.assertIn("function updateGraphOverviewDetail()", generated)
+        self.assertIn('node.toggleClass("overview-compact",compact&&!prominent)', generated)
+        self.assertIn('node.data("deg")>=4', generated)
+        self.assertIn("function focusGraphNeighborhood(path)", generated)
+        self.assertIn('name:"concentric"', generated)
+        self.assertIn("separateOverlappingNodes(focusNodes", generated)
+        template = SCRIPT.with_name("visualizer_template.html").read_text(encoding="utf-8")
+        graph_config = template.split("cy=cytoscape({", 1)[1].split("// layout runs", 1)[0]
+        self.assertNotIn("wheelSensitivity", graph_config)
+
+    def test_standalone_workspace_bundles_runtimes_for_offline_review(self) -> None:
+        generated = self.generated()
+        self.assertNotIn('src="http://', generated)
+        self.assertNotIn('src="https://', generated)
+        self.assertNotIn("cdn.jsdelivr.net/npm/mermaid", generated)
+        self.assertNotIn("__MERMAID_RUNTIME__", generated)
+        self.assertTrue((SCRIPT.parent / "vendor" / "mermaid-11.10.1.min.js").is_file())
+        self.assertTrue((SCRIPT.parent / "vendor" / "mermaid-11.10.1.LICENSE").is_file())
+
     def test_graph_uses_a_compact_vertical_relationship_focus_panel(self) -> None:
         generated = self.generated()
         self.assertIn("function renderGraphFocus(host)", generated)
@@ -159,6 +180,27 @@ Review the [recorded session](./task.md#time:session).
 
     def test_bundled_viewer_keeps_its_external_template(self) -> None:
         self.assertTrue(SCRIPT.with_name("visualizer_template.html").is_file())
+
+    def test_explicit_exclusions_and_typed_readmes_remain_available(self) -> None:
+        readme = self.root / "README.md"
+        readme.write_text(
+            "---\ntype: Knowledge Document\ntitle: Guide\ntimestamp: 2026-07-19T12:00:00Z\n"
+            "navigation:\n  role: entry-point\n  order: 10\n---\n# Guide\n\n"
+            "Read the [task](./tasks/ship-viewer/task.md).\n",
+            encoding="utf-8",
+        )
+        scratch = self.root / "notes" / "scratch.md"
+        scratch.parent.mkdir()
+        scratch.write_text("# Temporary note\n", encoding="utf-8")
+        (self.root / visualize_bundle.DEFAULT_EXCLUSION_FILE).write_text(
+            "notes/**\n", encoding="utf-8"
+        )
+        exclusions = visualize_bundle.load_exclusions(self.root)
+        records = visualize_bundle.read_records(self.root, exclusions)
+        documents = visualize_bundle.read_documents(self.root, records, exclusions)
+        graph = visualize_bundle.build_graph(records, documents)
+        self.assertIn("README", {node["data"]["id"] for node in graph["nodes"]})
+        self.assertNotIn("notes/scratch.md", {document["path"] for document in documents})
 
     def test_bundled_complex_examples_generator_creates_dense_workspaces(self) -> None:
         completed = subprocess.run(

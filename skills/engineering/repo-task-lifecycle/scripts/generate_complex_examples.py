@@ -335,7 +335,16 @@ This document groups a deliberately busy set of tasks so graph, board, temporal,
 """,
         )
 
-    files[Path("README.md")] = """# Complex task portfolio example
+    files[Path("README.md")] = """---
+type: Knowledge Document
+title: Complex task portfolio example
+description: Entry point for a large linked delivery portfolio.
+timestamp: 2026-07-19T12:00:00Z
+navigation:
+  role: entry-point
+  order: 10
+---
+# Complex task portfolio example
 
 This generated dummy workspace stress-tests a task-heavy OKF graph with forty Tasks, five coordinating Workstreams, embedded time evidence, mixed lifecycle states, cross-initiative dependencies, and linked delivery plans.
 
@@ -560,7 +569,16 @@ When the platform is under realistic load or partial failure, {name} remains mea
         files[Path("tasks") / slug / "task.md"] = markdown_document(metadata, body)
         previous = slug
 
-    files[Path("README.md")] = """# Architecture knowledge graph example
+    files[Path("README.md")] = """---
+type: Knowledge Document
+title: Architecture knowledge graph example
+description: Entry point for a detailed architecture and decision graph.
+timestamp: 2026-07-19T12:00:00Z
+navigation:
+  role: entry-point
+  order: 10
+---
+# Architecture knowledge graph example
 
 This generated dummy workspace stress-tests an architecture-heavy graph with detailed architecture documents, twenty ADRs, service designs, interface contracts, quality attributes, and a small linked implementation backlog.
 
@@ -605,7 +623,16 @@ def combined_workspace_files() -> dict[Path, str]:
 This record joins the architecture and delivery surfaces into one intentional graph. Its `navigation` metadata marks it as the primary entry point; the links remain the authoritative reading path and relationship evidence.
 """,
     )
-    files[Path("README.md")] = """# Combined delivery and architecture workspace
+    files[Path("README.md")] = """---
+type: Knowledge Document
+title: Combined delivery and architecture workspace
+description: Entry point connecting delivery work with architecture knowledge.
+timestamp: 2026-07-19T12:00:00Z
+navigation:
+  role: entry-point
+  order: 10
+---
+# Combined delivery and architecture workspace
 
 This generated dummy workspace combines the task-heavy portfolio and architecture-heavy knowledge base into one connected review surface. It demonstrates execution priority separately from cross-concept reading prominence.
 

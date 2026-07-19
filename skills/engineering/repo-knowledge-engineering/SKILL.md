@@ -4,7 +4,7 @@ description: Establish, evolve, and keep a repository knowledge base trustworthy
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.5.1
+  version: 3.6.0
   updated: '2026-07-19'
 ---
 
@@ -17,6 +17,8 @@ This skill produces chat output. Include this proof line in the response: `repo-
 ## Durable repository links
 
 When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links.
+
+Promote a durable repository `README.md` used for canonical navigation, project context, or enduring orientation into the typed OKF graph: add a descriptive knowledge `type`, title, description, RFC 3339 `timestamp`, suitable `navigation` prominence, and useful relative links. Do not promote generated, vendored, transient, or deliberately out-of-scope READMEs solely because of their filename.
 
 ## Untrusted content boundary
 
@@ -226,6 +228,8 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - When a bundle needs machine-readable first-reading guidance, use the RKE `navigation` extension: `role` is `entry-point`, `foundational`, `supporting`, or `reference`, and sparse non-negative `order` values sequence concepts within a role. Treat this as retrieval prominence, never as authority, business impact, Task urgency, or an inferred relationship. Keep hierarchy and dependency meaning explicit through links.
 - If an OKF concept changed meaningfully, update its retrieval metadata and `timestamp` as the explicit portable last-updated value, rebuild the affected canonical indexes, and add a concise `log.md` entry only when the knowledge event merits one. Do not substitute filesystem or Git time.
 - If a visualisation becomes a durable repository knowledge surface, create or update a `Visualization` concept. Keep its generated HTML, Mermaid, image, or other output derived and reproducible from the declared canonical source and renderer.
+- For standalone OKF HTML, require the pinned rendering runtimes and bundle data to be embedded so local review makes no runtime network requests. For dense relationship graphs, preserve labelled semantic landmarks at overview scale and verify a readable, non-overlapping selected neighbourhood.
+- Record deliberate visualisation exclusions in the generation contract. For OKF Tasks views, use repeatable bundle-relative `--exclude` selections or a reviewed `.okf-visualization-ignore` file; exclusions apply to Graph and Reader together and remain output provenance. Never use view scope to hide a governed orphan, broken relationship, or conformance failure.
 - For temporal visualisations, record the selected event field, history model, and drift policy. Treat timestamp ordering and a newer linked source as discovery signals only; confirm semantic disagreement against current content and evidence before declaring or repairing drift.
 
 ### 8. Promote new truth
