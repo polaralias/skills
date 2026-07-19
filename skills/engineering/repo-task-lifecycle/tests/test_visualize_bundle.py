@@ -202,6 +202,30 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("README", {node["data"]["id"] for node in graph["nodes"]})
         self.assertNotIn("notes/scratch.md", {document["path"] for document in documents})
 
+    def test_directory_exclusions_match_dependencies_at_every_depth(self) -> None:
+        omitted = (
+            self.root / "node_modules" / "top" / "README.md",
+            self.root / "lambdas" / "worker" / "node_modules" / "nested" / "README.md",
+            self.root / "triggers" / "hook" / ".venv" / "site-packages" / "README.md",
+            self.root / ".pytest_cache" / "README.md",
+        )
+        for path in omitted:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("# Dependency documentation\n", encoding="utf-8")
+        (self.root / visualize_bundle.DEFAULT_EXCLUSION_FILE).write_text(
+            "node_modules/\n.venv/\n**/.pytest_cache/**\n",
+            encoding="utf-8",
+        )
+        exclusions = visualize_bundle.load_exclusions(self.root)
+        self.assertEqual(
+            ["node_modules/", ".venv/", "**/.pytest_cache/**"],
+            exclusions,
+        )
+        self.assertEqual(
+            {path.relative_to(self.root).as_posix() for path in omitted},
+            set(visualize_bundle.excluded_markdown_paths(self.root, exclusions)),
+        )
+
     def test_bundled_complex_examples_generator_creates_dense_workspaces(self) -> None:
         completed = subprocess.run(
             [sys.executable, str(GENERATE_COMPLEX_EXAMPLES), "--root", str(self.root)],

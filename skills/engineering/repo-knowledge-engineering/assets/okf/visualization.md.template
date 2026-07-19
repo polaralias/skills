@@ -26,7 +26,7 @@ Describe the question this view answers and its intended audience.
 - Canonical source: [{{source}}]({{source}})
 - Renderer: `{{renderer}}`
 - Derived output: [{{output}}]({{output}})
-- Exclusions: list any bundle-relative paths or globs deliberately omitted from the derived view, or state `none`.
+- Exclusions: list any bundle-relative paths or globs deliberately omitted from the derived view, or state `none`. Directory-name entries ending in `/` match at every depth; use them for nested dependency folders such as `node_modules/` and `.venv/`.
 
 The source records remain authoritative. Regenerate the output through the named renderer; do not hand-edit the derived artefact. For standalone OKF HTML, verify that pinned runtimes are embedded and that opening or navigating the output makes no runtime network requests.
 

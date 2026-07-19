@@ -4,8 +4,8 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.4.0
-  updated: '2026-07-19'
+  version: 4.4.1
+  updated: '2026-07-20'
 ---
 
 # repo-task-lifecycle
@@ -42,7 +42,7 @@ When visualisation outputs are present or requested, regenerate them after every
 python scripts/visualize_bundle.py --bundle <bundle> --html <output>.html --mermaid
 ```
 
-Use repeatable `--exclude <bundle-relative-glob>` selections for a one-off view or persist them one per line in `<bundle>/.okf-visualization-ignore`; use `--exclude-from <file>` for a named policy. Exclusions affect Graph and Reader together and remain recorded in the generated payload. Never use a visualisation exclusion to conceal a governed orphan, broken relationship, or conformance failure.
+Use repeatable `--exclude <bundle-relative-glob>` selections for a one-off view or persist them one per line in `<bundle>/.okf-visualization-ignore`; use `--exclude-from <file>` for a named policy. Directory-name entries ending in `/`, such as `node_modules/` and `.venv/`, match at every depth. A leading `**/` also covers the bundle root, so `**/.pytest_cache/**` excludes both root and nested caches. Exclusions affect Graph and Reader together and remain recorded in the generated payload. Never use a visualisation exclusion to conceal a governed orphan, broken relationship, or conformance failure.
 
 When realistic visualisation stress data is needed, use `python scripts/generate_complex_examples.py --root <repository>` to create deterministic task-heavy, architecture-heavy, and combined delivery/architecture workspaces, then rerun it with `--check`. The examples demonstrate Task execution priority separately from cross-concept reading prominence. Treat those generated Markdown/YAML records and indexes as script-owned fixtures; change the generator rather than editing its output by hand.
 

@@ -157,7 +157,9 @@ def normalise_exclusion(pattern: str) -> str:
         value = value[2:]
     if ".." in Path(value).parts:
         raise ValueError(f"Visualisation exclusion cannot traverse outside the bundle root: {pattern}")
-    return value.rstrip("/")
+    directory_pattern = value.endswith("/")
+    value = value.rstrip("/")
+    return f"{value}/" if directory_pattern else value
 
 
 def load_exclusions(
@@ -178,7 +180,21 @@ def load_exclusions(
 def is_excluded(path: Path, root: Path, exclusions: list[str] | None = None) -> bool:
     relative = path.resolve().relative_to(root.resolve()).as_posix()
     for pattern in exclusions or []:
-        if fnmatchcase(relative, pattern) or relative == pattern or relative.startswith(f"{pattern}/"):
+        if pattern.endswith("/"):
+            directory = pattern.rstrip("/")
+            if "/" not in directory and any(
+                fnmatchcase(part, directory) for part in relative.split("/")[:-1]
+            ):
+                return True
+            if relative == directory or relative.startswith(f"{directory}/"):
+                return True
+        candidates = [pattern]
+        while candidates[-1].startswith("**/"):
+            candidates.append(candidates[-1][3:])
+        if any(fnmatchcase(relative, candidate) for candidate in candidates):
+            return True
+        plain = pattern.rstrip("/")
+        if relative == plain or relative.startswith(f"{plain}/"):
             return True
     return False
 

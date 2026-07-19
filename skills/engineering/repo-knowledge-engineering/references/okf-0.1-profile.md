@@ -88,7 +88,7 @@ Start from `assets/okf/visualization.md.template`. In addition to the normal ret
 
 Advance `timestamp` when the visualisation's source contract, renderer, output, visual encoding, interpretation, or verification meaningfully changes. Regenerating byte-identical output does not require a concept update. Never use the generated file's modification time as concept freshness.
 
-If a derived view deliberately omits source files, record the exclusion policy in the Visualisation concept and retain the resolved omissions as generation evidence. OKF Tasks uses bundle-relative `--exclude` globs, `.okf-visualization-ignore`, or `--exclude-from`; Graph and Reader must receive the same scope. A visualisation exclusion never changes knowledge authority or conformance and cannot excuse a governed orphan or broken link.
+If a derived view deliberately omits source files, record the exclusion policy in the Visualisation concept and retain the resolved omissions as generation evidence. OKF Tasks uses bundle-relative `--exclude` globs, `.okf-visualization-ignore`, or `--exclude-from`; Graph and Reader must receive the same scope. Directory-name entries ending in `/` match at every depth, preventing nested dependency Markdown from leaking into Reader. A visualisation exclusion never changes knowledge authority or conformance and cannot excuse a governed orphan or broken link.
 
 Standalone OKF HTML visualisations embed their pinned rendering runtimes and bundle data so local review makes no runtime network requests. Dense graph overviews retain labelled entry-point, foundational, and highly connected landmarks; selected incoming and outgoing neighbourhoods reflow into a readable, non-overlapping focus.
 

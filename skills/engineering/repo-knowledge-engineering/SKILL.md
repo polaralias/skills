@@ -4,8 +4,8 @@ description: Establish, evolve, and keep a repository knowledge base trustworthy
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.6.0
-  updated: '2026-07-19'
+  version: 3.6.1
+  updated: '2026-07-20'
 ---
 
 # repo-knowledge-engineering
@@ -229,7 +229,7 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - If an OKF concept changed meaningfully, update its retrieval metadata and `timestamp` as the explicit portable last-updated value, rebuild the affected canonical indexes, and add a concise `log.md` entry only when the knowledge event merits one. Do not substitute filesystem or Git time.
 - If a visualisation becomes a durable repository knowledge surface, create or update a `Visualization` concept. Keep its generated HTML, Mermaid, image, or other output derived and reproducible from the declared canonical source and renderer.
 - For standalone OKF HTML, require the pinned rendering runtimes and bundle data to be embedded so local review makes no runtime network requests. For dense relationship graphs, preserve labelled semantic landmarks at overview scale and verify a readable, non-overlapping selected neighbourhood.
-- Record deliberate visualisation exclusions in the generation contract. For OKF Tasks views, use repeatable bundle-relative `--exclude` selections or a reviewed `.okf-visualization-ignore` file; exclusions apply to Graph and Reader together and remain output provenance. Never use view scope to hide a governed orphan, broken relationship, or conformance failure.
+- Record deliberate visualisation exclusions in the generation contract. For OKF Tasks views, use repeatable bundle-relative `--exclude` selections or a reviewed `.okf-visualization-ignore` file; exclusions apply to Graph and Reader together and remain output provenance. Directory-name entries ending in `/` match at every depth, so dependency folders such as `node_modules/` and `.venv/` do not leak nested Markdown into Reader. Never use view scope to hide a governed orphan, broken relationship, or conformance failure.
 - For temporal visualisations, record the selected event field, history model, and drift policy. Treat timestamp ordering and a newer linked source as discovery signals only; confirm semantic disagreement against current content and evidence before declaring or repairing drift.
 
 ### 8. Promote new truth
