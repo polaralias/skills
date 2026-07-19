@@ -102,6 +102,37 @@ class LifecycleTests(unittest.TestCase):
             )
         self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
 
+    def test_cli_version_matches_profile(self) -> None:
+        self.assertEqual("0.5.0", okf_tasks.CLI_VERSION)
+
+    def test_create_can_join_an_existing_durable_document_graph(self) -> None:
+        guide = self.root / "docs" / "architecture.md"
+        okf_tasks.write_document(
+            guide,
+            {
+                "type": "Architecture Concept",
+                "title": "Architecture",
+                "description": "Defines the implementation boundary.",
+                "timestamp": "2026-07-19T09:00:00Z",
+            },
+            "# Architecture\n",
+        )
+        okf_tasks.create_task(
+            arguments(
+                root=str(self.root),
+                slug="linked-task",
+                title="Linked task",
+                description="Implement the architecture.",
+                owner="agent",
+                depends_on=None,
+                related=["docs/architecture.md"],
+            )
+        )
+
+        _, body = okf_tasks.read_document(self.root / "tasks" / "linked-task" / "task.md")
+        self.assertIn("[Architecture](../../docs/architecture.md)", body)
+        self.assertEqual([], okf_tasks.validate_bundle(self.root / "tasks"))
+
     def test_active_workstream_prevents_done(self) -> None:
         self.create_task()
         okf_tasks.add_workstream(

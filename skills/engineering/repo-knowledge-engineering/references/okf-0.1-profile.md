@@ -32,7 +32,9 @@ Recommended fields are:
 
 Preserve unknown types and producer-defined fields when reading or round-tripping a bundle.
 
-Use normal Markdown links for relationships. Prefer bundle-root-relative links when stability across local moves matters. Broken internal links are warnings to repair, not grounds for declaring the bundle malformed.
+Use normal Markdown links for relationships. Prefer bundle-root-relative links when stability across local moves matters. Broken internal links are warnings to repair, not grounds for declaring the bundle malformed, but they do not connect the strict durable graph.
+
+When more than one governed durable concept exists, keep the concepts in one resolved repository-local relationship graph. An incoming link counts, so reciprocal links are required only when useful in both directions. Keep links to terminal Tasks when they serve as live implementation-state evidence instead of rewriting a knowledge document merely to restate completion. Reserved indexes and logs, generated or vendor output, runbooks, handoffs, session records, and temporary or scratch files are outside this graph. Report orphan concepts and disconnected components; never invent a semantically weak link to satisfy connectivity.
 
 ## Repository-knowledge extensions
 

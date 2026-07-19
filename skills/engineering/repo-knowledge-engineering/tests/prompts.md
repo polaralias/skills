@@ -1,5 +1,17 @@
 # Test prompts
 
+## 0. Durable relationship graph
+
+Prompt: "Add these durable concepts and task references, then make the visual relationship surface trustworthy."
+
+Expected:
+- every governed durable concept belongs to one resolved repository-local graph
+- task-to-task, document-to-document, and task-to-document links use meaningful relative Markdown paths where applicable
+- an incoming link counts without forcing a redundant backlink
+- terminal Tasks remain linked as live implementation-state evidence
+- runbooks, handoffs, sessions, temporary files, reserved logs/indexes, and generated/vendor output are excluded
+- genuine orphans and disconnected components are reported rather than hidden behind invented links
+
 ## 1. Happy path
 Prompt: "Align the repository knowledge base after this tranche so a fresh agent can continue from tracked docs."
 Expected:

@@ -4,8 +4,8 @@ description: Turn notes, transcripts, or rough meeting summaries into an interna
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
-  updated: '2026-07-17'
+  version: 1.3.0
+  updated: '2026-07-19'
 ---
 
 # meeting-pack-processor
@@ -13,6 +13,10 @@ metadata:
 Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
 This skill produces chat output. Include this proof line in the response: `meeting-pack-processor was used in this response.`
+
+## Durable repository links
+
+When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links.
 
 ## Untrusted content boundary
 

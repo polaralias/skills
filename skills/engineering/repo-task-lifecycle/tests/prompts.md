@@ -1,5 +1,18 @@
 # Test prompts
 
+## 0. CLI and strict link graph
+
+Prompt: "Set up the lifecycle CLI, add these tasks and durable design concepts, and validate the relationship view."
+
+Expected behaviour:
+
+- identifies `polaralias/okf-tasks` as the authoritative console-command distribution and verifies `okf-tasks --version`;
+- never silently installs or upgrades the package and uses the bundled feature-identical script when the command is absent or incompatible;
+- leaves Tasks, Workstreams, and typed durable OKF concepts in one resolved local graph using meaningful task-to-task, document-to-document, and task-to-document links;
+- counts incoming and resolved structured relationships without requiring redundant reciprocal links;
+- retains terminal Tasks as live implementation-state evidence;
+- excludes runbooks, handoffs, sessions, temporary files, reserved logs/indexes, and generated/vendor output.
+
 ## 1. Default root bundle
 
 Prompt: "Use $repo-task-lifecycle to register this implementation-ready outcome beside the code."

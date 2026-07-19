@@ -18,6 +18,8 @@ Use this reference to keep OKF Tasks aligned with the proprietary repository-eng
 
 A task may cite canonical truth but cannot become its sole home. A handoff may cite a task but cannot replace its current state. An external tracker may mirror or own selected fields but cannot silently replace repository identity.
 
+Tasks, Workstreams, and typed durable knowledge concepts form one repository-local relationship graph whenever more than one governed concept exists. Ordinary relative Markdown links support task-to-task, document-to-document, and task-to-document traversal; resolved structured Task and Workstream relations also count. Incoming links satisfy connectivity, and terminal Tasks remain useful live implementation-state evidence. Exclude reserved indexes/logs, Tracker Profiles, runbooks, generated/vendor output, handoffs, sessions, and temporary or scratch material. Treat a genuine orphan or disconnected component as an error rather than inventing a weak link.
+
 ## Placement
 
 Default to:

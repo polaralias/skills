@@ -102,6 +102,23 @@ Body.
         self.assertTrue(report.conformant)
         self.assertTrue(any("broken internal link" in finding.message for finding in report.warnings))
 
+    def test_disconnected_durable_concepts_are_errors(self) -> None:
+        self.write("one.md", CONCEPT.replace("/support/boundary.md", "https://example.test/source"))
+        self.write("two.md", CONCEPT.replace("Request routing", "Second concept").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(any("orphan concept" in finding.message for finding in report.errors))
+        self.assertTrue(any("disconnected components" in finding.message for finding in report.errors))
+
+    def test_runbooks_are_excluded_from_the_durable_graph(self) -> None:
+        self.write("concept.md", CONCEPT.replace("/support/boundary.md", "https://example.test/source"))
+        self.write("runbooks/operator.md", CONCEPT.replace("type: Architecture Concept", "type: Runbook").replace("/support/boundary.md", "https://example.test/source"))
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
+
     def test_subdirectory_index_cannot_have_frontmatter(self) -> None:
         self.write("group/concept.md", CONCEPT.replace("/support/boundary.md", "https://example.test/source"))
         self.write("group/index.md", """---

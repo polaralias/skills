@@ -61,8 +61,14 @@ ESTIMATE_METHODS = {"agent", "manual", "historical"}
 LIVE_TIME_STATUSES = {"ready", "in-progress", "blocked", "validation"}
 PROFILE_VERSION = "0.5"
 PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.5.0/SPEC.md"
+CLI_VERSION = "0.5.0"
 BUNDLE_PLACEMENTS = {"root": "tasks", "docs": "docs/tasks"}
 MARKDOWN_LINK_PATTERN = re.compile(r"(?P<image>!)?(?P<label>\[[^\]\n]*\])\((?P<target>[^)\s]+)(?P<suffix>[^)]*)\)")
+LINK_GRAPH_EXCLUDED_TYPES = {"tracker profile", "log"}
+LINK_GRAPH_EXCLUDED_TYPE_MARKERS = {"runbook", "handoff", "session", "temporary", "scratch"}
+LINK_GRAPH_EXCLUDED_DIRECTORIES = {
+    ".git", ".venv", "build", "dist", "generated", "node_modules", "runbooks", "scratch", "temp", "temporary", "vendor"
+}
 SECRET_PATTERNS = {
     "private key": re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----"),
     "GitHub token": re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b"),
@@ -1082,11 +1088,31 @@ def create_task(args: argparse.Namespace) -> int:
     }
     if args.owner:
         metadata["owner"] = args.owner
+    if getattr(args, "depends_on", None):
+        metadata["depends_on"] = list(dict.fromkeys(args.depends_on))
     body = load_body_template(
         "task-body.md.template",
         {"title": args.title, "description": args.description},
     )
-    write_new_document(task_path(bundle, slug), metadata, body)
+    destination = task_path(bundle, slug)
+    related_links: list[str] = []
+    for value in getattr(args, "related", None) or []:
+        target = (root / value).resolve()
+        try:
+            target.relative_to(root)
+        except ValueError:
+            fail(f"Related document must remain inside the repository root: {value}")
+        if not target.is_file() or target.suffix.lower() != ".md":
+            fail(f"Related document must be an existing Markdown file: {value}")
+        relative_target = os.path.relpath(target, destination.parent).replace("\\", "/")
+        label = target.stem.replace("-", " ").replace("_", " ").strip().title()
+        related_links.append(f"- [{label}]({relative_target})")
+    if related_links:
+        body = body.replace(
+            "- Link established product, architecture, decision, or other canonical sources.",
+            "\n".join(related_links),
+        )
+    write_new_document(destination, metadata, body)
     (bundle / slug / "workstreams").mkdir(parents=True, exist_ok=True)
     (bundle / slug / "time").mkdir(parents=True, exist_ok=True)
     build_index(bundle)
@@ -2033,6 +2059,7 @@ def validate_bundle(bundle: Path) -> list[str]:
             expected_index = None
         if expected_index is not None and index.read_text(encoding="utf-8") != expected_index:
             errors.append(f"{index}: generated index is stale")
+    errors.extend(durable_link_graph_errors(bundle))
     return errors
 
 
@@ -2063,10 +2090,110 @@ def bundle_warnings(bundle: Path) -> list[str]:
     return warnings
 
 
+def link_graph_root(bundle: Path) -> Path:
+    """Infer the repository scope used by the CLI's strict durable-link audit."""
+    resolved = bundle.resolve()
+    if resolved.name == "tasks" and resolved.parent.name == "docs":
+        return resolved.parent.parent
+    return resolved.parent
+
+
+def link_graph_concept(path: Path, metadata: dict[str, Any], root: Path) -> bool:
+    try:
+        relative = path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    if path.name in {"index.md", "log.md"}:
+        return False
+    if any(part.lower() in LINK_GRAPH_EXCLUDED_DIRECTORIES for part in relative.parts[:-1]):
+        return False
+    concept_type = str(metadata.get("type", "")).strip().lower()
+    return (
+        bool(concept_type)
+        and concept_type not in LINK_GRAPH_EXCLUDED_TYPES
+        and not any(marker in concept_type for marker in LINK_GRAPH_EXCLUDED_TYPE_MARKERS)
+    )
+
+
+def durable_link_graph_errors(bundle: Path, root: Path | None = None) -> list[str]:
+    """Require durable typed concepts to form one resolved local relationship graph."""
+    root = (root or link_graph_root(bundle)).resolve()
+    concepts: dict[Path, tuple[dict[str, Any], str]] = {}
+    for path in sorted(root.rglob("*.md")):
+        try:
+            metadata, body = read_document(path)
+        except SystemExit:
+            continue
+        if link_graph_concept(path, metadata, root):
+            concepts[path.resolve()] = (metadata, body)
+    if len(concepts) < 2:
+        return []
+
+    adjacency: dict[Path, set[Path]] = {path: set() for path in concepts}
+
+    def connect(source: Path, candidate: Path) -> None:
+        target = candidate.resolve()
+        if target in concepts and target != source:
+            adjacency[source].add(target)
+            adjacency[target].add(source)
+
+    for source, (metadata, body) in concepts.items():
+        for match in MARKDOWN_LINK_PATTERN.finditer(body):
+            if match.group("image"):
+                continue
+            target = match.group("target").strip("<>")
+            if target.startswith("#") or re.match(r"^[a-z][a-z0-9+.-]*:", target, re.IGNORECASE):
+                continue
+            local = unquote(target.split("#", 1)[0].split("?", 1)[0]).replace("\\", "/")
+            if not local:
+                continue
+            connect(source, root / local.lstrip("/") if local.startswith("/") else source.parent / local)
+
+        concept_type = str(metadata.get("type", ""))
+        if concept_type == "Task":
+            structured: list[str] = []
+            if isinstance(metadata.get("parent"), str):
+                structured.append(str(metadata["parent"]))
+            if isinstance(metadata.get("depends_on"), list):
+                structured.extend(str(value) for value in metadata["depends_on"])
+            for target in structured:
+                clean = target.split("#", 1)[0].strip().lstrip("./")
+                if not clean or re.match(r"^[a-z][a-z0-9+.-]*:", clean, re.IGNORECASE):
+                    continue
+                candidate = bundle / clean
+                connect(source, candidate if candidate.suffix == ".md" else candidate.with_suffix(".md"))
+        elif concept_type == "Workstream" and metadata.get("task"):
+            connect(source, bundle / str(metadata["task"]) / "task.md")
+
+    orphans = sorted(path.relative_to(root).as_posix() for path, links in adjacency.items() if not links)
+    errors = [f"{root}: durable link graph contains orphan concept {path}" for path in orphans]
+    remaining = set(adjacency)
+    components: list[set[Path]] = []
+    while remaining:
+        pending = [next(iter(remaining))]
+        component: set[Path] = set()
+        while pending:
+            current = pending.pop()
+            if current in component:
+                continue
+            component.add(current)
+            pending.extend(adjacency[current] - component)
+        remaining -= component
+        components.append(component)
+    if len(components) > 1:
+        summaries = [", ".join(sorted(path.relative_to(root).as_posix() for path in component)[:3]) for component in components]
+        errors.append(f"{root}: durable link graph has {len(components)} disconnected components: {' | '.join(summaries)}")
+    return errors
+
+
 def validate_command(args: argparse.Namespace) -> int:
     root = repository_root(args.root)
     bundle = bundle_root(root, args.bundle)
     errors = validate_bundle(bundle)
+    inferred_root = link_graph_root(bundle)
+    if inferred_root != root.resolve():
+        errors = [error for error in errors if "durable link graph" not in error]
+        errors.extend(durable_link_graph_errors(bundle, root))
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
@@ -2101,6 +2228,7 @@ def add_commit_review_arguments(parser: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.5 bundles.")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {CLI_VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     initialize = subparsers.add_parser("init-bundle", help="Initialize a generated task index")
@@ -2191,6 +2319,8 @@ def build_parser() -> argparse.ArgumentParser:
     create.add_argument("--title", required=True)
     create.add_argument("--description", required=True)
     create.add_argument("--owner")
+    create.add_argument("--depends-on", action="append", help="Resolved task concept path such as other-task/task; repeatable")
+    create.add_argument("--related", action="append", help="Existing repository-relative Markdown document to link; repeatable")
     create.set_defaults(func=create_task)
 
     workstream = subparsers.add_parser("add-workstream", help="Add a ready workstream")

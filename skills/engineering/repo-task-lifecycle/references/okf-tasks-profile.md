@@ -236,6 +236,10 @@ Estimated effort, sprint points, elapsed time, and recorded effort are separate 
 
 Task relationships SHOULD use Markdown links in the body so generic OKF consumers can traverse them. Structured `parent` and `depends_on` fields MAY duplicate common relationships for filtering and synchronisation. Missing `parent` or `depends_on` targets are conformant broken links and consumers SHOULD report them as warnings. This preserves OKF's ability to represent partial or externally assembled knowledge without pretending the dependency is satisfied.
 
+A producer maintaining a repository with more than one governed durable concept MUST keep all governed concepts in one resolved repository-local relationship graph. Governed concepts are Tasks, Workstreams, and typed durable OKF knowledge documents. A relationship may be expressed by an ordinary relative Markdown link or, for Task and Workstream topology, by a resolved structured relationship. Incoming relationships count: a concept does not need a reciprocal link merely to satisfy this rule. Producers MUST retain useful links to terminal Tasks because their current lifecycle state is live implementation evidence; a knowledge document need not be backdated or rewritten merely to narrate that completion.
+
+Reserved indexes and logs, Tracker Profiles, generated output, vendor content, runbooks, handoffs, session records, and explicitly temporary or scratch material are outside this strict graph. Producers MUST NOT add semantically weak links solely to connect excluded or unrelated volatile files. A broken, external, or out-of-scope link remains useful evidence but does not connect the strict local graph. Consumers that can see only a partial bundle MAY report connectivity as unevaluated; repository-aware validators MUST report orphan concepts and disconnected components as errors.
+
 Knowledge links MAY leave the task bundle or repository. Generic consumers MUST treat an out-of-bundle target as an external, untyped resource and MUST NOT automatically fetch or traverse it without an explicit policy. Broken knowledge links do not by themselves make the task bundle structurally non-conformant.
 
 An OKF Tasks bundle does not require a particular knowledge-engineering system. Producers SHOULD:
@@ -387,7 +391,7 @@ An OKF Tasks v0.5 bundle is conformant when:
 
 ### 11.3 Producer conformance
 
-A conformant producer MUST emit conformant documents and bundles, MUST use only normal transitions unless an explicit forced-correction mode is selected, MUST preserve stable identities, and MUST retain unknown fields when updating a record.
+A conformant producer MUST emit conformant documents and bundles, MUST use only normal transitions unless an explicit forced-correction mode is selected, MUST preserve stable identities, MUST retain unknown fields when updating a record, and MUST maintain the strict durable-link graph when repository scope is available.
 
 ### 11.4 Consumer conformance
 
