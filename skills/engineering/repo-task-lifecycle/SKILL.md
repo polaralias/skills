@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.9.0
+  version: 4.0.0
   updated: '2026-07-19'
 ---
 
@@ -109,7 +109,7 @@ Every declared workstream is required. Model optional follow-up as a linked task
 Check for a running entry whenever work resumes. Start immediately before material implementation or review:
 
 ```text
-okf-tasks start-time --root <repo> --task <task-slug> --actor <actor>
+okf-tasks start-time --root <repo> --task <task-slug> --actor <actor> --activity implementation
 ```
 
 Stop when the session ends, the task blocks, control returns for an extended wait, or a handoff is written:
@@ -119,6 +119,8 @@ okf-tasks stop-time --root <repo> --task <task-slug> --actor <actor>
 ```
 
 If the wall interval contains meaningful inactivity, set `--effort-minutes` and explain the adjustment with `--note`. Long prompting, review waits, overnight gaps, and unrelated work are not active effort.
+
+Choose a required stable `activity` for what the work does independently of the measurement `method`. Use `knowledge-maintenance` for RKE work that creates, corrects, or promotes durable repository knowledge. A stop preserves the activity selected at start unless `--activity` explicitly corrects it.
 
 Record user-supplied effort with `add-time`. For historical work, run `review-commits` and then `backfill-from-commits`. Treat commit clustering as a transparent proposal, not precise tracked time; include prompting, testing, review, and non-commit evidence when adjusting it.
 

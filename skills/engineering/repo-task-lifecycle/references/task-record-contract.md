@@ -73,7 +73,7 @@ Before completion:
 1. Identify conclusions that affect product behavior, architecture, support truth, decisions, glossary, or operating guidance.
 2. Promote verified truth through `repo-knowledge-engineering`.
 3. Link the updated canonical artifact from the task.
-4. Keep transient progress and effort details in the task bundle.
+4. Record the RKE session in the parent Task's embedded `time[]` using `activity: knowledge-maintenance`; keep transient progress and effort details in the task bundle.
 5. Leave unresolved questions explicit rather than laundering them into canonical claims.
 
 ## Tracker synchronization loop
@@ -111,7 +111,7 @@ On pickup:
 3. Start a new time entry immediately before material work.
 4. Continue through the narrowest downstream skill.
 
-Time entries are mappings in `Task.time[]`, with stable IDs addressable as `<task-concept-id>#time:<id>`. First-to-last session time is not active effort. Commit-review backfills remain estimates even when recorded in the bundle.
+Time entries are mappings in `Task.time[]`, with stable IDs addressable as `<task-concept-id>#time:<id>`. Every entry has a stable activity classification independent of its measurement method. Use `knowledge-maintenance` when RKE creates, corrects, or promotes durable repository knowledge. First-to-last session time is not active effort. Commit-review backfills remain estimates even when recorded in the bundle.
 
 ## Evidence axes
 

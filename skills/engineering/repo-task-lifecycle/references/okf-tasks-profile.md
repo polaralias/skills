@@ -177,10 +177,11 @@ Time MUST be recorded as mappings in the parent Task concept's `time` list. Each
 | `actor` | required | Person or agent whose effort is represented. |
 | `started` | required | RFC 3339 session or evidence-window start. |
 | `method` | required | `tracked`, `tracked-adjusted`, `manual`, or `estimated-commit-review`. |
+| `activity` | required | Stable work classification: `implementation`, `review`, `validation`, `knowledge-maintenance`, `research`, `planning`, `coordination`, or `other`. |
 
 Changing, closing, or correcting an entry changes the meaning of its parent Task, so the Task `timestamp` MUST advance. Entries do not carry a separate last-updated timestamp; `started` and `finished` describe the activity interval.
 
-A closed entry MUST also contain `finished` and a non-negative integer `effort_minutes`. It SHOULD contain `elapsed_minutes` when a meaningful wall-clock window is known. An entry MAY identify a `workstream`, `summary`, `basis`, `activity`, `source_commits`, `confidence`, and `estimation`. `basis` is required for `tracked-adjusted`, `manual`, and `estimated-commit-review` entries.
+A closed entry MUST also contain `finished` and a non-negative integer `effort_minutes`. It SHOULD contain `elapsed_minutes` when a meaningful wall-clock window is known. Every entry MUST classify its work as `implementation`, `review`, `validation`, `knowledge-maintenance`, `research`, `planning`, `coordination`, or `other`. An entry MAY identify a `workstream`, `summary`, `basis`, `source_commits`, `confidence`, and `estimation`. `basis` is required for `tracked-adjusted`, `manual`, and `estimated-commit-review` entries. `activity` records what happened, while `method` records how time was measured; free-form detail belongs in `summary` or `basis`.
 
 An entry is addressable as its parent task concept ID followed by `#time:<id>`, for example `implement-token-rotation/task#time:20260717t090000z-agent-tracked`. A graph or relationship payload that separates targets from fragments MUST target the Task and carry `time:<id>` in its `fragment` field. The entry remains data on the Task and MUST NOT become a separate graph node.
 
@@ -407,7 +408,7 @@ Consumers SHOULD treat semantic completion evidence and knowledge promotion as r
 
 The repository `VERSION` file is the release source of truth. Profile `0.x` releases may add constraints in a new minor version; patch releases clarify text or fix tooling without changing conformant data. A tagged profile URL and schema `$id` are immutable. Normative changes require corresponding positive and negative conformance fixtures and agreement from both maintained implementations.
 
-Version 0.5 defines addressable time entries in Task frontmatter while retaining first-class Tracker Profiles and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
+Version 0.5 defines addressable, activity-classified time entries in Task frontmatter while retaining first-class Tracker Profiles and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
 
 ## Appendix A — Minimal task
 

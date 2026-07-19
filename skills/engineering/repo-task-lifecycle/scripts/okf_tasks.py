@@ -56,6 +56,16 @@ LABEL_STRATEGIES = {"replace", "managed-subset", "read-only", "ignore"}
 PORTABLE_FIELD_TYPES = {"text", "number", "date", "boolean", "single-select", "multi-select", "user", "url"}
 TIME_STATUSES = {"running", "closed"}
 TIME_METHODS = {"tracked", "tracked-adjusted", "manual", "estimated-commit-review"}
+TIME_ACTIVITIES = {
+    "implementation",
+    "review",
+    "validation",
+    "knowledge-maintenance",
+    "research",
+    "planning",
+    "coordination",
+    "other",
+}
 ESTIMATE_CONFIDENCE = {"low", "medium", "high"}
 ESTIMATE_METHODS = {"agent", "manual", "historical"}
 LIVE_TIME_STATUSES = {"ready", "in-progress", "blocked", "validation"}
@@ -1313,10 +1323,12 @@ def start_time(args: argparse.Namespace) -> int:
         "actor": args.actor,
         "started": started,
         "method": "tracked",
+        "activity": args.activity,
         "summary": "Live effort session started.",
         "basis": "Started explicitly by an agent or user; effort is not final until the session is stopped.",
-        "activity": args.note or "Work is active.",
     }
+    if args.note:
+        metadata["summary"] = args.note
     if args.workstream:
         metadata["workstream"] = args.workstream
     status_changed = task_metadata.get("status") == "ready"
@@ -1385,9 +1397,9 @@ def stop_time(args: argparse.Namespace) -> int:
             "elapsed_minutes": elapsed,
             "effort_minutes": effort,
             "method": "tracked-adjusted" if adjusted else "tracked",
-            "summary": "Live effort session closed.",
+            "activity": args.activity or metadata["activity"],
+            "summary": args.note or "Live effort session closed.",
             "basis": basis,
-            "activity": args.note or "Session completed.",
         }
     )
     update_time_rollup(task_metadata)
@@ -1423,9 +1435,9 @@ def add_time(args: argparse.Namespace) -> int:
         "elapsed_minutes": elapsed,
         "effort_minutes": args.effort_minutes,
         "method": "manual",
-        "summary": "Manual effort entry added.",
+        "activity": args.activity,
+        "summary": args.note,
         "basis": args.note,
-        "activity": f"Recorded {args.effort_minutes} effort minutes manually.",
     }
     if args.workstream:
         metadata["workstream"] = args.workstream
@@ -1577,6 +1589,7 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
         "elapsed_minutes": duration_minutes(started, finished),
         "effort_minutes": effort,
         "method": "estimated-commit-review",
+        "activity": args.activity,
         "confidence": args.confidence,
         "source_commits": [commit["commit"] for commit in commits],
         "estimation": {
@@ -1588,9 +1601,6 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
     }
     if args.workstream:
         metadata["workstream"] = args.workstream
-    activity = "\n".join(
-        f"- `{commit['commit'][:12]}` {commit['timestamp']} — {commit['subject']}" for commit in commits
-    )
     adjustment = f" Manual adjustment: {args.note}" if args.note else ""
     basis = (
         f"Reviewed {len(commits)} commits and grouped them at gaps over {args.session_gap_minutes} minutes. "
@@ -1600,7 +1610,6 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
     metadata.update(
         summary="Effort backfilled from a review of repository commits.",
         basis=basis,
-        activity=activity,
     )
     append_time_entry(bundle, task, metadata)
     print(f"Added commit-review entry {entry!r}: {effort} effort minutes ({args.confidence} confidence).")
@@ -1815,7 +1824,7 @@ def validate_time_entries(
             errors.append(f"{label}: time entry must be a mapping")
             continue
         entries.append(metadata)
-        required = {"id", "status", "actor", "started", "method"}
+        required = {"id", "status", "actor", "started", "method", "activity"}
         missing = [key for key in sorted(required) if metadata.get(key) in (None, "")]
         if missing:
             errors.append(f"{label}: missing required fields: {', '.join(missing)}")
@@ -1831,6 +1840,8 @@ def validate_time_entries(
             errors.append(f"{label}: time status must be running or closed")
         if metadata["method"] not in TIME_METHODS:
             errors.append(f"{label}: unknown time method {metadata['method']!r}")
+        if metadata["activity"] not in TIME_ACTIVITIES:
+            errors.append(f"{label}: unknown time activity {metadata['activity']!r}")
         if not is_rfc3339(metadata["started"]):
             errors.append(f"{label}: started must be an RFC 3339 datetime with timezone")
         workstream = metadata.get("workstream")
@@ -2387,6 +2398,7 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--workstream")
     start.add_argument("--entry")
     start.add_argument("--started", help="RFC 3339 override, primarily for recovery and testing")
+    start.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), default="implementation")
     start.add_argument("--note")
     start.set_defaults(func=start_time)
 
@@ -2398,6 +2410,7 @@ def build_parser() -> argparse.ArgumentParser:
     stop.add_argument("--workstream")
     stop.add_argument("--finished", help="RFC 3339 override, primarily for recovery and testing")
     stop.add_argument("--effort-minutes", type=int)
+    stop.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), help="Override the activity selected at start")
     stop.add_argument("--note")
     stop.set_defaults(func=stop_time)
 
@@ -2411,6 +2424,7 @@ def build_parser() -> argparse.ArgumentParser:
     manual.add_argument("--finished")
     manual.add_argument("--workstream")
     manual.add_argument("--entry")
+    manual.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), default="implementation")
     manual.set_defaults(func=add_time)
 
     review = subparsers.add_parser("review-commits", help="Estimate effort sessions from commit evidence")
@@ -2426,6 +2440,7 @@ def build_parser() -> argparse.ArgumentParser:
     backfill.add_argument("--entry")
     backfill.add_argument("--effort-minutes", type=int, help="Override the transparent heuristic")
     backfill.add_argument("--confidence", choices=sorted(ESTIMATE_CONFIDENCE), default="medium")
+    backfill.add_argument("--activity", choices=sorted(TIME_ACTIVITIES), default="implementation")
     backfill.add_argument("--note")
     backfill.set_defaults(func=backfill_from_commits)
 

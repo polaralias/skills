@@ -1,10 +1,10 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, and keep a repository knowledge base trustworthy, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artifacts, adopting or validating OKF-compatible knowledge docs, running cross-artifact truth checks, aligning docs, decisions, glossary, reading order, and evidence, or deciding how RKE should proceed after detecting an existing OpenWiki surface. Shorthand RKE.
+description: Establish, evolve, and keep a repository knowledge base trustworthy through agent-led maintenance, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artifacts, adopting or validating OKF-compatible knowledge docs, running cross-artifact truth checks, or aligning docs, decisions, glossary, reading order, evidence, and linked execution truth. Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.3.0
+  version: 3.4.0
   updated: '2026-07-19'
 ---
 
@@ -57,6 +57,12 @@ Read [references/okf-0.1-profile.md](./references/okf-0.1-profile.md) before cre
 Read [references/openwiki-detection.md](./references/openwiki-detection.md) immediately when an existing OpenWiki surface is detected. Obtain the user's direction before changing repository knowledge surfaces.
 Use [scripts/okf_bundle.py](./scripts/okf_bundle.py) to build canonical indexes and validate OKF conformance.
 Use [assets/okf/visualization.md.template](./assets/okf/visualization.md.template) when a repository needs a durable OKF Visualization concept describing the source, renderer, output, interpretation, and verification of a derived view.
+
+## Link knowledge maintenance to execution truth
+
+When durable knowledge work belongs to an active tracked delivery slice, locate its OKF Task before editing. Keep the Task and every changed durable knowledge concept connected with useful repository-relative Markdown links. Record the work on the parent Task's embedded `time[]` array through `repo-task-lifecycle`, using `activity: knowledge-maintenance`; do not create separate time documents or put effort accounting into the knowledge concept.
+
+For live work, use `okf-tasks start-time --activity knowledge-maintenance` and stop the same entry when the session ends or waits materially. For supplied or reconstructed effort, use `add-time` or `backfill-from-commits` with the same activity. `activity` states what work occurred, while `method` states how its duration was measured. Do not create task ceremony solely for a trivial untracked edit, but never lose the link or time classification when a task already governs the slice.
 
 ## Use This Instead Of
 
@@ -130,7 +136,7 @@ Use this skill to close a tranche honestly:
 - If `docs/decisions/` exists, treat it as the durable decision-history source.
 - Know which files future agents are expected to trust first.
 - Detect OKF frontmatter, root `okf_version`, and reserved `index.md` or `log.md` surfaces before changing the documentation layout.
-- Detect `openwiki/` and OpenWiki ownership markers separately. If present, pause knowledge-surface mutation, recommend RKE as the canonical model, and ask the user which direction to take using the bundled detection reference.
+- As a compatibility safeguard, detect `openwiki/` and OpenWiki ownership markers separately. If present, pause only the affected producer-owned surface, recommend agent-led RKE as the canonical model, and ask the user which direction to take using the bundled detection reference.
 
 ### 2. Choose the knowledge format and ownership model
 

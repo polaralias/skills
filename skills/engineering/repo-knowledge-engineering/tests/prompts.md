@@ -113,6 +113,15 @@ Expected:
 - detects the OpenWiki surface before changing repository knowledge
 - recommends RKE as the canonical model and asks whether to migrate, preserve the producer boundary, or follow another explicit direction
 - does not assume an OpenWiki integration or rewrite producer-owned files before the user chooses
+
+## 16. Task-linked knowledge maintenance
+
+Prompt: "Update the architecture guide as part of the active OKF task and record the work."
+
+- locates the governing Task and keeps the changed durable document linked to it
+- routes time mutation through `repo-task-lifecycle` on the Task's embedded `time[]`
+- uses `activity: knowledge-maintenance` independently of the entry measurement method
+- does not create a standalone time document or store effort on the knowledge concept
 - if the user retains the bundle, consumes any interoperable knowledge strictly through its OKF surface
 
 ## 16. Excluded execution records

@@ -43,6 +43,7 @@ time:
     elapsed_minutes: 30
     effort_minutes: 30
     method: tracked
+    activity: implementation
 ---
 # Ship viewer
 
