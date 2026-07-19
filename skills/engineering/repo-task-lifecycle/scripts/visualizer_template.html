@@ -600,6 +600,26 @@ function refreshMarks(){
 /* ── GRAPH ─────────────────────────────── */
 let cy=null;
 const cssVar=name=>getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+function graphLayoutMetrics(count){
+  const compact=count<=8;
+  return {
+    padding:compact?64:40,
+    nodeRepulsion:compact?Math.max(90000,count*22000):Math.min(900000,240000+count*32000),
+    idealEdgeLength:compact?95+count*5:150,
+    componentSpacing:compact?72:130,
+    width:compact?Math.max(420,320+count*95):1500,
+    height:compact?Math.max(300,240+Math.ceil(count/3)*90):820,
+    minimumZoom:count<=3?1.12:count<=6?.9:count<=8?.72:0
+  };
+}
+function fitGraph(){
+  if(!cy)return;
+  const count=cy.nodes(".main").length,metrics=graphLayoutMetrics(count),host=$("cy");
+  cy.fit(undefined,metrics.padding);
+  if(host.clientWidth>=700&&metrics.minimumZoom&&cy.zoom()<metrics.minimumZoom){
+    cy.zoom(metrics.minimumZoom);cy.center(cy.nodes(".main"));
+  }
+}
 function nodeKind(doc){
   const rec=doc.record_id?byId[doc.record_id]:null;
   if(!rec)return "knowledge";
@@ -625,6 +645,7 @@ function buildGraph(){
   const els=[];
   // deterministic start: circle ordered by path; each chip gets a companion crumb label
   const sorted=[...gDocs].sort((a,b)=>a.path.localeCompare(b.path));
+  const metrics=graphLayoutMetrics(sorted.length);
   sorted.forEach((d,i)=>{
     const a=2*Math.PI*i/sorted.length;
     const pos={x:420+340*Math.cos(a),y:320+340*Math.sin(a)};
@@ -677,7 +698,7 @@ function buildGraph(){
     wheelSensitivity:.25
   });
   // layout runs on chips + edges only; crumb labels then sit beneath their chip
-  cy.elements("node.main,edge").layout({name:"cose",animate:false,randomize:false,nodeRepulsion:900000,nodeOverlap:40,idealEdgeLength:150,edgeElasticity:90,gravity:30,componentSpacing:130,numIter:1600,boundingBox:{x1:0,y1:0,w:1500,h:820}}).run();
+  cy.elements("node.main,edge").layout({name:"cose",animate:false,randomize:false,nodeRepulsion:metrics.nodeRepulsion,nodeOverlap:40,idealEdgeLength:metrics.idealEdgeLength,edgeElasticity:90,gravity:30,componentSpacing:metrics.componentSpacing,numIter:1600,boundingBox:{x1:0,y1:0,w:metrics.width,h:metrics.height}}).run();
   const placeSub=n=>{
     const sub=cy.getElementById("sub::"+n.id());
     if(sub.length)sub.position({x:n.position("x"),y:n.position("y")+n.outerHeight()/2+9});
@@ -690,7 +711,7 @@ function buildGraph(){
     select(rec?{id:rec.id}:{path});
   });
   cy.on("tap",ev=>{if(ev.target===cy)clearSel()});
-  cy.fit(undefined,40);
+  fitGraph();
   applyGraphFocus();applyGraphSearch();
   // legends
   $("graph-legend").innerHTML=Object.entries({task:"task",workstream:"workstream",tracker:"tracker",knowledge:"knowledge doc"})
@@ -1096,7 +1117,7 @@ function switchView(v){
   $("view-graph").hidden=v!=="graph";
   $("view-board").hidden=v!=="board";
   $("view-reader").hidden=v!=="reader";
-  if(v==="graph"){if(!cy)buildGraph();else{cy.resize();cy.fit(undefined,40)}}
+  if(v==="graph"){if(!cy)buildGraph();else{cy.resize();fitGraph()}}
   if(v==="board")buildBoard();
   if(v==="reader"){hidePane();buildTree();if(state.readerPath)renderContext(docByPath[state.readerPath]);else $("rcontext").replaceChildren()}
   else if(state.selected)renderDetail();
@@ -1116,7 +1137,7 @@ $("search").oninput=e=>{
   if(state.view==="board")buildBoard();
   if(state.view==="reader")buildTree();
 };
-$("fit-btn").onclick=()=>cy&&cy.fit(undefined,40);
+$("fit-btn").onclick=fitGraph;
 $("theme-btn").onclick=()=>{
   const next=document.documentElement.dataset.theme==="light"?"dark":"light";
   document.documentElement.dataset.theme=next;

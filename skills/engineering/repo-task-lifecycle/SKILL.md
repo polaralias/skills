@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.0.0
+  version: 4.1.0
   updated: '2026-07-19'
 ---
 
@@ -28,11 +28,19 @@ When this skill creates or meaningfully updates a durable repository Task, Works
 
 Maintain execution truth as a portable OKF Tasks bundle while integrating with the repository knowledge-engineering workflow.
 
-Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Read [references/cli-setup.md](./references/cli-setup.md) when the `okf-tasks` command is missing or its compatibility is unknown. The `polaralias/okf-tasks` repository is the authoritative CLI distribution; prefer a compatible installed command for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. Never install or upgrade it silently. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable, feature-identical fallback. Use [scripts/visualize_bundle.py](./scripts/visualize_bundle.py) with its sibling [scripts/visualizer_template.html](./scripts/visualizer_template.html) to generate the definitive light-first Graph, Board, and Reader workspace when a bundle needs local visual review. Its relationship rendering keeps the complete document mesh visible while explicit OKF edges and their labels remain authoritative.
+Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Read [references/cli-setup.md](./references/cli-setup.md) when the `okf-tasks` command is missing or its compatibility is unknown. The `polaralias/okf-tasks` repository is the authoritative CLI distribution; prefer a compatible installed command for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. Never install or upgrade it silently. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable, feature-identical fallback. Use [scripts/visualize_bundle.py](./scripts/visualize_bundle.py) with its sibling [scripts/visualizer_template.html](./scripts/visualizer_template.html) to generate the definitive light-first Graph, Board, and Reader workspace plus scalable Mermaid report whenever the repository uses OKF visualization. Its relationship rendering keeps the complete document mesh visible while explicit OKF edges and their labels remain authoritative.
 
 Every meaningful Task or Workstream edit must advance its RFC 3339 `timestamp`. Embedded `Task.time[]` mutations are meaningful Task edits and therefore advance the Task timestamp; entries do not have their own timestamp. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. Tracker Profile discovery uses its separate `discovery.observed_at` contract. The viewer exposes those fields separately and remains a derived consumer.
 
 The viewer preserves the definitive Graph, Board, and Reader interface. Graph shows the complete relationship mesh, uses class-colored document chips, and fades unrelated records when one is selected without hiding repository context. Its right panel presents direct relationships vertically as Incoming → Selected → Outgoing; connected cards recenter the graph, while the selected summary stays concise and links to Reader for the full document. Board groups Tasks into lifecycle columns or compact rows, nests Workstreams, and surfaces estimates, effort, tracker context, link counts, and embedded time evidence. Reader provides a searchable repository tree, full GitHub-flavoured Markdown with strict Mermaid rendering, and contextual navigation. Reference an embedded time entry as `<task-concept-id>#time:<id>` and represent it in graph payloads as an edge to the Task with a `time:<id>` fragment. The compact temporal control compares `timestamp`, `created`, `started`, or `finished`; drift review highlights timestamp ordering only across existing links. Treat every highlight as a possible review signal requiring semantic evidence, never proof that the older target is stale or a reconstruction of historical content.
+
+When visualization outputs are present or requested, regenerate them after every meaningful record, relationship, time, or renderer change and run the matching freshness check before completion:
+
+```text
+python scripts/visualize_bundle.py --bundle <bundle> --html <output>.html --mermaid
+```
+
+The Mermaid report must avoid one unbounded graph: preserve its connected-area overview, manageable complete components, boundary-aware area slices for large components, key-concept neighbourhoods, and separate isolate list. Small interactive graphs must use node-count-aware layout bounds and framing rather than opening at a distant fit.
 
 ## Ownership and routing
 
@@ -213,6 +221,8 @@ Run:
 okf-tasks validate --root <repo>
 ```
 
+If the repository uses OKF visualization, regenerate both HTML and Mermaid outputs and verify their freshness before reporting completion.
+
 Keep completed records when they provide useful delivery history. Use `superseded` for replaced work and `deferred` for intentionally inactive work.
 
 ## Compatibility
@@ -230,6 +240,7 @@ Report:
 - running or closed time entries, recorded effort, estimate confidence, and actual-versus-estimate comparison;
 - sprint points without converting them to time;
 - changed task artifacts and generated index result;
+- generated HTML/Mermaid paths and freshness result when visualization is in use;
 - validation errors and warnings;
 - unresolved RKE/QTK/DDD obligations;
 - external tracker reconciliation or publication still required;

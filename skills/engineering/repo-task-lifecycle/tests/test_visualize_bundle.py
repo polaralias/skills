@@ -125,6 +125,17 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("DOMPurify.sanitize", generated)
         self.assertIn('localStorage.getItem("okf-proto-theme")', generated)
 
+    def test_scalable_mermaid_and_dynamic_small_graph_framing_are_preserved(self) -> None:
+        records = visualize_bundle.read_records(self.root)
+        graph = visualize_bundle.build_graph(records)
+        graph["nodes"].append({"data": {"id": "docs/guide", "label": "Guide", "type": "Architecture", "status": ""}})
+        graph["edges"].append({"data": {"id": "e-guide", "source": "tasks/ship-viewer/task", "target": "docs/guide", "relationship": "links"}})
+        markdown = visualize_bundle.generate_markdown(graph, "Example", "tasks")
+        self.assertIn("## Connected-area overview", markdown)
+        self.assertIn("## Connected component 1", markdown)
+        self.assertIn("function graphLayoutMetrics(count)", self.generated())
+        self.assertIn("minimumZoom:count<=3?1.12", self.generated())
+
     def test_relationship_renderer_uses_the_same_workspace(self) -> None:
         records = visualize_bundle.read_records(self.root)
         graph = visualize_bundle.build_graph(records)

@@ -224,6 +224,7 @@ Expected behaviour:
 - Group Tasks by lifecycle state in Board columns or rows, nest their Workstreams, and summarize committed effort without inventing time.
 - Keep embedded `Task.time[]` entries addressable as Task evidence through `<task>#time:<id>` fragments.
 - Require a stable time `activity` independent of `method`, using `knowledge-maintenance` for RKE sessions.
+- When OKF visualization is in use, regenerate paired HTML and scalable Mermaid output after meaningful changes and verify freshness before completion.
 - Offer comparison by `timestamp`, `created`, `started`, or `finished` without claiming current bodies are historical snapshots.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
 
