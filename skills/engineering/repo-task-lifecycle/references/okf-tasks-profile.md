@@ -1,6 +1,6 @@
 # OKF Tasks Profile
 
-Version 0.4
+Version 0.5
 
 OKF Tasks is an independent profile of Open Knowledge Format (OKF) v0.1 for representing trackable work as portable Markdown concepts. It adds task lifecycle, workstream, evidence, relationship, and tracker-mapping conventions without changing the OKF base format.
 
@@ -24,7 +24,7 @@ It does not standardize product requirements, architecture, sprint membership, c
 
 An OKF Tasks bundle MUST conform to [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/ee67a5ca27044ebe7c38385f5b6cffc2305a9c1a/okf/SPEC.md). Requirements in this profile are additional constraints. The commit-pinned link identifies the exact upstream text used by this version.
 
-The published identity of this profile version is `https://github.com/polaralias/okf-tasks/blob/v0.4.0/SPEC.md`. Producers SHOULD include that identity in the bundle root index as described in section 10.
+The published identity of this profile version is `https://github.com/polaralias/okf-tasks/blob/v0.5.0/SPEC.md`. Producers SHOULD include that identity in the bundle root index as described in section 10.
 
 Each non-reserved Markdown file in the bundle MUST be an OKF concept with parseable YAML frontmatter and a non-empty `type`. Producers MAY add fields. Consumers MUST preserve unknown fields when round-tripping a record and MUST tolerate unknown task-adjacent concept types.
 
@@ -40,10 +40,8 @@ tasks/
 │   └── <tracker-slug>.md
 └── <task-slug>/
     ├── task.md
-    ├── workstreams/
-    │   └── <workstream-slug>.md
-    └── time/
-        └── <entry-id>.md
+    └── workstreams/
+        └── <workstream-slug>.md
 ```
 
 This default placement keeps operational execution state visibly separate from durable documentation, source code, and configuration.
@@ -96,6 +94,7 @@ The following fields are optional profile extensions:
 | `started` | datetime | Start of the first recorded work session. |
 | `finished` | datetime | Final task completion time, set when the task becomes `done`. |
 | `effort_minutes` | integer | Generated sum of closed time-entry effort. |
+| `time` | list of mappings | Addressable effort entries defined in section 7. |
 | `estimate` | mapping | Expected active effort and its evidential basis. |
 | `sprint_points` | mapping | Team-contextual relative complexity; never a time duration. |
 | `completion_history` | list of mappings | Prior completion and reopening events. |
@@ -169,30 +168,27 @@ Before a task becomes `done`:
 
 Task-level `started` and `finished` describe lifecycle boundaries; they MUST NOT be used alone to calculate effort. A task MAY span inactive periods, review waits, user prompts, overnight gaps, and several separately recorded sessions.
 
-Time MUST be recorded as `Time Entry` concepts under `<task-slug>/time/`. Each entry MUST contain:
+Time MUST be recorded as mappings in the parent Task concept's `time` list. A standalone time-entry Markdown file is not conformant. Each entry MUST contain:
 
 | Field | Requirement | Meaning |
 | --- | --- | --- |
-| `type` | required | Exactly `Time Entry`. |
-| `task` | required | Parent task slug. |
-| `entry` | required | Stable entry identifier matching the filename. |
+| `id` | required | Stable lowercase kebab-case identifier, unique within the task. |
 | `status` | required | `running` or `closed`. |
 | `actor` | required | Person or agent whose effort is represented. |
 | `started` | required | RFC 3339 session or evidence-window start. |
 | `method` | required | `tracked`, `tracked-adjusted`, `manual`, or `estimated-commit-review`. |
-| `timestamp` | required | RFC 3339 last meaningful change. |
 
-Time Entry `timestamp` MUST advance when an entry is closed or corrected. It is distinct from the activity interval expressed by `started` and `finished`.
+Changing, closing, or correcting an entry changes the meaning of its parent Task, so the Task `timestamp` MUST advance. Entries do not carry a separate last-updated timestamp; `started` and `finished` describe the activity interval.
 
-A closed entry MUST also contain `finished` and a non-negative integer `effort_minutes`. It SHOULD contain `elapsed_minutes` when a meaningful wall-clock window is known. An entry MAY identify a `workstream`, `source_commits`, and `confidence`.
+A closed entry MUST also contain `finished` and a non-negative integer `effort_minutes`. It SHOULD contain `elapsed_minutes` when a meaningful wall-clock window is known. An entry MAY identify a `workstream`, `summary`, `basis`, `activity`, `source_commits`, `confidence`, and `estimation`. `basis` is required for `tracked-adjusted`, `manual`, and `estimated-commit-review` entries.
 
-The body MUST contain `## Summary`, `## Basis`, and `## Activity`.
+An entry is addressable as its parent task concept ID followed by `#time:<id>`, for example `implement-token-rotation/task#time:20260717t090000z-agent-tracked`. A graph or relationship payload that separates targets from fragments MUST target the Task and carry `time:<id>` in its `fragment` field. The entry remains data on the Task and MUST NOT become a separate graph node.
 
 ### 7.1 Live tracking
 
 Starting live tracking creates a `running` entry with `method: tracked`. If the task is `ready`, a producer SHOULD transition it to `in-progress`. A `proposed`, `done`, `deferred`, or `superseded` task MUST NOT start a live entry.
 
-Stopping live tracking closes the entry and records wall-clock `elapsed_minutes`. When the interval reasonably represents active work, `effort_minutes` MAY equal elapsed time. When the interval contains material inactivity, waiting, or unrelated work, the producer MUST use `tracked-adjusted`, record a defensible effort value, and explain the adjustment under `## Basis`.
+Stopping live tracking closes the entry and records wall-clock `elapsed_minutes`. When the interval reasonably represents active work, `effort_minutes` MAY equal elapsed time. When the interval contains material inactivity, waiting, or unrelated work, the producer MUST use `tracked-adjusted`, record a defensible effort value, and explain the adjustment in `basis`.
 
 Only one running entry is permitted for the same task, actor, and workstream combination. Concurrent actors or workstreams MAY have separate entries.
 
@@ -350,8 +346,8 @@ The bundle-root `index.md` SHOULD declare the following fields using the OKF roo
 
 ```yaml
 okf_version: "0.1"
-okf_tasks_version: "0.4"
-okf_tasks_profile: https://github.com/polaralias/okf-tasks/blob/v0.4.0/SPEC.md
+okf_tasks_version: "0.5"
+okf_tasks_profile: https://github.com/polaralias/okf-tasks/blob/v0.5.0/SPEC.md
 ```
 
 Its body MUST contain a top-level heading and SHOULD group task links under status headings. Each entry SHOULD include the task description.
@@ -372,18 +368,18 @@ Conformance is claimed for a named artifact or implementation class, not for the
 
 ### 11.1 Document conformance
 
-A Task, Workstream, or Time Entry document is conformant when it satisfies the applicable field, path, body, and semantic requirements in this profile. A conformant document may still contain a broken relationship target.
+A Task or Workstream document is conformant when it satisfies the applicable field, path, body, and semantic requirements in this profile. A conformant document may still contain a broken relationship target.
 
 ### 11.2 Bundle conformance
 
-An OKF Tasks v0.4 bundle is conformant when:
+An OKF Tasks v0.5 bundle is conformant when:
 
 1. it conforms to OKF v0.1;
 2. every `Task` and `Workstream` concept satisfies the required profile fields and body headings;
 3. task and workstream slugs match their paths;
 4. every lifecycle status is recognized;
 5. a `done` task has no active required workstreams;
-6. every `Time Entry` satisfies section 7 and task effort rollups agree;
+6. every embedded time entry satisfies section 7, no standalone time-entry Markdown file exists, and task effort rollups agree;
 7. a `done` task has no running time entries and has a `finished` timestamp;
 8. estimates and sprint points satisfy section 7.5 without implicit conversion;
 9. `index.md`, when generated, agrees with the task records;
@@ -407,7 +403,7 @@ Consumers SHOULD treat semantic completion evidence and knowledge promotion as r
 
 The repository `VERSION` file is the release source of truth. Profile `0.x` releases may add constraints in a new minor version; patch releases clarify text or fix tooling without changing conformant data. A tagged profile URL and schema `$id` are immutable. Normative changes require corresponding positive and negative conformance fixtures and agreement from both maintained implementations.
 
-Version 0.4 defines first-class Tracker Profiles and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
+Version 0.5 replaces standalone time-entry concepts with addressable entries embedded in Task frontmatter while retaining first-class Tracker Profiles and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
 
 ## Appendix A — Minimal task
 

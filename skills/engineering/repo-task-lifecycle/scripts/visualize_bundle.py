@@ -12,11 +12,10 @@ import yaml
 
 
 INDEX_NAME = "index.md"
-LINK_PATTERN = re.compile(r"\]\(([^)\s]+\.md)(?:#[A-Za-z0-9_-]*)?\)")
+LINK_PATTERN = re.compile(r"\]\(([^)\s]+\.md)(?:#([A-Za-z0-9_:-]+))?\)")
 COLORS = {
     "Task": "#2563eb",
     "Workstream": "#7c3aed",
-    "Time Entry": "#059669",
 }
 DEFAULT_COLOR = "#64748b"
 
@@ -47,7 +46,7 @@ class Record:
     source: str
     frontmatter_source: str
     frontmatter: dict[str, Any]
-    links: list[tuple[str, str]] = field(default_factory=list)
+    links: list[tuple[str, str, str | None]] = field(default_factory=list)
 
     def node(self) -> dict[str, Any]:
         return {
@@ -113,42 +112,36 @@ def relationship_id(record_id: str, value: str) -> str:
     return task_id(record_id, clean)
 
 
-def extract_markdown_links(body: str, source: Path, root: Path) -> list[tuple[str, str]]:
-    relationships: list[tuple[str, str]] = []
+def extract_markdown_links(body: str, source: Path, root: Path) -> list[tuple[str, str, str | None]]:
+    relationships: list[tuple[str, str, str | None]] = []
     root = root.resolve()
     for match in LINK_PATTERN.finditer(body):
         target = match.group(1)
+        fragment = match.group(2)
         if "://" in target or target.startswith("/"):
             continue
         try:
             resolved = (source.parent / target).resolve().relative_to(root)
         except ValueError:
             continue
-        relationships.append((resolved.with_suffix("").as_posix(), "links"))
+        relationship = "time" if fragment and fragment.startswith("time:") else "links"
+        relationships.append((resolved.with_suffix("").as_posix(), relationship, fragment))
     return relationships
 
 
-def structured_links(record: Record) -> list[tuple[str, str]]:
+def structured_links(record: Record) -> list[tuple[str, str, str | None]]:
     metadata = record.frontmatter
-    relationships: list[tuple[str, str]] = []
+    relationships: list[tuple[str, str, str | None]] = []
     if record.type == "Workstream":
         task = metadata.get("task")
         if task:
-            relationships.append((task_id(record.id, str(task)), "workstream"))
-    elif record.type == "Time Entry":
-        task = metadata.get("task")
-        workstream = metadata.get("workstream")
-        if task and workstream:
-            parent = task_id(record.id, str(task)).removesuffix("/task")
-            relationships.append((f"{parent}/workstreams/{workstream}", "time"))
-        elif task:
-            relationships.append((task_id(record.id, str(task)), "time"))
+            relationships.append((task_id(record.id, str(task)), "workstream", None))
     elif record.type == "Task":
         parent = metadata.get("parent")
         if parent:
-            relationships.append((relationship_id(record.id, str(parent)), "parent"))
+            relationships.append((relationship_id(record.id, str(parent)), "parent", None))
         for dependency in as_strings(metadata.get("depends_on")):
-            relationships.append((relationship_id(record.id, dependency), "depends on"))
+            relationships.append((relationship_id(record.id, dependency), "depends on", None))
     return relationships
 
 
@@ -210,25 +203,24 @@ def read_documents(root: Path, records: list[Record]) -> list[dict[str, Any]]:
 def build_graph(records: list[Record], documents: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     ids = {record.id for record in records}
     edges: list[dict[str, Any]] = []
-    seen: set[tuple[str, str, str]] = set()
+    seen: set[tuple[str, str, str, str | None]] = set()
     for record in records:
-        for target, relationship in record.links:
-            if target == record.id or target not in ids:
+        for target, relationship, fragment in record.links:
+            if (target == record.id and not fragment) or target not in ids:
                 continue
-            key = (record.id, target, relationship)
+            key = (record.id, target, relationship, fragment)
             if key in seen:
                 continue
             seen.add(key)
-            edges.append(
-                {
-                    "data": {
-                        "id": f"e{len(edges)}",
-                        "source": record.id,
-                        "target": target,
-                        "relationship": relationship,
-                    }
-                }
-            )
+            data = {
+                "id": f"e{len(edges)}",
+                "source": record.id,
+                "target": target,
+                "relationship": relationship,
+            }
+            if fragment:
+                data["fragment"] = fragment
+            edges.append({"data": data})
     structured_pairs = {
         frozenset((edge["data"]["source"], edge["data"]["target"]))
         for edge in edges
@@ -292,19 +284,19 @@ def generate_markdown(graph: dict[str, Any], name: str, source: str) -> str:
         data = node["data"]
         detail = f" · {data['status']}" if data.get("status") else ""
         class_name = data["type"].lower().replace(" ", "_")
-        if class_name not in {"task", "workstream", "time_entry"}:
+        if class_name not in {"task", "workstream"}:
             class_name = "unknown"
         lines.append(f'    {id_map[data["id"]]}["{mermaid_label(data["label"] + detail)}"]:::{class_name}')
     for edge in graph["edges"]:
         data = edge["data"]
+        relationship_label = str(data.get("fragment") or data["relationship"])
         lines.append(
-            f'    {id_map[data["source"]]} -->|{mermaid_label(data["relationship"])}| {id_map[data["target"]]}'
+            f'    {id_map[data["source"]]} -->|{mermaid_label(relationship_label)}| {id_map[data["target"]]}'
         )
     lines.extend(
         [
             "    classDef task fill:#dbeafe,stroke:#2563eb,color:#172554",
             "    classDef workstream fill:#ede9fe,stroke:#7c3aed,color:#2e1065",
-            "    classDef time_entry fill:#d1fae5,stroke:#059669,color:#022c22",
             "    classDef unknown fill:#e2e8f0,stroke:#64748b,color:#0f172a",
             tick * 3,
             "",
@@ -312,7 +304,7 @@ def generate_markdown(graph: dict[str, Any], name: str, source: str) -> str:
             "",
             "- Blue: task",
             "- Purple: workstream",
-            "- Green: time entry",
+            "- Time references: edges to addressable `Task.time[]` fragments",
             "- Arrows: structured relationships or repository-local Markdown links",
             "",
         ]
@@ -394,10 +386,10 @@ const filters=$("type-filters");for(const value of ["",...graph.types]){const bu
 const tree={folders:{},files:[]};for(const doc of graph.documents||[]){const parts=doc.path.split("/"),file=parts.pop();let cursor=tree;for(const part of parts){cursor.folders[part]??={folders:{},files:[]};cursor=cursor.folders[part]}cursor.files.push({...doc,file})}function renderTree(node,host,onSelect){for(const name of Object.keys(node.folders).sort()){const details=document.createElement("details"),summary=document.createElement("summary"),children=document.createElement("div");details.open=true;summary.textContent=name;details.append(summary,children);host.appendChild(details);renderTree(node.folders[name],children,onSelect)}for(const doc of node.files.sort((a,b)=>a.file.localeCompare(b.file))){const button=document.createElement("button");button.type="button";button.textContent=doc.file;button.dataset.path=doc.path;button.setAttribute("aria-label",`Open ${doc.path}`);button.onclick=()=>onSelect(doc.path);host.appendChild(button)}}renderTree(tree,$("document-tree"),path=>{showDocument(path);$("document-browser").hidden=true});renderTree(tree,$("reader-tree"),showReaderDocument);
 function xml(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"})[char])}
 function titleLines(value){const words=String(value||"").trim().split(/\s+/),lines=[""];for(const word of words){const current=lines.at(-1),next=(current+" "+word).trim();if(next.length<=26||!current)lines[lines.length-1]=next;else if(lines.length<2)lines.push(word);else{lines[1]+=" "+word}}if(lines[1]?.length>29)lines[1]=lines[1].slice(0,28).trimEnd()+"…";return lines.slice(0,2)}
-function cardSvg(data){const light=document.documentElement.dataset.theme==="light",lines=titleLines(data.label),type=data.type==="Time Entry"?"TIME ENTRY":String(data.type||"RECORD").toUpperCase(),status=String(data.status||"UNSPECIFIED").replaceAll("-"," ").toUpperCase(),accent=data.color||"#64748b",titleY=lines.length===1?51:44,bg=light?"#ffffff":"#0f1620",border=light?"#c7d0dc":"#2a3543",title=light?"#172033":"#edf2f8",meta=light?"#657387":"#8794a5";const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="220" height="76" viewBox="0 0 220 76"><rect x=".75" y=".75" width="218.5" height="74.5" rx="7" fill="${bg}" stroke="${border}" stroke-width="1.5"/><path d="M1 8a7 7 0 0 1 7-7h2v74H8a7 7 0 0 1-7-7z" fill="${accent}" opacity=".9"/><circle cx="20" cy="17" r="3" fill="${accent}"/><text x="29" y="20" fill="${meta}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" letter-spacing=".8">${xml(type)}</text><text x="205" y="20" text-anchor="end" fill="${meta}" font-family="JetBrains Mono,monospace" font-size="7.5">${xml(status)}</text><text x="17" y="${titleY}" fill="${title}" font-family="Manrope,Segoe UI,sans-serif" font-size="13" font-weight="600">${xml(lines[0])}</text>${lines[1]?`<text x="17" y="61" fill="${title}" font-family="Manrope,Segoe UI,sans-serif" font-size="13" font-weight="600">${xml(lines[1])}</text>`:""}</svg>`;return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
-for(const node of graph.nodes){const d=node.data,links=new Set([...(incoming[d.id]||[]),...(outgoing[d.id]||[])]).size,minutes=Number(d.frontmatter?.effort_minutes);d.metric=Number.isFinite(minutes)?`${minutes} MIN · ${links} LINK${links===1?"":"S"}`:`${links} LINK${links===1?"":"S"}`;if(d.type==="Time Entry"){d.nodeWidth=178;d.nodeHeight=68}else if(d.type==="Workstream"){d.nodeWidth=208;d.nodeHeight=74}else if(d.type==="Tracker Profile"){d.nodeWidth=224;d.nodeHeight=76}else if(d.type==="Visualization"){d.nodeWidth=232;d.nodeHeight=78}else{d.nodeWidth=220;d.nodeHeight=76}const semanticStatus=d.status;d.status=[semanticStatus,d.metric].filter(Boolean).join(" · ");d.card=cardSvg(d);d.status=semanticStatus}
+function cardSvg(data){const light=document.documentElement.dataset.theme==="light",lines=titleLines(data.label),type=String(data.type||"RECORD").toUpperCase(),status=String(data.status||"UNSPECIFIED").replaceAll("-"," ").toUpperCase(),accent=data.color||"#64748b",titleY=lines.length===1?51:44,bg=light?"#ffffff":"#0f1620",border=light?"#c7d0dc":"#2a3543",title=light?"#172033":"#edf2f8",meta=light?"#657387":"#8794a5";const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="220" height="76" viewBox="0 0 220 76"><rect x=".75" y=".75" width="218.5" height="74.5" rx="7" fill="${bg}" stroke="${border}" stroke-width="1.5"/><path d="M1 8a7 7 0 0 1 7-7h2v74H8a7 7 0 0 1-7-7z" fill="${accent}" opacity=".9"/><circle cx="20" cy="17" r="3" fill="${accent}"/><text x="29" y="20" fill="${meta}" font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" letter-spacing=".8">${xml(type)}</text><text x="205" y="20" text-anchor="end" fill="${meta}" font-family="JetBrains Mono,monospace" font-size="7.5">${xml(status)}</text><text x="17" y="${titleY}" fill="${title}" font-family="Manrope,Segoe UI,sans-serif" font-size="13" font-weight="600">${xml(lines[0])}</text>${lines[1]?`<text x="17" y="61" fill="${title}" font-family="Manrope,Segoe UI,sans-serif" font-size="13" font-weight="600">${xml(lines[1])}</text>`:""}</svg>`;return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
+for(const node of graph.nodes){const d=node.data,links=new Set([...(incoming[d.id]||[]),...(outgoing[d.id]||[])]).size,minutes=Number(d.frontmatter?.effort_minutes);d.metric=Number.isFinite(minutes)?`${minutes} MIN · ${links} LINK${links===1?"":"S"}`:`${links} LINK${links===1?"":"S"}`;if(d.type==="Workstream"){d.nodeWidth=208;d.nodeHeight=74}else if(d.type==="Tracker Profile"){d.nodeWidth=224;d.nodeHeight=76}else if(d.type==="Visualization"){d.nodeWidth=232;d.nodeHeight=78}else{d.nodeWidth=220;d.nodeHeight=76}const semanticStatus=d.status;d.status=[semanticStatus,d.metric].filter(Boolean).join(" · ");d.card=cardSvg(d);d.status=semanticStatus}
 const cy=cytoscape({container:$("graph"),elements:[...graph.nodes,...graph.edges],style:[{selector:"node",style:{width:220,height:76,shape:"round-rectangle","background-color":"#0f1620","background-image":"data(card)","background-fit":"cover","background-image-opacity":1,"border-width":0,"overlay-opacity":0,"transition-property":"opacity, border-width, border-color","transition-duration":"260ms"}},{selector:"node:selected",style:{"border-width":2,"border-color":"#65c8e3"}},{selector:"node.hover",style:{"border-width":1,"border-color":"#758397"}},{selector:"edge",style:{width:1.5,"line-color":"#53657a","target-arrow-color":"#53657a","target-arrow-shape":"triangle","arrow-scale":.8,"curve-style":"bezier",label:"data(relationship)",color:"#d6e2ee","font-family":"JetBrains Mono","font-size":9,"font-weight":500,"text-background-color":"#0c1119","text-background-opacity":.96,"text-background-padding":4,"text-background-shape":"roundrectangle","text-border-color":"#334154","text-border-width":1,"text-border-opacity":1,"text-rotation":"autorotate","transition-property":"opacity, line-color, target-arrow-color, width","transition-duration":"260ms"}},{selector:"edge.neighbour",style:{width:2.25,"line-color":"#55c0df","target-arrow-color":"#55c0df",color:"#e8f8fc"}},{selector:"node.neighbour",style:{"border-width":1,"border-color":"#3b6170"}},{selector:".dim",style:{opacity:.08}}],layout:{name:"cose",animate:true,animationDuration:520,animationEasing:"ease-out",padding:88,nodeRepulsion:24000,idealEdgeLength:170,edgeElasticity:.15,nestingFactor:1.1},wheelSensitivity:.18,minZoom:.22,maxZoom:1.8});
-cy.style().selector("node").style({width:"data(nodeWidth)",height:"data(nodeHeight)"}).selector('node[type = "Task"]').style({shape:"round-rectangle"}).selector('node[type = "Workstream"]').style({shape:"cut-rectangle"}).selector('node[type = "Time Entry"]').style({shape:"ellipse"}).selector('node[type = "Tracker Profile"]').style({shape:"barrel"}).selector('node[type = "Visualization"]').style({shape:"round-hexagon"}).selector("edge.possible-drift").style({width:3,"line-style":"dashed","line-color":"#d97706","target-arrow-color":"#d97706",color:"#f59e0b"}).selector("node.drift-newer").style({"border-width":3,"border-color":"#d97706"}).selector("node.drift-older").style({"border-width":2,"border-style":"dashed","border-color":"#f59e0b"}).update();
+cy.style().selector("node").style({width:"data(nodeWidth)",height:"data(nodeHeight)"}).selector('node[type = "Task"]').style({shape:"round-rectangle"}).selector('node[type = "Workstream"]').style({shape:"cut-rectangle"}).selector('node[type = "Tracker Profile"]').style({shape:"barrel"}).selector('node[type = "Visualization"]').style({shape:"round-hexagon"}).selector("edge.possible-drift").style({width:3,"line-style":"dashed","line-color":"#d97706","target-arrow-color":"#d97706",color:"#f59e0b"}).selector("node.drift-newer").style({"border-width":3,"border-color":"#d97706"}).selector("node.drift-older").style({"border-width":2,"border-style":"dashed","border-color":"#f59e0b"}).update();
 function temporalValue(data,field=temporalField){const value=data.frontmatter?.[field],parsed=Date.parse(value);return Number.isFinite(parsed)?parsed:null}
 function temporalDates(){return [...new Set(graph.nodes.map(node=>temporalValue(node.data)).filter(value=>value!==null))].sort((a,b)=>a-b)}
 function updateTemporalRange(reset=false){const dates=temporalDates(),range=$("time-range");range.max=String(Math.max(0,dates.length-1));if(reset||Number(range.value)>Number(range.max))range.value=range.max;const index=Number(range.value||0);temporalAtLatest=!dates.length||index===dates.length-1;temporalCutoff=dates[index]??Infinity;const exact=dates[index]?new Date(dates[index]).toISOString():"No dated records";$("time-output").textContent=dates[index]?`Through ${new Intl.DateTimeFormat(undefined,{dateStyle:"medium"}).format(dates[index])}`:"No dates";$("time-output").title=exact;filter();if($("layout").value==="timeline")runLayout("timeline")}
@@ -459,7 +451,7 @@ def build_relationship_view(graph: dict[str, Any]) -> dict[str, Any]:
         group_key = parts[0] if len(parts) > 1 and parts[0] != "tasks" else "bundle"
         groups.setdefault(group_key, []).append(node)
     bundle_nodes: list[dict[str, Any]] = []
-    type_rows = {"Task": 0, "Workstream": 1, "Time Entry": 2, "Tracker Profile": 3}
+    type_rows = {"Task": 0, "Workstream": 1, "Tracker Profile": 2}
     for group_index, (group_key, members) in enumerate(groups.items()):
         group_id = f"__bundle__/{group_key}"
         column = group_index % 2

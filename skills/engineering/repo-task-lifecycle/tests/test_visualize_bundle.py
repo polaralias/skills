@@ -44,7 +44,7 @@ class VisualizationPackageTests(unittest.TestCase):
         self.assertIn('id="time-range"', generated)
         self.assertIn('id="drift-review"', generated)
         self.assertIn('edge.possible-drift', generated)
-        self.assertIn('.selector(\'node[type = "Time Entry"]\')', generated)
+        self.assertNotIn('.selector(\'node[type = "Time Entry"]\')', generated)
 
     def test_bundled_viewer_exposes_relationship_focused_rendering(self) -> None:
         graph = {
