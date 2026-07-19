@@ -200,10 +200,16 @@ Prompt: "Give me a visual way to explore the task relationships and read all of 
 Expected behaviour:
 
 - Generate the viewer with the bundled `scripts/visualize_bundle.py` implementation.
-- Open in light mode on first use while preserving a later theme choice.
-- Provide labelled controls, a Graph tab, and a full-page Documents tab with a permanent file tree.
+- Open in dark mode on first use while preserving a later theme choice.
+- Provide labelled controls and first-class Graph, Kanban, and Documents tabs.
+- Open Graph in Focus mode with the selected record between readable incoming and outgoing relationship cards, and recenter when a connected record is chosen.
+- Keep every record available in a separate Topology mode whose compact labels remain inside bounded class-colored nodes and whose relationship labels appear around the active node.
+- Keep one detailed selection preview across Graph and Kanban, with lifecycle status, edited dates, temporal fields, effort, relationships, rendered Markdown, and raw-source disclosures.
+- Make Documents a near-full-page reader with a searchable permanent file tree, heading outline, internal-link navigation, safe Mermaid rendering, and fullscreen support.
 - Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
-- Default to Grid, distinguish record classes by geometry, and expose effort and connection metrics.
+- Keep Grid available as the initial Topology layout and expose class, status, effort, edited date, document availability, and connection metrics without forcing them into topology labels.
+- Use one pinned Apache-2.0 Material Design Icons family for interface controls and no hand-authored SVG icons.
+- Group Tasks and Workstreams by lifecycle state in Kanban and summarize committed effort by workstream without inventing time.
 - Offer timestamp-based Timeline and through-date controls without claiming current bodies are historical snapshots.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
 

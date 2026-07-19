@@ -422,31 +422,26 @@ cy.on("tap","node",e=>show(e.target.id()));cy.on("mouseover","node",e=>e.target.
 """
 
 
-def generate_html(graph: dict[str, Any], name: str) -> str:
-    rendered = HTML_TEMPLATE.replace("__NAME__", safe_json(name)).replace("__GRAPH__", safe_json(graph))
-    temporal_controls = (
-        '<div class="temporal-rail" aria-label="Temporal graph controls">'
-        '<span class="temporal-label">Time field</span><select id="temporal-field" aria-label="Temporal field">'
-        '<option value="timestamp">Last meaningful change</option><option value="created">Created</option>'
-        '<option value="started">Started</option><option value="finished">Finished</option></select>'
-        '<input id="time-range" type="range" min="0" value="0" aria-label="Show records through date">'
-        '<output id="time-output" class="temporal-output">All dated records</output>'
-        '<button id="drift-review" class="drift-button" type="button" aria-pressed="false" '
-        'aria-label="Review possible timestamp drift">Review drift</button>'
-        '<span id="drift-count" class="drift-count">Drift review off</span></div>'
-        '<div class="temporal-note">Timestamp ordering is a review signal, not proof of drift.</div>'
-    )
-    rendered = rendered.replace(
-        '<div class="filter-rail" id="type-filters" aria-label="Filter by record type"></div>',
-        '<div class="filter-rail" id="type-filters" aria-label="Filter by record type"></div>' + temporal_controls,
-    )
+VISUALIZER_TEMPLATE = Path(__file__).with_name("visualizer_template.html")
+
+
+def render_html_workspace(
+    graph: dict[str, Any],
+    name: str,
+    subtitle: str = "Derived visual workspace",
+    default_layout: str = "grid",
+) -> str:
+    template = VISUALIZER_TEMPLATE.read_text(encoding="utf-8")
     return (
-        rendered.replace('<option value="grid">Grid</option>', '<option value="grid" selected>Grid</option><option value="timeline">Timeline</option>')
-        .replace('layout:{name:"cose"', 'layout:{name:"grid"')
-        .replace('$("layout").onchange=e=>cy.layout({name:e.target.value,animate:true,animationDuration:650,animationEasing:"ease-out",padding:74}).run()', '$("layout").onchange=e=>runLayout(e.target.value)')
-        .replace('$("reset").onclick=()=>{$("search").value="";activeType="";for(const item of filters.children)item.setAttribute("aria-pressed",String(!item.dataset.type));filter();cy.animate({fit:{eles:cy.elements(),padding:72},duration:560,easing:"ease-out"})}', '$("reset").onclick=()=>{$("search").value="";activeType="";temporalField="timestamp";driftReview=false;$("temporal-field").value="timestamp";$("drift-review").setAttribute("aria-pressed","false");$("layout").value="grid";for(const item of filters.children)item.setAttribute("aria-pressed",String(!item.dataset.type));updateTemporalRange(true);runLayout("grid")}')
-        .replace('setTheme(document.documentElement.dataset.theme);filter();if(graph.nodes[0])', 'setTheme(document.documentElement.dataset.theme);updateTemporalRange(true);if(graph.nodes[0])')
+        template.replace("__NAME__", safe_json(name))
+        .replace("__SUBTITLE__", safe_json(subtitle))
+        .replace("__DEFAULT_LAYOUT__", safe_json(default_layout))
+        .replace("__GRAPH__", safe_json(graph))
     )
+
+
+def generate_html(graph: dict[str, Any], name: str) -> str:
+    return render_html_workspace(graph, name)
 
 
 def build_relationship_view(graph: dict[str, Any]) -> dict[str, Any]:
@@ -499,60 +494,12 @@ def build_relationship_view(graph: dict[str, Any]) -> dict[str, Any]:
 
 def generate_relationship_html(graph: dict[str, Any], name: str) -> str:
     """Render an edge-first review page with records grouped by source bundle."""
-    rendered = generate_html(build_relationship_view(graph), name)
-    rendered = rendered.replace("OKF Tasks · derived bundle view", "OKF Tasks · relationship map")
-    rendered = rendered.replace("#graph{position:absolute;inset:0}", "#graph{position:absolute;inset:165px 0 0}")
-    rendered = rendered.replace(
-        '<option value="cose">Force layout</option>',
-        '<option value="relationship" selected>Relationship layout</option><option value="cose">Force layout</option>',
-    ).replace('<option value="grid" selected>Grid</option>', '<option value="grid">Grid</option>')
-    rendered = rendered.replace(
-        'layout:{name:"grid",animate:true,animationDuration:520,animationEasing:"ease-out",padding:88,nodeRepulsion:24000,idealEdgeLength:170,edgeElasticity:.15,nestingFactor:1.1}',
-        'layout:{name:"preset",positions:node=>node.data("relationshipPosition"),fit:false}',
+    return render_html_workspace(
+        build_relationship_view(graph),
+        name,
+        subtitle="Relationship map with stable source-bundle lanes",
+        default_layout="relationship",
     )
-    rendered = rendered.replace(
-        'function runLayout(name){if(name!=="timeline")',
-        'function runLayout(name){if(name==="relationship"){cy.layout({name:"preset",positions:node=>node.data("relationshipPosition")||node.position(),fit:false,animate:true,animationDuration:650,animationEasing:"ease-out"}).run();cy.zoom(1);cy.pan({x:0,y:0});return}if(name!=="timeline")',
-    )
-    rendered = rendered.replace(
-        '$("layout").value="grid";for(const item',
-        '$("layout").value="relationship";for(const item',
-    ).replace('runLayout("grid")', 'runLayout("relationship")')
-    rendered = rendered.replace(
-        '$("record-count").textContent=graph.nodes.length;',
-        '$("record-count").textContent=graph.nodes.filter(node=>!node.data.virtual).length;',
-    )
-    rendered = rendered.replace(
-        'for(const n of graph.nodes)index[n.data.id]=n.data;',
-        'for(const n of graph.nodes)if(!n.data.virtual)index[n.data.id]=n.data;',
-    )
-    rendered = rendered.replace(
-        'if(graph.nodes[0])show(graph.nodes[0].data.id)',
-        'const firstRecord=graph.nodes.find(node=>!node.data.virtual);if(firstRecord)show(firstRecord.data.id)',
-    )
-    rendered = rendered.replace(
-        'if(!dim)visible++',
-        'if(!dim&&!d.virtual)visible++',
-    ).replace(
-        '${visible} of ${graph.nodes.length} records',
-        '${visible} of ${graph.nodes.filter(node=>!node.data.virtual).length} records',
-    )
-    rendered = rendered.replace(
-        '.selector("edge.possible-drift")',
-        '.selector(\'node[virtual]\').style({width:1,height:1,"background-image":"none","background-opacity":0,"border-width":0,label:"data(label)",color:"#64748b","font-family":"JetBrains Mono","font-size":12,"font-weight":500,"text-valign":"center","text-halign":"left","text-margin-x":8,"text-transform":"uppercase","overlay-opacity":0}).selector("edge.possible-drift")',
-    )
-    rendered = rendered.replace(
-        '<span class="legend-item"><i class="legend-dot" style="background:#059669"></i>Time</span>',
-        '<span class="legend-item"><i class="legend-dot" style="background:#059669"></i>Time</span><span class="legend-item"><i class="legend-boundary"></i>Bundle lane</span>',
-    )
-    rendered = rendered.replace(
-        "</style>",
-        ".legend-boundary{width:12px;height:8px;border:1px dashed var(--line-strong)}\n"
-        ".graph-core.relationship-map #graph{inset:0}\n"
-        "</style>",
-        1,
-    )
-    return rendered
 
 
 def write_or_check(path: Path, content: str, check: bool) -> None:
