@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.7.1
+  version: 3.8.0
   updated: '2026-07-19'
 ---
 
@@ -28,7 +28,7 @@ Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before
 
 Every meaningful Task or Workstream edit must advance its RFC 3339 `timestamp`. Embedded `Task.time[]` mutations are meaningful Task edits and therefore advance the Task timestamp; entries do not have their own timestamp. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. Tracker Profile discovery uses its separate `discovery.observed_at` contract. The viewer exposes those fields separately and remains a derived consumer.
 
-The viewer preserves the definitive Graph, Board, and Reader interface. Graph shows the complete relationship mesh, uses class-colored document chips, and fades unrelated records when one is selected without hiding repository context. Board groups Tasks into lifecycle columns or compact rows, nests Workstreams, and surfaces estimates, effort, tracker context, link counts, and embedded time evidence. Reader provides a searchable repository tree, full GitHub-flavoured Markdown with strict Mermaid rendering, and contextual navigation. Reference an embedded time entry as `<task-concept-id>#time:<id>` and represent it in graph payloads as an edge to the Task with a `time:<id>` fragment. The compact temporal control compares `timestamp`, `created`, `started`, or `finished`; drift review highlights timestamp ordering only across existing links. Treat every highlight as a possible review signal requiring semantic evidence, never proof that the older target is stale or a reconstruction of historical content.
+The viewer preserves the definitive Graph, Board, and Reader interface. Graph shows the complete relationship mesh, uses class-colored document chips, and fades unrelated records when one is selected without hiding repository context. Its right panel presents direct relationships vertically as Incoming → Selected → Outgoing; connected cards recenter the graph, while the selected summary stays concise and links to Reader for the full document. Board groups Tasks into lifecycle columns or compact rows, nests Workstreams, and surfaces estimates, effort, tracker context, link counts, and embedded time evidence. Reader provides a searchable repository tree, full GitHub-flavoured Markdown with strict Mermaid rendering, and contextual navigation. Reference an embedded time entry as `<task-concept-id>#time:<id>` and represent it in graph payloads as an edge to the Task with a `time:<id>` fragment. The compact temporal control compares `timestamp`, `created`, `started`, or `finished`; drift review highlights timestamp ordering only across existing links. Treat every highlight as a possible review signal requiring semantic evidence, never proof that the older target is stale or a reconstruction of historical content.
 
 ## Ownership and routing
 

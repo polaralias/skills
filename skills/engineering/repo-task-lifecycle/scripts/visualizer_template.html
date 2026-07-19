@@ -200,6 +200,42 @@ button.anc-row:hover .lbl{color:var(--ink)}
 .raw{margin-top:10px;border:1px solid var(--line);border-radius:7px;background:var(--paper)}
 .raw summary{padding:8px 11px;color:var(--muted);font-size:11px;cursor:pointer}
 .raw pre{margin:0;max-height:260px;overflow:auto;padding:11px;border-top:1px solid var(--line);color:var(--muted);font:400 10px/1.6 var(--mono);white-space:pre-wrap}
+.graph-focus{display:flex;flex-direction:column;gap:14px}
+.graph-focus-top{display:flex;align-items:center;gap:9px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.graph-focus-top .label{color:var(--faint);font:600 9.5px var(--ui);letter-spacing:.13em;text-transform:uppercase}
+.graph-focus-top .count{margin-left:auto;color:var(--faint);font:400 10px var(--mono)}
+.graph-focus-top .x{width:28px;height:28px;display:grid;place-items:center;border-radius:6px;color:var(--muted)}
+.graph-focus-top .x:hover{background:var(--surface-2);color:var(--ink)}
+.graph-focus-flow{position:relative;display:flex;flex-direction:column;gap:12px;padding-left:13px}
+.graph-focus-flow::before{content:"";position:absolute;left:4px;top:20px;bottom:20px;width:1px;background:var(--line-strong)}
+.graph-focus-lane,.graph-focus-anchor{position:relative}
+.graph-focus-lane::before,.graph-focus-anchor::before{content:"";position:absolute;z-index:2;left:-13px;top:17px;width:9px;height:9px;border:2px solid var(--surface);border-radius:50%;background:var(--line-strong)}
+.graph-focus-anchor::before{background:var(--accent)}
+.graph-focus-lane-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 7px;padding-left:2px}
+.graph-focus-lane-head strong{color:var(--muted);font:600 10px var(--ui);letter-spacing:.1em;text-transform:uppercase}
+.graph-focus-lane-head span{color:var(--faint);font:400 9.5px var(--mono)}
+.graph-focus-cards{display:flex;flex-direction:column;gap:6px}
+.graph-focus-card{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);text-align:left;transition:border-color .16s ease,background .16s ease,transform .16s ease}
+.graph-focus-card:hover{border-color:var(--line-strong);background:var(--surface-2);transform:translateX(-2px)}
+.graph-focus-card:active{transform:translateX(-2px) scale(.99)}
+.graph-focus-card .head{display:flex;align-items:center;gap:7px;min-width:0}
+.graph-focus-card .head b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px;font-weight:600}
+.graph-focus-card p{display:-webkit-box;margin:5px 0 0;color:var(--muted);font-size:10.5px;line-height:1.4;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.graph-focus-card .meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;color:var(--faint);font:400 9px var(--mono)}
+.graph-focus-card .meta span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.graph-focus-empty{padding:10px;border:1px dashed var(--line);border-radius:6px;color:var(--faint);font-size:10.5px;text-align:center}
+.graph-focus-anchor{padding:13px 14px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);box-shadow:0 10px 24px rgba(0,0,0,.06)}
+.graph-focus-anchor .dk{margin-bottom:9px}
+.graph-focus-anchor h2{margin:0 0 4px;font:700 17px/1.2 var(--serif);letter-spacing:-.015em}
+.graph-focus-anchor .path{color:var(--faint);font:400 9px/1.5 var(--mono);overflow-wrap:anywhere}
+.graph-focus-anchor .desc{margin:9px 0 0;color:var(--muted);font-size:11.5px;line-height:1.5}
+.graph-focus-meta{display:grid;grid-template-columns:1fr 1fr;margin-top:12px;border-top:1px solid var(--line)}
+.graph-focus-meta div{min-width:0;padding:8px 6px 2px 0}
+.graph-focus-meta div:nth-child(even){padding-left:9px;border-left:1px solid var(--line)}
+.graph-focus-meta span{display:block;color:var(--faint);font:600 8.5px var(--ui);letter-spacing:.08em;text-transform:uppercase}
+.graph-focus-meta b{display:block;overflow:hidden;margin-top:2px;font-size:10.5px;font-weight:500;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+.graph-focus-actions{display:flex;gap:7px;margin-top:12px}
+.graph-focus-actions .dbtn{height:29px;margin:0}
 
 /* ── markdown ────────────────────────────── */
 .markdown{font:400 14.5px/1.7 var(--serif);color:var(--ink)}
@@ -916,9 +952,46 @@ function renderDetail(){
   const s=state.selected;
   if(!s){hidePane();return}
   host.replaceChildren();
+  if(state.view==="graph"){renderGraphFocus(host);pane.classList.add("open");return}
   if(s.id&&byId[s.id])renderRecordDetail(host,byId[s.id]);
   else if(s.path&&docByPath[s.path])renderDocDetail(host,docByPath[s.path]);
   pane.classList.add("open");
+}
+function graphFocusCard(doc,edge,direction){
+  const rec=doc.record_id?byId[doc.record_id]:null;
+  const button=document.createElement("button");button.type="button";button.className="graph-focus-card";
+  const title=rec?.label||doc.title,description=rec?.description||doc.body?.split("\n").find(line=>line.trim()&&!line.startsWith("#"))||"Repository document";
+  const relation=direction==="incoming"?`${edge.label} → selected`:`selected → ${edge.label}`;
+  button.innerHTML=`<span class="head">${rec?typeGlyph(rec.type,rec.status):docGlyph(doc)}<b>${esc(title)}</b></span><p>${esc(description)}</p><span class="meta"><span>${esc(relation)}</span><time title="${esc(rec?.frontmatter?.timestamp||"")}">${esc(fmtDate(rec?.frontmatter?.timestamp))}</time></span>`;
+  button.title=`Focus ${title}`;
+  button.onclick=()=>select(rec?{id:rec.id}:{path:doc.path});
+  return button;
+}
+function graphFocusLane(title,items,direction){
+  const lane=document.createElement("section");lane.className="graph-focus-lane";
+  lane.innerHTML=`<header class="graph-focus-lane-head"><strong>${esc(title)}</strong><span>${items.length} ${items.length===1?"link":"links"}</span></header><div class="graph-focus-cards"></div>`;
+  const cards=lane.querySelector(".graph-focus-cards");
+  for(const item of items)cards.append(graphFocusCard(item.doc,item.edge,direction));
+  if(!items.length){const empty=document.createElement("div");empty.className="graph-focus-empty";empty.textContent=`No ${direction} relationships`;cards.append(empty)}
+  return lane;
+}
+function renderGraphFocus(host){
+  const path=selKeyPath(),doc=path?docByPath[path]:null;if(!doc)return;
+  const rec=doc.record_id?byId[doc.record_id]:null;
+  const incoming=backlinksOf(path).map(edge=>({edge,doc:docByPath[edge.src]})).filter(item=>item.doc);
+  const outgoing=outgoingOf(path).map(edge=>({edge,doc:docByPath[edge.tgt]})).filter(item=>item.doc);
+  const shell=document.createElement("div");shell.className="graph-focus";
+  const top=document.createElement("header");top.className="graph-focus-top";
+  top.innerHTML=`<span class="label">Relationship focus</span><span class="count">${incoming.length+outgoing.length} direct</span><button class="x" aria-label="Close relationship focus">✕</button>`;
+  top.querySelector(".x").onclick=clearSel;shell.append(top);
+  const flow=document.createElement("div");flow.className="graph-focus-flow";
+  flow.append(graphFocusLane("Incoming",incoming,"incoming"));
+  const anchor=document.createElement("article");anchor.className="graph-focus-anchor";
+  const changed=rec?.frontmatter?.timestamp,effort=rec?.type==="Task"?effortOf(rec):rec?.type==="Workstream"?wsEffort(rec):0;
+  anchor.innerHTML=`<div class="dk">${rec?typeGlyph(rec.type,rec.status):docGlyph(doc)}<span class="kt">Selected · ${esc(rec?.type||"Document")}</span>${rec?.status?`<span class="chip">${esc(rec.status)}</span>`:""}</div><h2>${esc(rec?.label||doc.title)}</h2><div class="path">${esc(doc.path)}</div>${rec?.description?`<p class="desc">${esc(rec.description)}</p>`:""}<div class="graph-focus-meta"><div><span>Last changed</span><b title="${esc(changed||"")}">${esc(fmtDate(changed))}</b></div><div><span>Effort</span><b>${esc(fmtMin(effort))}</b></div><div><span>Incoming</span><b>${incoming.length}</b></div><div><span>Outgoing</span><b>${outgoing.length}</b></div></div><div class="graph-focus-actions"><button class="dbtn pri" data-open-reader>Open in Reader</button><button class="dbtn sec" data-copy-path>Copy path</button></div>`;
+  anchor.querySelector("[data-open-reader]").onclick=()=>openReader(doc.path);
+  const copy=anchor.querySelector("[data-copy-path]");copy.onclick=()=>{navigator.clipboard?.writeText(doc.path);copy.textContent="Copied";setTimeout(()=>copy.textContent="Copy path",1200)};
+  flow.append(anchor,graphFocusLane("Outgoing",outgoing,"outgoing"));shell.append(flow);host.append(shell);
 }
 function renderRecordDetail(host,d){
   const kicker=document.createElement("div");kicker.className="dk";
@@ -1025,7 +1098,8 @@ function switchView(v){
   $("view-reader").hidden=v!=="reader";
   if(v==="graph"){if(!cy)buildGraph();else{cy.resize();cy.fit(undefined,40)}}
   if(v==="board")buildBoard();
-  if(v==="reader"){buildTree();if(state.readerPath)renderContext(docByPath[state.readerPath]);else $("rcontext").replaceChildren()}
+  if(v==="reader"){hidePane();buildTree();if(state.readerPath)renderContext(docByPath[state.readerPath]);else $("rcontext").replaceChildren()}
+  else if(state.selected)renderDetail();
 }
 document.querySelectorAll(".view-tab").forEach(t=>t.onclick=()=>switchView(t.dataset.view));
 $("layout-seg").querySelectorAll("button").forEach(b=>b.onclick=()=>{

@@ -98,6 +98,19 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("function buildTree()", generated)
         self.assertIn("function openReader(path)", generated)
 
+    def test_graph_uses_a_compact_vertical_relationship_focus_panel(self) -> None:
+        generated = self.generated()
+        self.assertIn("function renderGraphFocus(host)", generated)
+        self.assertIn('className="graph-focus-flow"', generated)
+        self.assertIn('graphFocusLane("Incoming",incoming,"incoming")', generated)
+        self.assertIn('graphFocusLane("Outgoing",outgoing,"outgoing")', generated)
+        self.assertIn('if(state.view==="graph"){renderGraphFocus(host)', generated)
+        focus = generated.split("function renderGraphFocus(host)", 1)[1].split(
+            "function renderRecordDetail", 1
+        )[0]
+        self.assertNotIn("renderMd(", focus)
+        self.assertIn("Open in Reader", focus)
+
     def test_temporal_drift_markdown_and_theme_controls_are_preserved(self) -> None:
         generated = self.generated()
         self.assertIn('id="temporal-field"', generated)

@@ -203,7 +203,8 @@ Expected behaviour:
 - Open in light mode on first use while preserving a later theme choice.
 - Provide labelled controls and first-class Graph, Board, and Reader tabs.
 - Keep the complete relationship mesh visible, show labelled edges, and fade unrelated records when a selected document is focused.
-- Keep one detailed selection preview across Graph and Board, with lifecycle status, temporal fields, effort, relationships, rendered Markdown, and raw-source disclosures.
+- Present direct relationships in the Graph panel as a compact vertical Incoming → Selected → Outgoing flow whose connected cards recenter the graph; keep the full document body in Reader.
+- Keep the Board's detailed selection preview with lifecycle status, temporal fields, effort, relationships, rendered Markdown, and raw-source disclosures.
 - Make Reader a near-full-page document view with a searchable repository tree, heading context, internal-link navigation, and safe Mermaid rendering.
 - Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
 - Distinguish document classes through compact chip styling and expose status, effort, temporal values, document availability, and connection metrics without giving disconnected records false prominence.
