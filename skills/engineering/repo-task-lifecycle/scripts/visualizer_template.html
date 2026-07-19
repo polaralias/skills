@@ -388,9 +388,7 @@ const taskFor=d=>{
   return tasks.find(t=>bundleOf(t.id)===b&&t.frontmatter?.task===slug);
 };
 for(const w of workstreams){const t=taskFor(w);if(t)model[t.id].workstreams.push(w)}
-/* Time is canonical Task frontmatter data. Entries remain addressable as
-   task#time:<id>, but never become records, documents, or graph nodes. */
-const timeDocPaths=new Set();
+/* Time is canonical Task frontmatter data, addressable as task#time:<id>. */
 const effortOf=t=>{const m=model[t.id];const logged=m.times.reduce((s,e)=>s+e.effort_minutes,0);return logged||Number(t.frontmatter?.effort_minutes)||0};
 const estimateOf=t=>Number(t.frontmatter?.estimate?.effort_minutes)||0;
 const wsEffort=w=>{const m=model[taskFor(w)?.id];if(!m)return 0;return m.times.filter(e=>e.workstream===w.frontmatter?.workstream).reduce((s,e)=>s+e.effort_minutes,0)};
@@ -422,11 +420,7 @@ function resolveDoc(srcPath,href){
 /* every edge is between two documents; record semantics ride along */
 const edges=[]; // {src,tgt (paths), kind, label}
 const seen=new Set();
-const docFor=recId=>{ // time entries fold to their task's doc
-  const d=byId[recId];if(!d)return null;
-  if(d.type==="Time Entry"){const t=taskFor(d);return t?docByRecord[t.id]:null}
-  return docByRecord[recId]||null;
-};
+const docFor=recId=>docByRecord[recId]||null;
 function addEdge(src,tgt,kind,label){
   if(!src||!tgt||src===tgt)return;
   const k=kind+"|"+src+"|"+tgt;
@@ -451,15 +445,10 @@ for(const w of workstreams){
 // document mesh: markdown links
 const linkRe=/\]\(([^)]+?)\)/g;
 for(const doc of docs){
-  if(timeDocPaths.has(doc.path))continue;
   let m;
   while((m=linkRe.exec(doc.body))){
     let target=resolveDoc(doc.path,m[1]);
     if(!target)continue;
-    if(timeDocPaths.has(target)){ // link to a folded time entry → its task doc
-      const rec=docByPath[target].record_id,t=taskFor(byId[rec]);
-      target=t?docByRecord[t.id]?.path:null;
-    }
     if(!target||target===doc.path)continue;
     const td=docByPath[target];
     const sRec=doc.record_id?byId[doc.record_id]:null;
@@ -503,7 +492,7 @@ function statusGlyph(status,color,size=11){
 function typeGlyph(type,status){
   if(type==="Task")return statusGlyph(status,"var(--c-task)");
   if(type==="Workstream")return `<svg class="glyph" width="11" height="11" viewBox="0 0 11 11"><path d="M5.5 .8 10.2 5.5 5.5 10.2 .8 5.5Z" fill="${norm(status)==="in-progress"?"var(--c-workstream)":"none"}" stroke="var(--c-workstream)" stroke-width="1.3"/></svg>`;
-  if(type==="Time Entry")return `<svg class="glyph" width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="var(--c-time)"/></svg>`;
+  if(type==="Time Evidence")return `<svg class="glyph" width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" rx="1.5" fill="var(--c-time)"/></svg>`;
   if(type==="Tracker Profile")return `<svg class="glyph" width="12" height="10" viewBox="0 0 12 10"><path d="M1 3.2h8M7 1l2.4 2.2L7 5.4M11 6.8H3M5 4.6 2.6 6.8 5 9" fill="none" stroke="var(--c-tracker)" stroke-width="1.3"/></svg>`;
   return `<svg class="glyph" width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" fill="var(--c-knowledge)"/></svg>`;
 }
@@ -525,8 +514,7 @@ function effortHtml(logged,estimate){
 function renderMd(el,text,srcPath){
   el.innerHTML=DOMPurify.sanitize(marked.parse(text||""),{FORBID_TAGS:["style"]});
   for(const a of el.querySelectorAll("a[href]")){
-    let t=srcPath?resolveDoc(srcPath,a.getAttribute("href")):null;
-    if(t&&timeDocPaths.has(t)){const rec=docByPath[t].record_id,tk=taskFor(byId[rec]);t=tk?docByRecord[tk.id]?.path:t}
+    const t=srcPath?resolveDoc(srcPath,a.getAttribute("href")):null;
     if(t){a.addEventListener("click",ev=>{ev.preventDefault();openReader(t)})}
     else if(/^[a-z]+:/i.test(a.getAttribute("href")||"")){a.target="_blank";a.rel="noopener"}
     else a.removeAttribute("href");
@@ -595,7 +583,7 @@ function buildGraph(){
     sync:palette.tracker,contains:cssVar("--line-strong")
   };
   const edgeStyle={links:"dashed",cites:"dotted",references:"solid",sync:"dashed",contains:"solid"};
-  const gDocs=docs.filter(d=>!timeDocPaths.has(d.path));
+  const gDocs=docs;
   const deg={};
   for(const e of edges){deg[e.src]=(deg[e.src]||0)+1;deg[e.tgt]=(deg[e.tgt]||0)+1}
   const els=[];
@@ -796,7 +784,7 @@ function buildRows(){
       if(m.times.length){
         const latest=m.times.map(e=>e.finished||e.started).filter(Boolean).sort().at(-1);
         const ev=rowEl("indent-1 evidence static"+(dim?" dim":""),null,
-          `${typeGlyph("Time Entry")}<span class="title">time · ${m.times.length} entr${m.times.length===1?"y":"ies"} · latest ${esc(fmtDate(latest))}</span>`,"","","");
+          `${typeGlyph("Time Evidence")}<span class="title">time · ${m.times.length} entr${m.times.length===1?"y":"ies"} · latest ${esc(fmtDate(latest))}</span>`,"","","");
         body.append(ev);
       }
     }
@@ -889,7 +877,7 @@ function renderContext(doc){
     if(t&&t.id!==rec.id){const td=docByRecord[t.id];anc.append(ancRow(typeGlyph("Task",t.status),esc(t.label),t.status,td?()=>openReader(td.path):null))}
     anc.append(ancRow(typeGlyph(rec.type,rec.status),`<b>${esc(rec.label)}</b>`,"this record"));
     if(rec.type==="Task"&&model[rec.id].times.length)
-      anc.append(ancRow(typeGlyph("Time Entry"),`${model[rec.id].times.length} time entr${model[rec.id].times.length===1?"y":"ies"} · ${fmtMin(effortOf(rec))}`,""));
+      anc.append(ancRow(typeGlyph("Time Evidence"),`${model[rec.id].times.length} time entr${model[rec.id].times.length===1?"y":"ies"} · ${fmtMin(effortOf(rec))}`,""));
   }else{
     anc.append(ancRow(typeGlyph("doc"),`<b>${esc(doc.path.split("/").at(-1))}</b>`,"this document"));
   }
@@ -946,7 +934,7 @@ function renderRecordDetail(host,d){
   if(t&&t.id!==d.id)anc.append(ancRow(typeGlyph("Task",t.status),esc(t.label),t.status,()=>select({id:t.id})));
   anc.append(ancRow(typeGlyph(d.type,d.status),`<b>${esc(d.label)}</b> — this record`,""));
   if(d.type==="Task"&&model[d.id].times.length)
-    anc.append(ancRow(typeGlyph("Time Entry"),`${model[d.id].times.length} time entr${model[d.id].times.length===1?"y":"ies"} · ${fmtMin(effortOf(d))}`,""));
+    anc.append(ancRow(typeGlyph("Time Evidence"),`${model[d.id].times.length} time entr${model[d.id].times.length===1?"y":"ies"} · ${fmtMin(effortOf(d))}`,""));
   host.append(anc);
   const fm=d.frontmatter||{};
   const meta=document.createElement("div");meta.className="dmeta";
@@ -973,7 +961,7 @@ function renderRecordDetail(host,d){
     addGroup("workstreams","var(--c-workstream)",m.workstreams.map(w=>connRow(typeGlyph("Workstream",w.status),w.label,w.status,()=>select({id:w.id}))));
     addGroup("evidence","var(--c-time)",m.times.map(e=>{
       const row=document.createElement("div");row.className="meta-row";
-      row.innerHTML=`${typeGlyph("Time Entry")}<span class="nm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.id)} · ${fmtMin(e.effort_minutes)}</span><span class="rel">${esc(e.actor||"")}${e.workstream?" · "+esc(e.workstream):""}</span>`;
+      row.innerHTML=`${typeGlyph("Time Evidence")}<span class="nm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(e.id)} · ${fmtMin(e.effort_minutes)}</span><span class="rel">${esc(e.actor||"")}${e.workstream?" · "+esc(e.workstream):""}</span>`;
       return row;
     }));
   }

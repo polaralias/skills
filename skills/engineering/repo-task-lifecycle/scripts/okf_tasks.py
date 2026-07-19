@@ -1774,9 +1774,6 @@ def validate_time_entries(
     errors: list[str],
 ) -> None:
     task = str(task_metadata.get("task", task_path_value.parent.name))
-    legacy_files = sorted(task_path_value.parent.joinpath("time").glob("*.md"))
-    for legacy in legacy_files:
-        errors.append(f"{legacy}: standalone time-entry files are not permitted; embed the entry in task.md time[]")
     raw_entries = task_metadata.get("time", [])
     if raw_entries is None:
         raw_entries = []

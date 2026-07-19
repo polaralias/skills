@@ -80,15 +80,13 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn('--serif:Charter,"Bitstream Charter"', generated)
         self.assertIn('--accent:#2b4bc4', generated)
 
-    def test_embedded_time_is_task_evidence_not_a_record_or_document(self) -> None:
+    def test_embedded_time_is_task_evidence(self) -> None:
         generated = self.generated()
         payload = self.payload(generated)
         node = payload["nodes"][0]["data"]
         self.assertEqual("session", node["frontmatter"]["time"][0]["id"])
-        self.assertNotIn("Time Entry", {item["data"]["type"] for item in payload["nodes"]})
         self.assertIn("times:Array.isArray(t.frontmatter?.time)", generated)
-        self.assertIn("never become records, documents, or graph nodes", generated)
-        self.assertNotIn("const timeEntries=", generated)
+        self.assertIn("Time is canonical Task frontmatter data", generated)
 
     def test_relationship_graph_board_and_reader_behaviour_remains_available(self) -> None:
         generated = self.generated()

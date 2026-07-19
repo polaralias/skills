@@ -109,7 +109,7 @@ On pickup:
 3. Start a new time entry immediately before material work.
 4. Continue through the narrowest downstream skill.
 
-Time entries are mappings in `Task.time[]`, with stable IDs addressable as `<task-concept-id>#time:<id>`. They are not standalone Markdown concepts or graph nodes. First-to-last session time is not active effort. Commit-review backfills remain estimates even when recorded in the bundle.
+Time entries are mappings in `Task.time[]`, with stable IDs addressable as `<task-concept-id>#time:<id>`. First-to-last session time is not active effort. Commit-review backfills remain estimates even when recorded in the bundle.
 
 ## Evidence axes
 

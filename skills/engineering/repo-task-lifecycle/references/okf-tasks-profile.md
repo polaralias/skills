@@ -168,7 +168,7 @@ Before a task becomes `done`:
 
 Task-level `started` and `finished` describe lifecycle boundaries; they MUST NOT be used alone to calculate effort. A task MAY span inactive periods, review waits, user prompts, overnight gaps, and several separately recorded sessions.
 
-Time MUST be recorded as mappings in the parent Task concept's `time` list. A standalone time-entry Markdown file is not conformant. Each entry MUST contain:
+Time MUST be recorded as mappings in the parent Task concept's `time` list. Each entry MUST contain:
 
 | Field | Requirement | Meaning |
 | --- | --- | --- |
@@ -379,7 +379,7 @@ An OKF Tasks v0.5 bundle is conformant when:
 3. task and workstream slugs match their paths;
 4. every lifecycle status is recognized;
 5. a `done` task has no active required workstreams;
-6. every embedded time entry satisfies section 7, no standalone time-entry Markdown file exists, and task effort rollups agree;
+6. every embedded time entry satisfies section 7 and task effort rollups agree;
 7. a `done` task has no running time entries and has a `finished` timestamp;
 8. estimates and sprint points satisfy section 7.5 without implicit conversion;
 9. `index.md`, when generated, agrees with the task records;
@@ -403,7 +403,7 @@ Consumers SHOULD treat semantic completion evidence and knowledge promotion as r
 
 The repository `VERSION` file is the release source of truth. Profile `0.x` releases may add constraints in a new minor version; patch releases clarify text or fix tooling without changing conformant data. A tagged profile URL and schema `$id` are immutable. Normative changes require corresponding positive and negative conformance fixtures and agreement from both maintained implementations.
 
-Version 0.5 replaces standalone time-entry concepts with addressable entries embedded in Task frontmatter while retaining first-class Tracker Profiles and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
+Version 0.5 defines addressable time entries in Task frontmatter while retaining first-class Tracker Profiles and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
 
 ## Appendix A — Minimal task
 

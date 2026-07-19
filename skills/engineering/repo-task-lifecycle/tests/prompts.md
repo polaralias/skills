@@ -208,7 +208,7 @@ Expected behaviour:
 - Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
 - Distinguish document classes through compact chip styling and expose status, effort, temporal values, document availability, and connection metrics without giving disconnected records false prominence.
 - Group Tasks by lifecycle state in Board columns or rows, nest their Workstreams, and summarize committed effort without inventing time.
-- Keep embedded `Task.time[]` entries addressable as `<task>#time:<id>` evidence and never render them as nodes or standalone documents.
+- Keep embedded `Task.time[]` entries addressable as Task evidence through `<task>#time:<id>` fragments.
 - Offer comparison by `timestamp`, `created`, `started`, or `finished` without claiming current bodies are historical snapshots.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
 
