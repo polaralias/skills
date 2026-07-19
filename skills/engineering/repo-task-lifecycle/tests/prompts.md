@@ -200,17 +200,16 @@ Prompt: "Give me a visual way to explore the task relationships and read all of 
 Expected behaviour:
 
 - Generate the viewer with the bundled `scripts/visualize_bundle.py` implementation.
-- Open in dark mode on first use while preserving a later theme choice.
-- Provide labelled controls and first-class Graph, Kanban, and Documents tabs.
-- Open Graph in Focus mode with the selected record between readable incoming and outgoing relationship cards, and recenter when a connected record is chosen.
-- Keep every record available in a separate Topology mode whose compact labels remain inside bounded class-colored nodes and whose relationship labels appear around the active node.
-- Keep one detailed selection preview across Graph and Kanban, with lifecycle status, edited dates, temporal fields, effort, relationships, rendered Markdown, and raw-source disclosures.
-- Make Documents a near-full-page reader with a searchable permanent file tree, heading outline, internal-link navigation, safe Mermaid rendering, and fullscreen support.
+- Open in light mode on first use while preserving a later theme choice.
+- Provide labelled controls and first-class Graph, Board, and Reader tabs.
+- Keep the complete relationship mesh visible, show labelled edges, and fade unrelated records when a selected document is focused.
+- Keep one detailed selection preview across Graph and Board, with lifecycle status, temporal fields, effort, relationships, rendered Markdown, and raw-source disclosures.
+- Make Reader a near-full-page document view with a searchable repository tree, heading context, internal-link navigation, and safe Mermaid rendering.
 - Show the portable `timestamp` as Last meaningful change, separate from created, started, and finished.
-- Keep Grid available as the initial Topology layout and expose class, status, effort, edited date, document availability, and connection metrics without forcing them into topology labels.
-- Use one pinned Apache-2.0 Material Design Icons family for interface controls and no hand-authored SVG icons.
-- Group Tasks and Workstreams by lifecycle state in Kanban and summarize committed effort by workstream without inventing time.
-- Offer timestamp-based Timeline and through-date controls without claiming current bodies are historical snapshots.
+- Distinguish document classes through compact chip styling and expose status, effort, temporal values, document availability, and connection metrics without giving disconnected records false prominence.
+- Group Tasks by lifecycle state in Board columns or rows, nest their Workstreams, and summarize committed effort without inventing time.
+- Keep embedded `Task.time[]` entries addressable as `<task>#time:<id>` evidence and never render them as nodes or standalone documents.
+- Offer comparison by `timestamp`, `created`, `started`, or `finished` without claiming current bodies are historical snapshots.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
 
 ## 20. Durable visualization knowledge

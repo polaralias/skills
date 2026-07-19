@@ -9,7 +9,7 @@ Use this reference to keep OKF Tasks aligned with the proprietary repository-eng
 | Canonical product, architecture, decisions, glossary, and reading order | `repo-knowledge-engineering` | Durable repository truth |
 | Unresolved terminology, contradictions, and decision questions | `query-to-knowledge` | Resolve ambiguity and promote the answer |
 | Feature contracts, scenarios, acceptance surfaces, and work packages | `doc-driven-development` | Make product truth implementation-ready |
-| Task, workstream, time, estimate, evidence, mapping, and index records | `repo-task-lifecycle` | Durable execution truth |
+| Task, workstream, embedded time, estimate, evidence, mapping, and index records | `repo-task-lifecycle` | Durable execution truth |
 | Worktrees, branch/path ownership, and integration order | `worktree-task-coordinator` | Physical concurrency |
 | First-class GitHub, GitLab, Linear, and ClickUp profile discovery plus create/import/sync | `repo-task-lifecycle` reference CLI | Scoped external reconciliation |
 | Unsupported providers and separately mediated tracker publication | `tracker-publisher` | External publication outside the first-class adapters |
@@ -29,8 +29,7 @@ tasks/
 │   └── <tracker-slug>.md
 └── <task-slug>/
     ├── task.md
-    ├── workstreams/
-    └── time/
+    └── workstreams/
 ```
 
 Use `docs/tasks/` only when `docs/` already contains a real project's context and delivery material. Placement does not change ownership: task records remain operational state, not canonical documentation.
@@ -110,7 +109,7 @@ On pickup:
 3. Start a new time entry immediately before material work.
 4. Continue through the narrowest downstream skill.
 
-First-to-last session time is not active effort. Commit-review backfills remain estimates even when recorded in the bundle.
+Time entries are mappings in `Task.time[]`, with stable IDs addressable as `<task-concept-id>#time:<id>`. They are not standalone Markdown concepts or graph nodes. First-to-last session time is not active effort. Commit-review backfills remain estimates even when recorded in the bundle.
 
 ## Evidence axes
 

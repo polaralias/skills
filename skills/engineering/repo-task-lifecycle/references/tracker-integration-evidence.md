@@ -1,6 +1,6 @@
 # Tracker integration setup and live evidence
 
-Use this reference when establishing or reviewing an external tracker connection. It records the setup process and the live verification performed against the feature-identical OKF Tasks v0.4 provider layer. It contains no credentials or credential references.
+Use this reference when establishing or reviewing an external tracker connection. It records the setup process and live verification originally performed for the provider layer introduced in OKF Tasks v0.4 and retained in the feature-identical v0.5 implementation. It contains no credentials or credential references.
 
 ## Project setup process
 
