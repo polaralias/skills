@@ -4,8 +4,8 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.5.0
-  updated: '2026-07-18'
+  version: 3.6.0
+  updated: '2026-07-19'
 ---
 
 # repo-task-lifecycle
@@ -26,9 +26,9 @@ Maintain execution truth as a portable OKF Tasks bundle while integrating with t
 
 Read [references/okf-tasks-profile.md](./references/okf-tasks-profile.md) before creating, changing, migrating, or exporting records. Read [references/task-record-contract.md](./references/task-record-contract.md) when routing between repository skills. Read [references/tracker-integration-evidence.md](./references/tracker-integration-evidence.md) when establishing or reviewing a live provider connection. Prefer the installed `okf-tasks` CLI for deterministic lifecycle, effort, mapping, export, indexing, and validation operations. When the distribution is unavailable, use the bundled [scripts/okf_tasks.py](./scripts/okf_tasks.py) entry point as a portable fallback with the same command surface. Use [scripts/visualize_bundle.py](./scripts/visualize_bundle.py) to generate the light-first interactive Graph and Documents views when a bundle needs local visual review. For topology review, use its relationship rendering so source bundles provide stable visual lanes while explicit OKF edges and their labels remain visible and authoritative.
 
-Every meaningful Task, Workstream, or Time Entry edit must advance its RFC 3339 `timestamp`. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. Tracker Profile discovery uses its separate `discovery.observed_at` contract. The viewer exposes those fields separately and remains a derived consumer.
+Every meaningful Task or Workstream edit must advance its RFC 3339 `timestamp`. Embedded `Task.time[]` mutations are meaningful Task edits and therefore advance the Task timestamp; entries do not have their own timestamp. Treat it as the portable **Last meaningful change** value, distinct from creation, activity, completion, provider observation, filesystem, and Git times. Tracker Profile discovery uses its separate `discovery.observed_at` contract. The viewer exposes those fields separately and remains a derived consumer.
 
-The viewer defaults to Grid, distinguishes record classes by geometry, surfaces effort and connection metrics, and offers a Timeline plus through-date filtering for `timestamp`, `created`, `started`, and `finished`. Drift review compares selected timestamps across existing links. Treat every highlight as a possible review signal requiring semantic evidence, not proof that the older target is stale or a reconstruction of its earlier content.
+The viewer defaults to Grid, distinguishes record classes by geometry, surfaces effort and connection metrics, and offers a Timeline plus through-date filtering for `timestamp`, `created`, `started`, and `finished`. Embedded time entries remain Task data: reference one as `<task-concept-id>#time:<id>` and represent it in graph payloads as an edge to the Task with a `time:<id>` fragment, never as a separate node. Drift review compares selected timestamps across existing links. Treat every highlight as a possible review signal requiring semantic evidence, not proof that the older target is stale or a reconstruction of its earlier content.
 
 ## Ownership and routing
 
