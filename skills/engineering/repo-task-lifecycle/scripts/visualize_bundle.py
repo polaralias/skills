@@ -4,6 +4,7 @@ import argparse
 from copy import deepcopy
 from fnmatch import fnmatchcase
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -568,6 +569,16 @@ def generate_relationship_html(graph: dict[str, Any], name: str) -> str:
     )
 
 
+def clear_windows_download_zone(path: Path) -> None:
+    """Remove Mark of the Web only from a standalone HTML file we just generated."""
+    if os.name != "nt" or path.suffix.lower() != ".html":
+        return
+    try:
+        Path(f"{path}:Zone.Identifier").unlink(missing_ok=True)
+    except OSError:
+        pass
+
+
 def write_or_check(path: Path, content: str, check: bool) -> None:
     normalized = content.rstrip() + "\n"
     if check:
@@ -576,6 +587,7 @@ def write_or_check(path: Path, content: str, check: bool) -> None:
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(normalized, encoding="utf-8")
+    clear_windows_download_zone(path)
 
 
 def build_parser() -> argparse.ArgumentParser:

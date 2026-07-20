@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -56,6 +57,18 @@ Review the [recorded session](./task.md#time:session).
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
+
+    @unittest.skipUnless(os.name == "nt", "Windows alternate data streams only")
+    def test_generated_html_clears_windows_download_zone(self) -> None:
+        output = self.root / "visualization.html"
+        output.write_text("downloaded", encoding="utf-8")
+        zone = Path(f"{output}:Zone.Identifier")
+        zone.write_text("[ZoneTransfer]\nZoneId=3\n", encoding="utf-8")
+
+        visualize_bundle.write_or_check(output, "generated", False)
+
+        self.assertFalse(zone.exists())
+        self.assertEqual("generated\n", output.read_text(encoding="utf-8"))
 
     def generated(self) -> str:
         records = visualize_bundle.read_records(self.root)
@@ -117,6 +130,10 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("function arrangeOverviewIsolates(connected,isolates,metrics)", generated)
         self.assertIn("function widenOverviewConnected(connected)", generated)
         self.assertIn("function widenOverviewComposition(nodes)", generated)
+        self.assertIn("Math.min(720000,200000+count*26000)", generated)
+        self.assertIn("idealEdgeLength:compact?64+count*4:125", generated)
+        self.assertIn("Math.min(1.45,Math.max(1,1.05/", generated)
+        self.assertIn("Math.min(1.8,canvasAspect*.68)", generated)
         self.assertIn('cy.fit(cy.elements("node.main,edge")', generated)
         self.assertIn("separateOverlappingNodes(focusNodes", generated)
         template = SCRIPT.with_name("visualizer_template.html").read_text(encoding="utf-8")
