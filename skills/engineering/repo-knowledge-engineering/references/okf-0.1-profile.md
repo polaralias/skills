@@ -16,6 +16,8 @@ Keep these outside the required bundle unless the repository deliberately choose
 - transient handoffs and session artefacts
 - implementation plans whose established schema should remain unchanged
 
+A durable root or nested `README.md` that serves as canonical navigation, project context, or an enduring entry point is a good deliberate exception. Give it normal OKF frontmatter, `navigation.role: entry-point` where appropriate, an explicit `timestamp`, and useful links so it participates in the governed graph. Generated, vendored, transient, or intentionally out-of-scope READMEs need not be promoted merely because of their filename.
+
 Existing repositories may retain their current knowledge structure. Recommend OKF for new or deliberately migrated canonical knowledge, but do not force a broad migration when it would weaken clearer repository conventions.
 
 ## Required format
@@ -85,6 +87,10 @@ Start from `assets/okf/visualization.md.template`. In addition to the normal ret
 - `verification`: the honest current generation or smoke-test state.
 
 Advance `timestamp` when the visualisation's source contract, renderer, output, visual encoding, interpretation, or verification meaningfully changes. Regenerating byte-identical output does not require a concept update. Never use the generated file's modification time as concept freshness.
+
+If a derived view deliberately omits source files, record the exclusion policy in the Visualisation concept and retain the resolved omissions as generation evidence. OKF Tasks uses bundle-relative `--exclude` globs, `.okf-visualization-ignore`, or `--exclude-from`; Graph and Reader must receive the same scope. Directory-name entries ending in `/` match at every depth, preventing nested dependency Markdown from leaking into Reader. A visualisation exclusion never changes knowledge authority or conformance and cannot excuse a governed orphan or broken link.
+
+Standalone OKF HTML visualisations embed their pinned rendering runtimes and bundle data so local review makes no runtime network requests. On Windows, a generator may clear inherited `Zone.Identifier` metadata only from an HTML output it has just written, preventing stale download warnings without altering unrelated files. Dense graph overviews retain labelled entry-point, foundational, and highly connected landmarks, expand the connected map to suit available horizontal space without over-stretching it, and keep disconnected documents in a bounded reveal-on-hover shelf that does not determine map scale. Selected incoming and outgoing neighbourhoods reflow into a close, readable focus with modest padding and every direct node visible and non-overlapping.
 
 Temporal order alone does not establish documentation drift. A linked source with a newer timestamp than its target is a useful review candidate, but consumers must label that relationship as a possible signal and inspect semantic content and evidence before changing either concept. A bundle containing only current concepts cannot reconstruct historical fact values merely by moving an as-of control backwards.
 

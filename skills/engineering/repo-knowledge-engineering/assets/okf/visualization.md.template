@@ -12,6 +12,7 @@ output: "{{output}}"
 temporal_basis: timestamp
 history_model: current-records-only
 drift_policy: linked-source-newer-than-target-review-signal
+exclusions: []
 ---
 
 # {{title}}
@@ -25,12 +26,13 @@ Describe the question this view answers and its intended audience.
 - Canonical source: [{{source}}]({{source}})
 - Renderer: `{{renderer}}`
 - Derived output: [{{output}}]({{output}})
+- Exclusions: list any bundle-relative paths or globs deliberately omitted from the derived view, or state `none`. Directory-name entries ending in `/` match at every depth; use them for nested dependency folders such as `node_modules/` and `.venv/`.
 
-The source records remain authoritative. Regenerate the output through the named renderer; do not hand-edit the derived artefact.
+The source records remain authoritative. Regenerate the output through the named renderer; do not hand-edit the derived artefact. For standalone OKF HTML, verify that pinned runtimes are embedded and that opening or navigating the output makes no runtime network requests.
 
 ## Reading the view
 
-Explain the visual encoding, filters, known omissions, and any accessibility alternative.
+Explain the visual encoding, filters, known omissions, and any accessibility alternative. For dense graphs, verify that semantic zoom preserves labelled entry-point, foundational, and highly connected landmarks, that the connected map uses available horizontal space without over-stretching, and that disconnected documents remain accessible in a bounded reveal-on-hover shelf without controlling map scale. Selecting a record should produce a close, readable neighbourhood focus with modest padding and every direct node visible and non-overlapping. On Windows, a generated HTML output may clear its own inherited `Zone.Identifier` metadata to prevent stale download warnings; do not alter unrelated files. Exclusions scope only the derived view; they do not change concept authority, connectivity, or conformance.
 
 ## Temporal reading and drift
 
