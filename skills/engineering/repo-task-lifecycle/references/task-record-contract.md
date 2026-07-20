@@ -2,6 +2,8 @@
 
 Use this reference to keep OKF Tasks aligned with the proprietary repository-engineering skill stack.
 
+Every string scalar in OKF YAML frontmatter is plaintext metadata, including nested producer extensions and unknown fields. Do not use Markdown or HTML presentation there. Bare absolute URLs, repository-relative references, fragments, and provider identifiers are allowed; labelled links and other rich presentation belong in the Markdown body.
+
 ## Source-of-truth boundaries
 
 | Surface | Owner | Purpose |

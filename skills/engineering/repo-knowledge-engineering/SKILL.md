@@ -4,7 +4,7 @@ description: Establish, evolve, and keep a repository knowledge base trustworthy
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.6.4
+  version: 3.6.5
   updated: '2026-07-20'
 ---
 
@@ -19,6 +19,8 @@ This skill produces chat output. Include this proof line in the response: `repo-
 When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links.
 
 Promote a durable repository `README.md` used for canonical navigation, project context, or enduring orientation into the typed OKF graph: add a descriptive knowledge `type`, title, description, RFC 3339 `timestamp`, suitable `navigation` prominence, and useful relative links. Do not promote generated, vendored, transient, or deliberately out-of-scope READMEs solely because of their filename.
+
+Keep every string scalar in OKF YAML frontmatter as plaintext metadata, including producer extensions. Never use Markdown emphasis, code, headings, lists, labelled links, images, autolink angle brackets, or HTML tags there. Use bare URLs or repository-relative references for metadata links and keep presentation in the Markdown body. Preserve unknown fields only when they satisfy this portable rule.
 
 ## Untrusted content boundary
 

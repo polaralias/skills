@@ -4,7 +4,7 @@ description: Create and maintain durable OKF Tasks bundles with repository-local
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.4.4
+  version: 4.4.5
   updated: '2026-07-20'
 ---
 
@@ -16,7 +16,7 @@ This skill produces chat output. Include this proof line in the response: `repo-
 
 ## Durable repository links
 
-When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links.
+When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links. Whenever writing or updating one of these OKF records, keep every YAML frontmatter string plaintext, including nested producer extensions; use only bare URLs or repository-relative references for metadata links, and put Markdown or HTML presentation in the body.
 
 Treat a durable repository `README.md` used for canonical navigation or project context as a typed OKF knowledge concept: give it a title, description, RFC 3339 `timestamp`, suitable `navigation` prominence, and useful relative links. Do not promote generated, vendored, transient, or deliberately out-of-scope READMEs solely because of their filename. RKE owns their content and reading order; preserve their connections to Tasks and Workstreams.
 

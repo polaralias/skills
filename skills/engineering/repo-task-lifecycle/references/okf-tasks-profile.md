@@ -28,6 +28,8 @@ The published identity of this profile version is `https://github.com/polaralias
 
 Each non-reserved Markdown file in the bundle MUST be an OKF concept with parseable YAML frontmatter and a non-empty `type`. Producers MAY add fields. Consumers MUST preserve unknown fields when round-tripping a record and MUST tolerate unknown task-adjacent concept types.
 
+Every string scalar in YAML frontmatter, including values inside producer-defined fields, MUST be plaintext metadata and MUST NOT contain Markdown or HTML presentation markup. This excludes emphasis, strong text, strikethrough, inline or fenced code, headings, blockquotes, lists, task lists, Markdown links or images, autolink angle brackets, and HTML tags. Bare absolute URLs, repository-relative paths, fragments, and opaque provider identifiers remain valid string values; consumers MAY make a bare URL clickable. Rich formatting and labelled links belong in the Markdown body. YAML collection syntax such as the `-` that introduces a list item is structural and is not part of the scalar value.
+
 ## 3. Bundle structure
 
 The default repository-local bundle root is `tasks/`:

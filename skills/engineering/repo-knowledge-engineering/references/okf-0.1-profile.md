@@ -24,6 +24,8 @@ Existing repositories may retain their current knowledge structure. Recommend OK
 
 Every concept is a UTF-8 Markdown file with parseable YAML frontmatter and a non-empty, self-explanatory `type`.
 
+Treat every frontmatter string scalar as plaintext metadata, including nested producer-defined values. Do not use Markdown emphasis, code, headings, blockquotes, lists, task lists, labelled links, images, autolink angle brackets, or HTML tags. Bare absolute URLs, repository-relative paths, fragments, and provider identifiers are valid; a consumer may linkify a bare URL. Put presentation and labelled links in the Markdown body.
+
 Recommended fields are:
 
 - `title`: human-readable concept name
@@ -32,7 +34,7 @@ Recommended fields are:
 - `tags`: short YAML string list
 - `timestamp`: ISO 8601 datetime of the last meaningful content change; this is the portable last-updated value, not filesystem or Git time
 
-Preserve unknown types and producer-defined fields when reading or round-tripping a bundle.
+Preserve unknown types and producer-defined fields when reading or round-tripping a bundle, but require their string values to satisfy the same plaintext rule.
 
 Use normal Markdown links for relationships. Prefer bundle-root-relative links when stability across local moves matters. Broken internal links are warnings to repair, not grounds for declaring the bundle malformed, but they do not connect the strict durable graph.
 

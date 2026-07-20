@@ -94,6 +94,32 @@ Body.
 
         self.assertTrue(report.conformant)
 
+    def test_frontmatter_strings_are_plaintext_but_bare_links_are_allowed(self) -> None:
+        marked_up = CONCEPT.replace(
+            "producer_extension: preserved",
+            "resource: https://example.test/source\nproducer_extension:\n  note: '**Bold** and [label](https://example.test)'",
+        ).replace("/support/boundary.md", "https://example.test/source")
+        self.write("concept.md", marked_up)
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        messages = [finding.message for finding in report.errors]
+        self.assertTrue(any("frontmatter string values must be plaintext" in message for message in messages))
+        self.assertFalse(any("resource contains" in message for message in messages))
+
+    def test_nested_frontmatter_html_and_block_markup_are_rejected(self) -> None:
+        marked_up = CONCEPT.replace(
+            "producer_extension: preserved",
+            "producer_extension:\n  values:\n    - '<strong>Bold</strong>'\n    - |\n      - formatted list",
+        ).replace("/support/boundary.md", "https://example.test/source")
+        self.write("concept.md", marked_up)
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        messages = [finding.message for finding in report.errors]
+        self.assertTrue(any("producer_extension.values[0] contains HTML tag" in message for message in messages))
+        self.assertTrue(any("producer_extension.values[1] contains Markdown block formatting" in message for message in messages))
+
     def test_navigation_extension_supports_reading_prominence(self) -> None:
         self.write("concept.md", CONCEPT.replace("producer_extension: preserved", "navigation:\n  role: entry-point\n  order: 10").replace("/support/boundary.md", "https://example.test/source"))
 

@@ -23,6 +23,14 @@ DATE_HEADING_PATTERN = re.compile(r"(?m)^##\s+(\d{4}-\d{2}-\d{2})\s*$")
 LINK_GRAPH_EXCLUDED_TYPES = {"log"}
 LINK_GRAPH_EXCLUDED_TYPE_MARKERS = {"runbook", "handoff", "session", "temporary", "scratch"}
 LINK_GRAPH_EXCLUDED_DIRECTORIES = {"generated", "runbooks", "scratch", "temp", "temporary", "vendor"}
+FRONTMATTER_PRESENTATION_PATTERNS = (
+    ("Markdown link or image", re.compile(r"!?\[[^\]\n]+\]\([^)\n]+\)")),
+    ("Markdown reference link", re.compile(r"\[[^\]\n]+\]\[[^\]\n]*\]")),
+    ("Markdown code", re.compile(r"`+[^`\n]+`+")),
+    ("Markdown emphasis", re.compile(r"(?:\*\*[^*\n]+\*\*|__[^_\n]+__|~~[^~\n]+~~|(?<![\w/])\*[^*\n]+\*(?![\w/])|(?<![\w/])_[^_\n]+_(?![\w/]))")),
+    ("Markdown block formatting", re.compile(r"(?m)^\s{0,3}(?:#{1,6}|>|[-+*]|\d+[.)])\s+")),
+    ("HTML tag", re.compile(r"</?[A-Za-z][^>\n]*>")),
+)
 
 
 @dataclass
@@ -89,6 +97,31 @@ def validate_timestamp(value: object) -> bool:
     return "T" in value
 
 
+def frontmatter_string_values(value: object, field: str = "$") -> list[tuple[str, str]]:
+    values: list[tuple[str, str]] = []
+    if isinstance(value, str):
+        values.append((field, value))
+    elif isinstance(value, dict):
+        for key, child in value.items():
+            child_field = f"{field}.{key}" if field != "$" else str(key)
+            values.extend(frontmatter_string_values(child, child_field))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            values.extend(frontmatter_string_values(child, f"{field}[{index}]"))
+    return values
+
+
+def validate_plaintext_frontmatter(path: Path, metadata: dict[str, object], bundle: Path, report: Report) -> None:
+    for field, value in frontmatter_string_values(metadata):
+        for label, pattern in FRONTMATTER_PRESENTATION_PATTERNS:
+            if pattern.search(value):
+                report.errors.append(Finding(
+                    relative(path, bundle),
+                    f"frontmatter string values must be plaintext; {field} contains {label}",
+                ))
+                break
+
+
 def validate_concept(path: Path, bundle: Path, report: Report) -> None:
     rel = relative(path, bundle)
     try:
@@ -97,6 +130,7 @@ def validate_concept(path: Path, bundle: Path, report: Report) -> None:
         report.errors.append(Finding(rel, str(error)))
         return
     assert metadata is not None
+    validate_plaintext_frontmatter(path, metadata, bundle, report)
     concept_type = metadata.get("type")
     if not isinstance(concept_type, str) or not concept_type.strip():
         report.errors.append(Finding(rel, "type must be a non-empty string"))
@@ -144,6 +178,8 @@ def validate_index(path: Path, bundle: Path, report: Report, *, require_version:
     if metadata is not None and not is_root:
         report.errors.append(Finding(rel, "frontmatter is only allowed on the bundle-root index.md"))
     if is_root:
+        if metadata is not None:
+            validate_plaintext_frontmatter(path, metadata, bundle, report)
         declared = metadata.get("okf_version") if metadata else None
         report.declared_version = str(declared) if declared is not None else None
         if require_version and report.declared_version != report.target_version:

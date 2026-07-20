@@ -93,6 +93,14 @@ MACHINE_PATH_PATTERNS = {
     "POSIX machine path": re.compile(r"(?<![A-Za-z0-9])/(?:home|Users|tmp|var/tmp|etc|opt|srv|root|mnt|Volumes)/[^\s<>'\"]+"),
     "home-relative path": re.compile(r"(?<![A-Za-z0-9])~[\\/][^\s<>'\"]+"),
 }
+FRONTMATTER_PRESENTATION_PATTERNS = (
+    ("Markdown link or image", re.compile(r"!?\[[^\]\n]+\]\([^)\n]+\)")),
+    ("Markdown reference link", re.compile(r"\[[^\]\n]+\]\[[^\]\n]*\]")),
+    ("Markdown code", re.compile(r"`+[^`\n]+`+")),
+    ("Markdown emphasis", re.compile(r"(?:\*\*[^*\n]+\*\*|__[^_\n]+__|~~[^~\n]+~~|(?<![\w/])\*[^*\n]+\*(?![\w/])|(?<![\w/])_[^_\n]+_(?![\w/]))")),
+    ("Markdown block formatting", re.compile(r"(?m)^\s{0,3}(?:#{1,6}|>|[-+*]|\d+[.)])\s+")),
+    ("HTML tag", re.compile(r"</?[A-Za-z][^>\n]*>")),
+)
 
 
 class FrontmatterLoader(yaml.SafeLoader):
@@ -110,6 +118,31 @@ for resolver_key, resolvers in list(FrontmatterLoader.yaml_implicit_resolvers.it
 
 def fail(message: str) -> None:
     raise SystemExit(message)
+
+
+def frontmatter_string_values(value: Any, field: str = "$") -> list[tuple[str, str]]:
+    values: list[tuple[str, str]] = []
+    if isinstance(value, str):
+        values.append((field, value))
+    elif isinstance(value, dict):
+        for key, child in value.items():
+            child_field = f"{field}.{key}" if field != "$" else str(key)
+            values.extend(frontmatter_string_values(child, child_field))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            values.extend(frontmatter_string_values(child, f"{field}[{index}]"))
+    return values
+
+
+def validate_plaintext_frontmatter(path: Path, metadata: dict[str, Any], errors: list[str]) -> None:
+    """Reject presentation markup in every string scalar, including producer extensions."""
+    for field, value in frontmatter_string_values(metadata):
+        for label, pattern in FRONTMATTER_PRESENTATION_PATTERNS:
+            if pattern.search(value):
+                errors.append(
+                    f"{path}: frontmatter string values must be plaintext; {field} contains {label}"
+                )
+                break
 
 
 def utc_now() -> str:
@@ -1920,12 +1953,15 @@ def validate_bundle(bundle: Path) -> list[str]:
         return [f"{bundle}: bundle does not exist"]
 
     for path in sorted(bundle.rglob("*.md")):
-        if path.name in {"index.md", "log.md"}:
+        if path.name == "log.md":
             continue
         try:
             metadata, _ = read_document(path)
         except SystemExit as error:
             errors.append(str(error))
+            continue
+        validate_plaintext_frontmatter(path, metadata, errors)
+        if path.name == "index.md":
             continue
         if not metadata.get("type"):
             errors.append(f"{path}: non-reserved Markdown concept requires a non-empty type")

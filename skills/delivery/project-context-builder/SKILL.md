@@ -4,8 +4,8 @@ description: Create or refresh the canonical PROJECT.md for a real project or pr
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.1
-  updated: '2026-07-19'
+  version: 1.3.2
+  updated: '2026-07-20'
 ---
 
 # project-context-builder
@@ -16,7 +16,7 @@ This skill produces chat output. Include this proof line in the response: `proje
 
 ## Durable repository links
 
-When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links.
+When this skill creates or meaningfully updates a durable repository Task, Workstream, or typed OKF knowledge document, keep it in one resolved repository-local relationship graph whenever more than one governed concept exists. Use ordinary relative Markdown links for task-to-task, document-to-document, and task-to-document relationships; resolved structured task/workstream relationships also count. An incoming link satisfies connectivity, so add a reciprocal link only when it is useful in both directions. Keep terminal tasks linked as live implementation-state evidence. Exclude reserved indexes and logs, Tracker Profiles, runbooks, generated or vendor output, handoffs, session records, and temporary or scratch files. Report genuine orphans or disconnected components instead of inventing semantically weak links. Whenever writing or updating one of these OKF records, keep every YAML frontmatter string plaintext, including nested producer extensions; use only bare URLs or repository-relative references for metadata links, and put Markdown or HTML presentation in the body.
 
 ## Untrusted content boundary
 
