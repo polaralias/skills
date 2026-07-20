@@ -4,7 +4,7 @@ description: Establish, evolve, and keep a repository knowledge base trustworthy
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.6.2
+  version: 3.6.3
   updated: '2026-07-20'
 ---
 
@@ -228,7 +228,7 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - When a bundle needs machine-readable first-reading guidance, use the RKE `navigation` extension: `role` is `entry-point`, `foundational`, `supporting`, or `reference`, and sparse non-negative `order` values sequence concepts within a role. Treat this as retrieval prominence, never as authority, business impact, Task urgency, or an inferred relationship. Keep hierarchy and dependency meaning explicit through links.
 - If an OKF concept changed meaningfully, update its retrieval metadata and `timestamp` as the explicit portable last-updated value, rebuild the affected canonical indexes, and add a concise `log.md` entry only when the knowledge event merits one. Do not substitute filesystem or Git time.
 - If a visualisation becomes a durable repository knowledge surface, create or update a `Visualization` concept. Keep its generated HTML, Mermaid, image, or other output derived and reproducible from the declared canonical source and renderer.
-- For standalone OKF HTML, require the pinned rendering runtimes and bundle data to be embedded so local review makes no runtime network requests. For dense relationship graphs, preserve labelled semantic landmarks at overview scale and verify that a selected neighbourhood uses close framing and modest padding while keeping every direct node readable, visible, and non-overlapping.
+- For standalone OKF HTML, require the pinned rendering runtimes and bundle data to be embedded so local review makes no runtime network requests. For dense relationship graphs, preserve labelled semantic landmarks at overview scale, expand the connected map to suit a wide canvas, and keep disconnected documents in a bounded reveal-on-hover shelf that does not control readable scale. Verify that a selected neighbourhood uses close framing and modest padding while keeping every direct node readable, visible, and non-overlapping.
 - Record deliberate visualisation exclusions in the generation contract. For OKF Tasks views, use repeatable bundle-relative `--exclude` selections or a reviewed `.okf-visualization-ignore` file; exclusions apply to Graph and Reader together and remain output provenance. Directory-name entries ending in `/` match at every depth, so dependency folders such as `node_modules/` and `.venv/` do not leak nested Markdown into Reader. Never use view scope to hide a governed orphan, broken relationship, or conformance failure.
 - For temporal visualisations, record the selected event field, history model, and drift policy. Treat timestamp ordering and a newer linked source as discovery signals only; confirm semantic disagreement against current content and evidence before declaring or repairing drift.
 

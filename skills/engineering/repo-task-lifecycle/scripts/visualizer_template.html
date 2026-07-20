@@ -630,7 +630,7 @@ function graphLayoutMetrics(count){
 function fitGraph(){
   if(!cy)return;
   const metrics=graphLayoutMetrics(cy.nodes(".main").length);
-  cy.fit(cy.elements(),metrics.padding);
+  cy.fit(cy.elements("node.main,edge"),metrics.padding);
 }
 function separateOverlappingNodes(collection,{gap=18,crumbSpace=14,maxPasses=400}={}){
   const nodes=collection.toArray().sort((a,b)=>a.id().localeCompare(b.id()));
@@ -679,7 +679,7 @@ function restoreGraphOverview(){
   Promise.all(moves).then(()=>{
     if(token!==graphMotionToken)return;
     cy.nodes(".main").forEach(placeGraphSub);
-    const viewport=graphViewportFor(cy.elements(),graphLayoutMetrics(nodes.length).padding,1.45);
+    const viewport=graphViewportFor(cy.elements("node.main,edge"),graphLayoutMetrics(nodes.length).padding,1.45);
     if(duration)cy.animate(viewport,{duration:320,easing:"ease-out-cubic"});
     else{cy.zoom(viewport.zoom);cy.pan(viewport.pan)}
   });
@@ -709,13 +709,13 @@ function updateInteractiveGraphLayout(path){
 }
 function updateGraphOverviewDetail(){
   if(!cy)return;
-  const compact=!selKeyPath()&&cy.zoom()<.68;
+  const overview=!selKeyPath(),compact=overview&&cy.zoom()<.68;
   cy.batch(()=>{
     cy.nodes(".main").forEach(node=>{
       const prominent=["entry-point","foundational"].includes(node.data("readingRole"))||node.data("deg")>=4;
-      node.toggleClass("overview-compact",compact&&!prominent);
+      node.toggleClass("overview-compact",overview&&(node.data("deg")===0||(compact&&!prominent)));
     });
-    cy.nodes(".sub").toggleClass("overview-hidden",compact);
+    cy.nodes(".sub").forEach(sub=>sub.toggleClass("overview-hidden",overview&&(compact||cy.getElementById(sub.data("parentPath")).data("deg")===0)));
     cy.edges().toggleClass("overview-edge",compact);
   });
 }
@@ -732,6 +732,34 @@ function navigationOf(doc){
 }
 const graphName=doc=>doc.path.split("/").at(-1);
 const graphCrumb=doc=>doc.path.split("/").slice(0,-1).join(" › ");
+function widenOverviewConnected(connected){
+  if(connected.length<2)return;
+  const box=connected.boundingBox({includeLabels:true,includeOverlays:false}),aspect=box.w/Math.max(box.h,1);
+  const factor=Math.min(1.75,Math.max(1,1.2/Math.max(aspect,.1))),centre=(box.x1+box.x2)/2;
+  connected.forEach(node=>node.position("x",centre+(node.position("x")-centre)*factor));
+}
+function arrangeOverviewIsolates(connected,isolates,metrics){
+  if(!isolates.length)return;
+  const ordered=isolates.toArray().sort((a,b)=>a.id().localeCompare(b.id()));
+  if(!connected.length){
+    const columns=Math.max(1,Math.ceil(Math.sqrt(ordered.length*1.6))),step=30;
+    ordered.forEach((node,index)=>node.position({x:metrics.width/2+(index%columns-(columns-1)/2)*step,y:metrics.height/2+(Math.floor(index/columns)-(Math.ceil(ordered.length/columns)-1)/2)*step}));
+    return;
+  }
+  const box=connected.boundingBox({includeLabels:true,includeOverlays:false});
+  const rows=Math.max(1,Math.ceil(Math.sqrt(ordered.length/1.6))),columns=Math.ceil(ordered.length/rows);
+  const stepX=30,stepY=30;
+  const startX=box.x2+84,startY=(box.y1+box.y2)/2-(rows-1)*stepY/2;
+  ordered.forEach((node,index)=>node.position({x:startX+(index%columns)*stepX,y:startY+Math.floor(index/columns)*stepY}));
+}
+function widenOverviewComposition(nodes){
+  if(nodes.length<2)return;
+  const box=nodes.boundingBox({includeLabels:true,includeOverlays:false}),aspect=box.w/Math.max(box.h,1);
+  const canvasAspect=Math.max(1,$("cy").clientWidth/Math.max($("cy").clientHeight,1));
+  const targetAspect=Math.min(2.15,canvasAspect*.82),factor=Math.min(1.6,Math.max(1,targetAspect/Math.max(aspect,.1)));
+  const centre=(box.x1+box.x2)/2;
+  nodes.forEach(node=>node.position("x",centre+(node.position("x")-centre)*factor));
+}
 function buildGraph(){
   const host=$("cy");
   if(cy){cy.destroy();cy=null}
@@ -811,9 +839,13 @@ function buildGraph(){
     ],
     layout:{name:"preset"}
   });
-  // layout runs on chips + edges only; crumb labels then sit beneath their chip
-  cy.elements("node.main,edge").layout({name:"cose",animate:false,randomize:false,nodeRepulsion:metrics.nodeRepulsion,nodeOverlap:40,idealEdgeLength:metrics.idealEdgeLength,edgeElasticity:90,gravity:30,componentSpacing:metrics.componentSpacing,numIter:1600,boundingBox:{x1:0,y1:0,w:metrics.width,h:metrics.height}}).run();
-  separateOverlappingNodes(cy.nodes(".main"));
+  // Keep disconnected documents in a bounded shelf so they remain available without shrinking the relationship map.
+  const connected=cy.nodes(".main").filter(node=>node.data("deg")>0),isolates=cy.nodes(".main").filter(node=>node.data("deg")===0);
+  if(connected.length)connected.union(cy.edges()).layout({name:"cose",animate:false,randomize:false,nodeRepulsion:metrics.nodeRepulsion,nodeOverlap:40,idealEdgeLength:metrics.idealEdgeLength,edgeElasticity:90,gravity:30,componentSpacing:metrics.componentSpacing,numIter:1600,boundingBox:{x1:0,y1:0,w:metrics.width,h:metrics.height}}).run();
+  separateOverlappingNodes(connected);
+  widenOverviewConnected(connected);
+  arrangeOverviewIsolates(connected,isolates,metrics);
+  widenOverviewComposition(cy.nodes(".main"));
   const placeSub=n=>{
     const sub=cy.getElementById("sub::"+n.id());
     if(sub.length)sub.position({x:n.position("x"),y:n.position("y")+n.outerHeight()/2+9});
@@ -845,7 +877,7 @@ function buildGraph(){
   $("edge-legend").innerHTML=[["links","dashed"],["cites","dotted"],["references","solid"],["sync","dash-dot"],["contains","faint"]]
     .map(([k])=>{const c=edgeColor[k],st=edgeStyle[k];const dash=st==="dashed"?"6 4":st==="dotted"?"2 3":"";
     return `<span class="li"><svg width="30" height="6" viewBox="0 0 30 6"><path d="M0 3h30" stroke="${c}" stroke-width="1.6" ${dash?`stroke-dasharray="${dash}"`:""}/></svg>${k}</span>`}).join("")
-    +`<span class="li" style="color:var(--faint);font-style:italic">chip border = record type · folder trail sits beneath each chip</span>`;
+    +`<span class="li" style="color:var(--faint);font-style:italic">chip border = record type · folder trail sits beneath each chip · unconnected documents sit in the right shelf; hover to reveal</span>`;
 }
 function syncSubs(){ // crumb labels mirror their chip's fade/dim state
   cy.nodes(".sub").forEach(s=>{

@@ -108,12 +108,16 @@ Review the [recorded session](./task.md#time:session).
     def test_dense_overview_is_semantic_and_selected_neighbourhood_reflows(self) -> None:
         generated = self.generated()
         self.assertIn("function updateGraphOverviewDetail()", generated)
-        self.assertIn('node.toggleClass("overview-compact",compact&&!prominent)', generated)
+        self.assertIn('node.toggleClass("overview-compact",overview&&(node.data("deg")===0||(compact&&!prominent)))', generated)
         self.assertIn('node.data("deg")>=4', generated)
         self.assertIn("function focusGraphNeighborhood(path)", generated)
         self.assertIn('name:"concentric"', generated)
         self.assertIn("minNodeSpacing:10,spacingFactor:.44", generated)
         self.assertIn("graphViewportFor(focus.union(crumbs),44,1.6)", generated)
+        self.assertIn("function arrangeOverviewIsolates(connected,isolates,metrics)", generated)
+        self.assertIn("function widenOverviewConnected(connected)", generated)
+        self.assertIn("function widenOverviewComposition(nodes)", generated)
+        self.assertIn('cy.fit(cy.elements("node.main,edge")', generated)
         self.assertIn("separateOverlappingNodes(focusNodes", generated)
         template = SCRIPT.with_name("visualizer_template.html").read_text(encoding="utf-8")
         graph_config = template.split("cy=cytoscape({", 1)[1].split("// layout runs", 1)[0]
@@ -167,7 +171,7 @@ Review the [recorded session](./task.md#time:session).
         self.assertIn("## Connected component 1", markdown)
         self.assertIn("function graphLayoutMetrics(count)", self.generated())
         self.assertIn("startRadius:compact?Math.min(190,80+count*14):340", self.generated())
-        self.assertIn("cy.fit(cy.elements(),metrics.padding);", self.generated())
+        self.assertIn('cy.fit(cy.elements("node.main,edge"),metrics.padding);', self.generated())
         self.assertNotIn("minimumZoom", self.generated())
         self.assertIn('window.addEventListener("resize"', self.generated())
 
