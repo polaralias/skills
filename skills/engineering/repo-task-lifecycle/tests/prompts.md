@@ -225,6 +225,7 @@ Expected behaviour:
 - Keep embedded `Task.time[]` entries addressable as Task evidence through `<task>#time:<id>` fragments.
 - Require a stable time `activity` independent of `method`, using `knowledge-maintenance` for RKE sessions.
 - When OKF visualisation is in use, regenerate paired HTML and scalable Mermaid output after meaningful changes and verify freshness before completion.
+- Keep every frontmatter string plaintext recursively, including unknown producer extensions; accept bare URLs and repository-relative references, and move labelled links or other Markdown/HTML presentation into the body.
 - Offer comparison by `timestamp`, `created`, `started`, or `finished` without claiming current bodies are historical snapshots.
 - Keep the generated HTML derived and leave the Markdown/YAML bundle canonical.
 

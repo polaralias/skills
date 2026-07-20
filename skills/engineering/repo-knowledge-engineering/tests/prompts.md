@@ -92,6 +92,8 @@ Expected:
 - recommends a bounded OKF 0.1 bundle rather than converting every Markdown file
 - creates typed concepts with retrieval metadata, canonical authority, indexes, and a declared root version
 - validates the bundle before claiming conformance
+- keeps every OKF frontmatter string plaintext recursively, including producer extensions
+- allows bare URLs and repository-relative references in metadata but moves Markdown or HTML presentation into the body
 
 ## 13. Existing repository convention
 Prompt: "This mature repository already has a clear documentation system. Make it OKF immediately."

@@ -22,6 +22,7 @@
 - keep archive docs evidence-backed and de-emphasised
 - label evidence, canonical, execution, and generated surfaces clearly when they coexist
 - preserve unknown OKF types and extension fields
+- verify every frontmatter string is plaintext; allow bare URLs and repository-relative references, but keep Markdown and HTML presentation in the body
 - preserve producer-owned surfaces until the user resolves their ownership or migration direction
 - build and validate canonical OKF indexes, and validate explicitly retained external OKF bundles read-only
 - name which surface is strongest when cross-artefact drift exists

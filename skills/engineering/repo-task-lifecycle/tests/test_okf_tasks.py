@@ -120,6 +120,21 @@ class LifecycleTests(unittest.TestCase):
         self.assertTrue(any("navigation.role" in error for error in errors))
         self.assertTrue(any("navigation.order" in error for error in errors))
 
+    def test_frontmatter_plaintext_detection_is_recursive_and_allows_bare_urls(self) -> None:
+        metadata = {
+            "title": "Plain title",
+            "resource": "https://example.com/a_path?q=one_two",
+            "related": "../docs/architecture_file.md#overview",
+            "extension": {"values": ["**bold**", "*italic*", "[label](https://example.com)", "<em>html</em>"]},
+        }
+        errors: list[str] = []
+
+        okf_tasks.validate_plaintext_frontmatter(Path("task.md"), metadata, errors)
+
+        self.assertEqual(4, len(errors), errors)
+        self.assertTrue(all("extension.values" in error for error in errors))
+        self.assertFalse(any("resource" in error or "related" in error for error in errors))
+
     def test_create_can_join_an_existing_durable_document_graph(self) -> None:
         guide = self.root / "docs" / "architecture.md"
         okf_tasks.write_document(
