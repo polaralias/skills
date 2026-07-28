@@ -124,6 +124,8 @@ The body MUST contain these second-level headings:
 - `## Acceptance`
 - `## Evidence`
 
+`description` is the concise navigation and tracker summary. `## Outcome` is the detailed execution outcome and MAY evolve independently; producers and consumers MUST NOT require the two values to be identical or silently copy later edits from one into the other.
+
 Producers SHOULD also include `## Dependencies and risks`, `## Related knowledge`, and `## Workstreams` where applicable.
 
 ## 5. Workstream concepts
@@ -252,7 +254,7 @@ Estimated effort, sprint points, elapsed time, and recorded effort are separate 
 
 ## 8. Relationships and knowledge
 
-Task relationships SHOULD use Markdown links in the body so generic OKF consumers can traverse them. Structured `parent` and `depends_on` fields MAY duplicate common relationships for filtering and synchronisation. Missing `parent` or `depends_on` targets are conformant broken links and consumers SHOULD report them as warnings. This preserves OKF's ability to represent partial or externally assembled knowledge without pretending the dependency is satisfied.
+Task relationships SHOULD use Markdown links in the body so generic OKF consumers can traverse them. Structured `parent` and `depends_on` fields MAY duplicate common relationships for filtering and synchronisation. Missing `parent` or `depends_on` targets are conformant broken links and consumers SHOULD report them as warnings. Producers SHOULD refuse to create a new unresolved prerequisite unless the caller explicitly selects a partial-bundle mode. This preserves OKF's ability to represent partial or externally assembled knowledge without pretending the dependency is satisfied.
 
 A producer maintaining a repository with more than one governed durable concept MUST keep all governed concepts in one resolved repository-local relationship graph. Governed concepts are Tasks, Workstreams, and typed durable OKF knowledge documents. A relationship may be expressed by an ordinary relative Markdown link or, for Task and Workstream topology, by a resolved structured relationship. Incoming relationships count: a concept does not need a reciprocal link merely to satisfy this rule. Producers MUST retain useful links to terminal Tasks because their current lifecycle state is live implementation evidence; a knowledge document need not be backdated or rewritten merely to narrate that completion.
 
@@ -318,7 +320,7 @@ Webhook consumers MUST authenticate provider events, deduplicate replayed delive
 - GitHub profiles are repository-scoped. An adapter MUST distinguish organisation Issue Fields from Projects item fields and MUST exclude pull requests returned by issue-list APIs.
 - GitLab profiles are project-scoped and MUST record host identity. Adapters MAY use the Issues REST API for baseline issues and the Work Item API for discovered capabilities, but MUST account for server version and tier.
 - Linear profiles are team-scoped. Initialisers MUST use stable workflow-state IDs and categories; state names alone are insufficient. Triage, blocked, validation, duplicate, and cancellation mappings require explicit discovered states or documented lossy projection.
-- ClickUp profiles are List-scoped and MUST record the Workspace and custom task type when applicable. Initialisers MUST discover status and custom-field applicability. A moved task MUST be revalidated against its new location before synchronisation continues.
+- ClickUp profiles are List-scoped and MUST distinguish the Workspace ID from the Space ID when either is recorded. Initialisers MUST discover the Workspace that owns the selected List, status and custom-field applicability. Adapters accepting a human-facing custom task ID MUST request ClickUp's custom-task-ID mode with that Workspace ID; they MUST NOT store a Space ID as the Workspace ID. A moved task MUST be revalidated against its new location before synchronisation continues.
 
 Creating or updating a remote record MUST use only mapped allowlisted fields. Provider-required fields and custom-field applicability MUST be checked, and the resulting record MUST be read back before recording a successful base.
 
@@ -427,7 +429,7 @@ An OKF Tasks v0.1 bundle is conformant when:
 
 ### 12.3 Producer conformance
 
-A conformant producer MUST emit conformant documents and bundles, MUST use only normal transitions unless an explicit forced-correction mode is selected, MUST preserve stable identities, MUST retain unknown fields when updating a record, and MUST maintain the strict durable-link graph when repository scope is available.
+A conformant producer MUST emit conformant documents and bundles, MUST use only normal transitions unless an explicit forced-correction mode is selected, MUST preserve stable identities, MUST retain unknown fields when updating a record, and MUST maintain the strict durable-link graph when repository scope is available. Template-driven producers SHOULD report recognisable unedited skeleton text as a review warning. Validation tools MAY offer a strict mode that promotes all warnings to a failing result for CI.
 
 ### 12.4 Consumer conformance
 

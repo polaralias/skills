@@ -74,6 +74,13 @@ PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.1.0/SPEC.md"
 CLI_VERSION = "0.1.0"
 BUNDLE_PLACEMENTS = {"root": "tasks", "docs": "docs/tasks"}
 MARKDOWN_LINK_PATTERN = re.compile(r"(?P<image>!)?(?P<label>\[[^\]\n]*\])\((?P<target>[^)\s]+)(?P<suffix>[^)]*)\)")
+CLICKUP_CUSTOM_TASK_ID_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*-\d+$")
+CLICKUP_RAW_TASK_ID_PATTERN = re.compile(r"^[a-z0-9]+$")
+TASK_SKELETON_MARKERS = (
+    "Describe the observable result and how a reviewer will recognise it.",
+    "- [ ] Add evidence-backed completion criteria.",
+    "- Add validation, integration, deployment, and live-verification evidence separately.",
+)
 LINK_GRAPH_EXCLUDED_TYPES = {"tracker profile", "log"}
 LINK_GRAPH_EXCLUDED_TYPE_MARKERS = {"runbook", "handoff", "session", "temporary", "scratch"}
 LINK_GRAPH_EXCLUDED_DIRECTORIES = {
@@ -267,6 +274,16 @@ def git_value(root: Path, *arguments: str) -> str:
     return result.stdout.strip()
 
 
+def optional_git_value(root: Path, *arguments: str) -> str | None:
+    result = subprocess.run(
+        ["git", "-C", str(root), *arguments],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip() if result.returncode == 0 and result.stdout.strip() else None
+
+
 def repository_web_base(remote_url: str, provider: str | None = None) -> tuple[str, str]:
     """Return provider and credential-free repository web base for common Git remotes."""
     value = remote_url.strip()
@@ -361,6 +378,44 @@ def resolve_repository_links(
         return f"{'!' if is_image else ''}{match.group('label')}({resolved}{match.group('suffix')})"
 
     return MARKDOWN_LINK_PATTERN.sub(replace, text)
+
+
+def prepare_tracker_body(
+    body: str,
+    root: Path,
+    source: Path,
+    remote_name: str,
+    remote_url: str | None,
+    ref: str | None,
+    provider: str | None,
+) -> str:
+    repository_links = False
+    for match in MARKDOWN_LINK_PATTERN.finditer(body):
+        target = match.group("target").strip("<>")
+        if target.startswith("#"):
+            continue
+        if target.startswith("//") or re.match(r"^[A-Za-z]:[\\/]", target):
+            fail("External artifact contains a machine-local absolute link.")
+        parsed = urlsplit(target)
+        if parsed.scheme:
+            if parsed.scheme != "https":
+                fail("External artifact contains a non-HTTPS or machine-local link.")
+            if match.group("image"):
+                fail("External artifact contains a remote image without an explicit allow policy.")
+            continue
+        repository_links = True
+    if not repository_links:
+        return body
+    resolved_remote = remote_url or optional_git_value(root, "remote", "get-url", remote_name)
+    if not resolved_remote:
+        fail(
+            "Task body contains repository-local links but Git has no usable remote. "
+            "Pass --remote-url and, when it cannot be inferred, --repository-provider."
+        )
+    resolved_ref = ref or optional_git_value(root, "rev-parse", "HEAD")
+    if not resolved_ref:
+        fail("Task body contains repository-local links but Git has no commit ref. Pass --ref explicitly.")
+    return resolve_repository_links(body, root, source, resolved_remote, resolved_ref, provider)
 
 
 def prepare_external_artifact(args: argparse.Namespace) -> int:
@@ -557,9 +612,9 @@ def request_json(url: str, headers: dict[str, str], payload: dict[str, Any] | No
         with urlopen(request, timeout=30) as response:
             return json.loads(response.read().decode("utf-8"))
     except HTTPError as error:
-        fail(f"Tracker discovery request failed with HTTP {error.code} for configured host.")
+        fail(f"Tracker request failed with HTTP {error.code} for configured host.")
     except (URLError, TimeoutError, json.JSONDecodeError) as error:
-        fail(f"Tracker discovery request failed for configured host: {error}")
+        fail(f"Tracker request failed for configured host: {error}")
 
 
 def discover_provider(
@@ -624,6 +679,21 @@ def discover_provider(
         fields_value = requester(f"{base}/list/{scope_key}/field", headers)
         if not isinstance(list_value, dict) or not list_value.get("id"):
             fail("ClickUp List discovery returned an invalid response.")
+        space_id = str(list_value.get("space", {}).get("id") or "")
+        workspaces_value = requester(f"{base}/team", headers)
+        workspaces = workspaces_value.get("teams", []) if isinstance(workspaces_value, dict) else []
+        workspace: dict[str, Any] | None = workspaces[0] if len(workspaces) == 1 and isinstance(workspaces[0], dict) else None
+        if workspace is None:
+            for candidate in workspaces:
+                if not isinstance(candidate, dict) or not candidate.get("id"):
+                    continue
+                spaces_value = requester(f"{base}/team/{candidate['id']}/space?archived=true", headers)
+                spaces = spaces_value.get("spaces", []) if isinstance(spaces_value, dict) else []
+                if any(str(item.get("id")) == space_id for item in spaces if isinstance(item, dict)):
+                    workspace = candidate
+                    break
+        if not workspace or not workspace.get("id"):
+            fail("ClickUp discovery could not resolve the List's Workspace ID.")
         statuses = []
         for position, item in enumerate(list_value.get("statuses", [])):
             raw_type = str(item.get("type", "custom")).lower()
@@ -631,7 +701,10 @@ def discover_provider(
             statuses.append({"id": item.get("id") or item.get("status"), "name": item.get("status"), "category": category, "position": position})
         return {
             "system": "clickup", "host": "https://app.clickup.com", "resource": "task",
-            "scope": {"kind": "list", "id": list_value["id"], "key": str(list_value["id"]), "name": list_value.get("name"), "workspace_id": list_value.get("space", {}).get("id")},
+            "scope": {
+                "kind": "list", "id": list_value["id"], "key": str(list_value["id"]),
+                "name": list_value.get("name"), "workspace_id": workspace["id"], "space_id": space_id,
+            },
             "statuses": statuses, "fields": fields_value.get("fields", []) if isinstance(fields_value, dict) else [],
             "capabilities": {"webhooks": True, "custom_fields": True, "required_field_check": True, "custom_task_types": True},
         }
@@ -859,6 +932,7 @@ def tracker_refresh(args: argparse.Namespace) -> int:
         "observed_at": utc_now(), "fingerprint": new_fingerprint,
         "capabilities": discovery["capabilities"], "statuses": discovery["statuses"], "fields": discovery["fields"],
     }
+    profile["scope"] = discovery["scope"]
     write_document(path, profile, body)
     print("Accepted refreshed discovery without changing mappings.")
     return 0
@@ -970,9 +1044,9 @@ def tracker_create_remote(args: argparse.Namespace) -> int:
     task, body = read_document(task_file); profile, _ = read_document(profile_file)
     findings = egress_findings(body, root)
     if findings: fail("External artifact failed egress inspection:\n" + "\n".join(findings))
-    remote_url = args.remote_url or git_value(root, "remote", "get-url", args.remote)
-    ref = args.ref or git_value(root, "rev-parse", "HEAD")
-    rendered = resolve_repository_links(body, root, task_file, remote_url, ref, args.repository_provider)
+    rendered = prepare_tracker_body(
+        body, root, task_file, args.remote, args.remote_url, args.ref, args.repository_provider,
+    )
     token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
     created = create_remote_record(profile, task, rendered, os.environ.get(token_env, ""), args.api_base)
     binding_sync = {"last_synced": utc_now(), "remote_revision": created["remote_revision"], "base": {"remote": created["remote_revision"]}}
@@ -1002,7 +1076,29 @@ def get_remote_record(
         if not isinstance(value, dict): fail("Linear issue was not found.")
         result = {"id": value.get("id"), "key": value.get("identifier"), "url": value.get("url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state", {}).get("id"), "tags": [item.get("name") for item in value.get("labels", {}).get("nodes", [])], "revision": value.get("updatedAt"), "finished": value.get("completedAt")}
     else:
-        value = requester(f"{base}/task/{remote_key}", {"Authorization": token})
+        is_custom_id = bool(CLICKUP_CUSTOM_TASK_ID_PATTERN.fullmatch(remote_key))
+        if not is_custom_id and not CLICKUP_RAW_TASK_ID_PATTERN.fullmatch(remote_key):
+            fail(
+                f"Unrecognized ClickUp task key format {remote_key!r}; use a raw task ID "
+                "or a custom ID such as AI-952."
+            )
+        query = "?include_markdown_description=true"
+        if is_custom_id:
+            if not scope.get("space_id") or not scope.get("workspace_id"):
+                fail(
+                    "This ClickUp Tracker Profile lacks a verified Workspace ID for custom task IDs. "
+                    "Run tracker refresh --accept before importing the custom ID."
+                )
+            query += f"&custom_task_ids=true&team_id={quote(str(scope['workspace_id']), safe='')}"
+        try:
+            value = requester(f"{base}/task/{quote(remote_key, safe='')}{query}", {"Authorization": token})
+        except SystemExit as error:
+            if is_custom_id and "HTTP 401" in str(error):
+                fail(
+                    f"ClickUp could not resolve custom task ID {remote_key!r}. ClickUp reports unknown "
+                    "custom IDs as HTTP 401 even when credentials are valid; verify the ID and Workspace."
+                )
+            raise
         status = value.get("status", {}); status_id = status.get("id") or status.get("status") if isinstance(status, dict) else status
         result = {"id": value.get("id"), "key": value.get("custom_id") or value.get("id"), "url": value.get("url"), "title": value.get("name"), "description": value.get("markdown_description") or value.get("description") or "", "status": status_id, "tags": [item.get("name") if isinstance(item, dict) else item for item in value.get("tags", [])], "revision": value.get("date_updated"), "finished": value.get("date_closed")}
     if not all(result.get(key) not in (None, "") for key in ("id", "key", "url", "title", "status")):
@@ -1094,9 +1190,9 @@ def tracker_sync(args: argparse.Namespace) -> int:
             fail("Remote record changed since the reconciliation base; refusing to overwrite without explicit conflict resolution.")
         findings = egress_findings(body, root)
         if findings: fail("External artifact failed egress inspection:\n" + "\n".join(findings))
-        remote_url = args.remote_url or git_value(root, "remote", "get-url", args.remote)
-        ref = args.ref or git_value(root, "rev-parse", "HEAD")
-        rendered = resolve_repository_links(body, root, task_file, remote_url, ref, args.repository_provider)
+        rendered = prepare_tracker_body(
+            body, root, task_file, args.remote, args.remote_url, args.ref, args.repository_provider,
+        )
         remote = update_remote_record(profile, binding, task, rendered, token, args.api_base, requester)
     else:
         if local_changed and remote_changed and not args.force:
@@ -1131,8 +1227,31 @@ def create_task(args: argparse.Namespace) -> int:
     }
     if args.owner:
         metadata["owner"] = args.owner
-    if getattr(args, "depends_on", None):
-        metadata["depends_on"] = list(dict.fromkeys(args.depends_on))
+    dependencies = list(dict.fromkeys(getattr(args, "depends_on", None) or []))
+    for value in dependencies:
+        raw_target = str(value).split("#", 1)[0].strip()
+        if (
+            not raw_target
+            or Path(raw_target).is_absolute()
+            or re.match(r"^[A-Za-z]:[\\/]", raw_target)
+            or re.match(r"^[a-z][a-z0-9+.-]*:", raw_target, re.IGNORECASE)
+        ):
+            fail(f"Dependency task must be a bundle-relative task concept path: {value}")
+        clean = raw_target.removeprefix("./")
+        candidate = bundle / clean
+        if candidate.suffix != ".md":
+            candidate = candidate.with_suffix(".md")
+        try:
+            candidate.resolve().relative_to(bundle.resolve())
+        except ValueError:
+            fail(f"Dependency task must remain inside the bundle: {value}")
+        if not candidate.is_file() and not getattr(args, "allow_unresolved_dependencies", False):
+            fail(
+                f"Dependency task must exist before creation: {value}. "
+                "Use --allow-unresolved-dependencies only for an intentionally partial bundle."
+            )
+    if dependencies:
+        metadata["depends_on"] = dependencies
     body = load_body_template(
         "task-body.md.template",
         {"title": args.title, "description": args.description},
@@ -1499,7 +1618,7 @@ def reviewed_commits(
     since: str | None,
     until: str | None,
     grep: str | None,
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], int]:
     format_value = "%H%x1f%cI%x1f%s"
     lines: list[str] = []
     if commits:
@@ -1525,7 +1644,16 @@ def reviewed_commits(
     result.sort(key=lambda item: item["time"])
     if not result:
         fail("No commits matched. Pass explicit --commit values or adjust --grep/--since/--until.")
-    return result
+    if commits:
+        total = len(result)
+    else:
+        total_command = ["rev-list", "--all", "--count"]
+        if since:
+            total_command.append(f"--since={since}")
+        if until:
+            total_command.append(f"--until={until}")
+        total = int(run_git(root, total_command).strip())
+    return result, total
 
 
 def estimate_commit_sessions(
@@ -1563,8 +1691,8 @@ def estimate_commit_sessions(
     return sessions
 
 
-def commit_review(args: argparse.Namespace) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    commits = reviewed_commits(
+def commit_review(args: argparse.Namespace) -> tuple[list[dict[str, Any]], list[dict[str, Any]], int]:
+    commits, total = reviewed_commits(
         repository_root(args.root),
         valid_slug(args.task),
         args.commit,
@@ -1573,11 +1701,18 @@ def commit_review(args: argparse.Namespace) -> tuple[list[dict[str, Any]], list[
         args.grep,
     )
     sessions = estimate_commit_sessions(commits, args.session_gap_minutes, args.allowance_minutes)
-    return commits, sessions
+    return commits, sessions, total
 
 
-def print_commit_review(commits: list[dict[str, Any]], sessions: list[dict[str, Any]]) -> None:
-    print(f"Reviewed {len(commits)} commits across {len(sessions)} estimated sessions.")
+def print_commit_review(
+    commits: list[dict[str, Any]],
+    sessions: list[dict[str, Any]],
+    total_commits: int,
+) -> None:
+    print(
+        f"Reviewed {len(commits)} of {total_commits} commits in range "
+        f"across {len(sessions)} estimated sessions."
+    )
     for index, session in enumerate(sessions, 1):
         short_commits = ", ".join(commit[:8] for commit in session["commits"])
         print(
@@ -1588,8 +1723,8 @@ def print_commit_review(commits: list[dict[str, Any]], sessions: list[dict[str, 
 
 
 def review_commits_command(args: argparse.Namespace) -> int:
-    commits, sessions = commit_review(args)
-    print_commit_review(commits, sessions)
+    commits, sessions, total = commit_review(args)
+    print_commit_review(commits, sessions, total)
     return 0
 
 
@@ -1600,8 +1735,8 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
     if not task_path(bundle, task).exists():
         fail(f"Task does not exist: {task}")
     ensure_workstream(bundle, task, args.workstream)
-    commits, sessions = commit_review(args)
-    print_commit_review(commits, sessions)
+    commits, sessions, total = commit_review(args)
+    print_commit_review(commits, sessions, total)
     heuristic_effort = sum(session["effort_minutes"] for session in sessions)
     effort = heuristic_effort if args.effort_minutes is None else args.effort_minutes
     if effort < 0:
@@ -1644,6 +1779,19 @@ def backfill_from_commits(args: argparse.Namespace) -> int:
         summary="Effort backfilled from a review of repository commits.",
         basis=basis,
     )
+    task_metadata, _ = read_document(task_path(bundle, task))
+    for existing in time_entries(task_metadata, task_path(bundle, task)):
+        if (
+            existing.get("method") == "estimated-commit-review"
+            and existing.get("source_commits") == metadata["source_commits"]
+            and existing.get("actor") == metadata["actor"]
+            and existing.get("workstream") == metadata.get("workstream")
+        ):
+            print(
+                f"Commit-review evidence is already recorded in entry {existing.get('id')!r}; "
+                "skipping without changes."
+            )
+            return 0
     append_time_entry(bundle, task, metadata)
     print(f"Added commit-review entry {entry!r}: {effort} effort minutes ({args.confidence} confidence).")
     return 0
@@ -2122,7 +2270,7 @@ def validate_bundle(bundle: Path) -> list[str]:
 def bundle_warnings(bundle: Path) -> list[str]:
     """Return non-fatal relationship diagnostics for a structurally valid partial bundle."""
     warnings: list[str] = []
-    for path, metadata, _ in task_records(bundle):
+    for path, metadata, body in task_records(bundle):
         relationships: list[tuple[str, str]] = []
         if isinstance(metadata.get("parent"), str):
             relationships.append(("parent", metadata["parent"]))
@@ -2143,7 +2291,39 @@ def bundle_warnings(bundle: Path) -> list[str]:
                 continue
             if not candidate.exists():
                 warnings.append(f"{path}: unresolved {field} target {target!r}")
+        for marker in TASK_SKELETON_MARKERS:
+            if marker in body:
+                warnings.append(f"{path}: unedited task skeleton text remains: {marker}")
+        for label in ("In scope", "Out of scope"):
+            if re.search(rf"^-\s+{re.escape(label)}:\s*$", body, re.MULTILINE):
+                warnings.append(f"{path}: unedited task skeleton field remains empty: {label}")
     return warnings
+
+
+def bundle_coverage(bundle: Path) -> tuple[int, int, int]:
+    tasks = task_records(bundle)
+    workstream_count = sum(len(list(path.parent.joinpath("workstreams").glob("*.md"))) for path, _, _ in tasks)
+    link_count = 0
+    root = link_graph_root(bundle)
+    for path in sorted(root.rglob("*.md")):
+        try:
+            metadata, body = read_document(path)
+        except SystemExit:
+            continue
+        if not link_graph_concept(path, metadata, root):
+            continue
+        link_count += sum(1 for match in MARKDOWN_LINK_PATTERN.finditer(body) if not match.group("image"))
+        if metadata.get("type") == "Task" and isinstance(metadata.get("parent"), str):
+            link_count += 1
+        if metadata.get("type") == "Task" and isinstance(metadata.get("depends_on"), list):
+            link_count += len(metadata["depends_on"])
+        if metadata.get("type") == "Workstream" and metadata.get("task"):
+            link_count += 1
+    return len(tasks), workstream_count, link_count
+
+
+def count_label(count: int, singular: str) -> str:
+    return f"{count} {singular if count == 1 else singular + 's'}"
 
 
 def link_graph_root(bundle: Path) -> Path:
@@ -2256,7 +2436,17 @@ def validate_command(args: argparse.Namespace) -> int:
     warnings = bundle_warnings(bundle)
     if warnings:
         print("\n".join(f"WARNING: {warning}" for warning in warnings), file=sys.stderr)
-    print("OKF Tasks bundle is valid.")
+    task_count, workstream_count, link_count = bundle_coverage(bundle)
+    coverage = ", ".join((
+        count_label(task_count, "task"),
+        count_label(workstream_count, "workstream"),
+        count_label(link_count, "link"),
+    ))
+    warning_summary = count_label(len(warnings), "warning")
+    if warnings and getattr(args, "strict", False):
+        print(f"OKF Tasks bundle checked: {coverage}; {warning_summary} (strict validation failed).")
+        return 1
+    print(f"OKF Tasks bundle is valid: {coverage}; {warning_summary}.")
     return 0
 
 
@@ -2278,12 +2468,22 @@ def add_commit_review_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--grep", help="Commit-message pattern (defaults to the task slug)")
     parser.add_argument("--since", help="Git-compatible lower date bound")
     parser.add_argument("--until", help="Git-compatible upper date bound")
-    parser.add_argument("--session-gap-minutes", type=int, default=90)
-    parser.add_argument("--allowance-minutes", type=int, default=30)
+    parser.add_argument(
+        "--session-gap-minutes",
+        type=int,
+        default=90,
+        help="Start a new session when consecutive commits are separated by more than this many minutes (default: 90)",
+    )
+    parser.add_argument(
+        "--allowance-minutes",
+        type=int,
+        default=30,
+        help="Preparation/review minutes split equally before and after each estimated session (default: 30)",
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Maintain OKF Tasks v0.1 bundles.")
+    parser = argparse.ArgumentParser(prog="okf-tasks", description="Maintain OKF Tasks v0.1 bundles.")
     parser.add_argument("--version", action="version", version=f"%(prog)s {CLI_VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -2376,6 +2576,11 @@ def build_parser() -> argparse.ArgumentParser:
     create.add_argument("--description", required=True)
     create.add_argument("--owner")
     create.add_argument("--depends-on", action="append", help="Resolved task concept path such as other-task/task; repeatable")
+    create.add_argument(
+        "--allow-unresolved-dependencies",
+        action="store_true",
+        help="Permit missing --depends-on targets only when intentionally creating a partial bundle",
+    )
     create.add_argument("--related", action="append", help="Existing repository-relative Markdown document to link; repeatable")
     create.set_defaults(func=create_task)
 
@@ -2409,7 +2614,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     export = subparsers.add_parser(
         "prepare-export",
-        help="Prepare a repository artifact for safe publication to an external system",
+        help="Safely publish a Markdown document, not a task payload, to an external system",
+        description="Prepare a Markdown document for safe external publication. This does not export a task payload.",
     )
     export.add_argument("--root", required=True, help="Repository root")
     export.add_argument("--source", required=True, help="Repository-relative Markdown source")
@@ -2500,6 +2706,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     validation = subparsers.add_parser("validate", help="Validate OKF and profile conformance")
     add_location_arguments(validation)
+    validation.add_argument("--strict", action="store_true", help="Treat relationship and skeleton warnings as validation failures")
     validation.set_defaults(func=validate_command)
     return parser
 
