@@ -1,3 +1,18 @@
+---
+type: "Future Consideration"
+title: "QA Guidance Pack Builder"
+description: "Documents QA Guidance Pack Builder for the skills repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - skills
+  - future-consideration
+navigation:
+  role: reference
+  order: 200
+---
 # QA Guidance Pack Builder
 
 This is a future-skill candidate.
@@ -47,3 +62,7 @@ That keeps the public skill portable while still making local tailoring easy.
 - define output contracts for trackers, test systems, or connector payloads
 - keep private examples or local naming out of the public base skill
 - make it easy to tailor a generic skill without forking its whole workflow
+
+## Repository knowledge
+
+- [Documentation map](../docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

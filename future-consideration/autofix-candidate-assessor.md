@@ -1,3 +1,18 @@
+---
+type: "Future Consideration"
+title: "Autofix candidate assessor"
+description: "Documents Autofix candidate assessor for the skills repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - skills
+  - future-consideration
+navigation:
+  role: reference
+  order: 200
+---
 # Autofix candidate assessor
 
 Status:
@@ -37,3 +52,7 @@ Likely future scope:
 - score confidence without overclaiming
 - separate ticket evidence from inference
 - support single-ticket and batch triage
+
+## Repository knowledge
+
+- [Documentation map](../docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

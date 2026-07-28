@@ -1,3 +1,18 @@
+---
+type: "Repository Guide"
+title: "Skills Workbench"
+description: "Documents Skills Workbench for the skills repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - skills
+  - repository-guide
+navigation:
+  role: entry-point
+  order: 10
+---
 <p align="center">
   <img src="Skills%20Banner.png" alt="Skills Workbench banner" width="960" />
 </p>
@@ -139,3 +154,7 @@ When `VERSION` is the canonical release source, draft-release automation should 
 ## Contributing
 
 For repository workflow, packaging rules, and agent-focussed maintenance context, read [AGENTS.md](AGENTS.md).
+
+## Repository knowledge
+
+- [Documentation map](docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.
