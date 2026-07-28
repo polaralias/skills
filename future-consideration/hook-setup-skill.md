@@ -1,3 +1,18 @@
+---
+type: "Future Consideration"
+title: "Hook Setup Skill"
+description: "Documents Hook Setup Skill for the skills repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - skills
+  - future-consideration
+navigation:
+  role: reference
+  order: 200
+---
 # Hook Setup Skill
 
 This is a future-skill candidate.
@@ -58,3 +73,7 @@ This would pair well with:
 - the pattern is clearly reusable
 - the boundaries between shared setup, artefact contract, and domain-specific orchestration still need refining
 - it is worth preserving now without prematurely locking the package shape
+
+## Repository knowledge
+
+- [Documentation map](../docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

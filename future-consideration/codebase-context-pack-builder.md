@@ -1,3 +1,18 @@
+---
+type: "Future Consideration"
+title: "Codebase Context Pack Builder"
+description: "Documents Codebase Context Pack Builder for the skills repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - skills
+  - future-consideration
+navigation:
+  role: reference
+  order: 200
+---
 # Codebase Context Pack Builder
 
 This is a future-skill candidate.
@@ -64,3 +79,7 @@ Together they would make a strong codebase-orientation bundle.
 - the pattern is strong enough to revisit later
 - the best public version should be built around method and structure
 - the right output is a standalone builder, not a one-off reference dump
+
+## Repository knowledge
+
+- [Documentation map](../docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.

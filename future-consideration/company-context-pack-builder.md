@@ -1,3 +1,18 @@
+---
+type: "Future Consideration"
+title: "Company Context Pack Builder"
+description: "Documents Company Context Pack Builder for the skills repository."
+timestamp: 2026-07-28T21:55:36Z
+authority: canonical
+verification: untested
+owner: polaralias
+tags:
+  - skills
+  - future-consideration
+navigation:
+  role: reference
+  order: 200
+---
 # Company Context Pack Builder
 
 This is a future-skill candidate.
@@ -45,3 +60,7 @@ The most likely useful public version is a combined builder that creates:
 - the pattern is useful, but the best version should be built as a standalone public skill
 - the value is in the structure and boundaries, not any one company profile
 - it is better treated as a builder than as a static pack
+
+## Repository knowledge
+
+- [Documentation map](../docs/knowledge/documentation-map.md) — RKE-managed reading order and relationship hub.
