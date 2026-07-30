@@ -139,6 +139,23 @@ Location: [skills/meta](./skills/meta)
 - use [INDEX.md](INDEX.md) if you need the canonical packaged-skill path list
 - keep future or not-yet-packaged ideas under [future-consideration](./future-consideration)
 
+### Install with the Skills CLI
+
+Use the Skills CLI through `npx` to discover and install skills from this repository without installing the CLI itself:
+
+```bash
+npx skills add polaralias/skills
+```
+
+The interactive flow lets you choose the skills and supported agents. You can also list the available skills or install one directly:
+
+```bash
+npx skills add polaralias/skills --list
+npx skills add polaralias/skills --skill repo-knowledge-engineering
+```
+
+Add `--global` to install for the current user instead of the current project. See the [Skills CLI documentation](https://www.skills.sh/docs/cli) for agent selection and non-interactive options.
+
 ## Versioning
 
 This repository uses a repo-level [VERSION](./VERSION) file for GitHub Releases.
