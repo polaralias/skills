@@ -1,7 +1,7 @@
 interface:
   display_name: "Repo Knowledge Engineering"
-  short_description: "Maintain canonical repository knowledge with OKF."
-  default_prompt: "Use $repo-knowledge-engineering for agent-led maintenance of canonical repository knowledge with explicit last-meaningful-change timestamps, connected task and document links, OKF Visualization concepts for maintained derived views, semantic review of timestamp drift, and knowledge-maintenance effort recorded through repo-task-lifecycle and the authoritative polaralias/okf-tasks contract when an active Task governs the slice."
+  short_description: "Maintain and streamline findable canonical repository knowledge with OKF."
+  default_prompt: "Use $repo-knowledge-engineering to maintain or streamline canonical repository knowledge, disposition superseded source material, test likely-question retrieval, preserve verification provenance and decision history, validate bounded OKF bundles, and keep linked execution truth aligned through repo-task-lifecycle when an active Task governs the slice."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

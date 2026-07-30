@@ -1,11 +1,11 @@
 ---
 name: local-handoff
-description: Create a local continuation handoff for the next session. Use when you are ending a tranche of work and want the next session to resume safely from a dated handoff stored alongside the work instead of a temp file, especially when the handoff should preserve the current engineering workflow stage for the next resume. Shorthand LHO.
+description: Create and lifecycle-manage a local continuation handoff for the next session. Use when ending a tranche so the next session can resume safely from one active, dated, review-bounded handoff stored beside but outside canonical knowledge and task bundles, especially when preserving the current engineering workflow stage. Shorthand LHO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.7.2
-  updated: '2026-07-20'
+  version: 1.8.0
+  updated: '2026-07-30'
 ---
 
 # local-handoff
@@ -61,8 +61,9 @@ When the trigger is ambiguous, use **standard** and offer max-verbosity only if 
 - Create the directory if it does not exist.
 - If the user explicitly wants the handoff kept local-only rather than tracked, prefer `local-docs/handoff/` when the repo already has a root `local-docs/` convention.
 - If `local-docs/` is missing but the user wants a local-only handoff, say that `local-docs/` is the preferred gitignored location and create `local-docs/handoff/` only if the user wants that convention applied now.
+- Never place a handoff inside an OKF knowledge bundle, Task bundle, generated surface, vendor tree, or producer-owned derived bundle. This boundary overrides an inherited handoff-folder convention.
 
-If the repository already has an established continuous handoff folder, use that instead of creating a parallel convention.
+If the repository already has a valid established continuous handoff folder, use that instead of creating a parallel convention. If the established folder violates the boundary above, route the new handoff to `docs/handoff/` or the explicit local-only location and report the old surface for consolidation.
 
 ### 3. Name the handoff deterministically
 
@@ -75,7 +76,13 @@ Before creating a new file, check whether a same-day handoff already exists for 
 
 - If the session is continuing the same tranche, prefer updating the existing handoff.
 - If the goal or phase changed materially, create a new handoff file.
-- If a new handoff supersedes an older one, say so explicitly.
+- Keep one active handoff per workstream by default.
+- Before creating a successor, read every plausible older handoff for the same stream and disposition it:
+  - merge any unique unresolved state into the successor
+  - delete it when its durable truth is promoted and its continuation state is fully absorbed
+  - archive it outside the active handoff path only when unique audit or historical value requires retention
+- Never delete an older handoff until its unique unresolved state and evidence references have been accounted for.
+- If a new handoff supersedes an older one that must be retained, mark the older handoff `superseded` and link the successor.
 
 ### 4. Choose the depth and write the continuation context
 
@@ -116,6 +123,10 @@ In **max-verbosity** mode:
 ```md
 # Handoff: <topic>
 
+**As of:** <RFC 3339 datetime, branch, and commit when known>
+**Status:** active
+**Review after:** <YYYY-MM-DD>
+
 ## Session Goal
 
 ## Current State
@@ -134,6 +145,8 @@ In **max-verbosity** mode:
 
 ## Suggested Skills
 ```
+
+Set `Review after` to the next known continuation date or fourteen calendar days after `As of` by default. Passing that date triggers re-verification before use; it does not authorise automatic deletion.
 
 ### 5b. Max-verbosity expansion
 
@@ -175,6 +188,7 @@ The quality bar for max mode is not "include everything touched." The quality ba
   - next likely skill
 - Keep workflow-state short and aligned with any separate workflow metadata the repository maintains.
 - Keep the handoff short enough that a fresh agent will still read the linked docs.
+- Keep only one active handoff for the same workstream unless the repository has an explicit, justified parallel-continuation model.
 - Do not duplicate large plan or spec content already captured elsewhere.
 - Do not copy large diffs or long plan bodies into the handoff.
 - Never record secrets, tokens, credentials, private keys, cookies, copied `.env` values, or any other sensitive values in the handoff.
@@ -186,6 +200,7 @@ The quality bar for max mode is not "include everything touched." The quality ba
 - Record whether the next session depends on local uncommitted state.
 - If no files changed, say so directly.
 - Do not create a handoff when the tranche is truly complete and canonical docs plus commits already make continuation obvious.
+- Do not preserve superseded handoffs as active merely because they are dated records.
 
 ## Max-Verbosity Guardrails
 
@@ -205,6 +220,7 @@ Once the handoff is complete:
 
 - tell the user the handoff is complete
 - tell them the exact handoff path
+- report any older same-stream handoff that was merged, archived, deleted, or retained as superseded
 - for max-verbosity handoffs, tell them it is a point-in-time reference that should be re-verified before acting on environment-sensitive steps
 - if the handoff was tracked under `docs/handoff/` but they want future handoffs kept local-only, remind them that `local-docs/handoff/` is the preferred gitignored location when that repo uses the `local-docs/` convention
 

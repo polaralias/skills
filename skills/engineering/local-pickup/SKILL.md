@@ -1,11 +1,11 @@
 ---
 name: local-pickup
-description: Resume work from a local handoff and rebuild trustworthy context before editing. Use when you are starting a new session on an existing project, especially after prior archaeology, repair, refactor, or documentation work that left a handoff in `docs/handoff/`, `local-docs/handoff/`, or the repository's established handoff area, including workflow-aware handoffs that preserve the prior engineering stage. Shorthand LPK.
+description: Resume work from the one active local handoff for a workstream and rebuild trustworthy context before editing. Use when starting a new session from a handoff in `docs/handoff/`, `local-docs/handoff/`, or another valid established area, including review-bounded and workflow-aware handoffs; exclude superseded handoffs from default selection and re-verify expired ones. Shorthand LPK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.7.2
-  updated: '2026-07-20'
+  version: 2.8.0
+  updated: '2026-07-30'
 ---
 
 # local-pickup
@@ -42,6 +42,9 @@ When a continuity manifest or post-compact restart supplement exists, treat thos
 - Otherwise check for a deterministic continuity artefact such as a manifest in the project's established continuity location before scanning handoff folders.
 - Otherwise check `local-docs/handoff/` when the repository uses that local-only continuity convention.
 - Otherwise check `docs/handoff/` in the current project or the repository's established handoff area.
+- Exclude handoffs marked `superseded` from default selection. Follow their successor link when it still resolves.
+- Treat a handoff inside an OKF knowledge bundle, Task bundle, generated surface, vendor tree, or producer-owned derived bundle as misplaced rather than as a valid established convention.
+- Prefer the single handoff marked `active` for the matching workstream.
 - Prefer the latest dated handoff that matches the current task.
 - If multiple handoffs are plausible, pick the narrowest topic match rather than simply the newest file.
 - Prefer the handoff whose referenced canonical docs still exist and still point to the same active workstream.
@@ -72,6 +75,8 @@ When both a short restart supplement and a verbose handoff exist:
 - Confirm that the referenced files still exist.
 - Confirm that the cited plan or support status still matches the current state.
 - If the handoff includes workflow-state fields, confirm that the current stage and proposed next skill still match the strongest current evidence.
+- If `Review after` has passed, re-verify every claim needed for the next action before selecting `continue directly`; expiry is a review trigger, not proof that the handoff is false.
+- If more than one same-stream handoff is marked active, treat that as lifecycle drift: choose the strongest current candidate, name the conflict, and route consolidation through `local-handoff` before the session ends.
 - If the restart supplement or manifest claims a specific handoff mode, as-of time, branch, or commit, treat those as verification inputs rather than accepted facts.
 - When the next step depends on runtime claims such as a device IP, auth mode, managed launcher, or external route, re-check them before relying on the handoff.
 - If the project moved on since the handoff was written, name the drift clearly.
@@ -115,7 +120,7 @@ This summary should be short and should separate verified current truth from inh
 
 - If no handoff exists, say so plainly and rebuild context from the canonical docs.
 - If a continuity manifest or restart supplement exists but points to missing or stale artefacts, say so plainly and fall back to the strongest current local evidence.
-- If the handoff exists but is obviously stale, preserve it as evidence and proceed from verified current state.
+- If the handoff exists but is obviously stale, retain it only when it carries unique evidence or audit value; otherwise route it for merge, archive, or deletion through `local-handoff` and proceed from verified current state.
 - If the handoff conflicts with code or docs, trust the strongest current evidence and record the mismatch.
 - If no handoff exists but unfinished local work makes the active stream obvious, rebuild from canonical docs and git state and recommend creating a retrospective handoff at tranche end.
 
@@ -124,11 +129,13 @@ This summary should be short and should separate verified current truth from inh
 - Do not continue on handoff claims alone.
 - Do not treat a post-compact restart supplement as canonical truth; it is only a restart aid.
 - Do not skip the canonical docs just because the handoff looks comprehensive.
+- Do not select a superseded handoff merely because it is newer or a closer filename match.
 - Do not silently flatten `planned` into `done`.
 - If canonical docs and the handoff both disagree with code or tests, stop pretending continuity is intact and escalate to deeper rediscovery.
 - Prefer a short verified restart over a long inherited narrative.
 
 If local-pickup discovers a meaningful mismatch, refresh the handoff or leave a short mismatch note before the session ends so the next restart does not rediscover the same problem.
+If it discovers duplicate active, expired, misplaced, or fully absorbed handoffs, include their required disposition in the next `local-handoff` pass rather than leaving the continuation surface ambiguous.
 
 ## Output Shape
 

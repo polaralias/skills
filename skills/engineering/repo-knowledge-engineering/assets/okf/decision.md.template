@@ -1,0 +1,32 @@
+---
+type: "Decision"
+title: "{{title}}"
+description: "{{description}}"
+tags: [{{tags}}]
+timestamp: "{{timestamp}}"
+authority: "canonical"
+decision_status: "{{decision_status}}"
+superseded_by: [{{superseded_by}}]
+---
+
+# {{title}}
+
+## Context
+
+Explain the question, constraints, and evidence that made this decision necessary.
+
+## Current decision
+
+State only the clauses that remain current.
+
+## Superseded clauses
+
+Link each superseded clause to its successor, or remove this section when the decision has never been partially superseded.
+
+## Consequences
+
+Record the durable trade-offs and boundaries.
+
+## Related concepts
+
+- Add meaningful relative links to related current truth and implementation evidence.

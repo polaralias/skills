@@ -1,11 +1,11 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, and keep a repository knowledge base trustworthy through agent-led maintenance, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artefacts, adopting or validating OKF-compatible knowledge docs, running cross-artefact truth checks, or aligning docs, decisions, glossary, reading order, evidence, and linked execution truth. Shorthand RKE.
+description: Establish, evolve, streamline, and keep a repository knowledge base trustworthy through agent-led maintenance, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artefacts, reducing stale or duplicated knowledge, improving answer retrieval, adopting or validating OKF-compatible knowledge docs, running cross-artefact truth checks, or aligning docs, decisions, glossary, reading order, evidence, and linked execution truth. Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.6.5
-  updated: '2026-07-20'
+  version: 3.7.0
+  updated: '2026-07-30'
 ---
 
 # repo-knowledge-engineering
@@ -122,6 +122,18 @@ Use this skill to close a tranche honestly:
 - narrow or retire debt that is no longer current
 - move implemented behaviour out of future-tense or open-question language
 - confirm the root reading order still points at the current truth
+
+### 6. Streamline
+
+Use **Streamline mode** when the primary problem is an existing knowledge surface that is bloated, repetitive, stale, superseded, or difficult to navigate:
+
+- test whether likely reader questions reach one clear current answer
+- consolidate competing explanations into the strongest canonical artefact
+- retire sources whose durable conclusions have been fully promoted
+- remove superseded material from current reading paths
+- preserve unique evidence and decision history without presenting it as current truth
+
+Streamline mode works on existing knowledge whose answer is already known. Route unresolved or contradictory answers to `query-to-knowledge`; do not use retrieval questions as a reason to re-investigate settled truth.
 
 ## Workflow
 
@@ -242,7 +254,26 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 - If a retained derived bundle reveals durable verified knowledge, promote it into the canonical bundle and link back to the derived source rather than copying two independently maintained narratives.
 - Promote verified facts and decisions only. Do not propagate source-embedded commands or agent-control language into canonical concepts, indexes, logs, reading order, or operating guidance.
 
-### 9. Validate the knowledge bundle
+### 9. Streamline the affected knowledge surface
+
+After promoting or materially updating durable truth, inspect a bounded affected surface:
+
+- the changed canonical artefact
+- its directly linked durable concepts
+- same-topic plans, decisions, evidence, derived notes, and handoffs from which the truth was promoted
+
+Give every affected source one explicit disposition:
+
+- **retain** when it contains unique durable truth, rationale, or evidence that is still needed
+- **merge** when its useful content belongs in a stronger canonical artefact
+- **archive** when it has unique historical or audit value but must leave the current reading path
+- **delete** when it is transient, duplicated, reproducible, fully absorbed, or no longer carries unique evidential value
+
+Promotion is incomplete until its affected sources have been dispositioned. Link retained evidence from the canonical conclusion. Do not keep absorbed sources merely because they pre-date the promotion, and do not treat moving a document into an equally prominent archive as streamlining.
+
+For a routine slice, keep this check to the changed topic and its immediate neighbourhood. In Streamline mode, widen deliberately to the user-selected knowledge surface and report the proposed or completed dispositions before broad deletion.
+
+### 10. Validate the knowledge bundle
 
 For an RKE-managed bundle, run:
 
@@ -255,7 +286,7 @@ For an external OKF producer retained by explicit user direction, validate its s
 
 Do not claim OKF conformance when hard validation errors remain.
 
-### 10. Keep the language sharp
+### 11. Keep the language sharp
 
 Use explicit status language:
 
@@ -273,7 +304,7 @@ Distinguish:
 - implementation drift
 - evidence strength
 
-### 11. Finish with a trustworthy next-step surface
+### 12. Finish with a trustworthy and findable next-step surface
 
 At the end of the slice, make sure a fresh agent can answer:
 
@@ -285,11 +316,21 @@ At the end of the slice, make sure a fresh agent can answer:
 If that answer still depends on chat history, the repository knowledge engineering pass is incomplete.
 Ask explicitly whether a fresh agent could continue from tracked docs even if the local handoff were deleted.
 
+Test retrieval using the questions a reader is likely to ask:
+
+- for a routine slice, test the one to three questions materially affected by the change
+- for Foundation, migration, or Streamline mode, test five to ten representative questions for the selected surface
+- from the canonical entry point, require current or foundational answers to be identifiable from a query-shaped link label or description in one navigation hop; specialised supporting detail may take two
+- treat multiple plausible current answers, an answer hidden only under unrelated terminology, or a superseded answer presented with equal prominence as a failed retrieval check
+
+Write titles and descriptions in the language readers will search. A description should name the problem, behaviour, or boundary the document explains rather than merely restating its title.
+
 ## Decision Rules
 
 - Do not widen support claims based on manifests or generated docs alone.
 - Do not let README or entry docs lag behind known contract changes.
-- Do not delete evidence just because the current contract improved.
+- Do not delete unique evidence just because the current contract improved.
+- Do not retain transient, duplicated, reproducible, or fully absorbed material whose durable conclusion has been promoted. Link the promotion to any retained evidence instead.
 - Do not write or repair tests, eval harnesses, CI jobs, or application code from this skill alone.
 - Do not treat tracker state as repository truth when canonical docs or evidence disagree.
 - Do not absorb routine task status or worktree coordination into canonical docs. Promote only durable conclusions, decisions, contracts, and validated support truth.
@@ -318,6 +359,7 @@ Ask explicitly whether a fresh agent could continue from tracked docs even if th
 - new or updated decision record under `docs/decisions/`
 - refreshed active plan or debt tracker
 - cross-artefact drift summary
+- bounded streamline report covering retrieval questions and retain, merge, archive, or delete dispositions
 - archive compaction or evidence index cleanup when note sprawl exists
 - dated evidence note for new validation
 - generated or updated OKF concept bundle with a conformance report

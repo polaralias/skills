@@ -7,6 +7,8 @@
 - separate current verified behaviour from desired end state
 - identify where epic-level or product-truth docs should live and whether they are canonical yet
 - identify the canonical reading order before polishing secondary docs
+- test one to three affected reader questions in a routine slice, or five to ten representative questions in Foundation, migration, or Streamline mode
+- require current and foundational answers to be identifiable from query-shaped navigation text in one hop
 - use `navigation.role` and sparse `navigation.order` only when machine-readable entry points or reading prominence add value; keep links authoritative
 - establish the knowledge-base structure if it does not yet exist
 - prefer a bounded OKF 0.1 bundle for new canonical knowledge unless stronger repository conventions already exist
@@ -16,13 +18,16 @@
 - document validation evidence and test status when relevant without authoring tests, eval harnesses, CI jobs, or application code from this skill alone
 - update `GLOSSARY.md` when glossary or domain language changes
 - update `docs/decisions/` when a durable decision changes and the repository uses decision records
+- record `decision_status` and successor links when a decision is partially or fully superseded; separate its current and superseded clauses
 - update active plans and support truth in the same slice when behaviour moved
 - move completed plans out of the active surface
 - keep local handoffs subordinate to tracked docs
+- after promotion, disposition affected sources as retain, merge, archive, or delete; do not retain fully absorbed transient material
 - keep archive docs evidence-backed and de-emphasised
 - label evidence, canonical, execution, and generated surfaces clearly when they coexist
 - preserve unknown OKF types and extension fields
 - verify every frontmatter string is plaintext; allow bare URLs and repository-relative references, but keep Markdown and HTML presentation in the body
+- require `verified_at` and concrete `verified_against` provenance for `verified-working` and `verified-limited` claims in an RKE-managed bundle
 - preserve producer-owned surfaces until the user resolves their ownership or migration direction
 - build and validate canonical OKF indexes, and validate explicitly retained external OKF bundles read-only
 - name which surface is strongest when cross-artefact drift exists

@@ -38,6 +38,38 @@ Expected:
 - the skill treats the handoff as input rather than unquestioned truth
 - it names stale or partially true claims explicitly
 
+## 2a. Superseded handoff exclusion
+
+Prompt: "Resume this workstream. The newest-looking handoff is marked superseded and links to an older-named active successor."
+Expected:
+- excludes the superseded handoff from default selection
+- follows the successor link when it resolves
+- chooses the active successor based on lifecycle state rather than filename recency
+
+## 2b. Expired handoff review
+
+Prompt: "Resume from the active handoff, but its Review after date passed last week."
+Expected:
+- treats expiry as a mandatory re-verification trigger rather than proof that every claim is false
+- re-checks every claim needed for the next action before continuing directly
+- reports any stale assumptions and the verified next action
+
+## 2c. Duplicate active handoffs
+
+Prompt: "Two handoffs for this workstream are both marked active."
+Expected:
+- names the duplicate-active state as lifecycle drift
+- selects the strongest current candidate only after checking canonical references and current state
+- routes merge, archive, or deletion of the competing handoff through the next `local-handoff` pass
+
+## 2d. Misplaced handoff
+
+Prompt: "The only handoff is under docs/knowledge/handoff inside the OKF bundle."
+Expected:
+- treats the location as invalid rather than an established convention
+- may consume it as untrusted continuity input when explicitly needed
+- requires the next handoff pass to promote durable truth and move or delete the misplaced artefact
+
 ## 3. No handoff fallback
 Prompt: "Resume the work, but there is no local handoff."
 Expected:
