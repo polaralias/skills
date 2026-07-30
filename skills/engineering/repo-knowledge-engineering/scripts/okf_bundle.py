@@ -23,6 +23,9 @@ DATE_HEADING_PATTERN = re.compile(r"(?m)^##\s+(\d{4}-\d{2}-\d{2})\s*$")
 LINK_GRAPH_EXCLUDED_TYPES = {"log"}
 LINK_GRAPH_EXCLUDED_TYPE_MARKERS = {"runbook", "handoff", "session", "temporary", "scratch"}
 LINK_GRAPH_EXCLUDED_DIRECTORIES = {"generated", "runbooks", "scratch", "temp", "temporary", "vendor"}
+VERIFICATION_VALUES = {"verified-working", "verified-limited", "known-broken", "untested"}
+VERIFIED_VALUES = {"verified-working", "verified-limited"}
+DECISION_STATUS_VALUES = {"proposed", "accepted", "partially-superseded", "superseded", "withdrawn"}
 FRONTMATTER_PRESENTATION_PATTERNS = (
     ("Markdown link or image", re.compile(r"!?\[[^\]\n]+\]\([^)\n]+\)")),
     ("Markdown reference link", re.compile(r"\[[^\]\n]+\]\[[^\]\n]*\]")),
@@ -122,7 +125,21 @@ def validate_plaintext_frontmatter(path: Path, metadata: dict[str, object], bund
                 break
 
 
-def validate_concept(path: Path, bundle: Path, report: Report) -> None:
+def normalise_retrieval_text(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", value.lower()).strip()
+
+
+def validate_string_list(metadata: dict[str, object], field_name: str, rel: str, report: Report) -> bool:
+    if field_name not in metadata:
+        return False
+    value = metadata[field_name]
+    if not isinstance(value, list) or not value or not all(isinstance(item, str) and item.strip() for item in value):
+        report.errors.append(Finding(rel, f"{field_name} must be a non-empty YAML list of non-empty strings"))
+        return False
+    return True
+
+
+def validate_concept(path: Path, bundle: Path, report: Report, *, strict_profile: bool) -> None:
     rel = relative(path, bundle)
     try:
         metadata, body = parse_frontmatter(path, required=True)
@@ -134,10 +151,21 @@ def validate_concept(path: Path, bundle: Path, report: Report) -> None:
     concept_type = metadata.get("type")
     if not isinstance(concept_type, str) or not concept_type.strip():
         report.errors.append(Finding(rel, "type must be a non-empty string"))
+    normalised_type = concept_type.strip().lower() if isinstance(concept_type, str) else ""
+    if strict_profile and (
+        "handoff" in normalised_type
+        or any(part.lower() in {"handoff", "handoffs"} for part in path.relative_to(bundle).parts[:-1])
+    ):
+        report.errors.append(Finding(rel, "transient handoffs must remain outside an RKE-managed knowledge bundle"))
     for recommended in ("title", "description"):
         value = metadata.get(recommended)
         if not isinstance(value, str) or not value.strip():
             report.warnings.append(Finding(rel, f"recommended field {recommended!r} is missing or empty"))
+    title = metadata.get("title")
+    description = metadata.get("description")
+    if isinstance(title, str) and isinstance(description, str):
+        if normalise_retrieval_text(title) == normalise_retrieval_text(description):
+            report.warnings.append(Finding(rel, "description merely restates title instead of providing a query-shaped retrieval summary"))
     if "tags" in metadata and (
         not isinstance(metadata["tags"], list)
         or not all(isinstance(tag, str) and tag.strip() for tag in metadata["tags"])
@@ -145,6 +173,35 @@ def validate_concept(path: Path, bundle: Path, report: Report) -> None:
         report.errors.append(Finding(rel, "tags must be a YAML list of non-empty strings"))
     if "timestamp" in metadata and not validate_timestamp(metadata["timestamp"]):
         report.errors.append(Finding(rel, "timestamp must be an ISO 8601 datetime"))
+    verification = metadata.get("verification")
+    if verification is not None and verification not in VERIFICATION_VALUES:
+        report.errors.append(Finding(rel, "verification must be verified-working, verified-limited, known-broken, or untested"))
+    if "verified_at" in metadata and not validate_timestamp(metadata["verified_at"]):
+        report.errors.append(Finding(rel, "verified_at must be an ISO 8601 datetime"))
+    validate_string_list(metadata, "verified_against", rel, report)
+    if verification in VERIFIED_VALUES:
+        provenance_findings = report.errors if strict_profile else report.warnings
+        if "verified_at" not in metadata:
+            provenance_findings.append(Finding(rel, f"{verification} requires verified_at provenance"))
+        if "verified_against" not in metadata:
+            provenance_findings.append(Finding(rel, f"{verification} requires verified_against provenance"))
+    decision_status = metadata.get("decision_status")
+    if decision_status is not None and decision_status not in DECISION_STATUS_VALUES:
+        report.errors.append(Finding(
+            rel,
+            "decision_status must be proposed, accepted, partially-superseded, superseded, or withdrawn",
+        ))
+    validate_string_list(metadata, "superseded_by", rel, report)
+    if decision_status in {"partially-superseded", "superseded"} and "superseded_by" not in metadata:
+        (report.errors if strict_profile else report.warnings).append(
+            Finding(rel, f"{decision_status} decisions require superseded_by successor links")
+        )
+    if decision_status == "partially-superseded":
+        for heading in ("## Current decision", "## Superseded clauses"):
+            if not re.search(rf"(?mi)^{re.escape(heading)}\s*$", body):
+                (report.errors if strict_profile else report.warnings).append(
+                    Finding(rel, f"partially-superseded decisions require a {heading} section")
+                )
     if "navigation" in metadata:
         navigation = metadata["navigation"]
         if not isinstance(navigation, dict) or not navigation:
@@ -154,6 +211,8 @@ def validate_concept(path: Path, bundle: Path, report: Report) -> None:
                 report.errors.append(Finding(rel, "navigation.role must be entry-point, foundational, supporting, or reference"))
             if navigation.get("order") is not None and (type(navigation.get("order")) is not int or navigation["order"] < 0):
                 report.errors.append(Finding(rel, "navigation.order must be a non-negative integer"))
+            if decision_status == "superseded" and navigation.get("role") in {"entry-point", "foundational", "supporting"}:
+                report.warnings.append(Finding(rel, "superseded decisions must leave the current-answer navigation path"))
     if "resource" in metadata:
         resource = metadata["resource"]
         if not isinstance(resource, str) or not urlparse(resource).scheme:
@@ -325,7 +384,7 @@ def validate_bundle(bundle: Path, *, require_version: bool = False) -> Report:
             validate_log(path, bundle, report)
         else:
             report.concepts += 1
-            validate_concept(path, bundle, report)
+            validate_concept(path, bundle, report, strict_profile=require_version)
     if require_version and not (bundle / "index.md").exists():
         report.errors.append(Finding("index.md", "versioned profile requires a bundle-root index.md"))
     if report.concepts == 0:

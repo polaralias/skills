@@ -6,6 +6,7 @@ tags: [{{tags}}]
 timestamp: "{{timestamp}}"
 authority: "{{authority}}"
 verification: "{{verification}}"
+# For verified-working or verified-limited, add verified_at and a non-empty verified_against list.
 source: "{{source}}"
 renderer: "{{renderer}}"
 output: "{{output}}"
@@ -42,4 +43,4 @@ Treat newer-linked-source versus older-target ordering as a possible drift revie
 
 ## Verification
 
-Record the generation or smoke check that supports the current `verification` value.
+Record the generation or smoke check that supports the current `verification` value. When it is `verified-working` or `verified-limited`, add `verified_at` and concrete `verified_against` metadata rather than using the concept timestamp as verification time.

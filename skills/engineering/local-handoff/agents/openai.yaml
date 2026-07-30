@@ -1,7 +1,7 @@
 interface:
   display_name: local-handoff
-  short_description: Write a dated resumable handoff beside the work for the next session.
-  default_prompt: Use local-handoff when ending a tranche of work to write or update a dated local handoff, capture the next session's starting point, and report the exact handoff path.
+  short_description: Write and lifecycle-manage one active, review-bounded continuation handoff.
+  default_prompt: Use local-handoff when ending a tranche to write or update one active dated handoff outside knowledge and task bundles, set its review boundary, merge unique unresolved state from superseded handoffs, safely disposition older same-stream handoffs, and report the exact resulting path.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

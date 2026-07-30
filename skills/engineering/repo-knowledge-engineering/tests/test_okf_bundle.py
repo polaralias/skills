@@ -53,6 +53,9 @@ type: Support Boundary
 title: Supported requests
 description: Defines the currently verified request surface.
 verification: verified-working
+verified_at: 2026-07-17T10:00:00Z
+verified_against:
+  - ../../tests/request-routing.test.ts
 ---
 
 # Supported requests
@@ -134,6 +137,106 @@ Body.
 
         self.assertTrue(any("navigation.role" in finding.message for finding in report.errors))
         self.assertTrue(any("navigation.order" in finding.message for finding in report.errors))
+
+    def test_verified_claim_requires_provenance(self) -> None:
+        self.write(
+            "concept.md",
+            CONCEPT.replace(
+                "producer_extension: preserved",
+                "verification: verified-working",
+            ).replace("/support/boundary.md", "https://example.test/source"),
+        )
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        messages = [finding.message for finding in report.warnings]
+        self.assertTrue(any("requires verified_at" in message for message in messages))
+        self.assertTrue(any("requires verified_against" in message for message in messages))
+
+    def test_verified_claim_accepts_concrete_provenance(self) -> None:
+        self.write(
+            "concept.md",
+            CONCEPT.replace(
+                "producer_extension: preserved",
+                "verification: verified-limited\nverified_at: 2026-07-30T09:00:00Z\nverified_against:\n  - ../../tests/routing.test.ts",
+            ).replace("/support/boundary.md", "https://example.test/source"),
+        )
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        messages = [finding.message for finding in report.warnings]
+        self.assertFalse(any("requires verified_" in message for message in messages))
+
+    def test_versioned_bundle_enforces_verified_claim_provenance(self) -> None:
+        self.write(
+            "concept.md",
+            CONCEPT.replace(
+                "producer_extension: preserved",
+                "verification: verified-working",
+            ).replace("/support/boundary.md", "https://example.test/source"),
+        )
+        okf_bundle.build_indexes(self.bundle)
+
+        report = okf_bundle.validate_bundle(self.bundle, require_version=True)
+
+        messages = [finding.message for finding in report.errors]
+        self.assertTrue(any("requires verified_at" in message for message in messages))
+        self.assertTrue(any("requires verified_against" in message for message in messages))
+
+    def test_description_that_only_restates_title_warns(self) -> None:
+        self.write(
+            "concept.md",
+            CONCEPT.replace(
+                "description: Explains how inbound requests reach the application service.",
+                "description: Request routing",
+            ).replace("/support/boundary.md", "https://example.test/source"),
+        )
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(any("query-shaped retrieval summary" in finding.message for finding in report.warnings))
+
+    def test_partial_decision_requires_successor_and_clause_sections(self) -> None:
+        self.write(
+            "decision.md",
+            CONCEPT.replace("type: Architecture Concept", "type: Decision")
+            .replace("producer_extension: preserved", "decision_status: partially-superseded")
+            .replace("/support/boundary.md", "https://example.test/source"),
+        )
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        messages = [finding.message for finding in report.warnings]
+        self.assertTrue(any("require superseded_by" in message for message in messages))
+        self.assertTrue(any("Current decision" in message for message in messages))
+        self.assertTrue(any("Superseded clauses" in message for message in messages))
+
+    def test_superseded_decision_leaves_current_navigation(self) -> None:
+        self.write(
+            "decision.md",
+            CONCEPT.replace("type: Architecture Concept", "type: Decision")
+            .replace(
+                "producer_extension: preserved",
+                "decision_status: superseded\nsuperseded_by:\n  - successor.md\nnavigation:\n  role: foundational\n  order: 10",
+            )
+            .replace("/support/boundary.md", "https://example.test/source"),
+        )
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(any("leave the current-answer navigation path" in finding.message for finding in report.warnings))
+
+    def test_versioned_rke_bundle_rejects_transient_handoff(self) -> None:
+        self.write(
+            "handoff/session.md",
+            CONCEPT.replace("type: Architecture Concept", "type: Handoff")
+            .replace("/support/boundary.md", "https://example.test/source"),
+        )
+        okf_bundle.build_indexes(self.bundle)
+
+        report = okf_bundle.validate_bundle(self.bundle, require_version=True)
+
+        self.assertTrue(any("handoffs must remain outside" in finding.message for finding in report.errors))
 
     def test_broken_internal_link_is_only_a_warning(self) -> None:
         self.write("concept.md", CONCEPT)
@@ -258,6 +361,26 @@ title: Group
         self.assertEqual("timestamp", metadata["temporal_basis"])
         self.assertEqual("current-records-only", metadata["history_model"])
         self.assertIn("review-signal", metadata["drift_policy"])
+
+    def test_decision_template_supports_partial_supersession(self) -> None:
+        template = MODULE_PATH.parents[1] / "assets" / "okf" / "decision.md.template"
+        rendered = template.read_text(encoding="utf-8")
+        for old, new in {
+            "{{title}}": "Choose request authentication",
+            "{{description}}": "Explains which authentication boundary applies to inbound service requests.",
+            "{{tags}}": "decision, authentication",
+            "{{timestamp}}": "2026-07-30T09:00:00Z",
+            "{{decision_status}}": "partially-superseded",
+            "{{superseded_by}}": "ADR-007.md#authentication-boundary",
+        }.items():
+            rendered = rendered.replace(old, new)
+        self.write("decisions/ADR-002.md", rendered)
+
+        report = okf_bundle.validate_bundle(self.bundle)
+
+        self.assertTrue(report.conformant, report.errors)
+        messages = [finding.message for finding in report.warnings]
+        self.assertFalse(any("partially-superseded decisions require" in message for message in messages))
 
 
 if __name__ == "__main__":

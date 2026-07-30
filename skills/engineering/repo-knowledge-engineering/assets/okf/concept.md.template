@@ -6,6 +6,7 @@ tags: [{{tags}}]
 timestamp: "{{timestamp}}"
 authority: "{{authority}}"
 verification: "{{verification}}"
+# For verified-working or verified-limited, add verified_at and a non-empty verified_against list.
 ---
 
 # {{title}}
@@ -15,6 +16,10 @@ Write the structured concept body here. Use headings, lists, tables, and links w
 ## Related concepts
 
 - Add at least one meaningful relative link when another governed durable concept exists. An incoming link elsewhere already satisfies connectivity.
+
+## Verification
+
+When the concept is `verified-working` or `verified-limited`, record when it was checked and the concrete evidence supporting that status. Remove this section when operational verification does not apply.
 
 # Citations
 
