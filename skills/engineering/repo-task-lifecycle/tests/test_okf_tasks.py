@@ -7,6 +7,7 @@ import io
 import json
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -55,6 +56,34 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("Start a new session when consecutive commits are separated", help_text)
         self.assertIn("split equally before and after each estimated session", help_text)
         self.assertIn("publish a Markdown document, not a task payload", " ".join(parser.format_help().split()))
+
+    def test_cli_output_survives_non_cp1252_task_titles(self) -> None:
+        self.create_task()
+        task_path = self.root / "tasks" / "first-task" / "task.md"
+        metadata, body = okf_tasks.read_document(task_path)
+        metadata["title"] = "Plan → delivery"
+        okf_tasks.write_document(task_path, metadata, body)
+        environment = os.environ.copy()
+        environment["PYTHONIOENCODING"] = "cp1252:strict"
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(CLI_PATH),
+                "time-summary",
+                "--root",
+                str(self.root),
+                "--task",
+                "first-task",
+            ],
+            capture_output=True,
+            text=True,
+            encoding="cp1252",
+            env=environment,
+        )
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn(r"Task: Plan \u2192 delivery (proposed)", result.stdout)
 
     def test_standard_bundle_placements(self) -> None:
         for placement, expected in (("root", "tasks"), ("docs", "docs/tasks")):
