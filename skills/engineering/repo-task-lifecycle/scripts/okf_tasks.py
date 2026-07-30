@@ -2711,7 +2711,16 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def configure_cli_output() -> None:
+    """Keep CLI output printable when the active console encoding is limited."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(errors="backslashreplace")
+
+
 def main() -> int:
+    configure_cli_output()
     args = build_parser().parse_args()
     return int(args.func(args))
 
