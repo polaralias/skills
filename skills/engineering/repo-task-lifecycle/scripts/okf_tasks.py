@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.resources
 import json
 import os
 import re
@@ -25,6 +26,11 @@ except ImportError as error:  # pragma: no cover - exercised by installation env
 
 SKILL_DIR = Path(__file__).resolve().parent.parent
 ASSETS_DIR = SKILL_DIR / "assets"
+if not ASSETS_DIR.is_dir():
+    try:
+        ASSETS_DIR = importlib.resources.files("okf_tasks_assets")
+    except ModuleNotFoundError:
+        pass
 STATUSES = (
     "proposed",
     "ready",
