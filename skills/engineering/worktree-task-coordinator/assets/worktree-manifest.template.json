@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "task": "delivery-slice",
+  "delivery_topology": "parallel",
   "repository_root": "../../../../example-repository",
   "worktree_container": "../../../../example-repository-worktrees",
   "base_revision": "main",
@@ -18,9 +19,27 @@
       "worktree": "../../../../example-repository-worktrees/service-contract",
       "owner": "worker-a",
       "status": "planned",
+      "base_ref": "main",
       "owned_paths": ["src/service", "tests/service"],
       "shared_paths": ["docs/integration.md"],
-      "depends_on": []
+      "depends_on": [],
+      "integration": {
+        "state": "not-started",
+        "source_tip": null,
+        "method": "merge",
+        "destination_ref": "main",
+        "result_tip": null,
+        "verification": "ancestry",
+        "verified_at": null,
+        "review": null
+      },
+      "cleanup": {
+        "state": "not-ready",
+        "verified_tip": null,
+        "worktree": "unknown",
+        "remote_branch": "unknown",
+        "reason": "work has not reached durable integration"
+      }
     },
     {
       "slug": "client-adapter",
@@ -28,9 +47,27 @@
       "worktree": "../../../../example-repository-worktrees/client-adapter",
       "owner": "worker-b",
       "status": "planned",
+      "base_ref": "main",
       "owned_paths": ["src/client", "tests/client"],
       "shared_paths": ["docs/integration.md"],
-      "depends_on": ["service-contract"]
+      "depends_on": ["service-contract"],
+      "integration": {
+        "state": "not-started",
+        "source_tip": null,
+        "method": "merge",
+        "destination_ref": "main",
+        "result_tip": null,
+        "verification": "ancestry",
+        "verified_at": null,
+        "review": null
+      },
+      "cleanup": {
+        "state": "not-ready",
+        "verified_tip": null,
+        "worktree": "unknown",
+        "remote_branch": "unknown",
+        "reason": "work has not reached durable integration"
+      }
     }
   ],
   "shared_path_owners": {

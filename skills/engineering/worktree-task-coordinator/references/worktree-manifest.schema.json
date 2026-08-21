@@ -18,6 +18,10 @@
   "properties": {
     "schema_version": {"const": 1},
     "task": {"type": "string", "minLength": 1},
+    "delivery_topology": {
+      "enum": ["parallel", "integration-branch", "stacked"],
+      "default": "parallel"
+    },
     "repository_root": {"type": "string", "minLength": 1},
     "worktree_container": {"type": "string", "minLength": 1},
     "base_revision": {"type": "string", "minLength": 1},
@@ -35,17 +39,77 @@
     },
     "workstreams": {
       "type": "array",
-      "minItems": 2,
+      "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["slug", "branch", "worktree", "owner", "status", "owned_paths", "shared_paths", "depends_on"]
+        "required": ["slug", "branch", "worktree", "owner", "status", "owned_paths", "shared_paths", "depends_on"],
+        "properties": {
+          "slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+          "branch": {"type": "string", "minLength": 1},
+          "worktree": {"type": "string", "minLength": 1},
+          "owner": {"type": "string", "minLength": 1},
+          "status": {
+            "enum": ["planned", "active", "blocked", "integration", "awaiting-merge", "done", "cancelled"]
+          },
+          "base_ref": {"type": "string", "minLength": 1},
+          "stack_parent": {"type": ["string", "null"]},
+          "owned_paths": {"type": "array", "items": {"type": "string"}},
+          "shared_paths": {"type": "array", "items": {"type": "string"}},
+          "depends_on": {"type": "array", "items": {"type": "string"}},
+          "integration": {"$ref": "#/$defs/integrationEvidence"},
+          "cleanup": {"$ref": "#/$defs/cleanupEvidence"}
+        }
       }
     },
     "shared_path_owners": {"type": "object"},
-    "integration_order": {"type": "array", "minItems": 2},
+    "integration_order": {"type": "array", "minItems": 1},
     "validation": {
       "type": "object",
       "required": ["parallel_safe", "serial"]
+    }
+  },
+  "$defs": {
+    "gitOid": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})$"
+    },
+    "reviewEvidence": {
+      "type": "object",
+      "required": ["provider", "repository", "id", "base_ref", "head_ref", "head_tip", "state"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "repository": {"type": "string", "minLength": 1},
+        "id": {"type": "string", "minLength": 1},
+        "base_ref": {"type": "string", "minLength": 1},
+        "head_ref": {"type": "string", "minLength": 1},
+        "head_tip": {"$ref": "#/$defs/gitOid"},
+        "state": {"enum": ["not-published", "open", "queued", "merged", "closed"]}
+      }
+    },
+    "integrationEvidence": {
+      "type": "object",
+      "required": ["state", "method", "verification"],
+      "properties": {
+        "state": {"enum": ["not-started", "in-progress", "awaiting-merge", "durably-integrated", "retained"]},
+        "source_tip": {"oneOf": [{"$ref": "#/$defs/gitOid"}, {"type": "null"}]},
+        "method": {"enum": ["merge", "squash", "rebase", "cherry-pick", "stack", "other"]},
+        "destination_ref": {"type": ["string", "null"]},
+        "result_tip": {"oneOf": [{"$ref": "#/$defs/gitOid"}, {"type": "null"}]},
+        "verification": {"enum": ["ancestry", "exact-review-head", "recorded-rewrite-chain"]},
+        "verified_at": {"type": ["string", "null"]},
+        "review": {"oneOf": [{"$ref": "#/$defs/reviewEvidence"}, {"type": "null"}]}
+      }
+    },
+    "cleanupEvidence": {
+      "type": "object",
+      "required": ["state", "verified_tip", "worktree", "remote_branch", "reason"],
+      "properties": {
+        "state": {"enum": ["not-ready", "deferred", "ready", "removed", "retained"]},
+        "verified_tip": {"oneOf": [{"$ref": "#/$defs/gitOid"}, {"type": "null"}]},
+        "worktree": {"enum": ["clean", "dirty", "missing", "unknown"]},
+        "remote_branch": {"enum": ["present", "absent", "unknown"]},
+        "reason": {"type": "string", "minLength": 1}
+      }
     }
   }
 }

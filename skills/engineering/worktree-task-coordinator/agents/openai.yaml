@@ -1,9 +1,9 @@
 interface:
   display_name: "Worktree Task Coordinator"
-  short_description: "Coordinate safe concurrent Git worktrees."
+  short_description: "Coordinate worktrees, branch stacks, integration evidence, and cleanup."
   icon_small: "assets/icon.svg"
   icon_large: "assets/icon.svg"
-  default_prompt: "Use $worktree-task-coordinator to validate a bounded parallel split, record branch and path ownership, coordinate isolated Git worktrees, reconcile the final tree, and preserve existing authority boundaries."
+  default_prompt: "Use $worktree-task-coordinator to reconcile managed worktree debt, choose a parallel, integration-branch, or stacked delivery topology, validate branch and path ownership, preserve exact integration evidence, and perform only cleanup whose current safety predicate passes."
 policy:
   allow_implicit_invocation: true
   products:
