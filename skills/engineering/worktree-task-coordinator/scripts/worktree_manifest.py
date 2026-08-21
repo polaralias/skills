@@ -9,8 +9,25 @@ from pathlib import Path
 
 
 REQUIRED_AUTHORITY_KEYS = {"merge", "push", "deploy", "publish"}
-WORKSTREAM_STATUSES = {"planned", "active", "blocked", "integration", "done", "cancelled"}
+DELIVERY_TOPOLOGIES = {"parallel", "integration-branch", "stacked"}
+WORKSTREAM_STATUSES = {
+    "planned",
+    "active",
+    "blocked",
+    "integration",
+    "awaiting-merge",
+    "done",
+    "cancelled",
+}
+INTEGRATION_STATES = {"not-started", "in-progress", "awaiting-merge", "durably-integrated", "retained"}
+INTEGRATION_METHODS = {"merge", "squash", "rebase", "cherry-pick", "stack", "other"}
+INTEGRATION_VERIFICATIONS = {"ancestry", "exact-review-head", "recorded-rewrite-chain"}
+REVIEW_STATES = {"not-published", "open", "queued", "merged", "closed"}
+CLEANUP_STATES = {"not-ready", "deferred", "ready", "removed", "retained"}
+WORKTREE_EVIDENCE_STATES = {"clean", "dirty", "missing", "unknown"}
+REMOTE_BRANCH_STATES = {"present", "absent", "unknown"}
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+OID_PATTERN = re.compile(r"^(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})$")
 
 
 def normalize_repo_path(value: str) -> str:
@@ -30,6 +47,113 @@ def paths_overlap(left: str, right: str) -> bool:
     right_parts = Path(normalize_repo_path(right)).parts
     length = min(len(left_parts), len(right_parts))
     return left_parts[:length] == right_parts[:length]
+
+
+def valid_oid(value: object) -> bool:
+    return isinstance(value, str) and OID_PATTERN.fullmatch(value) is not None
+
+
+def validate_review(review: object, label: str, errors: list[str]) -> dict[str, object] | None:
+    if review is None:
+        return None
+    if not isinstance(review, dict):
+        errors.append(f"{label} must be an object")
+        return None
+    for field in ("provider", "repository", "id", "base_ref", "head_ref", "head_tip", "state"):
+        if field not in review:
+            errors.append(f"{label} missing {field}")
+    for field in ("provider", "repository", "id", "base_ref", "head_ref"):
+        if field in review and (not isinstance(review.get(field), str) or not str(review.get(field)).strip()):
+            errors.append(f"{label}.{field} must be a non-empty string")
+    if review.get("state") not in REVIEW_STATES:
+        errors.append(f"{label}.state is invalid")
+    if "head_tip" in review and not valid_oid(review.get("head_tip")):
+        errors.append(f"{label}.head_tip must be a full Git object ID")
+    return review
+
+
+def validate_integration_evidence(item: dict[str, object], slug: str, errors: list[str]) -> dict[str, object] | None:
+    evidence = item.get("integration")
+    if evidence is None:
+        return None
+    label = f"{slug}.integration"
+    if not isinstance(evidence, dict):
+        errors.append(f"{label} must be an object")
+        return None
+    if evidence.get("state") not in INTEGRATION_STATES:
+        errors.append(f"{label}.state is invalid")
+    if evidence.get("method") not in INTEGRATION_METHODS:
+        errors.append(f"{label}.method is invalid")
+    if evidence.get("verification") not in INTEGRATION_VERIFICATIONS:
+        errors.append(f"{label}.verification is invalid")
+    if evidence.get("destination_ref") is not None and (
+        not isinstance(evidence.get("destination_ref"), str) or not str(evidence.get("destination_ref")).strip()
+    ):
+        errors.append(f"{label}.destination_ref must be null or a non-empty string")
+    for field in ("source_tip", "result_tip"):
+        value = evidence.get(field)
+        if value is not None and not valid_oid(value):
+            errors.append(f"{label}.{field} must be null or a full Git object ID")
+    review = validate_review(evidence.get("review"), f"{label}.review", errors)
+    if evidence.get("state") == "durably-integrated":
+        for field in ("source_tip", "destination_ref", "verified_at"):
+            if not evidence.get(field):
+                errors.append(f"{label}.{field} is required for durably-integrated state")
+        verification = evidence.get("verification")
+        if verification == "exact-review-head":
+            if review is None or review.get("state") != "merged":
+                errors.append(f"{label}: exact-review-head requires a merged review")
+            elif review.get("head_tip") != evidence.get("source_tip"):
+                errors.append(f"{label}: merged review head must equal source_tip")
+            if review is not None and review.get("base_ref") != evidence.get("destination_ref"):
+                errors.append(f"{label}: merged review base must equal destination_ref")
+            if review is not None and review.get("head_ref") != item.get("branch"):
+                errors.append(f"{label}: merged review head_ref must equal the workstream branch")
+        if verification == "recorded-rewrite-chain":
+            if not evidence.get("result_tip"):
+                errors.append(f"{label}: recorded-rewrite-chain requires result_tip")
+            if review is None or review.get("state") != "merged":
+                errors.append(f"{label}: recorded-rewrite-chain requires a merged terminal review")
+    return evidence
+
+
+def validate_cleanup_evidence(
+    item: dict[str, object],
+    slug: str,
+    integration: dict[str, object] | None,
+    errors: list[str],
+) -> None:
+    cleanup = item.get("cleanup")
+    if cleanup is None:
+        return
+    label = f"{slug}.cleanup"
+    if not isinstance(cleanup, dict):
+        errors.append(f"{label} must be an object")
+        return
+    for field in ("state", "verified_tip", "worktree", "remote_branch", "reason"):
+        if field not in cleanup:
+            errors.append(f"{label} missing {field}")
+    if cleanup.get("state") not in CLEANUP_STATES:
+        errors.append(f"{label}.state is invalid")
+    if cleanup.get("worktree") not in WORKTREE_EVIDENCE_STATES:
+        errors.append(f"{label}.worktree is invalid")
+    if cleanup.get("remote_branch") not in REMOTE_BRANCH_STATES:
+        errors.append(f"{label}.remote_branch is invalid")
+    verified_tip = cleanup.get("verified_tip")
+    if verified_tip is not None and not valid_oid(verified_tip):
+        errors.append(f"{label}.verified_tip must be null or a full Git object ID")
+    if "reason" in cleanup and (not isinstance(cleanup.get("reason"), str) or not str(cleanup.get("reason")).strip()):
+        errors.append(f"{label}.reason must be a non-empty string")
+    if cleanup.get("state") in {"ready", "removed"}:
+        if integration is None or integration.get("state") != "durably-integrated":
+            errors.append(f"{label}: ready or removed cleanup requires durably-integrated evidence")
+        elif verified_tip != integration.get("source_tip"):
+            errors.append(f"{label}: verified_tip must equal the integrated source_tip")
+        if cleanup.get("remote_branch") != "absent":
+            errors.append(f"{label}: ready or removed cleanup requires an absent remote branch")
+        expected_worktree = "missing" if cleanup.get("state") == "removed" else "clean"
+        if cleanup.get("worktree") != expected_worktree:
+            errors.append(f"{label}: {cleanup.get('state')} cleanup requires worktree={expected_worktree}")
 
 
 def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
@@ -53,6 +177,10 @@ def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
     if data["schema_version"] != 1:
         errors.append("schema_version must be 1")
 
+    topology = data.get("delivery_topology", "parallel")
+    if topology not in DELIVERY_TOPOLOGIES:
+        errors.append(f"delivery_topology must be one of {', '.join(sorted(DELIVERY_TOPOLOGIES))}")
+
     repo_root = (manifest_dir / str(data["repository_root"])).resolve()
     container = (manifest_dir / str(data["worktree_container"])).resolve()
     if is_within(container, repo_root):
@@ -70,8 +198,8 @@ def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
                 errors.append(f"authority.{key} must be 'inherited'; the manifest cannot grant authority")
 
     workstreams = data["workstreams"]
-    if not isinstance(workstreams, list) or len(workstreams) < 2:
-        errors.append("workstreams must contain at least two parallel workstreams")
+    if not isinstance(workstreams, list) or not workstreams:
+        errors.append("workstreams must contain at least one managed workstream")
         return errors
 
     slugs: set[str] = set()
@@ -80,6 +208,7 @@ def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
     owned_by_stream: dict[str, list[str]] = {}
     shared_users: dict[str, set[str]] = {}
     dependencies: dict[str, list[str]] = {}
+    workstream_items: dict[str, dict[str, object]] = {}
 
     for index, item in enumerate(workstreams):
         label = f"workstreams[{index}]"
@@ -115,6 +244,10 @@ def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
             errors.append(f"{slug}: worktree must not be inside repository_root")
         if item.get("status") not in WORKSTREAM_STATUSES:
             errors.append(f"{slug}: invalid status {item.get('status')!r}")
+        if "base_ref" in item and (not isinstance(item.get("base_ref"), str) or not str(item.get("base_ref")).strip()):
+            errors.append(f"{slug}: base_ref must be a non-empty string")
+        if "stack_parent" in item and item.get("stack_parent") is not None and not isinstance(item.get("stack_parent"), str):
+            errors.append(f"{slug}: stack_parent must be a string or null")
         owned_raw = item.get("owned_paths", [])
         shared_raw = item.get("shared_paths", [])
         dependencies_raw = item.get("depends_on", [])
@@ -129,6 +262,9 @@ def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
         for path in shared:
             shared_users.setdefault(path, set()).add(slug)
         dependencies[slug] = [str(value) for value in dependencies_raw]
+        workstream_items[slug] = item
+        integration = validate_integration_evidence(item, slug, errors)
+        validate_cleanup_evidence(item, slug, integration, errors)
 
     stream_items = list(owned_by_stream.items())
     for left_index, (left_slug, left_paths) in enumerate(stream_items):
@@ -168,6 +304,56 @@ def validate_manifest(data: dict[str, object], manifest_dir: Path) -> list[str]:
                 elif positions[dependency] >= positions[slug]:
                     errors.append(f"{slug}: dependency {dependency} must appear earlier in integration_order")
 
+    if topology == "stacked" and slugs:
+        if len(slugs) < 2:
+            errors.append("stacked topology requires at least two layers")
+        roots: list[str] = []
+        children: dict[str, list[str]] = {slug: [] for slug in slugs}
+        published_repositories: set[tuple[str, str]] = set()
+        for slug, item in workstream_items.items():
+            if "base_ref" not in item or "stack_parent" not in item:
+                errors.append(f"{slug}: stacked topology requires base_ref and stack_parent")
+                continue
+            parent = item.get("stack_parent")
+            if parent is None:
+                roots.append(slug)
+                if item.get("base_ref") != data["integration_destination"]:
+                    errors.append(f"{slug}: bottom stack layer must target integration_destination")
+            else:
+                parent_slug = str(parent)
+                if parent_slug not in slugs:
+                    errors.append(f"{slug}: unknown stack_parent {parent_slug}")
+                    continue
+                children[parent_slug].append(slug)
+                parent_branch = workstream_items[parent_slug].get("branch")
+                if item.get("base_ref") != parent_branch:
+                    errors.append(f"{slug}: base_ref must equal its stack parent's branch")
+                if parent_slug not in dependencies.get(slug, []):
+                    errors.append(f"{slug}: stack_parent must also be a dependency")
+            integration = item.get("integration")
+            review = integration.get("review") if isinstance(integration, dict) else None
+            if isinstance(review, dict):
+                published_repositories.add((str(review.get("provider")), str(review.get("repository"))))
+                if review.get("head_ref") != item.get("branch"):
+                    errors.append(f"{slug}: stacked review head_ref must equal the layer branch")
+                if review.get("base_ref") != item.get("base_ref"):
+                    errors.append(f"{slug}: stacked review base_ref must equal the layer base_ref")
+        if len(roots) != 1:
+            errors.append("stacked topology must contain exactly one bottom layer")
+        if any(len(values) > 1 for values in children.values()):
+            errors.append("stacked topology must be a linear chain, not a branching graph")
+        if len(published_repositories) > 1:
+            errors.append("stacked reviews must use one provider repository")
+        if len(roots) == 1 and isinstance(order, list):
+            chain: list[str] = []
+            current: str | None = roots[0]
+            while current is not None and current not in chain:
+                chain.append(current)
+                next_values = children.get(current, [])
+                current = next_values[0] if len(next_values) == 1 else None
+            if [str(value) for value in order] != chain:
+                errors.append("integration_order must run from the bottom to the top of the stack")
+
     validation = data["validation"]
     if not isinstance(validation, dict) or not isinstance(validation.get("parallel_safe"), list) or not isinstance(validation.get("serial"), list):
         errors.append("validation must contain parallel_safe and serial command lists")
@@ -205,9 +391,10 @@ def plan_command(args: argparse.Namespace) -> int:
     commands = []
     for item in data["workstreams"]:
         worktree = (path.parent / str(item["worktree"])).resolve()
+        workstream_base = str(item.get("base_ref") or base)
         commands.append({
             "workstream": item["slug"],
-            "argv": ["git", "worktree", "add", "-b", str(item["branch"]), str(worktree), base],
+            "argv": ["git", "worktree", "add", "-b", str(item["branch"]), str(worktree), workstream_base],
         })
     print(json.dumps(commands, indent=2))
     return 0
