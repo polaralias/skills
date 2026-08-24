@@ -40,3 +40,58 @@ def test_scenario_corpus_covers_every_skill_on_both_axes() -> None:
     scenarios = validate_skill_descriptions.load_scenarios()
 
     assert validate_skill_descriptions.validate_scenarios(scenarios, skills) == []
+
+
+def test_scenarios_support_ordered_multi_skill_routes() -> None:
+    skills = [
+        validate_skill_descriptions.SkillDescription(
+            name=name,
+            description=f"Use when needed. Shorthand {alias}.",
+            path=Path(f"skills/{name}/SKILL.md"),
+        )
+        for name, alias in (("align", "ALG"), ("handoff", "HND"))
+    ]
+    scenarios = [
+        {
+            "id": "align-then-handoff",
+            "kind": "positive",
+            "prompt": "Wrap up and leave a handoff.",
+            "expected_skills": ["align", "handoff"],
+        },
+        {
+            "id": "align-boundary",
+            "kind": "boundary",
+            "prompt": "Align only.",
+            "expected_skills": ["align"],
+        },
+        {
+            "id": "handoff-boundary",
+            "kind": "boundary",
+            "prompt": "Handoff only.",
+            "expected_skills": ["handoff"],
+        },
+    ]
+
+    assert validate_skill_descriptions.validate_scenarios(scenarios, skills) == []
+
+
+def test_scenarios_reject_legacy_single_skill_field() -> None:
+    skills = [
+        validate_skill_descriptions.SkillDescription(
+            name="align",
+            description="Use when needed. Shorthand ALG.",
+            path=Path("skills/align/SKILL.md"),
+        )
+    ]
+    scenarios = [
+        {
+            "id": "legacy",
+            "kind": "positive",
+            "prompt": "Align this.",
+            "expected_skill": "align",
+        }
+    ]
+
+    errors = validate_skill_descriptions.validate_scenarios(scenarios, skills)
+
+    assert any("use ordered expected_skills" in error for error in errors)

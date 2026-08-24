@@ -18,6 +18,14 @@ Expected:
 Prompt: "We are pausing during doc-driven-development. Write a local handoff that preserves the current workflow stage and the next likely skill."
 Expected:
 - the handoff includes the workflow-state section
+
+## 1ab. Material-session alignment before handoff
+Prompt: "Leave a handoff and wrap up this material engineering session."
+
+Expected behaviour:
+- routes through `repo-session-alignment` before `local-handoff`
+- aligns task, knowledge, evidence, and explanation truth without asking RSA to create the handoff
+- writes the continuation handoff only after alignment succeeds or reports the blocker honestly
 - it captures the active stage and next likely skill without copying large plan bodies
 
 ## 1b. Max-verbosity handoff
