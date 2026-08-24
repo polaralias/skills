@@ -1,11 +1,11 @@
 ---
 name: worktree-task-coordinator
-description: Coordinate Git work through explicit worktree, branch, path-ownership, dependency, integration, stacked-PR, reconciliation, and cleanup records. Use for independently mergeable parallel workstreams, dependency-ordered branch stacks, confusing or stale managed worktrees, or deferred post-merge cleanup. Do not use it to design the backlog, implement changes, or grant merge, deployment, or external-system authority. Shorthand WTC.
+description: Use when the user asks to split work across Git worktrees or branches, coordinate parallel or stacked changes, assign path ownership, track branch dependencies, reconcile confusing managed worktrees, or clean them up after merge. Maintains explicit worktree, branch, dependency, integration, and cleanup records. Do not use to design the backlog (DDD/RTL), implement the changes, or grant merge, deployment, or external-system authority. Shorthand WTC.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.0
-  updated: '2026-08-21'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # worktree-task-coordinator

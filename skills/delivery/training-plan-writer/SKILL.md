@@ -1,11 +1,11 @@
 ---
 name: training-plan-writer
-description: 'Produce paired customer-facing training plans: a concise operational version and a more detailed facilitator-grade version. Use when a user needs training design built from agreed scope, customer objectives, and practical UAT or sandbox workflows rather than generic project-management content. Shorthand TRW.'
+description: Use when the user asks for a customer training plan, facilitator plan, learning-session design, or training built around agreed scope, objectives, UAT, or sandbox workflows. Produces a concise operational plan and a detailed facilitator version. Do not use for a generic implementation plan (IPW) or training-document formatting alone (DXA). Shorthand TRW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # training-plan-writer

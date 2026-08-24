@@ -1,11 +1,11 @@
 ---
 name: agenda-generator
-description: Draft meeting agendas in either a lean working format or a more formal sectioned format. Use when a user wants an agenda written from a simple prompt, a meeting title, or a more complex stakeholder context. Shorthand AGN.
+description: Use when the user asks to write an agenda, plan a meeting, turn a meeting title into discussion topics, or structure objectives, timings, owners, and decisions for a session. Produces a lean working agenda or formal stakeholder agenda. Do not use for processing notes after the meeting (MPP). Shorthand AGN.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # agenda-generator

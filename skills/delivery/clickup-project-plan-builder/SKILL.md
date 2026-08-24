@@ -1,11 +1,11 @@
 ---
 name: clickup-project-plan-builder
-description: Design and build ClickUp project-planning structures, including hierarchy, tags, and saved views for Gantt-led or board-led delivery. Use when a user wants a project brief turned into a practical ClickUp planning surface rather than a generic task dump. Shorthand CPP.
+description: Use when the user asks to turn a project brief into ClickUp, design a ClickUp hierarchy, choose tags, or configure Gantt, board, and saved views for delivery. Produces a practical ClickUp planning structure rather than a flat task dump. Do not use for a tool-neutral implementation plan (IPW) or repository-local engineering task ledger (RTL). Shorthand CPP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # clickup-project-plan-builder

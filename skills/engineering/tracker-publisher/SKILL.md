@@ -1,11 +1,11 @@
 ---
 name: tracker-publisher
-description: Publish implementation-ready work packages or repository-local task records into GitHub, Linear, or another external tracker. Use when the source hierarchy and acceptance surface already exist and the remaining job is adapting or publishing them with shared output defaults. Do not use it to design work packages or maintain the repository-local task lifecycle. Shorthand TPU.
+description: Use when the user asks to publish, create, or synchronise already-defined work packages or repository task records into GitHub, GitLab, Linear, ClickUp, or another external tracker. Adapts the existing hierarchy and acceptance surface to the target tracker using shared output defaults. Do not use to design the work (DDD), maintain the repository-local task ledger (RTL), or infer missing product truth (QTK). Shorthand TPU.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.2.2
-  updated: '2026-07-20'
+  version: 3.0.0
+  updated: '2026-08-24'
 ---
 
 # tracker-publisher

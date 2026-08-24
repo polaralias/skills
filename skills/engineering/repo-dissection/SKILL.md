@@ -1,11 +1,11 @@
 ---
 name: repo-dissection
-description: Dissect an inherited, unclear, or vibe-coded repository and turn it into explicit documented understanding, including an OKF-compatible initial knowledge foundation when appropriate. Use when mapping structure, treating docs or generated wikis as unverified claims, validating runtime behaviour, classifying code/documentation drift, consuming existing OKF output, or bootstrapping the first trustworthy agent-maintained documentation spine. Shorthand RDS.
+description: Use when the user inherits an unfamiliar, undocumented, unclear, or vibe-coded repository; asks how the whole repo works; wants entry points, runtime paths, state, boundaries, and drift mapped; or needs the first trustworthy documentation foundation. Verifies code, runtime, and existing docs rather than trusting generated summaries, and can bootstrap OKF-compatible knowledge when appropriate. Do not use for routine changes in an already-legible repo (RCC/RKE) or unresolved individual questions (QTK). Shorthand RDS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.7.2
-  updated: '2026-07-20'
+  version: 3.0.0
+  updated: '2026-08-24'
 ---
 
 # repo-dissection

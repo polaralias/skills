@@ -1,11 +1,11 @@
 ---
 name: skill-finaliser
-description: Finalise imported, draft, or half-finished skills into a clean, publishable skill package. Use when extracting a zipped skill, normalising SKILL.md frontmatter, creating the skill alias convention, aligning agents/openai.yaml to the expected interface shape, tightening trigger descriptions, adding a licence file, creating or refreshing tests/prompts.md, generating or fixing an icon, checking package hygiene, and validating that bundled references, scripts, and tests are proportionate to the skill's purpose. Shorthand SKF.
+description: Use when the user asks to finalise, normalise, package, publish, or import a skill; extract a zipped skill; fix SKILL.md frontmatter or agents/openai.yaml; add its licence, icon, tests, or references; or validate package hygiene before release. Produces a clean publishable skill package. Do not use to design a new skill's purpose (skill-creator), review instructions only (LIR), or build formal evals (SEW). Shorthand SKF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.5.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # skill-finaliser

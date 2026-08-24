@@ -1,10 +1,10 @@
 ---
 name: setup-polaralias-skills
-description: Configure shared Polaralias skill defaults and portable host-routing instructions outside installed skill folders. Use when a user wants to set or refresh cross-repo branding, typography, assets, continuity, structured-output or tracker defaults, or project/user-level Claude and agent instructions that make installed Polaralias skills invoke reliably. Shorthand SPS.
+description: Use when the user asks to set up or refresh shared Polaralias defaults; configure branding, fonts, assets, tone, continuity, tracker, or structured-output preferences across repositories; or install portable Claude or agent routing instructions for the Polaralias skill families. Writes update-safe user or project configuration outside installed skill folders. Do not use to edit an individual skill package (SKF) or a host's unrelated settings. Shorthand SPS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.7.0
+  version: 2.0.0
   updated: '2026-08-24'
 ---
 

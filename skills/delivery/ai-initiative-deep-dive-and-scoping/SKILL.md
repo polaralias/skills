@@ -1,11 +1,11 @@
 ---
 name: ai-initiative-deep-dive-and-scoping
-description: Lead the late-stage validation and scoping pass for an AI initiative, including feasibility analysis, POC and MVP boundaries, production-readiness framing, proposal content, and decision-pack outputs. Use when a prioritised initiative is ready for structured challenge rather than early discovery or idea generation. Shorthand ADS.
+description: Use when the user has a prioritised AI initiative and asks to test feasibility, define POC or MVP boundaries, assess production readiness, scope delivery, or prepare a proposal or decision pack. Produces a challenged, implementation-shaped scope. Do not use for early idea discovery or portfolio prioritisation (AIB). Shorthand ADS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # ai-initiative-deep-dive-and-scoping

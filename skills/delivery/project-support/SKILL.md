@@ -1,11 +1,11 @@
 ---
 name: project-support
-description: Orient, validate, and route real project work before a more specialised project skill takes over. Use when the user needs help deciding whether something is a true project, locating or checking PROJECT.md, validating project lookup metadata, or choosing the next appropriate project-management skill. Shorthand PRS.
+description: Use when the user asks where to start with project work, whether an effort is a real project, where PROJECT.md lives, whether project lookup metadata is valid, or which project skill should handle the request. Inspects and routes without producing a specialist deliverable. Do not use when the required output already clearly matches PCB, PKG, PRW, IPW, CPP, or TRW. Shorthand PRS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # project-support

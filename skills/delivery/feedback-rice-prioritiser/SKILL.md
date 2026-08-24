@@ -1,11 +1,11 @@
 ---
 name: feedback-rice-prioritiser
-description: Turn messy customer or user feedback into a clean, product-ready problem statement and prioritisation draft. Use when a user shares feedback and wants a structured RICE item, feature request, backlog candidate, or prioritised product note. The skill explains and applies RICE, asks for missing confirmations when needed, and can prepare a tracker-ready handoff without assuming one specific tool. Shorthand FRP.
+description: Use when the user shares messy customer feedback and asks for a problem statement, feature request, backlog candidate, product note, or RICE prioritisation. Produces a confirmed, tracker-ready item without assuming a tracker. Do not use for publishing an already-approved work package (TPU) or broad project prioritisation. Shorthand FRP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # feedback-rice-prioritiser

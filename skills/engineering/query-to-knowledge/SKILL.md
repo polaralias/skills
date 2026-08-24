@@ -1,11 +1,11 @@
 ---
 name: query-to-knowledge
-description: Resolve open repository questions into durable canonical knowledge, including updating OKF-compatible concepts while preserving producer extensions. Use when terminology is fuzzy, decisions are soft, docs, code, or generated knowledge disagree, a plan needs pressure-testing, or resolved answers must be captured into an existing repository knowledge bundle. Ask the largest useful related question set, minimise rediscovery, and preserve the established knowledge format. Shorthand QTK.
+description: Use when the user asks an unresolved repository question, wants a term or decision clarified, says the docs and code disagree, asks which source is right, or needs assumptions pressure-tested before they become durable truth. Investigates the largest useful related question set and records resolved answers in the established knowledge format, including OKF where adopted. Do not use for routine maintenance of already-resolved documentation (RKE), first-time repository mapping (RDS), or explaining a completed code change (RCC). Shorthand QTK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.7.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # query-to-knowledge

@@ -1,10 +1,10 @@
 ---
 name: engineering-workflow-orchestrator
-description: Coordinate a repository engineering session across repository knowledge, docs-first decomposition, local task lifecycle, concurrent or dependency-stacked Git delivery, implementation, verified change explanation, task-and-knowledge closure, tracker publication, and continuity. Use to classify the current workflow stage, route to the right specialist, keep state explicit, close a material session with commit-safe and user-facing change context, or shape Codex and Claude Code continuity hooks. Shorthand EWO.
+description: Use when the user asks to start, continue, coordinate, or close a repository engineering session and the work may span planning, tasks, implementation, worktrees, documentation, change explanation, or handoff. Identifies the current workflow stage, routes to the right specialist skills, and keeps session state and closure explicit. Do not use when one clearly named specialist skill can complete the whole request without orchestration. Shorthand EWO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.9.0
+  version: 2.0.0
   updated: '2026-08-24'
 ---
 

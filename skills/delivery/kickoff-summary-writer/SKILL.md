@@ -1,11 +1,11 @@
 ---
 name: kickoff-summary-writer
-description: Turn kickoff, discovery, or onboarding source material into an evidence-backed synthesis with traceable references, then package it for the right audience. Use when a user wants a kickoff summary, discovery recap, implementation overview, or similar synthesis from transcripts, notes, or mixed source packs. Shorthand KSW.
+description: Use when the user asks to summarise a kickoff, recap discovery or onboarding, create an implementation overview, or synthesise mixed notes, transcripts, and source files after an initial project session. Produces an evidence-backed audience-appropriate summary with traceable references. Do not use for ongoing project status reporting (PRW) or generic meeting processing (MPP). Shorthand KSW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # kickoff-summary-writer

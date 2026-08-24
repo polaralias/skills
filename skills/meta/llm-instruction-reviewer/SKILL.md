@@ -1,11 +1,11 @@
 ---
 name: llm-instruction-reviewer
-description: Inspect prompts, skills, agent instructions, system prompts, and related LLM instruction artefacts for execution risks such as rule collisions, fuzzy guidance, voice inconsistency, overloaded logic, missing behaviour coverage, and conflicts across referenced files. Use when a user wants a review before publication, repair, or evaluation. Shorthand LIR.
+description: Use when the user asks to review, critique, audit, or pressure-test a prompt, skill, agent instruction, or system prompt before publication or repair; or asks why an instruction artefact behaves inconsistently. Reports execution risks and repair directions without rewriting the artefact. Do not use when direct fixes are already requested (LIF) or when the main output is an evaluation suite (SEW). Shorthand LIR.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # llm-instruction-reviewer

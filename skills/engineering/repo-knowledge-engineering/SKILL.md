@@ -1,10 +1,10 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, streamline, and keep a repository knowledge base trustworthy through agent-led maintenance, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artefacts, reducing stale or duplicated knowledge, improving answer retrieval, adopting or validating OKF-compatible knowledge docs, running cross-artefact truth checks, reconciling verified gaps exposed by change explanations or user follow-up, or aligning docs, decisions, glossary, reading order, evidence, and linked execution truth. Shorthand RKE.
+description: Use when the user says repository docs are stale, wrong, duplicated, scattered, or hard to search; asks where something is documented; wants a decision or glossary term written down properly; or when RCC exposes a gap in canonical docs. Maintains the trusted documentation, reading order, decisions, glossary, and evidence links; when the repository uses OKF, keeps that knowledge bundle conformant. Do not use for unresolved questions (QTK), first-time repo archaeology (RDS), or task records (RTL). Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.8.0
+  version: 4.0.0
   updated: '2026-08-24'
 ---
 

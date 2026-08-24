@@ -1,11 +1,11 @@
 ---
 name: knowledge-transfer-documentation-writer
-description: Write structured knowledge transfer documentation from authoritative product, design, implementation, or discovery source material. Use when a user wants a feature, workflow, or work package turned into a concise, navigable internal document that preserves context, benefits, decisions, implementation shape, and traceability without dumping raw task detail into the body. Shorthand KTD.
+description: Use when the user asks to document how a feature, workflow, implementation, or work package works for internal handover or knowledge transfer. Produces a concise, navigable document preserving context, benefits, decisions, implementation shape, and traceability. Do not use for a step-by-step operational SOP (PDW), canonical repository knowledge maintenance (RKE), or Word formatting alone (DXA). Shorthand KTD.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # knowledge-transfer-documentation-writer
