@@ -1,11 +1,11 @@
 ---
 name: process-document-writer
-description: Create or revise formal process documents and structured operating procedures from notes, examples, or existing documents. Use when a user wants a practical SOP, workflow, governance process, runbook, or similar operational document with the final `.docx` generation handled by a dedicated document tool. Shorthand PDW.
+description: Use when the user asks to write or revise an SOP, operating procedure, governance process, workflow document, runbook, or other step-by-step operational guidance from notes or examples. Produces the process content and structure; use DXA separately when the final deliverable must be `.docx`. Do not use for feature knowledge transfer (KTD) or repository-wide canonical docs (RKE). Shorthand PDW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # process-document-writer

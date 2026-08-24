@@ -1,11 +1,11 @@
 ---
 name: source-derived-design-system-builder
-description: Create a reusable design skill and a DESIGN.md file from captured visual references such as saved pages, screenshots, logos, exported tokens, UI kits, icons, and notes. Use when the user wants to turn a real product, site, themed variant, or design language into persistent instructions for coding agents rather than relying on one-off prompts. Shorthand SDS.
+description: Use when the user asks to derive a reusable design system from screenshots, saved pages, logos, tokens, UI kits, icons, or an existing product and persist it for coding agents. Produces DESIGN.md plus a reusable design skill from real visual evidence. Do not use for a one-off diagram (MFD) or direct frontend implementation without a persistent design-system deliverable. Shorthand SDS.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # source-derived-design-system-builder

@@ -1,11 +1,11 @@
 ---
 name: local-handoff
-description: Create and lifecycle-manage a local continuation handoff for the next session. Use when ending a tranche so the next session can resume safely from one active, dated, review-bounded handoff stored beside but outside canonical knowledge and task bundles, especially when preserving the current engineering workflow stage. Shorthand LHO.
+description: Use when the user is stopping work for now, asks to leave a handoff for the next session, or needs current progress, decisions, risks, and next actions preserved locally. Creates one active dated continuation handoff outside canonical knowledge and task bundles, then manages supersession and cleanup. Do not use for a final user-facing change explanation (RCC), canonical documentation (RKE), or resuming from an existing handoff (LPK). Shorthand LHO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.8.0
-  updated: '2026-07-30'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # local-handoff

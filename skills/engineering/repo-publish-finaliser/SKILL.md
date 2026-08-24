@@ -1,11 +1,11 @@
 ---
 name: repo-publish-finaliser
-description: Finalise a software repository for public release by closing development-tranche loose ends, aligning canonical docs, pruning stale archive or plan surfaces, checking TODOs and active paths, cleaning repo hygiene issues, installing and using gitleaks for secret scanning, and running a bounded publish-safety sweep for PII, credentials, local file paths, `.env` and OAuth artefacts, caches, and other accidental private material. Use when a user asks to finish, finalise, harden, tidy, publish, or make a repository public-ready. Shorthand RPF.
+description: Use when the user asks to finish, finalise, harden, tidy, publish, open-source, or make a software repository public-ready. Closes development loose ends, aligns canonical docs, removes stale surfaces, checks active paths and TODOs, and runs bounded secret, PII, credential, local-path, environment-file, cache, and repository-hygiene scans. Do not use for ordinary session closure (RSA), release notes alone (RNW), or initial repository setup (RST). Shorthand RPF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: "1.3.2"
-  updated: '2026-07-20'
+  version: "2.0.0"
+  updated: '2026-08-24'
 ---
 
 # repo-publish-finaliser

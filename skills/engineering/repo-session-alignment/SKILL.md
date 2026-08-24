@@ -1,10 +1,10 @@
 ---
 name: repo-session-alignment
-description: Reconcile repository-local task execution truth and canonical repository knowledge at the end of a material engineering session or delivery tranche, while carrying a verified change-comprehension summary into the closing response when implementation changed materially. Use before reporting completion or producing a handoff when tasks, RKE-managed knowledge, or the user-facing explanation may need alignment. Do not use it to bootstrap absent task or knowledge systems. Shorthand RSA.
+description: Use when about to report completion, hand off, or close a material engineering session and repository tasks, canonical docs, evidence, or the user-facing explanation may have drifted from what actually landed. Reconciles task execution truth, RKE-managed knowledge, validation evidence, and the verified RCC summary before closure. Do not use to bootstrap missing task or knowledge systems, explain a change by itself (RCC), or create a continuation handoff (LHO). Shorthand RSA.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.0
+  version: 2.0.0
   updated: '2026-08-24'
 ---
 

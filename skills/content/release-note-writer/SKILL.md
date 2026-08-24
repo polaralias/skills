@@ -1,11 +1,11 @@
 ---
 name: release-note-writer
-description: Write structured release notes from authoritative planning material, shipped implementation detail, and supporting documentation. Use when a user wants one or more product changes turned into concise, customer-facing release notes with stable structure, clear benefits, useful technical context, and explicit gaps where source material is incomplete. Shorthand RNW.
+description: Use when the user asks to write release notes, announce shipped changes, turn implementation details into customer-facing updates, or combine several completed changes into a release summary. Produces concise benefits, useful technical context, and explicit source gaps. Do not use for a pre-release implementation plan (IPW) or repository publication checklist (RPF). Shorthand RNW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # release-note-writer

@@ -1,10 +1,10 @@
 ---
 name: repo-change-comprehension
-description: Verify and explain a bounded repository change in causal, symbol-level language for commit context, user-facing session summaries, optional follow-up questions, and post-question truth reconciliation. Use after material implementation or when a user asks what changed, how a new path works, what was removed, or whether the explanation exposes documentation or implementation drift. Do not use as a quiz, approval gate, or substitute for code review, testing, canonical documentation, or task lifecycle management. Shorthand RCC.
+description: Use when material implementation has finished or the user asks what changed, how a new path works, what calls what, what was removed, why an implementation changed, or what they need to understand before committing. Verifies the bounded diff and explains the causal symbol-level path for commit context and the closing summary, then reconciles gaps exposed by follow-up questions. Do not use as a quiz, approval gate, code review, test pass, or substitute for canonical documentation (RKE). Shorthand RCC.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.0.0
+  version: 2.0.0
   updated: '2026-08-24'
 ---
 

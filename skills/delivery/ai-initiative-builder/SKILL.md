@@ -1,11 +1,11 @@
 ---
 name: ai-initiative-builder
-description: Guide early-stage AI initiative work through discovery and prioritisation. Use when a user wants to shape an idea, capture the right discovery questions, test whether it is worth pursuing, or produce a structured prioritisation view before deeper scoping begins. Shorthand AIB.
+description: Use when the user asks whether an AI idea is worth pursuing, wants to shape an early concept, needs discovery questions, or wants several AI opportunities prioritised before detailed scoping. Produces a structured initiative brief and prioritisation view. Do not use once a prioritised initiative is ready for feasibility, POC, MVP, or production scoping (ADS). Shorthand AIB.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # ai-initiative-builder

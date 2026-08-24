@@ -1,11 +1,11 @@
 ---
 name: repo-task-lifecycle
-description: Create and maintain durable OKF Tasks bundles with repository-local tasks, workstreams, lifecycle transitions, embedded time entries, effort estimates, sprint points, evidence, knowledge links, interactive Graph, Board, and Reader views, first-class GitHub, GitLab, Linear, and ClickUp Tracker Profiles, safe create/import/sync operations, export payloads, and generated indexes. Use when work needs a backlog or execution history beside code, must survive chat or tracker state, needs agent-forward time tracking or visual review, or must synchronise safely with an external tracker while routing unresolved product truth through RKE/QTK/DDD. Do not use it to create canonical product truth or manage physical Git worktrees. Shorthand RTL.
+description: Use when the user asks to create or update repository-local tasks, workstreams, status, estimates, time, evidence, backlog, or execution history that must survive chat; wants a task board or graph; or needs safe tracker import or sync. Maintains the durable task ledger and, where adopted, its OKF Tasks bundle and views. Do not use for canonical product or architecture docs (RKE), work-package design (DDD), external publication alone (TPU), or physical Git worktrees (WTC). Shorthand RTL.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.5.2
-  updated: '2026-07-30'
+  version: 5.0.0
+  updated: '2026-08-24'
 ---
 
 # repo-task-lifecycle

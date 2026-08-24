@@ -1,11 +1,11 @@
 ---
 name: pandoc-converter
-description: Run Pandoc conversions through a small wrapper that preserves predictable defaults while allowing ordinary Pandoc flags and explicitly gating executable filters. Use when converting between markup or document formats and when you want `--wrap=none` unless a different wrap mode is requested. Shorthand PDC.
+description: Use when the user asks to convert Markdown, HTML, DOCX, EPUB, or another Pandoc-supported format; says to run a file through Pandoc; or needs predictable wrapping with explicitly approved filters. Converts files through the repository wrapper with stable defaults. Do not use for editing Word layout (DXA) or PDF-only work. Shorthand PDC.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.1.2
-  updated: '2026-07-20'
+  version: 3.0.0
+  updated: '2026-08-24'
 ---
 
 # pandoc-converter

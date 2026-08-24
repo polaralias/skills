@@ -1,11 +1,11 @@
 ---
 name: long-form-post-drafter
-description: Draft evidence-grounded long-form posts such as long LinkedIn pieces, launch articles, and blog-style content from real product, customer, or campaign evidence. Use when the user wants substantial external-facing content rather than short-form social copy. Shorthand LFP.
+description: Use when the user asks for a long LinkedIn post, launch article, thought-leadership piece, blog post, or substantial external story grounded in product, customer, or campaign evidence. Produces structured long-form copy with an evidence trail. Do not use for a short social update or launch snippet (LSP). Shorthand LFP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # long-form-post-drafter

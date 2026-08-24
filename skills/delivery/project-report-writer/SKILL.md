@@ -1,11 +1,11 @@
 ---
 name: project-report-writer
-description: Build project reports from the freshest credible delivery signals available, then validate them against structured execution data and durable project context. Use when the user wants a status report, health view, launch-readiness picture, risk summary, milestone review, or similar project reporting output. Shorthand PRW.
+description: Use when the user asks for a project status report, health view, launch-readiness update, risk summary, milestone review, or executive delivery report. Builds the report from current delivery signals and checks it against structured execution data and project context. Do not use to create the canonical PROJECT.md (PCB) or a kickoff recap (KSW). Shorthand PRW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # project-report-writer

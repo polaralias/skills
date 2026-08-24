@@ -1,11 +1,11 @@
 ---
 name: meeting-pack-processor
-description: Turn notes, transcripts, or rough meeting summaries into an internal note pack, an optional external follow-up email, and any justified product, issue, or feedback routing outputs. Shorthand MPP.
+description: Use when the user asks to process meeting notes or a transcript, summarise what happened, extract decisions and actions, draft a follow-up email, or route product feedback from a meeting. Produces an internal meeting pack and only the justified follow-up outputs. Do not use to plan the meeting before it happens (AGN). Shorthand MPP.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # meeting-pack-processor

@@ -1,11 +1,11 @@
 ---
 name: llm-instruction-fixer
-description: Repair prompts, skills, system instructions, agent prompts, and related LLM instruction artefacts from an existing review, issue list, or explicit fix brief. Use when a user wants reliability problems corrected without casually changing the artefact's intent or scope. Shorthand LIF.
+description: Use when the user asks to fix, repair, rewrite, or harden a prompt, skill, system instruction, agent prompt, or related LLM instruction artefact and already has findings, an issue list, or a clear failure brief. Applies conservative reliability fixes without changing the artefact's purpose. Do not use when the user wants findings only (LIR), a new skill from scratch (skill-creator), or an evaluation suite (SEW). Shorthand LIF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # llm-instruction-fixer

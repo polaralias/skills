@@ -1,11 +1,11 @@
 ---
 name: doc-driven-development
-description: Turn an epic, end-state product definition, or scoped outcome into implementation-ready feature docs, technical plans, work packages, reviewable dependency slices, and acceptance artefacts before coding. Use for docs-first delivery, feature decomposition, implementation planning, issue-ready work breakdown, or behaviour contracts that later drive TDD. Shorthand DDD.
+description: Use when the user asks to plan a feature before coding, break an epic or outcome into implementation-ready work, define behaviour and acceptance criteria, write a technical plan, or create issue-ready dependency slices. Produces feature contracts, implementation plans, work packages, and acceptance artefacts that can drive TDD. Do not use for repository task tracking (RTL), publishing existing work to a tracker (TPU), or implementing the code itself. Shorthand DDD.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.6.0
-  updated: '2026-08-21'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # doc-driven-development

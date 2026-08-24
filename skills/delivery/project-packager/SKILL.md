@@ -1,11 +1,11 @@
 ---
 name: project-packager
-description: Turn an existing PROJECT.md into audience-specific or system-ready project outputs without rediscovering the project from scratch. Use when the project truth already exists and the user needs a reusable package, briefing, handoff, or derivative context artefact. Shorthand PKG.
+description: Use when the user has a current PROJECT.md and asks for an audience-specific briefing, reusable project pack, handoff, system prompt, or derivative context artefact without rediscovery. Produces tailored outputs from existing canonical project truth. Do not use when PROJECT.md is missing or stale (PCB) or when current delivery status must be investigated (PRW). Shorthand PKG.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # project-packager

@@ -1,11 +1,11 @@
 ---
 name: repo-setup
-description: Bootstrap a repository with baseline governance, licensing, CODEOWNERS, repository rulesets, draft-release scaffolding, and a GitHub description. Use when a user wants to set up a new repo, scaffold publish-readiness, choose a licence, apply standard contributor or agent docs, or require reviewed pull requests on the default branch before active engineering work begins. Set the initial GitHub description in a clear WIP form and recommend `engineering-workflow-orchestrator` as the next step when setup is complete. Shorthand RST.
+description: Use when the user asks to set up, initialise, or scaffold a new repository; choose a licence; add CODEOWNERS, contributor or agent instructions, branch protections, repository rulesets, release scaffolding, or a GitHub description; or establish baseline governance before engineering begins. Produces the governed repository shell and routes active development to EWO. Do not use for final public-release hardening (RPF) or ongoing documentation maintenance (RKE). Shorthand RST.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.2.2
-  updated: '2026-07-20'
+  version: 3.0.0
+  updated: '2026-08-24'
 ---
 
 # repo-setup

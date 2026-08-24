@@ -1,11 +1,11 @@
 ---
 name: implementation-plan-writer
-description: Produce a customer-facing implementation plan from kickoff material, local guidance, and confirmed delivery assumptions. Use when a user needs a structured onboarding or implementation plan that carries a customer from setup through go-live without expanding into generic project-management overhead. Shorthand IPW.
+description: Use when the user asks for a customer implementation plan, onboarding plan, rollout plan, or setup-to-go-live delivery sequence from kickoff material and confirmed assumptions. Produces a customer-facing plan without generic project-management overhead. Do not use for engineering feature decomposition (DDD), ClickUp configuration (CPP), or a project status report (PRW). Shorthand IPW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # implementation-plan-writer

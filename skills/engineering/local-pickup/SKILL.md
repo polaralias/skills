@@ -1,11 +1,11 @@
 ---
 name: local-pickup
-description: Resume work from the one active local handoff for a workstream and rebuild trustworthy context before editing. Use when starting a new session from a handoff in `docs/handoff/`, `local-docs/handoff/`, or another valid established area, including review-bounded and workflow-aware handoffs; exclude superseded handoffs from default selection and re-verify expired ones. Shorthand LPK.
+description: Use when the user asks to resume, pick up, or continue work from a local handoff, or a new session begins with an existing handoff file. Selects the one active handoff, rebuilds trustworthy repository context before editing, ignores superseded records, and re-verifies stale claims. Do not use to create a new handoff (LHO) or to resume solely from chat memory when no repository handoff exists. Shorthand LPK.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.8.0
-  updated: '2026-07-30'
+  version: 3.0.0
+  updated: '2026-08-24'
 ---
 
 # local-pickup

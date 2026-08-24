@@ -1,11 +1,11 @@
 ---
 name: skill-eval-suite-writer
-description: Build evaluation suites for skills and closely related LLM instruction artefacts. Use when a user wants a skill-centred test plan, scenario matrix, grader strategy, or runner-specific output such as Waza. Shorthand SEW.
+description: Use when the user asks to test whether a skill or LLM instruction triggers correctly, avoid false positives, build a routing or behaviour scenario matrix, choose graders, create an evaluation plan, or emit runner-specific output such as Waza. Produces activation, non-activation, success, boundary, and regression cases. Do not use for a general software QA plan (TPW), findings-only instruction review (LIR), or direct repair (LIF). Shorthand SEW.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.4.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # skill-eval-suite-writer

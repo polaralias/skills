@@ -1,11 +1,11 @@
 ---
 name: tasklist-gantt-creator
-description: Generate Excel Gantt charts from a list of tasks, whether that list came from an export, a planning sheet, or a shaped handoff dataset. Use when building or customising a Gantt, reconstructing task hierarchy from parent-child fields, adjusting timeline ranges, changing row or bar colours, or controlling stakeholder-ready workbook formatting. Shorthand TGC.
+description: Use when the user asks for an Excel Gantt, project timeline workbook, task bars and dates, parent-child task hierarchy, or Gantt formatting changes. Produces or updates a stakeholder-ready spreadsheet from task data. Do not use for a project plan without a workbook deliverable or for general spreadsheet analysis. Shorthand TGC.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.3.2
-  updated: '2026-07-20'
+  version: 2.0.0
+  updated: '2026-08-24'
 ---
 
 # tasklist-gantt-creator
