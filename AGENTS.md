@@ -12,7 +12,7 @@ Read [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/IND
 - If you only need trigger metadata, read just the frontmatter first using the line counts in [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md).
 - Read beyond the frontmatter only when you are actually using or updating that skill.
 - Treat documented three-letter all-caps acronym shorthands in [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md) and [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) as valid invocation forms for the matching skill.
-- Use [scripts/build_skill_index.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/build_skill_index.py) to regenerate [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) after any frontmatter or skill-path change.
+- Use [scripts/build_skill_index.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/build_skill_index.py) to regenerate [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) and the marker-delimited README family-routing blocks after any frontmatter, skill-path, or family-membership change. Keep the core routing block hand-maintained and do not copy full skill frontmatter into it.
 - Use [`.agents/skills/skill-finaliser`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser>) as the preferred local path when finalising or normalising skill packages.
 - Keep package validation under [`.agents/skills/skill-finaliser/scripts/validate_skill_package.py`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser/scripts/validate_skill_package.py>) rather than duplicating a second repo-level validator.
 - Keep package structure consistent with the finalised engineering skills and the `skill-finaliser` expectations.
@@ -53,6 +53,7 @@ When you make structural or packaging changes in this repository, update every r
 Usually that means checking and updating:
 
 - [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md)
+- [CLAUDE.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/CLAUDE.md) when Claude Code routing or repository instructions change
 - [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md)
 - [AGENTS.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/AGENTS.md)
 - [VERSION](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/VERSION) when the slice changes packaged skills, repo packaging guidance, or release-validation expectations

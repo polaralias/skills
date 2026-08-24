@@ -2,12 +2,12 @@
 type: Repository Documentation Inventory
 title: "skills complete Markdown inventory"
 description: "Classifies every in-scope tracked or pending Markdown file in the skills repository by OKF or approved specialised schema."
-timestamp: 2026-08-24T16:35:06Z
+timestamp: 2026-08-24T17:25:54Z
 authority: derived
 verification: verified-working
-verified_at: 2026-08-24T17:22:31Z
+verified_at: 2026-08-24T17:25:54Z
 verified_against:
-  - "rg --files -g *.md census: 17 in-scope and 163 skill-package Markdown files"
+  - "rg --files -g *.md census: 18 in-scope and 164 skill-package Markdown files"
   - "python skills/engineering/repo-knowledge-engineering/scripts/okf_bundle.py validate --bundle docs/knowledge --require-version"
 owner: polaralias
 generated_by: repo-knowledge-engineering-census
@@ -25,8 +25,8 @@ This is an exhaustive census of every in-scope tracked or pending Markdown file 
 
 ## Census result
 
-- In-scope Markdown files: 17
-- Excluded skill-package files: 163
+- In-scope Markdown files: 18
+- Excluded skill-package files: 164
 - Unclassified files: 0
 - Exact duplicate governed knowledge bodies: 0
 
@@ -35,7 +35,7 @@ This is an exhaustive census of every in-scope tracked or pending Markdown file 
 | Generated visualization | 1 |
 | OKF execution concept | 1 |
 | OKF knowledge concept | 10 |
-| Repository instruction | 2 |
+| Repository instruction | 3 |
 | Reserved OKF navigation/history | 3 |
 
 ## Completeness
@@ -51,6 +51,7 @@ This is an exhaustive census of every in-scope tracked or pending Markdown file 
 | Path | Classification | Format status | Boundary rationale |
 |---|---|---|---|
 | [`AGENTS.md`](../../AGENTS.md) | Repository instruction | Specialised schema | Instruction authority remains outside factual knowledge |
+| [`CLAUDE.md`](../../CLAUDE.md) | Repository instruction | Specialised schema | Claude Code routing bridge imports repository instructions and points to the canonical skill catalogue |
 | [`CONTRIBUTING.md`](../../CONTRIBUTING.md) | Repository instruction | Specialised schema | Instruction authority remains outside factual knowledge |
 | [`docs/knowledge/documentation-inventory.md`](documentation-inventory.md) | OKF knowledge concept | OKF | Repository Documentation Inventory |
 | [`docs/knowledge/documentation-map.md`](documentation-map.md) | OKF knowledge concept | OKF | Repository Knowledge Map |
