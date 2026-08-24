@@ -1,9 +1,9 @@
 interface:
   display_name: "Repo Session Alignment"
-  short_description: "Align task and knowledge truth at session close"
+  short_description: "Align change explanation, task truth, and knowledge at closure"
   icon_small: "./assets/icon.svg"
   icon_large: "./assets/icon.svg"
-  default_prompt: "Use $repo-session-alignment to reconcile repository tasks and canonical knowledge before closing this engineering session, including explicit last-meaningful-change timestamps for every meaningfully changed OKF record."
+  default_prompt: "Use $repo-session-alignment to prepare or consume a verified change explanation, reconcile repository tasks and canonical knowledge, validate affected bundles, and carry the explanation into the closing response without making user questions a completion gate."
 policy:
   allow_implicit_invocation: true
   products:

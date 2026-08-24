@@ -1,7 +1,7 @@
 interface:
   display_name: "Repo Knowledge Engineering"
   short_description: "Maintain and streamline findable canonical repository knowledge with OKF."
-  default_prompt: "Use $repo-knowledge-engineering to maintain or streamline canonical repository knowledge, disposition superseded source material, test likely-question retrieval, preserve verification provenance and decision history, validate bounded OKF bundles, and keep linked execution truth aligned through repo-task-lifecycle when an active Task governs the slice."
+  default_prompt: "Use $repo-knowledge-engineering to maintain or streamline canonical repository knowledge, verify and reconcile gaps exposed by repo-change-comprehension or user follow-up, test likely-question retrieval, preserve provenance and decision history, validate bounded OKF bundles, and keep linked execution truth aligned."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

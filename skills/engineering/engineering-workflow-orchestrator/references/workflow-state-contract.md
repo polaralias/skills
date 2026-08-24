@@ -23,6 +23,8 @@ Prefer a small JSON or YAML file over prose when a hook needs to read it.
 - `task_record`
 - `workstream_record`
 - `coordination_manifest`
+- `change_comprehension_record`
+- `commit_context`
 
 ## Example JSON
 
@@ -64,4 +66,5 @@ When `local-handoff` writes a workflow-aware handoff, keep these fields aligned 
 - update the record when the stage changes materially
 - remove or de-emphasise stale `next_skill` values after the session takes a different path
 - link to task or worktree records rather than copying their full state into the workflow record
+- link to the local change-comprehension record and keep only compact commit context in workflow-state; do not copy the full user explanation
 - when the handoff is intentionally local-only, point `handoff_path` at the repo's `local-docs/` area rather than inventing a new ignore convention

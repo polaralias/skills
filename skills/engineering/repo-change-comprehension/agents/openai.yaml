@@ -1,0 +1,13 @@
+interface:
+  display_name: "Repo Change Comprehension"
+  short_description: "Explain verified repository changes clearly"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  default_prompt: "Use $repo-change-comprehension to verify and explain this repository change for commit context and the user-facing session summary, then reconcile any gaps exposed by follow-up questions."
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas

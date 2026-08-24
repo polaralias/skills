@@ -2,9 +2,13 @@
 type: Repository Documentation Inventory
 title: "skills complete Markdown inventory"
 description: "Classifies every in-scope tracked or pending Markdown file in the skills repository by OKF or approved specialised schema."
-timestamp: 2026-07-28T23:00:17Z
+timestamp: 2026-08-24T16:35:06Z
 authority: derived
 verification: verified-working
+verified_at: 2026-08-24T17:22:31Z
+verified_against:
+  - "rg --files -g *.md census: 17 in-scope and 163 skill-package Markdown files"
+  - "python skills/engineering/repo-knowledge-engineering/scripts/okf_bundle.py validate --bundle docs/knowledge --require-version"
 owner: polaralias
 generated_by: repo-knowledge-engineering-census
 tags:
@@ -22,7 +26,7 @@ This is an exhaustive census of every in-scope tracked or pending Markdown file 
 ## Census result
 
 - In-scope Markdown files: 17
-- Excluded skill-package files: 160
+- Excluded skill-package files: 163
 - Unclassified files: 0
 - Exact duplicate governed knowledge bodies: 0
 
