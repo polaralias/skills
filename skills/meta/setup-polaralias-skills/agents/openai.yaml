@@ -1,7 +1,7 @@
 interface:
   display_name: "Setup Polaralias Skills"
-  short_description: Create or refresh shared Polaralias defaults for branded skills, including tracker and structured-output preferences.
-  default_prompt: "Use setup-polaralias-skills to create or refresh shared Polaralias defaults outside installed skill folders, including branding, typography, reusable asset paths, and tracker or structured-output preferences that downstream skills can consume."
+  short_description: Configure shared Polaralias defaults and portable host skill-routing instructions.
+  default_prompt: "Use setup-polaralias-skills to create or refresh shared Polaralias defaults and project the README's core plus selected family routing blocks into user-level or project-level host instructions without editing installed skill folders."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:
