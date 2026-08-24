@@ -35,6 +35,7 @@ For each skill, the line count tells you how many lines to read from `SKILL.md` 
 - `skills/engineering/local-handoff/SKILL.md` (LHO): read first `9` lines
 - `skills/engineering/local-pickup/SKILL.md` (LPK): read first `9` lines
 - `skills/engineering/query-to-knowledge/SKILL.md` (QTK): read first `9` lines
+- `skills/engineering/repo-change-comprehension/SKILL.md` (RCC): read first `9` lines
 - `skills/engineering/repo-dissection/SKILL.md` (RDS): read first `9` lines
 - `skills/engineering/repo-knowledge-engineering/SKILL.md` (RKE): read first `9` lines
 - `skills/engineering/repo-publish-finaliser/SKILL.md` (RPF): read first `9` lines

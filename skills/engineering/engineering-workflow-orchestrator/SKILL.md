@@ -1,11 +1,11 @@
 ---
 name: engineering-workflow-orchestrator
-description: Coordinate a repository engineering session across repository knowledge, docs-first decomposition, local task lifecycle, concurrent or dependency-stacked Git delivery, implementation, task-and-knowledge closure, tracker publication, and continuity. Use to classify the current workflow stage, route to the right specialist, keep state explicit, close a material session, or shape Codex and Claude Code continuity hooks. Shorthand EWO.
+description: Coordinate a repository engineering session across repository knowledge, docs-first decomposition, local task lifecycle, concurrent or dependency-stacked Git delivery, implementation, verified change explanation, task-and-knowledge closure, tracker publication, and continuity. Use to classify the current workflow stage, route to the right specialist, keep state explicit, close a material session with commit-safe and user-facing change context, or shape Codex and Claude Code continuity hooks. Shorthand EWO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.8.0
-  updated: '2026-08-21'
+  version: 1.9.0
+  updated: '2026-08-24'
 ---
 
 # engineering-workflow-orchestrator
@@ -49,6 +49,7 @@ Read [references/hook-support.md](./references/hook-support.md) before configuri
 - Use `doc-driven-development` when the upstream truth already exists and the main job is decomposition, implementation planning, and work-package shaping.
 - Use `query-to-knowledge` when narrow contradictions or unresolved terminology need focussed resolution.
 - Use `repo-task-lifecycle` when the main job is creating or reconciling durable repository-local task records.
+- Use `repo-change-comprehension` when the main job is verifying and explaining what a bounded implementation change now does, preparing commit-safe facts, or reconciling gaps exposed by user questions.
 - Use `repo-session-alignment` when the main job is closing a material engineering session by checking both task execution truth and canonical knowledge truth.
 - Use `worktree-task-coordinator` when an existing task needs concurrent isolated Git workstreams, a dependency-ordered branch stack, or reconciliation of managed worktree and branch cleanup debt.
 - Use `tracker-publisher` when stable work packages or local task records need external tracker publication.
@@ -80,6 +81,7 @@ Default stages:
 - `worktree-task-coordination`
 - `tracker-publisher`
 - `tdd`
+- `repo-change-comprehension`
 - `repo-session-alignment`
 - `repo-task-lifecycle-reconcile`
 - `repo-knowledge-engineering-close`
@@ -102,6 +104,7 @@ Skip stages that are unnecessary for the current slice.
   - concurrent worktree or dependency-stacked branch coordination
   - tracker publication
   - implementation
+  - post-implementation change comprehension
   - post-implementation truth alignment
   - end-of-session task-and-knowledge closure
   - pause or resume
@@ -121,6 +124,7 @@ Route to the narrowest viable downstream skill:
 - managed worktrees or branches awaiting post-merge reconciliation -> `worktree-task-coordinator`
 - publication into GitHub, Linear, or another external tracker -> `tracker-publisher`
 - behaviour-changing implementation -> `tdd`
+- validated material implementation, commit-context preparation, or user-facing change explanation -> `repo-change-comprehension`
 - material session or tranche closure -> `repo-session-alignment`
 - pause -> `local-handoff`
 - resume -> `local-pickup`
@@ -129,9 +133,9 @@ If the user wants a coordinated session rather than an immediate handoff, keep t
 
 Default delivery route when every stage is justified:
 
-`repo-knowledge-engineering` foundation -> `doc-driven-development` -> `repo-task-lifecycle` registration -> `worktree-task-coordinator` when concurrent -> implementation -> `repo-session-alignment`.
+`repo-knowledge-engineering` foundation -> `doc-driven-development` -> `repo-task-lifecycle` registration -> `worktree-task-coordinator` when concurrent -> implementation -> `repo-change-comprehension` when material -> `repo-session-alignment`.
 
-`repo-session-alignment` is the default closure engine. It sequences provisional task reconciliation, canonical knowledge promotion, final task reconciliation, and independent bundle validation. Retain `repo-task-lifecycle-reconcile` and `repo-knowledge-engineering-close` as compatible specialist stage labels when a workflow-state record already uses them; do not require callers to invoke them separately at ordinary session close.
+`repo-change-comprehension` is a verification and explanation pass, not a user quiz or merge gate. It prepares a commit-safe causal layer and a richer user-facing explanation before closure. `repo-session-alignment` remains the default closure engine: it consumes or invokes the material-change explanation when needed, sequences provisional task reconciliation, canonical knowledge promotion, final task reconciliation, and independent bundle validation, then carries the explanation into the closing response. Retain `repo-task-lifecycle-reconcile` and `repo-knowledge-engineering-close` as compatible specialist stage labels when a workflow-state record already uses them; do not require callers to invoke them separately at ordinary session close.
 
 Do not force the worktree stage for sequential work. External tracker publication can follow stable work-package or task registration, but it does not replace the repository lifecycle record when that record is the chosen local ledger.
 
@@ -198,7 +202,10 @@ Use hooks to reinforce the workflow, for example:
 At tranche end:
 
 - when an active coordination manifest exists, route its current worktree, branch, integration, and cleanup state through `worktree-task-coordinator` before session alignment; unresolved external merge or safe-cleanup work remains an explicit pending obligation
+- for a material implementation delta, run or refresh `repo-change-comprehension` against the final bounded change before session alignment; carry its commit context, user explanation, evidence state, and safe local-log path forward
 - route every material engineering session through `repo-session-alignment`, which must check both the task and canonical-knowledge lanes even when one is absent or unchanged
+- put the RCC user explanation in the closing response and end it with the optional question invitation; never wait for an answer before treating an otherwise valid closure as complete
+- when a later user question exposes verified documentation, decision, implementation, or task drift, route only the affected RKE, QTK, TDD, or RTL lanes, rerun RCC, and close the follow-up slice through `repo-session-alignment`
 - let `repo-session-alignment` route to `local-handoff` when aligned but unfinished work is pausing
 - keep the final workflow-state aligned with the handoff or the canonical docs
 
@@ -211,6 +218,8 @@ When using this skill, produce:
 - the reason that skill is the right next step
 - any workflow-state fields that need updating
 - any hook-install recommendation or hook drift found
+- the commit-context and user-explanation layers for a material implementation change
+- the change-comprehension log path or explicit not-written status
 - the task, knowledge, validation, handoff, and overall closure statuses when closing a session
 
 ## Guardrails
@@ -222,4 +231,6 @@ When using this skill, produce:
 - Do not treat a derived verbose handoff as more authoritative than the saved raw transcript or current repo truth.
 - Do not let workflow-state replace task records, or task records replace canonical repository truth.
 - Do not treat a worktree manifest as permission to merge, push, deploy, or publish.
+- Do not treat the user's response to a change explanation as a merge, commit, or completion gate.
+- Do not leave a verified documentation or implementation gap exposed by a follow-up question as chat-only context; route it through its owning skill and re-close the affected slice.
 - Prefer a thin, legible workflow over a meta-layer that hides the real work.

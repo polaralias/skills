@@ -5,6 +5,11 @@ description: "Defines the source, scope, outputs, interpretation, and verificati
 timestamp: 2026-07-28T22:56:13Z
 authority: derived
 verification: verified-working
+verified_at: 2026-07-28T23:11:42Z
+verified_against:
+  - tasks/adopt-rke-okf-knowledge/task.md generation and validation evidence
+  - docs/visualizations/repository-okf.html
+  - docs/visualizations/repository-okf.mermaid.md
 owner: polaralias
 generated_by: repo-task-lifecycle-visualizer
 tags: [skills, visualization]

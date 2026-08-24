@@ -1,7 +1,7 @@
 interface:
   display_name: "Engineering Workflow Orchestrator"
-  short_description: "Coordinate engineering workflow, branch topology, and session closure."
-  default_prompt: "Use $engineering-workflow-orchestrator to classify the current stage, distinguish parallel worktrees from dependency-stacked Git delivery, route to the narrowest specialist, reconcile active coordination manifests before repo-session-alignment closure, and keep each state surface within its ownership boundary."
+  short_description: "Coordinate engineering workflow, change explanation, and closure"
+  default_prompt: "Use $engineering-workflow-orchestrator to classify the current stage, route implementation and Git coordination, prepare verified commit and user change context through repo-change-comprehension, and close through repo-session-alignment while preserving each state surface's ownership boundary."
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

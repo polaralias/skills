@@ -75,3 +75,19 @@ Expected:
 - advances the task and concept timestamps independently when each meaningfully changed
 - preserves created, activity, completion, provider-observation, filesystem, and Git times as distinct signals
 - validates both bundle roots after reconciliation
+
+## 12. Material implementation explanation
+Prompt: "Close this validated implementation session and explain the new package-to-interface-to-function route in the final response."
+Expected:
+- consumes or runs repo-change-comprehension against the final delta
+- keeps commit context separate from the user explanation
+- reports the explanation status and local record path or not-written reason
+- completes valid closure without waiting for the user to answer the question invitation
+
+## 13. Follow-up correction after closure
+Prompt: "The user asks a follow-up that reveals the canonical docs describe a removed function as active."
+Expected:
+- verifies the claim and routes a real documentation gap through RKE
+- updates or distils the RCC record
+- reruns session alignment after the material documentation correction
+- does not treat the user's question alone as proof

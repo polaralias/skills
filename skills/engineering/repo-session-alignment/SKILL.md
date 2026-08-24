@@ -1,11 +1,11 @@
 ---
 name: repo-session-alignment
-description: Reconcile repository-local task execution truth and canonical repository knowledge at the end of a material engineering session or delivery tranche. Use before reporting completion or producing a handoff when an existing OKF task bundle, RKE-managed knowledge surface, or both may need evidence, lifecycle, time, decision, glossary, index, or promotion updates. Do not use it to bootstrap absent task or knowledge systems. Shorthand RSA.
+description: Reconcile repository-local task execution truth and canonical repository knowledge at the end of a material engineering session or delivery tranche, while carrying a verified change-comprehension summary into the closing response when implementation changed materially. Use before reporting completion or producing a handoff when tasks, RKE-managed knowledge, or the user-facing explanation may need alignment. Do not use it to bootstrap absent task or knowledge systems. Shorthand RSA.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.1.2
-  updated: '2026-07-20'
+  version: 1.2.0
+  updated: '2026-08-24'
 ---
 
 # repo-session-alignment
@@ -32,12 +32,15 @@ Close a material engineering session by aligning two existing truth surfaces:
 
 Run both checks every time this skill is invoked. A mandatory check does not imply a mandatory edit.
 
+For a material implementation delta, also consume a current `repo-change-comprehension` result or run that pass after establishing the delta. RCC is an explanatory output and local record, not a third truth lane.
+
 Read [references/session-alignment-contract.md](./references/session-alignment-contract.md) before changing either lane.
 
 ## Ownership boundary
 
 - Let `repo-task-lifecycle` own task schema, workstreams, time, estimates, evidence, lifecycle transitions, tracker metadata, and task-bundle validation.
 - Let `repo-knowledge-engineering` own canonical documentation, reading order, decisions, glossary, support boundaries, OKF knowledge concepts, indexes, and knowledge-bundle validation.
+- Let `repo-change-comprehension` own the commit-safe facts, user-facing causal explanation, optional question invitation, and local explanatory record.
 - Keep task and knowledge bundles as separate OKF bundle roots. Link them; do not merge or duplicate them.
 - Do not create `tasks/`, `docs/tasks/`, `docs/knowledge/`, or another knowledge tree merely because this closure skill ran.
 - Use this skill only as the sequencing and completion contract between those specialist lanes.
@@ -51,13 +54,21 @@ Read [references/session-alignment-contract.md](./references/session-alignment-c
 - Identify implementation changes, validation evidence, decisions, terminology, support-boundary changes, unfinished work, and any task references touched during the session.
 - Preserve unrelated changes and distinguish verified evidence from inference.
 
-### 2. Discover both lanes
+### 2. Prepare the change explanation
+
+- When the delta includes material implementation changes, consume an RCC result that covers the final delta or run `repo-change-comprehension` now.
+- Keep the commit-context layer separate from the richer user explanation.
+- Record the safe local explanation path or `not written`; do not silently create a tracked log convention.
+- Do not wait for the user to answer the closing question invitation. Human response is not a closure condition.
+- Skip RCC for non-material documentation, formatting, or mechanical-only sessions unless the user requests it.
+
+### 3. Discover both lanes
 
 - Detect an existing task bundle at top-level `tasks/` or `docs/tasks/`. Respect the repository's chosen location. If neither exists, record `tasks: not present` and continue.
 - Detect the established canonical knowledge surface through repository instructions, reading order, RKE metadata, or existing canonical docs. If none exists, record `knowledge: not established` and continue.
 - Detect each OKF bundle root independently. Never validate one bundle as though it contains the other.
 
-### 3. Reconcile tasks provisionally
+### 4. Reconcile tasks provisionally
 
 When a task bundle exists, use `repo-task-lifecycle` to:
 
@@ -68,7 +79,7 @@ When a task bundle exists, use `repo-task-lifecycle` to:
 
 This pass establishes accurate execution state before canonical promotion.
 
-### 4. Align canonical knowledge
+### 5. Align canonical knowledge
 
 When a knowledge surface exists, use `repo-knowledge-engineering` to:
 
@@ -81,7 +92,7 @@ When a knowledge surface exists, use `repo-knowledge-engineering` to:
 
 Do not copy session logs, full task records, or volatile progress into canonical knowledge.
 
-### 5. Reconcile tasks finally
+### 6. Reconcile tasks finally
 
 Return to `repo-task-lifecycle` after knowledge alignment:
 
@@ -90,13 +101,14 @@ Return to `repo-task-lifecycle` after knowledge alignment:
 - apply lifecycle transitions only when evidence, validation, and promotion requirements justify them
 - keep unfinished or blocked work truthful
 
-### 6. Validate and report
+### 7. Validate and report
 
 - Run the task validator for the detected task bundle when present.
 - Run the knowledge validator for each affected OKF knowledge bundle when present.
 - Treat validator failure as `blocked`; do not claim closure success around it.
 - Route genuinely unfinished work to `local-handoff` when the session is ending.
-- Report the compact status contract defined in the bundled reference.
+- Report the compact status contract defined in the bundled reference, followed by the RCC user explanation and optional question invitation when material implementation changed.
+- If a later question exposes a verified documentation, decision, implementation, or task gap, route it through RKE, QTK, TDD, or RTL as appropriate and rerun session alignment after material correction.
 
 ## Guardrails
 
@@ -107,10 +119,13 @@ Return to `repo-task-lifecycle` after knowledge alignment:
 - Do not let task completion outrun required knowledge promotion.
 - Do not let canonical docs become a second task ledger.
 - Do not treat a clean Git tree as proof that both alignment lanes were checked.
+- Do not let a user's unanswered question invitation block an otherwise valid closure.
+- Do not let a verified gap exposed by a later question remain only in the RCC record or chat.
 
 ## Related skills
 
 - Use `engineering-workflow-orchestrator` to route a wider engineering workflow and make this skill its close-session engine.
+- Use `repo-change-comprehension` to prepare or refresh the causal change explanation and reconcile follow-up questions.
 - Use `local-handoff` after alignment when unfinished work needs a continuation artefact.
 - Use `repo-task-lifecycle` or `repo-knowledge-engineering` directly when only one specialist surface is the primary job rather than session closure.
 

@@ -11,3 +11,6 @@
 - when using richer continuity hooks, define deterministic outputs for transcript backup, verbose handoff, restart supplement, and manifest
 - make `PostCompact` consume the short restart supplement rather than the full verbose handoff
 - route pause and resume through `local-handoff` and `local-pickup`
+- run repo-change-comprehension for the final material implementation delta before session alignment
+- keep commit-safe facts separate from the richer user explanation and optional question invitation
+- route verified gaps exposed by follow-up questions through RKE, QTK, TDD, or RTL, then re-close the affected slice

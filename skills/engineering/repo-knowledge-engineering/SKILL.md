@@ -1,11 +1,11 @@
 ---
 name: repo-knowledge-engineering
-description: Establish, evolve, streamline, and keep a repository knowledge base trustworthy through agent-led maintenance, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artefacts, reducing stale or duplicated knowledge, improving answer retrieval, adopting or validating OKF-compatible knowledge docs, running cross-artefact truth checks, or aligning docs, decisions, glossary, reading order, evidence, and linked execution truth. Shorthand RKE.
+description: Establish, evolve, streamline, and keep a repository knowledge base trustworthy through agent-led maintenance, including generating and consuming Open Knowledge Format bundles. Use when shaping the documentation foundation, refining canonical artefacts, reducing stale or duplicated knowledge, improving answer retrieval, adopting or validating OKF-compatible knowledge docs, running cross-artefact truth checks, reconciling verified gaps exposed by change explanations or user follow-up, or aligning docs, decisions, glossary, reading order, evidence, and linked execution truth. Shorthand RKE.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.7.0
-  updated: '2026-07-30'
+  version: 3.8.0
+  updated: '2026-08-24'
 ---
 
 # repo-knowledge-engineering
@@ -75,6 +75,7 @@ For live work, use a compatible `okf-tasks` command from the authoritative distr
 - Use `doc-driven-development` when the repository truth already exists and the main job is to decompose that truth into feature contracts, work packages, and acceptance artefacts before coding.
 - Use `repo-task-lifecycle` when the main job is task status, workstream records, delivery evidence, or the generated local task index.
 - Use `tdd` when the main job is behaviour change through red-green-refactor, including adding or repairing tests and implementation code.
+- Use `repo-change-comprehension` when the main job is explaining a bounded implementation change, producing commit-safe change facts, or answering the user's follow-up questions. Route back here when that verified explanation exposes missing, stale, or incorrect canonical repository truth.
 - Use this skill when the main job is to shape or maintain the repository knowledge base itself.
 
 ## Phases
@@ -148,6 +149,7 @@ Streamline mode works on existing knowledge whose answer is already known. Route
   - generated or derived docs
   - OKF concept bundles and their declared versions
 - Keep local handoffs explicitly subordinate to tracked canonical truth.
+- Keep local RCC explanations and question-distillation records explicitly subordinate to tracked canonical truth. Treat them as discovery evidence, not canonical documentation.
 - Keep repository-local task records as execution truth: useful evidence and traceability, but not the sole source for durable product or architecture claims.
 - If `GLOSSARY.md` exists, treat it as the glossary or domain-language source.
 - If `docs/decisions/` exists, treat it as the durable decision-history source.
@@ -174,6 +176,7 @@ Classify the work before editing:
 - documentation correction
 - plan-state update
 - mixed slice
+- verified documentation drift exposed by an RCC explanation or user follow-up
 
 If the slice changes repository truth, the canonical knowledge base must move with it.
 
@@ -207,6 +210,7 @@ When the repository has several linked planning and execution surfaces, compare 
 - validation evidence
 - canonical OKF concepts
 - relevant derived bundles
+- the bounded implementation delta, RCC explanation, and user follow-up when they exposed a possible knowledge gap
 
 Check for:
 
@@ -233,6 +237,7 @@ If drift exists, name which surface is strongest, which surfaces are stale, and 
 ### 7. Update knowledge in the same slice as the work
 
 - If behaviour changed, update the contract docs in the same tranche.
+- If an RCC explanation or follow-up question exposes a verified gap in canonical architecture, behaviour, reliability, security, support, glossary, or decision truth, correct the owning canonical surface in the same follow-up slice; do not leave the correction only in chat or the local RCC record.
 - If support status changed, update the support matrix before widening public claims elsewhere.
 - If glossary language changed, update `GLOSSARY.md` in the same slice.
 - If a durable decision was made or invalidated, update `docs/decisions/` if the repository uses decision records.
@@ -333,6 +338,7 @@ Write titles and descriptions in the language readers will search. A description
 - Do not retain transient, duplicated, reproducible, or fully absorbed material whose durable conclusion has been promoted. Link the promotion to any retained evidence instead.
 - Do not write or repair tests, eval harnesses, CI jobs, or application code from this skill alone.
 - Do not treat tracker state as repository truth when canonical docs or evidence disagree.
+- Do not treat an RCC explanation or leading user question as proof. Verify the underlying implementation, contract, and validation evidence before promoting or correcting durable truth.
 - Do not absorb routine task status or worktree coordination into canonical docs. Promote only durable conclusions, decisions, contracts, and validated support truth.
 - Do not place task or worktree records inside the recommended OKF knowledge bundle.
 - Do not force every repository Markdown file into OKF; conformance applies to the selected bundle boundary.

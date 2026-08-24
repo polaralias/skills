@@ -39,6 +39,7 @@ SKILL_ACRONYMS = {
     "release-note-writer": "RNW",
     "remotion-explainer-video-production": "REV",
     "repo-dissection": "RDS",
+    "repo-change-comprehension": "RCC",
     "repo-knowledge-engineering": "RKE",
     "repo-publish-finaliser": "RPF",
     "repo-session-alignment": "RSA",
