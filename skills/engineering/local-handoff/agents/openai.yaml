@@ -1,7 +1,7 @@
 interface:
   display_name: local-handoff
-  short_description: Write and lifecycle-manage one active, review-bounded continuation handoff.
-  default_prompt: Use local-handoff when ending a tranche to write or update one active dated handoff outside knowledge and task bundles, set its review boundary, merge unique unresolved state from superseded handoffs, safely disposition older same-stream handoffs, and report the exact resulting path.
+  short_description: Write one active continuation handoff after any required session alignment.
+  default_prompt: Use local-handoff when ending a tranche to write or update one active dated handoff outside knowledge and task bundles, running repo-session-alignment first when a material session needs both truth alignment and a handoff; merge unique unresolved state from superseded handoffs, safely disposition older same-stream handoffs, and report the exact resulting path.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 

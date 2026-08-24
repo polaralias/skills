@@ -93,7 +93,7 @@ def validate_scenarios(
         prefix = f"scenario[{index}]"
         scenario_id = scenario.get("id")
         kind = scenario.get("kind")
-        expected = scenario.get("expected_skill")
+        expected = scenario.get("expected_skills")
         prompt = scenario.get("prompt")
         if not isinstance(scenario_id, str) or not scenario_id:
             errors.append(f"{prefix}: missing string id")
@@ -105,10 +105,33 @@ def validate_scenarios(
             errors.append(f"{prefix}: kind must be 'positive' or 'boundary'")
         if not isinstance(prompt, str) or not prompt.strip():
             errors.append(f"{prefix}: missing prompt")
-        if expected is not None and expected not in skill_names:
-            errors.append(f"{prefix}: unknown expected_skill {expected!r}")
-        if isinstance(expected, str) and kind in {"positive", "boundary"}:
-            coverage[expected][kind] += 1
+        if "expected_skill" in scenario:
+            errors.append(
+                f"{prefix}: use ordered expected_skills instead of expected_skill"
+            )
+        if not isinstance(expected, list) or not expected:
+            errors.append(f"{prefix}: expected_skills must be a non-empty list")
+        else:
+            seen_expected: set[str] = set()
+            for position, skill_name in enumerate(expected):
+                if not isinstance(skill_name, str) or not skill_name:
+                    errors.append(
+                        f"{prefix}: expected_skills[{position}] must be a skill name"
+                    )
+                    continue
+                if skill_name not in skill_names:
+                    errors.append(
+                        f"{prefix}: unknown expected skill {skill_name!r}"
+                    )
+                    continue
+                if skill_name in seen_expected:
+                    errors.append(
+                        f"{prefix}: duplicate expected skill {skill_name!r}"
+                    )
+                    continue
+                seen_expected.add(skill_name)
+                if kind in {"positive", "boundary"}:
+                    coverage[skill_name][kind] += 1
 
     for name, counts in sorted(coverage.items()):
         if counts["positive"] == 0:

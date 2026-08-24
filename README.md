@@ -2,7 +2,7 @@
 type: "Repository Guide"
 title: "Skills Workbench"
 description: "Documents Skills Workbench for the skills repository."
-timestamp: 2026-08-24T20:00:00Z
+timestamp: 2026-08-25T00:30:00+01:00
 authority: canonical
 verification: untested
 owner: polaralias
@@ -36,7 +36,7 @@ The main `skills/` tree contains active packaged skills. The `future-considerati
 
 Every active skill applies the same durable repository-link contract when it creates or meaningfully updates a Task, Workstream, or typed OKF knowledge document. Governed concepts must form one resolved local graph through meaningful task-to-task, document-to-document, or task-to-document relationships; incoming links count and terminal Tasks remain useful implementation-state evidence. Reserved indexes/logs, Tracker Profiles, runbooks, generated/vendor output, handoffs, sessions, and temporary/scratch material are excluded.
 
-Skill descriptions are routing metadata rather than miniature feature lists. Each starts with observable `Use when` conditions in user vocabulary, states the produced outcome, distinguishes likely sibling collisions where useful, and ends with its shorthand. `python scripts/validate_skill_descriptions.py` enforces that contract and verifies that every active skill has positive and nearest-boundary routing scenarios.
+Skill descriptions are routing metadata rather than miniature feature lists. Each starts with observable `Use when` conditions in user vocabulary, states the produced outcome, distinguishes likely sibling collisions where useful, and ends with its shorthand. `python scripts/validate_skill_descriptions.py` enforces that contract and verifies that every active skill has positive and nearest-boundary routing scenarios. Routing scenarios use ordered `expected_skills` lists so a prompt can require a coordinated skill sequence rather than one artificial winner.
 
 ## Source Trust Baseline
 

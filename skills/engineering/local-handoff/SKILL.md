@@ -1,11 +1,11 @@
 ---
 name: local-handoff
-description: Use when the user is stopping work for now, asks to leave a handoff for the next session, or needs current progress, decisions, risks, and next actions preserved locally. Creates one active dated continuation handoff outside canonical knowledge and task bundles, then manages supersession and cleanup. Do not use for a final user-facing change explanation (RCC), canonical documentation (RKE), or resuming from an existing handoff (LPK). Shorthand LHO.
+description: Use when the user is stopping work for now, asks to leave a handoff for the next session, or needs current progress, decisions, risks, and next actions preserved locally. Creates one active dated continuation handoff outside canonical knowledge and task bundles, then manages supersession and cleanup. Runs after RSA when a material session needs both alignment and a continuation handoff. Do not use for a final change explanation (RCC), canonical documentation (RKE), or resuming a handoff (LPK). Shorthand LHO.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.0
-  updated: '2026-08-24'
+  version: 2.1.0
+  updated: '2026-08-25'
 ---
 
 # local-handoff
@@ -226,6 +226,7 @@ Once the handoff is complete:
 
 ## Relationship To Other Skills
 
+- Use `repo-session-alignment` before this skill when a material engineering session needs both truth alignment and a continuation handoff. Alignment does not create the handoff; this skill does not replace alignment.
 - Use `local-pickup` to consume this artefact in the next session.
 - Use `engineering-workflow-orchestrator` when the next session should restart through a coordinated stage model or hook-aware workflow.
 - Use `repo-dissection` when the current truth is still unclear.
