@@ -12,8 +12,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-18T22:53:38.482140Z",
-        "evidence": "EWF 3.0.0 mirror is pinned to RKE 0.1.0 commit 4e88a035965aaf70789e48914fa2d5b472fe6334; duplicated runtime and executable tests were removed from the skill package; repo-setup 3.0.1 and setup-polaralias-skills 2.0.1 route through EWF/RKE; 133 skills tests passed; RKE 106 tests and wheel build passed; package validators and 24-file mirror check passed.",
+        "verifiedAt": "2026-09-18T23:00:01.182138Z",
+        "evidence": "Catalogue mirror pins RKE commit dd8223043a099172d78111e14e67efeef17f5b74; mirror check remains exact and the runtime clean-install dependency defect is corrected.",
         "sourceHashes": {
           "docs/knowledge/engineering-workflow-architecture.md": "e91301247272e0561132661a2b6320ef3890729c2f8912a78246f4c771d02717",
           "skills/engineering/engineering-workflow/agents/openai.yaml": "fcbeec5f4fbdfcb5ac9ec5bcf8cce5fa4076a6744dc917451c5cd6ba4c7a993c",
@@ -35,7 +35,7 @@
           "skills/engineering/engineering-workflow/references/repo-context-contract.md": "0d5ae7429ae47d0d20dd1f3543f7e44b05d6218e4f97c35c510d02e6546c6e66",
           "skills/engineering/engineering-workflow/references/structural-context.md": "58b2aebd47897188230d55444126ab4ae2b9085dda91a5299f16bd1d06be845a",
           "skills/engineering/engineering-workflow/references/workflow-contract.md": "957a397946de8c04be2aef884ea1e601716b8bf5266625e5e05a6dabe302bc95",
-          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "14a1581238dfff2dd4c9305881ae6c2789d69a100f2bc3cbbda0e61ee8b616ea",
+          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "d00c387ffedfe0b05ca883a9923157639c9f45b14c83be4b6088a66832eb0bb1",
           "skills/engineering/engineering-workflow/SKILL.md": "1fbfe3617c94251aed8fae7b6f3657ea6e2534b59055f3a69c70317c9e2fb7e4",
           "skills/engineering/repo-setup/SKILL.md": "36f9bbf6c0a4e6cc8d9abe136be4f8d0a9c269632a563aaab574e49b7ac8af3c",
           "skills/meta/setup-polaralias-skills/references/config-contract.md": "27d433a4d1d857ed626910fe4adfaf7f81abea6b01a4e13a93d307149f12877a"
