@@ -18,6 +18,7 @@ SKILL_ACRONYMS = {
     "ai-initiative-deep-dive-and-scoping": "ADS",
     "clickup-project-plan-builder": "CPP",
     "doc-driven-development": "DDD",
+    "engineering-workflow": "EWF",
     "engineering-workflow-orchestrator": "EWO",
     "docx-assistant": "DXA",
     "elevenlabs-ai-voice-gen": "EAV",
@@ -121,19 +122,49 @@ def build_routing_families(entries: list[tuple[str, str, str, int]]) -> str:
 
     lines: list[str] = []
     for family, family_entries in families.items():
+        if family == "engineering":
+            routing_text = (
+                "For material repository engineering work, invoke `engineering-workflow` "
+                "as the normal entry point before taking task actions and run its single "
+                "idempotent `activate` command before broad inspection or mutation. It owns lifecycle "
+                "phase, conditional capabilities, durable gates, checkpointing, and closure. "
+                "Resolve legacy engineering names through EWF compatibility routing rather "
+                "than invoking those packages as orchestration peers. Repository bootstrap "
+                "remains a separate pre-workflow capability. In the source "
+                "repository, `README.md` and `INDEX.md` provide the canonical family and "
+                "frontmatter paths."
+            )
+        else:
+            routing_text = (
+                f"For {family} work, inspect the current descriptions in the host's "
+                "installed skill catalogue, then invoke every clearly matching skill "
+                "before taking task actions. In the source repository, `README.md` and "
+                "`INDEX.md` provide the canonical family and frontmatter paths."
+            )
         lines.extend(
             [
                 f"<!-- polaralias-skill-routing:family:{family}:start -->",
                 f"### {family.title()}",
                 "",
-                f"For {family} work, inspect the current descriptions in the host's installed skill catalogue, then invoke every clearly matching skill before taking task actions. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.",
+                routing_text,
                 "",
-                "Current skills: "
-                + ", ".join(
-                    f"`{name}` ({acronym})"
-                    for name, _path, acronym in family_entries
-                )
-                + ".",
+                (
+                    "Primary skill: `engineering-workflow` (EWF). Separate pre-workflow "
+                    "package: "
+                    + ", ".join(
+                        f"`{name}` ({acronym})"
+                        for name, _path, acronym in family_entries
+                        if name != "engineering-workflow"
+                    )
+                    + "."
+                    if family == "engineering"
+                    else "Current skills: "
+                    + ", ".join(
+                        f"`{name}` ({acronym})"
+                        for name, _path, acronym in family_entries
+                    )
+                    + "."
+                ),
                 f"<!-- polaralias-skill-routing:family:{family}:end -->",
                 "",
             ]
@@ -142,7 +173,10 @@ def build_routing_families(entries: list[tuple[str, str, str, int]]) -> str:
 
 
 def replace_generated_routing(readme: str, generated: str) -> str:
-    if readme.count(ROUTING_FAMILIES_START) != 1 or readme.count(ROUTING_FAMILIES_END) != 1:
+    if (
+        readme.count(ROUTING_FAMILIES_START) != 1
+        or readme.count(ROUTING_FAMILIES_END) != 1
+    ):
         raise ValueError("README routing family markers must each appear exactly once")
 
     start = readme.index(ROUTING_FAMILIES_START) + len(ROUTING_FAMILIES_START)
@@ -159,13 +193,18 @@ def replace_generated_routing(readme: str, generated: str) -> str:
 
 
 def write_or_check(path: Path, expected: str, check: bool) -> bool:
-    current = path.read_text(encoding="utf-8") if path.exists() else ""
+    if path.exists():
+        with path.open("r", encoding="utf-8", newline="") as stream:
+            current = stream.read()
+    else:
+        current = ""
     if current == expected:
         return True
     if check:
         print(f"stale: {path}")
         return False
-    path.write_text(expected, encoding="utf-8")
+    with path.open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(expected)
     print(path)
     return True
 
@@ -184,9 +223,7 @@ def main() -> int:
     entries = skill_entries()
     expected_index = build_index(entries)
     readme = README_PATH.read_text(encoding="utf-8")
-    expected_readme = replace_generated_routing(
-        readme, build_routing_families(entries)
-    )
+    expected_readme = replace_generated_routing(readme, build_routing_families(entries))
     valid = write_or_check(INDEX_PATH, expected_index, args.check)
     valid = write_or_check(README_PATH, expected_readme, args.check) and valid
     return 0 if valid else 1

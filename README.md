@@ -32,7 +32,7 @@ The repository packages skills as portable folders with:
 - optional `references/` documents
 - optional `assets/` such as icons or templates
 
-The main `skills/` tree contains active packaged skills. The `future-consideration/` tree holds ideas and drafts that are not yet packaged for active use.
+The main `skills/` tree contains active packaged skills. The flat `archive/` tree preserves retired packages outside active discovery, while `future-consideration/` holds ideas and drafts that are not yet packaged for active use.
 
 Every active skill applies the same durable repository-link contract when it creates or meaningfully updates a Task, Workstream, or typed OKF knowledge document. Governed concepts must form one resolved local graph through meaningful task-to-task, document-to-document, or task-to-document relationships; incoming links count and terminal Tasks remain useful implementation-state evidence. Reserved indexes/logs, Tracker Profiles, runbooks, generated/vendor output, handoffs, sessions, and temporary/scratch material are excluded.
 
@@ -109,9 +109,9 @@ Current skills: `docx-assistant` (DXA), `knowledge-transfer-documentation-writer
 <!-- polaralias-skill-routing:family:engineering:start -->
 ### Engineering
 
-For engineering work, inspect the current descriptions in the host's installed skill catalogue, then invoke every clearly matching skill before taking task actions. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.
+For material repository engineering work, invoke `engineering-workflow` as the normal entry point before taking task actions and run its single idempotent `activate` command before broad inspection or mutation. It owns lifecycle phase, conditional capabilities, durable gates, checkpointing, and closure. Resolve legacy engineering names through EWF compatibility routing rather than invoking those packages as orchestration peers. Repository bootstrap remains a separate pre-workflow capability. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.
 
-Current skills: `doc-driven-development` (DDD), `engineering-workflow-orchestrator` (EWO), `local-handoff` (LHO), `local-pickup` (LPK), `query-to-knowledge` (QTK), `repo-change-comprehension` (RCC), `repo-dissection` (RDS), `repo-knowledge-engineering` (RKE), `repo-publish-finaliser` (RPF), `repo-session-alignment` (RSA), `repo-setup` (RST), `repo-task-lifecycle` (RTL), `test-plan-writer` (TPW), `tracker-publisher` (TPU), `worktree-task-coordinator` (WTC).
+Primary skill: `engineering-workflow` (EWF). Separate pre-workflow package: `repo-setup` (RST).
 <!-- polaralias-skill-routing:family:engineering:end -->
 
 <!-- polaralias-skill-routing:family:media:start -->
@@ -138,20 +138,9 @@ Current skills: `llm-instruction-fixer` (LIF), `llm-instruction-reviewer` (LIR),
 Location: [skills/engineering](./skills/engineering)
 
 - <img src="./skills/engineering/repo-setup/assets/icon.svg" alt="repo-setup icon" width="22"> [repo-setup](./skills/engineering/repo-setup) (RST): bootstrap a repository with licensing, governance docs, CODEOWNERS, a named repository ruleset, draft-release scaffolding, and a WIP GitHub description.
-- <img src="./skills/engineering/engineering-workflow-orchestrator/assets/icon.svg" alt="engineering-workflow-orchestrator icon" width="22"> [engineering-workflow-orchestrator](./skills/engineering/engineering-workflow-orchestrator) (EWO): route repository truth, decomposition, local task lifecycle, parallel or dependency-stacked Git coordination, implementation, verified change explanation, session closure, publication, and continuity while keeping each state surface explicit.
-- <img src="./skills/engineering/repo-change-comprehension/assets/icon.svg" alt="repo-change-comprehension icon" width="22"> [repo-change-comprehension](./skills/engineering/repo-change-comprehension) (RCC): verify and explain bounded implementation changes through commit-safe causal facts, user-facing runtime summaries, safe local logging, and post-question routing back to repository knowledge or implementation work when verified gaps emerge.
-- <img src="./skills/engineering/repo-session-alignment/assets/icon.svg" alt="repo-session-alignment icon" width="22"> [repo-session-alignment](./skills/engineering/repo-session-alignment) (RSA): close material engineering sessions by carrying verified change comprehension into the user summary, reconciling existing task execution and canonical knowledge truth, and preserving each meaningfully changed record's explicit freshness without creating duplicate truth surfaces.
-- <img src="./skills/engineering/repo-dissection/assets/icon.svg" alt="repo-dissection icon" width="22"> [repo-dissection](./skills/engineering/repo-dissection) (RDS): verify unclear repositories, consume derived wikis as claims, and bootstrap an OKF-compatible knowledge foundation with explicit freshness when appropriate.
-- <img src="./skills/engineering/query-to-knowledge/assets/icon.svg" alt="query-to-knowledge icon" width="22"> [query-to-knowledge](./skills/engineering/query-to-knowledge) (QTK): resolve repository ambiguity into durable canonical knowledge, including producer-safe OKF capture with explicit last-meaningful-change timestamps.
-- <img src="./skills/engineering/repo-knowledge-engineering/assets/icon.svg" alt="repo-knowledge-engineering icon" width="22"> [repo-knowledge-engineering](./skills/engineering/repo-knowledge-engineering) (RKE): maintain and streamline canonical repository truth with bounded OKF generation and consumption, verified reconciliation of gaps exposed by RCC or user follow-up, likely-question retrieval checks, explicit retain/merge/archive/delete disposition, verification provenance, partial decision supersession, typed linked entry points, reading order, glossary, and evidence alignment.
-- <img src="./skills/engineering/doc-driven-development/assets/icon.svg" alt="doc-driven-development icon" width="22"> [doc-driven-development](./skills/engineering/doc-driven-development) (DDD): turn epic or end-state product truth into feature contracts, implementation-planning notes, work packages, safe review-layer candidates, and acceptance artefacts before coding.
-- <img src="./skills/engineering/repo-task-lifecycle/assets/icon.svg" alt="repo-task-lifecycle icon" width="22"> [repo-task-lifecycle](./skills/engineering/repo-task-lifecycle) (RTL): maintain and visually review OKF task bundles through the installed `okf-tasks` CLI and definitive light-first Graph/Board/Reader workspace, with typed linked README entry points, transparent path exclusions, vertical relationship focus in the Graph panel, fragment-addressable embedded Task time entries, temporal drift review, workstream effort context, full Markdown reading, explicit last-updated timestamps, RKE Visualisation promotion, project-default tracker profiles, safe sync/exports, and generated indexes. [`polaralias/okf-tasks`](https://github.com/polaralias/okf-tasks) is the authoritative specification, CLI, conformance, and visualisation source.
-- <img src="./skills/engineering/worktree-task-coordinator/assets/icon.svg" alt="worktree-task-coordinator icon" width="22"> [worktree-task-coordinator](./skills/engineering/worktree-task-coordinator) (WTC): coordinate parallel, integration-branch, or stacked Git delivery with isolated worktrees, direct-base and path ownership, exact-tip integration evidence, startup reconciliation, final-tree verification, and safe cleanup.
-- <img src="./skills/engineering/repo-publish-finaliser/assets/icon.svg" alt="repo-publish-finaliser icon" width="22"> [repo-publish-finaliser](./skills/engineering/repo-publish-finaliser) (RPF): finalise a repository for public release, including publish-safety scanning, release-automation decisions, and final description cleanup.
-- <img src="./skills/engineering/local-handoff/assets/icon.svg" alt="local-handoff icon" width="22"> [local-handoff](./skills/engineering/local-handoff) (LHO): write and lifecycle-manage one active, dated, review-bounded handoff per workstream outside canonical knowledge and task bundles, with compact standard mode and a richer max-verbosity mode.
-- <img src="./skills/engineering/local-pickup/assets/icon.svg" alt="local-pickup icon" width="22"> [local-pickup](./skills/engineering/local-pickup) (LPK): resume from the active handoff for a workstream, exclude superseded candidates, re-verify expired context, and rebuild trustworthy context before editing.
-- <img src="./skills/engineering/tracker-publisher/assets/icon.svg" alt="tracker-publisher icon" width="22"> [tracker-publisher](./skills/engineering/tracker-publisher) (TPU): publish stable work packages or local task records into external trackers without redesigning their hierarchy or ownership.
-- <img src="./skills/engineering/test-plan-writer/assets/icon.svg" alt="test-plan-writer icon" width="22"> [test-plan-writer](./skills/engineering/test-plan-writer) (TPW): turn requirements and change notes into proportionate QA plans and test cases.
+- <img src="./skills/engineering/engineering-workflow/assets/icon.svg" alt="engineering-workflow icon" width="22"> [engineering-workflow](./skills/engineering/engineering-workflow) (EWF): provide the single normal entry point for material repository engineering, with deterministic start, checkpoint, resume, and gated-close lifecycle state plus proportionate optional capabilities.
+
+Absorbed engineering packages are preserved outside active discovery in the [legacy archive](./archive/README.md). Their names remain accepted only as EWF compatibility inputs.
 
 ### Automation
 
@@ -237,7 +226,7 @@ The interactive flow lets you choose the skills and supported agents. You can al
 
 ```bash
 npx skills add polaralias/skills --list
-npx skills add polaralias/skills --skill repo-knowledge-engineering
+npx skills add polaralias/skills --skill engineering-workflow
 ```
 
 Add `--global` to install for the current user instead of the current project. See the [Skills CLI documentation](https://www.skills.sh/docs/cli) for agent selection and non-interactive options.
