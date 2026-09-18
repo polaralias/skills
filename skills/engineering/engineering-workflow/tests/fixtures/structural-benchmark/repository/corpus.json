@@ -1,0 +1,95 @@
+{
+  "cases": [
+    {
+      "id": "python-file-api",
+      "kind": "file-api",
+      "path": "core.py",
+      "expected": ["leaf", "middle"]
+    },
+    {
+      "id": "transitive-callers",
+      "kind": "trace",
+      "symbol": "leaf",
+      "direction": "in",
+      "depth": 2,
+      "expected": ["middle", "top"]
+    },
+    {
+      "id": "changed-file-impact",
+      "kind": "impact",
+      "changedPaths": ["core.py"],
+      "depth": 2,
+      "expected": ["top"]
+    },
+    {
+      "id": "rust-file-api",
+      "kind": "file-api",
+      "path": "src/math.rs",
+      "expected": ["double"]
+    },
+    {
+      "id": "rust-import-trace",
+      "kind": "trace",
+      "symbol": "src/math.rs::double",
+      "direction": "in",
+      "depth": 1,
+      "expected": ["calculate"]
+    },
+    {
+      "id": "go-file-api",
+      "kind": "file-api",
+      "path": "go/service.go",
+      "expected": ["Run"]
+    },
+    {
+      "id": "go-call-trace",
+      "kind": "trace",
+      "symbol": "go/service.go::Run",
+      "direction": "in",
+      "depth": 1,
+      "expected": ["Start"]
+    },
+    {
+      "id": "dotnet-file-api",
+      "kind": "file-api",
+      "path": "dotnet/Service.cs",
+      "expected": ["Service", "Run"]
+    },
+    {
+      "id": "java-file-api",
+      "kind": "file-api",
+      "path": "jvm/Service.java",
+      "expected": ["Service", "execute"]
+    },
+    {
+      "id": "cpp-file-api",
+      "kind": "file-api",
+      "path": "native/math.cpp",
+      "expected": ["increment"]
+    },
+    {
+      "id": "kotlin-file-api",
+      "kind": "file-api",
+      "path": "mobile/Worker.kt",
+      "expected": ["perform"]
+    },
+    {
+      "id": "ruby-file-api",
+      "kind": "file-api",
+      "path": "scripts/worker.rb",
+      "expected": ["perform_work"]
+    },
+    {
+      "id": "php-file-api",
+      "kind": "file-api",
+      "path": "web/worker.php",
+      "expected": ["perform_work"]
+    },
+    {
+      "id": "swift-file-api",
+      "kind": "file-api",
+      "path": "apple/Worker.swift",
+      "expected": ["performWork"]
+    }
+  ]
+}

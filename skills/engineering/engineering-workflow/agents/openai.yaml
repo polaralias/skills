@@ -1,0 +1,14 @@
+interface:
+  display_name: "Engineering Workflow"
+  short_description: "Coordinate material repository engineering through one lifecycle"
+  default_prompt: "Use $engineering-workflow for this material repository task; run its idempotent activate command before inspection or edits, use the shared context and documentation operations when relevant, and keep checkpoint and closure evidence explicit."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+
+policy:
+  allow_implicit_invocation: true
+  products:
+  - "chatgpt"
+  - "codex"
+  - "api"
+  - "atlas"

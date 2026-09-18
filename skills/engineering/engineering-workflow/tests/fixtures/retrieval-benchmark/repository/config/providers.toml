@@ -1,0 +1,6 @@
+[github]
+token_key = "github.token"
+api_base = "https://api.github.example"
+
+[billing]
+currency = "GBP"

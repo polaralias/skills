@@ -1,0 +1,3 @@
+# Parallel Delivery Extension
+
+Use only when isolated parallel or stacked Git delivery is justified. Reconcile existing managed state before allocation; require linked worktrees, verified bases, explicit path ownership, dependency topology, and an integration owner for shared paths. Parallel branches and linear stacked review are different topologies. Targeted worker success never replaces integrated-tree validation. Merge, publication, deployment, and cleanup remain separate. Cleanup requires exact integration evidence and protection of dirty, advanced, or unintegrated tips; a cascading rebase invalidates affected upper-layer receipts.

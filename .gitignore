@@ -19,3 +19,4 @@ output/
 
 # Local-only working notes and continuity artifacts
 local-docs/
+.engineering-workflow/

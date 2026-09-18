@@ -2,7 +2,7 @@
 type: Repository Knowledge Map
 title: "skills documentation map"
 description: "Indexes the RKE-governed knowledge concepts and execution truth for the skills repository."
-timestamp: 2026-07-28T22:56:13Z
+timestamp: 2026-09-18T00:00:00+01:00
 authority: canonical
 verification: untested
 owner: polaralias
@@ -21,7 +21,9 @@ This map records the repository's typed durable knowledge surfaces and their bou
 ## Entry point
 
 - [Repository README](../../README.md)
+- [Engineering workflow architecture](engineering-workflow-architecture.md) — Unified lifecycle, event-driven documentation, repository context, canonical knowledge, OKF Tasks, host integration, hooks, and MCP boundaries.
 - [Complete Markdown inventory](documentation-inventory.md) — Exhaustive OKF and specialised-schema classification for every repository Markdown file.
+- [Legacy engineering skill archive](../../archive/README.md) — Boundary and provenance for absorbed packages preserved outside active discovery.
 
 ## Future Consideration
 
@@ -49,6 +51,7 @@ This map records the repository's typed durable knowledge surfaces and their bou
 
 ## Deliberate schema boundaries
 
-- Agent instructions, contribution guides, skills, templates, generated output, handoffs, conformance fixtures, and vendor material retain their owning schemas.
+- Agent instructions, contribution guides, active skills, archived skill-package contents, templates, generated output, handoffs, conformance fixtures, and vendor material retain their owning schemas.
+- `archive/README.md` is a specialised boundary guide; the preserved package interiors remain historical skill-package evidence and are excluded from active retrieval and catalogue generation.
 - Reserved `index.md` and `log.md` files retain their OKF navigation and history exceptions.
 - Task and Workstream records live in the separate `tasks/` bundle and conform to the OKF Tasks profile.

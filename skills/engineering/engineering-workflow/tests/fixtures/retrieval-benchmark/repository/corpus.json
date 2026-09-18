@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "queries": [
+    {
+      "id": "exact-symbol",
+      "query": "hydrateGithubGatewayCredentials",
+      "relevantPaths": ["src/github/credential_gateway.py"]
+    },
+    {
+      "id": "natural-language-feature",
+      "query": "where are GitHub authorization headers hydrated before requests?",
+      "relevantPaths": ["src/github/credential_gateway.py", "docs/architecture.md"]
+    },
+    {
+      "id": "configuration",
+      "query": "which configuration key supplies the GitHub token?",
+      "relevantPaths": ["config/providers.toml"]
+    },
+    {
+      "id": "architecture",
+      "query": "what owns task acceptance evidence but not architecture decisions?",
+      "relevantPaths": ["src/tasks/ledger.py", "docs/architecture.md"]
+    },
+    {
+      "id": "terminology",
+      "query": "what is the difference between canonical knowledge and execution truth?",
+      "relevantPaths": ["docs/glossary.md"]
+    }
+  ]
+}

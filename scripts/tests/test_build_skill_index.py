@@ -21,6 +21,23 @@ def test_routing_families_follow_current_family_and_path() -> None:
     assert "](./skills/" not in rendered
 
 
+def test_engineering_family_routes_material_work_through_single_entrypoint() -> None:
+    entries = [
+        ("engineering", "skills/engineering/engineering-workflow/SKILL.md", "EWF", 9),
+        ("engineering", "skills/engineering/repo-setup/SKILL.md", "RST", 9),
+    ]
+
+    rendered = build_skill_index.build_routing_families(entries)
+
+    assert "invoke `engineering-workflow` as the normal entry point" in rendered
+    assert "Resolve legacy engineering names through EWF compatibility routing" in rendered
+    assert "rather than invoking those packages as orchestration peers" in rendered
+    assert "Primary skill: `engineering-workflow` (EWF)" in rendered
+    assert "Separate pre-workflow package: `repo-setup` (RST)" in rendered
+    assert "legacy-specialist" not in rendered
+    assert "invoke every clearly matching skill" not in rendered
+
+
 def test_replace_generated_routing_preserves_surrounding_readme() -> None:
     original = (
         "before\n"
