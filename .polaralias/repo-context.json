@@ -12,8 +12,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-18T23:00:01.182138Z",
-        "evidence": "Catalogue mirror pins RKE commit dd8223043a099172d78111e14e67efeef17f5b74; mirror check remains exact and the runtime clean-install dependency defect is corrected.",
+        "verifiedAt": "2026-09-18T23:03:49.645057Z",
+        "evidence": "Catalogue CI now validates routing, package surfaces, and repository tests independently of the external RKE runtime; local CI-equivalent checks pass with 23 tests, 33 descriptions, and 96 scenarios.",
         "sourceHashes": {
           "docs/knowledge/engineering-workflow-architecture.md": "e91301247272e0561132661a2b6320ef3890729c2f8912a78246f4c771d02717",
           "skills/engineering/engineering-workflow/agents/openai.yaml": "fcbeec5f4fbdfcb5ac9ec5bcf8cce5fa4076a6744dc917451c5cd6ba4c7a993c",
