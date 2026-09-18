@@ -11,7 +11,7 @@ Field-aware BM25F is the measurable lexical baseline. It independently weights p
 ### Find
 
 ```text
-engineering context find "<question>" [--scope <relative-path>] [--limit <count>]
+rke context find "<question>" [--scope <relative-path>] [--limit <count>]
 ```
 
 Find automatically refreshes the disposable index and returns ranked chunks. Tree-sitter symbol spans are the preferred code-chunk boundary across supported languages; a bounded regex/text fallback remains available when structural evidence cannot be produced. Markdown chunks retain heading ancestry and split oversized sections into overlapping bounded passages. Index terms include separately weighted repository paths, filenames, complete identifiers and their camel-case or snake-case components, Markdown heading ancestry, and chunk bodies.
@@ -36,7 +36,7 @@ Refresh is fingerprint-incremental. Unchanged files reuse their prior hash and c
 ### Check
 
 ```text
-engineering context check
+rke context check
 ```
 
 Check refreshes the index and reports generated-index freshness separately from canonical-knowledge freshness. Registered knowledge is `fresh` only when every resolved source matches its receipt, `stale` when a receipt differs, and `unknown` when no receipt exists. An empty manifest cannot prove freshness.
@@ -44,7 +44,7 @@ Check refreshes the index and reports generated-index freshness separately from 
 ### Impact
 
 ```text
-engineering context impact --changed <repository-relative-path> [--changed <path> ...]
+rke context impact --changed <repository-relative-path> [--changed <path> ...]
 ```
 
 Impact classifies each changed path into one evidence class:
@@ -59,7 +59,7 @@ Weaker overlap remains unmapped so broad repository vocabulary does not flood as
 ### Verify
 
 ```text
-engineering context verify --knowledge <repository-relative-path> --evidence <summary>
+rke context verify --knowledge <repository-relative-path> --evidence <summary>
 ```
 
 Verify resolves all current source patterns for the named document and stores their content hashes plus the canonical document's own hash with a timestamp and compact evidence summary. Invoke it only after reviewing the canonical document against those sources. A document or source change, deletion, or newly matched glob member makes the receipt stale.
@@ -67,7 +67,7 @@ Verify resolves all current source patterns for the named document and stores th
 ### Benchmark
 
 ```text
-engineering context benchmark --corpus <repository-relative-json-path>
+rke context benchmark --corpus <repository-relative-json-path>
 ```
 
 Corpus schema version 1 contains query records with `id`, `query`, and one or more `relevantPaths`. The result reports per-case ranked paths, recall at 1/5/10, reciprocal rank, and aggregate mean reciprocal rank. The corpus file itself is excluded from ranking to prevent answer leakage.
@@ -83,7 +83,7 @@ Corpus schema version 1 contains query records with `id`, `query`, and one or mo
 
 ## MCP adapter
 
-`repo_context_mcp.py --root <repository>` is a stdio adapter for both MCP protocol eras. It supports the stateless `2026-07-28` protocol through `server/discover`, required per-request protocol metadata, result discriminators, response identity, and cache hints. It retains the `2025-11-25` initialize handshake for legacy clients. It uses newline-delimited UTF-8 JSON-RPC, emits only protocol messages on stdout, bounds each input message to four MiB, and fixes the repository root at process start.
+`rke-mcp` is a machine-wide stdio adapter for both MCP protocol eras. It supports the stateless `2026-07-28` protocol through `server/discover`, required per-request protocol metadata, result discriminators, response identity, and cache hints. It retains the `2025-11-25` initialize handshake for legacy clients. It uses newline-delimited UTF-8 JSON-RPC, emits only protocol messages on stdout, bounds each input message to four MiB, and requires an explicit repository on each tool call. `--allow-root` constrains dynamic repositories and `--root` retains fixed-root compatibility.
 
 It exposes context find/check/impact/verify; structural API, trace, map, impact, and benchmark operations; knowledge-bundle check, deterministic index generation, and binding registration; documentation assessment/application; and causal change explanation. Both transports dispatch the same registered handlers and validation contract. Retrieval, structural analysis, context check, impact, bundle check, and documentation assessment are read-only. Application, explanation, verification, index generation, and registration are deliberately mutating. Successful calls return the same payload in `structuredContent` and JSON-encoded text content for backwards compatibility. Domain and validation failures are tool errors; unknown tools and unknown protocol methods remain JSON-RPC errors.
 

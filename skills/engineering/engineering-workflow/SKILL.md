@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.3.1
+  version: 3.0.0
   updated: '2026-09-18'
 ---
 
@@ -16,10 +16,10 @@ This skill produces chat output. Include this proof line in the response: `engin
 
 ## Activation gate
 
-For material repository work, activation is the first workflow action after reading applicable instructions. Resolve this installed package and run:
+For material repository work, activation is the first workflow action after reading applicable instructions. Require the separately installed RKE runtime and run:
 
 ```text
-python scripts/engineering.py activate --phase <phase> --task-mode <none|lightweight|full> --root <repository>
+rke activate --phase <phase> --task-mode <none|lightweight|full> --root <repository>
 ```
 
 `activate` is the single idempotent entry: it creates absent state, validates active state, and opens a new cycle from closed state. It also records the Git HEAD and dirty paths observed at activation so behaviour evaluations can prove activation preceded the intended edits. Do not inspect broadly, edit, test, or claim EWF use before it succeeds. Explanation-only and trivial read-only requests remain dormant.
@@ -46,46 +46,48 @@ Use one of four lifecycle operations:
 - `resume`: validate saved state against the current repository before continuing.
 - `close`: reconcile required gates and refuse completion while material obligations remain.
 
-For any repository mutation that routes to this skill, selection alone is not activation. Use `activate` rather than making the agent decide between `start`, `resume`, and `start --new-cycle`. Resolve the helper from this installed skill package rather than assuming the target repository contains `scripts/engineering.py`. Do not emit the proof line or claim EWF use when activation did not succeed.
+For any repository mutation that routes to this skill, selection alone is not activation. Use `activate` rather than making the agent decide between `start`, `resume`, and `start --new-cycle`. Resolve the machine-installed `rke` executable rather than assuming the target repository or installed skill contains executable source. Do not emit the proof line or claim EWF use when activation did not succeed.
 
 Run the deterministic helper through:
 
 ```text
-python scripts/engineering.py <start|checkpoint|resume|close> --root <repository>
-python scripts/engineering.py activate --phase <phase> --task-mode <mode> --root <repository>
-python scripts/engineering.py start --new-cycle --phase <phase> --root <repository>
-python scripts/engineering.py gate add --gate <name> --root <repository>
-python scripts/engineering.py gate resolve --gate <name> --evidence <summary> --root <repository>
-python scripts/engineering.py journey enter <understand|design|close> --root <repository>
-python scripts/engineering.py task configure --mode <none|lightweight|full> --root <repository>
-python scripts/engineering.py task check --root <repository>
-python scripts/engineering.py capability enable <parallel-delivery|qa-planning|tracker-sync|publication> --root <repository>
-python scripts/engineering.py closure assess --root <repository>
-python scripts/engineering.py documentation assess --base <ref> --root <repository>
-python scripts/engineering.py change explain --base <ref> --summary <causal-summary> --root <repository>
-python scripts/engineering.py legacy route <legacy-name-or-alias> --root <repository>
+rke <start|checkpoint|resume|close> --root <repository>
+rke activate --phase <phase> --task-mode <mode> --root <repository>
+rke start --new-cycle --phase <phase> --root <repository>
+rke gate add --gate <name> --root <repository>
+rke gate resolve --gate <name> --evidence <summary> --root <repository>
+rke journey enter <understand|design|close> --root <repository>
+rke task configure --mode <none|lightweight|full> --root <repository>
+rke task check --root <repository>
+rke capability enable <query-to-knowledge|parallel-delivery|qa-planning|tracker-sync|publication> --root <repository>
+rke closure assess --root <repository>
+rke documentation assess --base <ref> --root <repository>
+rke change explain --base <ref> --summary <causal-summary> --root <repository>
+rke legacy route <legacy-name-or-alias> --root <repository>
 ```
 
 Read [references/workflow-contract.md](./references/workflow-contract.md) before choosing initial phase, capabilities, gates, or task mode. Do not load conditional journey detail that the current operation does not need.
 
 When entering `understand`, `design`, or `close`, run the journey command and then load only the returned reference under `references/journeys/`. The understand journey absorbs repository orientation, ambiguity resolution, knowledge classification, and deliberate promotion. The design journey absorbs behavioural contracting, scenario pressure-testing, public acceptance, and work-package readiness. The close journey absorbs bounded change explanation and task/knowledge/validation reconciliation.
 
+Repository understanding and user-intent convergence are separate. When repository evidence cannot settle consequential intent, enable `query-to-knowledge`, load the returned reference, and keep its `shared-understanding` gate open. Ask coherent groups of questions with a recommended answer and rationale, then repeat only while material uncertainty remains.
+
 When repository evidence is needed, use the same CLI surface:
 
 ```text
-python scripts/engineering.py context find "<question>" --root <repository>
-python scripts/engineering.py context check --root <repository>
-python scripts/engineering.py context impact --changed <relative-path> --root <repository>
-python scripts/engineering.py context verify --knowledge <relative-path> --evidence <summary> --root <repository>
-python scripts/engineering.py context benchmark --root <repository> --corpus <relative-json-path>
-python scripts/engineering.py structure file-api <relative-source-path> --root <repository>
-python scripts/engineering.py structure review <relative-source-path> --root <repository>
-python scripts/engineering.py structure review-apply <relative-source-path> --review-file <relative-json-path> --root <repository>
-python scripts/engineering.py structure trace <symbol> --direction <in|out|both> --root <repository>
-python scripts/engineering.py structure map --root <repository>
-python scripts/engineering.py structure impact --changed <relative-source-path> --root <repository>
-python scripts/engineering.py structure search <regex> --root <repository>
-python scripts/engineering.py structure benchmark --corpus <relative-json-path> --root <repository>
+rke context find "<question>" --root <repository>
+rke context check --root <repository>
+rke context impact --changed <relative-path> --root <repository>
+rke context verify --knowledge <relative-path> --evidence <summary> --root <repository>
+rke context benchmark --root <repository> --corpus <relative-json-path>
+rke structure file-api <relative-source-path> --root <repository>
+rke structure review <relative-source-path> --root <repository>
+rke structure review-apply <relative-source-path> --review-file <relative-json-path> --root <repository>
+rke structure trace <symbol> --direction <in|out|both> --root <repository>
+rke structure map --root <repository>
+rke structure impact --changed <relative-source-path> --root <repository>
+rke structure search <regex> --root <repository>
+rke structure benchmark --corpus <relative-json-path> --root <repository>
 ```
 
 Read [references/repo-context-contract.md](./references/repo-context-contract.md) when using, evaluating, or extending repository retrieval. Generated context is disposable evidence, never canonical knowledge.
@@ -97,22 +99,22 @@ Read [references/structural-context.md](./references/structural-context.md) befo
 When canonical OKF knowledge must be validated, indexed, or bound to implementation evidence, use:
 
 ```text
-python scripts/engineering.py knowledge check --bundle <relative-directory> --root <repository>
-python scripts/engineering.py knowledge build-indexes --bundle <relative-directory> --root <repository>
-python scripts/engineering.py knowledge register --knowledge <relative-concept> --source <pattern> --root <repository>
+rke knowledge check --bundle <relative-directory> --root <repository>
+rke knowledge build-indexes --bundle <relative-directory> --root <repository>
+rke knowledge register --knowledge <relative-concept> --source <pattern> --root <repository>
 ```
 
 Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
 For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Assess against an explicit Git base, record the causal explanation, author only the minimum necessary canonical change, then use `documentation apply` to validate the graph, rebuild navigation, test likely reader questions, and record exact-delta freshness receipts. This replaces a separately remembered RCC/RKE sequence during normal closure without turning hooks into documentation authors.
 
-For MCP clients, start the thin stdio adapter with a fixed repository root:
+For MCP clients, start the optional machine-wide stdio adapter once:
 
 ```text
-python scripts/repo_context_mcp.py --root <repository>
+rke-mcp
 ```
 
-The adapter and CLI dispatch the same registered operation handlers; MCP is not a second retrieval, knowledge, documentation, or structural implementation. It serves the stateless MCP `2026-07-28` era and retains the `2025-11-25` initialize-handshake era for compatible clients. Use the CLI for hooks and shell automation, and MCP when a client needs discoverable structured tools.
+The adapter and CLI dispatch the same registered operation handlers; MCP is not a second retrieval, knowledge, documentation, or structural implementation. Each MCP tool call names its repository explicitly, and one process may serve multiple Git repositories while keeping caches, workflow state, paths, and results repository-bound. Optional `--allow-root` arguments constrain accepted repositories further; `--root` remains a single-repository compatibility mode. Use the CLI for hooks and shell automation, and MCP when a client needs discoverable structured tools.
 
 Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when durable execution state may be justified. In `none` mode, `task check` is a deterministic no-op and does not launch OKF Tasks. In durable modes, the adapter delegates strict validation to the authoritative CLI and returns structured evidence; create or mutate records through that CLI rather than reimplementing its schema here.
 
@@ -122,7 +124,7 @@ Read [references/host-integration.md](./references/host-integration.md) before u
 
 Use [references/quality-coverage.md](./references/quality-coverage.md) for the Slice 4/5 completeness boundary. Do not present deterministic generation guardrails as an executed model-quality evaluation.
 
-Use `python scripts/evaluate_agent.py` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
+Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
 
 ## Operating rules
 
@@ -152,7 +154,7 @@ Use `python scripts/evaluate_agent.py` for a bounded end-to-end routing and beha
 
 ## Compatibility boundary
 
-The replacement slices are implemented. `engineering-workflow` is the only normal material-engineering entry point. Treat absorbed legacy names as compatibility inputs and resolve them through `legacy route`; do not load those packages as orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
+The replacement slices are implemented. `engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Treat absorbed legacy names as compatibility inputs and resolve them through `legacy route`; preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
 
 ## Guardrails
 

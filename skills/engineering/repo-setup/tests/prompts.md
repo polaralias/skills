@@ -30,7 +30,7 @@ Expected:
 Prompt: "Use $repo-setup, then tell me the best next skill for actual implementation work."
 Expected:
 - the skill finishes at bootstrap scope
-- it recommends `engineering-workflow-orchestrator` as the next step
+- it recommends `engineering-workflow` as the next step and leaves RKE activation to that skill
 
 ## 6. Local-only docs convention
 Prompt: "Use $repo-setup and make sure this repo has a safe place for local-only handoffs and notes."

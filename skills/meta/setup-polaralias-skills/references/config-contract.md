@@ -116,7 +116,7 @@ Consumers should still prefer direct user instructions over shared defaults.
 
 ## Continuity guidance
 
-For hook-aware consumers such as `engineering-workflow-orchestrator`, `local-handoff`, or future continuity helpers, these keys should be interpreted as:
+For hook-aware consumers such as `engineering-workflow` through the installed RKE runtime, or future continuity helpers, these keys should be interpreted as:
 
 - `continuity.preferred_mode` -> default handoff depth such as `standard` or `max`
 - `continuity.transcript_backup_root` -> preferred user-level root for raw transcript backup artefacts

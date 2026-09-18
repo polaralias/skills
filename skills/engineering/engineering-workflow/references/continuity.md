@@ -4,9 +4,9 @@ Workflow state is a compact restart index, not a handoff document, task database
 
 ## Hooks
 
-- `scripts/hooks/session_start.py --root <repository>` invokes idempotent `start`; existing state wins.
-- `scripts/hooks/pre_compaction.py --root <repository> --summary <verified-summary> --next-action <action>` invokes `checkpoint`.
-- `scripts/hooks/pre_merge.py --root <repository> --base <ref>` invokes `closure assess` with exact-delta explanation and documentation receipt checks, then returns its blocking exit status. Omitting the base retains legacy gate-only assessment.
+- `rke-session-start --root <repository>` invokes idempotent `start`; existing state wins.
+- `rke-pre-compaction --root <repository> --summary <verified-summary> --next-action <action>` invokes `checkpoint`.
+- `rke-pre-push --root <repository> --base <ref>` invokes `closure assess` with exact-delta explanation and documentation receipt checks, then returns its blocking exit status. Omitting the base retains legacy gate-only assessment.
 
 Hooks call stable public commands and contain no hidden lifecycle judgement. They are conveniences, not documentation authors or merge authority. `host recipe` describes integration and `host install` can add a repository-local pre-push gate without silently replacing an existing hook.
 

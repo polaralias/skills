@@ -46,7 +46,7 @@ Prompt: "Set shared Polaralias defaults so hook-aware skills back up transcripts
 Expected:
 - the skill captures continuity preferences in shared config using stable contract keys
 - it keeps those defaults outside installed skill folders
-- it reports that downstream skills such as `engineering-workflow-orchestrator` can consume them
+- it reports that `engineering-workflow` and its installed RKE runtime can consume them
 
 ## 8. Project Claude routing for engineering
 

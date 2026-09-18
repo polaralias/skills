@@ -21,7 +21,7 @@ This is a future-skill candidate.
 
 There is a reusable pattern around session-continuity hooks that is broader than engineering alone, but it is not yet clean enough to package as a standalone public skill.
 
-For now, the shared user-level setup surface likely belongs in `setup-polaralias-skills`, while domain-specific skills such as `engineering-workflow-orchestrator` can adopt the pattern as a consumer.
+For now, the shared user-level setup surface likely belongs in `setup-polaralias-skills`, while `engineering-workflow` and its installed RKE runtime can adopt the pattern as a consumer.
 
 ## What seems reusable
 
@@ -64,7 +64,7 @@ The public version would probably:
 This would pair well with:
 
 - `setup-polaralias-skills` for shared user-level defaults and hook preferences
-- `engineering-workflow-orchestrator` for engineering-stage continuity
+- `engineering-workflow` plus RKE for engineering-stage continuity
 - `local-handoff` for full handoff generation
 - `local-pickup` for safe restart from the saved artefacts
 

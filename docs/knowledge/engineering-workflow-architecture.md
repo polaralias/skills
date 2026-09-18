@@ -1,25 +1,18 @@
 ---
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
-description: Explains how the unified engineering workflow coordinates lifecycle state, lexical and structural repository context, event-driven documentation, canonical OKF knowledge, OKF Tasks, host gates, and shared CLI/MCP access.
+description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
 timestamp: 2026-09-18T00:00:00+01:00
 authority: canonical
 verification: verified-working
 verified_at: 2026-09-18T00:00:00+01:00
 verified_against:
-  - skills/engineering/engineering-workflow/tests
-  - skills/engineering/engineering-workflow/scripts/engineering.py
-  - skills/engineering/engineering-workflow/scripts/repo_context.py
-  - skills/engineering/engineering-workflow/scripts/knowledge.py
-  - skills/engineering/engineering-workflow/scripts/repo_context_mcp.py
-  - skills/engineering/engineering-workflow/scripts/operations.py
-  - skills/engineering/engineering-workflow/scripts/structure.py
-  - skills/engineering/engineering-workflow/requirements.txt
-  - skills/engineering/engineering-workflow/scripts/documentation.py
-  - skills/engineering/engineering-workflow/scripts/host_integration.py
-  - skills/engineering/engineering-workflow/tests/test_structure.py
-  - skills/engineering/engineering-workflow/tests/test_repo_context_mcp.py
-  - "EWF tests: 103 passed"
+  - skills/engineering/engineering-workflow/SKILL.md
+  - skills/engineering/engineering-workflow/RKE_SOURCE.json
+  - skills/engineering/engineering-workflow/references/repo-context-contract.md
+  - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
+  - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
+  - "RKE runtime 0.1.0: 106 deterministic tests passed and wheel built"
   - "retrieval benchmark: recall@1 0.8, recall@5 1.0, MRR 1.0"
   - "structural benchmark: mean recall 1.0 and mean precision 1.0 across 14 contract cases, 8843 output characters"
   - "model invocation evaluation: installed project routing produced activation evidence before requested edits; nested runner still timed out before final response"
@@ -36,7 +29,9 @@ navigation:
 
 # Polaralias engineering workflow architecture
 
-The `engineering-workflow` skill is the single normal entry point for material repository engineering. It keeps one primary phase, activates bounded capabilities only when needed, and retains unresolved obligations as explicit gates rather than requiring an agent to remember a sequence of peer skills.
+The `engineering-workflow` skill is the single normal agent entry point for material repository engineering. RKE is the independent installed runtime and repository-knowledge methodology used by that skill. OKF Tasks remains a separate execution-record primitive. The skill keeps one primary phase, activates bounded capabilities only when needed, and retains unresolved obligations as explicit gates rather than requiring an agent to remember a sequence of peer skills.
+
+Documentation-driven development is the governing principle: accepted behaviour and durable repository knowledge guide implementation and are rechecked against source, tests, and runtime evidence. RKE operationalises that principle through retrieval, structural analysis, knowledge bindings, documentation impact, and closure evidence.
 
 ## Public lifecycle
 
@@ -80,9 +75,17 @@ After an agent authors the minimum durable change, `documentation apply` validat
 
 OKF Tasks owns durable execution truth: outcomes, acceptance, status, workstreams, effort when enabled, evidence, and tracker reconciliation. The workflow adapter chooses `none`, `lightweight`, or `full` activation and delegates strict validation to the authoritative CLI. Task records may link to knowledge concepts, but neither surface is copied into workflow state or redefined by the other.
 
+## Query-to-Knowledge and Repository Change Comprehension
+
+Repository understanding and user-intent convergence are separate. The `understand` journey gathers and verifies repository evidence. Query-to-Knowledge is an explicit capability with a `shared-understanding` gate: it groups consequential questions, explains why each matters, recommends an answer with rationale, and repeats until no material implementation decision is being guessed. Durable decisions are promoted deliberately rather than turning every answer into documentation.
+
+Repository Change Comprehension remains the named causal close-path workflow. `change explain` records how the final delta changes entry points, calls, state, effects, removals, and tests; it does not merely list changed files.
+
 ## Shared CLI and MCP access
 
-The CLI and stdio adapter dispatch one operation registry for retrieval, structural context, knowledge, documentation, and explanation. Argument validation, annotations, and business handlers therefore have one implementation; each transport only translates its protocol envelope. MCP supports the stateless `2026-07-28` lifecycle through `server/discover` and per-request metadata while retaining the MCP `2025-11-25` initialize-handshake path for compatible clients. The adapter fixes the repository root at process start and distinguishes read-only retrieval, validation, analysis, and assessment from mutating application, explanation, verification, index generation, and binding registration.
+The separately installed `polaralias-rke` package owns the CLI, MCP adapter, dependencies, caches, benchmarks, and runtime tests. The skills repository contains only the synchronized EWF catalogue package and a source/version manifest; it does not carry an independently maintained runtime copy.
+
+The `rke` CLI and `rke-mcp` stdio adapter dispatch one operation registry for retrieval, structural context, knowledge, documentation, and explanation. Argument validation, annotations, and business handlers therefore have one implementation; each transport only translates its protocol envelope. One machine-wide MCP process accepts an explicit repository on every tool call, validates dynamic targets as Git repositories, and can restrict them with allowed-root boundaries. Repository-local state and evidence never become machine-global merely because the executable is shared. Fixed-root mode remains a compatibility option.
 
 ## Legacy archive
 
@@ -90,9 +93,9 @@ The absorbed engineering packages are preserved unchanged under the repository-r
 
 ## Host integration
 
-`host recipe` describes supported MCP, project-routing, and Git-gate setup. `host install` writes a local Git `pre-push` hook; for Codex it merges a marker-owned activation block into project `AGENTS.md`, and for Claude it merges a portable project `.mcp.json` entry. Independently authored instructions, hooks, and unrelated configuration are preserved.
+`host recipe` describes machine-wide MCP activation, project routing, and repository-local Git-gate setup. `host install` writes a local Git `pre-push` hook; for Codex it merges a marker-owned activation block into project `AGENTS.md`, and for Claude it merges an `rke-mcp` entry. Independently authored instructions, hooks, and unrelated configuration are preserved.
 
-Codex integration uses the installed `codex mcp add` interface but keeps user-level MCP activation explicit. The project `AGENTS.md` block directs material changes through the installed EWF and its single `activate` command without inventing an undocumented hook schema. Git-only mode provides pre-push enforcement without claiming an MCP installation.
+Codex integration uses `codex mcp add rke -- rke-mcp` once at user scope. The project `AGENTS.md` block directs material changes through EWF and `rke activate`; repository selection belongs to each operation rather than the server installation. Git-only mode provides pre-push enforcement without claiming an MCP installation.
 
 The packaged model-evaluation runner tests implicit activation, project-routed activation ordering, nearby non-activation, and source-driven authority expansion in temporary repositories. It grades the activation receipt rather than mere state-file existence and checks that named implementation files were clean in the activation Git baseline. Windows fixtures seed an evaluator-owned unactivated state file so sandbox ACLs cannot hide evidence from the parent grader, and timeout diagnostics are bounded.
 

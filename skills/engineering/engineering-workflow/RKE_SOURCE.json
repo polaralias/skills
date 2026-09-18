@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/polaralias/rke",
+  "sourceCommit": "4e88a035965aaf70789e48914fa2d5b472fe6334",
+  "runtimePackage": "polaralias-rke",
+  "runtimeVersion": "0.1.0",
+  "skillPath": "skills/engineering-workflow",
+  "skillVersion": "3.0.0",
+  "authority": "synchronized-mirror"
+}

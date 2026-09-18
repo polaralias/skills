@@ -2,7 +2,7 @@
 
 ## Routing policy
 
-`engineering-workflow` is the sole normal entry point for material repository engineering. Legacy peer names and aliases are compatibility inputs resolved by `engineering legacy route <name>`; they are not phases, capabilities, or instructions to load the old package body. Unknown names are rejected rather than guessed.
+`engineering-workflow` is the sole normal skill entry point for material repository engineering. RKE is the independent runtime and methodology. Legacy peer names and aliases are compatibility inputs resolved by `rke legacy route <name>`; they are not phases or instructions to load the old package body. Unknown names are rejected rather than guessed.
 
 `repo-setup` remains an intentionally separate pre-workflow bootstrap capability. It is not absorbed into active engineering lifecycle state.
 
@@ -12,8 +12,8 @@
 | --- | --- | --- | --- |
 | EWO | engineering-workflow-orchestrator | lifecycle start/resume/close | absorbed |
 | RDS | repo-dissection | understand journey | absorbed |
-| QTK | query-to-knowledge | understand journey | absorbed |
-| RKE | repo-knowledge-engineering | understand journey plus native knowledge check/index/register and context impact/verify | absorbed |
+| QTK | query-to-knowledge | explicit clarification capability plus `shared-understanding` gate | preserved in EWF |
+| RKE | repo-knowledge-engineering | independently installed RKE runtime and methodology used by EWF | preserved as a first-class primitive |
 | DDD | doc-driven-development | design journey | absorbed |
 | RTL | repo-task-lifecycle | proportional OKF Tasks adapter | absorbed; OKF engine remains independent |
 | WTC | worktree-task-coordinator | parallel-delivery extension | absorbed |

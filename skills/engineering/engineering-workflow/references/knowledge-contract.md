@@ -7,9 +7,9 @@ The knowledge core gives the engineering workflow one deterministic surface for 
 Use the smallest operation that matches the current journey:
 
 ```text
-engineering knowledge check --bundle <repository-relative-directory>
-engineering knowledge build-indexes --bundle <repository-relative-directory>
-engineering knowledge register --knowledge <repository-relative-concept> --source <pattern>
+rke knowledge check --bundle <repository-relative-directory>
+rke knowledge build-indexes --bundle <repository-relative-directory>
+rke knowledge register --knowledge <repository-relative-concept> --source <pattern>
 ```
 
 The same operations are available through the MCP tools `repo_knowledge_bundle_check`, `repo_knowledge_build_indexes`, and `repo_knowledge_register`.

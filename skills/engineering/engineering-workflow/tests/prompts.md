@@ -49,6 +49,27 @@ Expected behaviour:
 - pressure-tests scenarios and writes acceptance against public behaviour
 - does not require the user to invoke DDD or prematurely create work packages
 
+## Query-to-Knowledge clarification
+
+Prompt: "You understand the repository, but I have not decided whether existing clients must retain the old fallback behaviour. Question me until we share a precise implementation target."
+
+Expected behaviour:
+
+- enables the distinct `query-to-knowledge` capability without replacing the current lifecycle phase
+- registers and keeps open the `shared-understanding` gate
+- asks a coherent group of consequential questions, explaining why each matters and giving a recommended answer with rationale
+- records user decisions separately from repository facts and agent inference
+- repeats only while material uncertainty remains and does not resolve the gate from silence or retrieval confidence
+- promotes only durable conclusions that need to survive the conversation
+
+Prompt: "Map the current fallback implementation and tell me what it does; do not ask product questions yet."
+
+Expected behaviour:
+
+- uses the `understand` journey and bounded repository evidence
+- does not enable Query-to-Knowledge merely because repository exploration is incomplete
+- reports unresolved evidence gaps without converting them into user-choice questions
+
 ## Idempotent session start
 
 Prompt: "A session-start hook invoked engineering start, but active workflow state already exists."
