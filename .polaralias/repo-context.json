@@ -12,8 +12,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-18T23:03:49.645057Z",
-        "evidence": "Catalogue CI now validates routing, package surfaces, and repository tests independently of the external RKE runtime; local CI-equivalent checks pass with 23 tests, 33 descriptions, and 96 scenarios.",
+        "verifiedAt": "2026-09-18T23:08:03.909158Z",
+        "evidence": "Catalogue EWF mirror pins final green RKE head aeecc8a7bfb3f50ad8842009fce8820ea51ddbc8; CI-equivalent checks and canonical mirror validation pass.",
         "sourceHashes": {
           "docs/knowledge/engineering-workflow-architecture.md": "e91301247272e0561132661a2b6320ef3890729c2f8912a78246f4c771d02717",
           "skills/engineering/engineering-workflow/agents/openai.yaml": "fcbeec5f4fbdfcb5ac9ec5bcf8cce5fa4076a6744dc917451c5cd6ba4c7a993c",
@@ -35,7 +35,7 @@
           "skills/engineering/engineering-workflow/references/repo-context-contract.md": "0d5ae7429ae47d0d20dd1f3543f7e44b05d6218e4f97c35c510d02e6546c6e66",
           "skills/engineering/engineering-workflow/references/structural-context.md": "58b2aebd47897188230d55444126ab4ae2b9085dda91a5299f16bd1d06be845a",
           "skills/engineering/engineering-workflow/references/workflow-contract.md": "957a397946de8c04be2aef884ea1e601716b8bf5266625e5e05a6dabe302bc95",
-          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "d00c387ffedfe0b05ca883a9923157639c9f45b14c83be4b6088a66832eb0bb1",
+          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "b8d0c01d02a7e7646ee3bf910eee8a00e92d5db72faa5a7f1731f30d59e5b350",
           "skills/engineering/engineering-workflow/SKILL.md": "1fbfe3617c94251aed8fae7b6f3657ea6e2534b59055f3a69c70317c9e2fb7e4",
           "skills/engineering/repo-setup/SKILL.md": "36f9bbf6c0a4e6cc8d9abe136be4f8d0a9c269632a563aaab574e49b7ac8af3c",
           "skills/meta/setup-polaralias-skills/references/config-contract.md": "27d433a4d1d857ed626910fe4adfaf7f81abea6b01a4e13a93d307149f12877a"
