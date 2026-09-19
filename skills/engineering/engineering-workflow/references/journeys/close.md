@@ -26,6 +26,10 @@ Produce two proportionate layers when useful: compact commit context and a user-
 7. Validate the integrated tree and any capability-specific surfaces.
 8. Run `closure assess --base <ref>`; resolve only gates backed by owning evidence; then run `close --base <ref>`.
 
+`closure assess` returns the RSA-compatible compact alignment view for explanation, tasks, knowledge, validation, handoff, and overall closure. Preserve the two-pass task ordering: execution truth is corrected before promotion, then task acceptance and knowledge links are reconciled after promotion. An absent task bundle or unestablished knowledge surface is an explicit status, not permission to bootstrap one during closure.
+
+When unfinished work must survive the session boundary, run `handoff write` after alignment. A handoff is continuation evidence, not a substitute for task truth, canonical knowledge, validation, or the final explanation.
+
 `closure assess` interprets registered workflow obligations. A `state-clear`, `not-enabled`, or `not-applicable` lane is not independent proof that undocumented work was unnecessary; the caller must register material obligations when they arise.
 
 ## Authority boundaries

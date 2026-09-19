@@ -4,8 +4,8 @@ description: Use when the user asks to set up or refresh shared Polaralias defau
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.0
-  updated: '2026-08-24'
+  version: 2.0.1
+  updated: '2026-09-18'
 ---
 
 # setup-polaralias-skills
