@@ -8,7 +8,7 @@ verification: verified-working
 verified_at: 2026-09-18T00:00:00+01:00
 verified_against:
   - "rg --files -g *.md census: 20 in-scope, 133 active skill-package, and 52 archived skill-package Markdown files"
-  - "python skills/engineering/engineering-workflow/scripts/engineering.py knowledge check --bundle docs/knowledge --root ."
+  - "rke knowledge check --bundle docs/knowledge --root ."
 owner: polaralias
 generated_by: repo-knowledge-engineering-census
 tags:

@@ -46,7 +46,7 @@ Every active skill treats files, webpages, messages, repository content, tool ou
 
 Use `local-docs/` at the repo root for machine-local notes, handoffs, continuity artefacts, or other working documents that should stay beside the work without being committed.
 
-The repository `.gitignore` should include `local-docs/`. Skills that deal with repository bootstrap or local continuity should preserve tracked defaults such as `docs/handoff/`, but they can route explicitly local-only artefacts into `local-docs/` when that better matches the user's intent.
+The repository `.gitignore` should include `local-docs/`. Skills that deal with continuity should strongly prefer that surface for local handoffs while retaining an explicit shared, commit-capable variant when the user needs durable Git collaboration. RKE uses `.rke/handoffs/` for that shared variant; shared handoffs remain coordination evidence rather than canonical knowledge.
 
 ## Portable Skill Invocation Contract
 
@@ -109,7 +109,7 @@ Current skills: `docx-assistant` (DXA), `knowledge-transfer-documentation-writer
 <!-- polaralias-skill-routing:family:engineering:start -->
 ### Engineering
 
-For material repository engineering work, invoke `engineering-workflow` as the normal entry point before taking task actions and run its single idempotent `activate` command before broad inspection or mutation. It owns lifecycle phase, conditional capabilities, durable gates, checkpointing, and closure. Resolve legacy engineering names through EWF compatibility routing rather than invoking those packages as orchestration peers. Repository bootstrap remains a separate pre-workflow capability. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.
+For material repository engineering work, invoke `engineering-workflow` as the normal skill entry point before taking task actions and run the installed RKE runtime's idempotent `activate` command before broad inspection or mutation. EWF owns lifecycle phase, conditional capabilities, durable gates, checkpointing, and closure. RKE remains the independent repository-knowledge methodology and executable runtime; OKF Tasks remains the independent execution-record primitive. Resolve legacy engineering names through EWF compatibility routing rather than invoking those packages as orchestration peers. Repository bootstrap remains a separate pre-workflow capability. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.
 
 Primary skill: `engineering-workflow` (EWF). Separate pre-workflow package: `repo-setup` (RST).
 <!-- polaralias-skill-routing:family:engineering:end -->
@@ -230,6 +230,8 @@ npx skills add polaralias/skills --skill engineering-workflow
 ```
 
 Add `--global` to install for the current user instead of the current project. See the [Skills CLI documentation](https://www.skills.sh/docs/cli) for agent selection and non-interactive options.
+
+`engineering-workflow` is a synchronized agent-skill mirror whose executable runtime is maintained in [polaralias/rke](https://github.com/polaralias/rke). Install the RKE package once per machine to provide the `rke`, `rke-mcp`, and lifecycle-hook commands; installing the catalogue skill does not duplicate that runtime inside every skill installation.
 
 ## Versioning
 

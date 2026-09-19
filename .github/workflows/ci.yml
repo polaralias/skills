@@ -19,9 +19,7 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install test dependencies
-        run: |
-          python -m pip install pytest pyyaml
-          python -m pip install -r skills/engineering/engineering-workflow/requirements.txt
+        run: python -m pip install pytest pyyaml
       - name: Verify generated skill index and routing catalogue
         run: python scripts/build_skill_index.py --check
       - name: Verify skill routing descriptions and scenario coverage

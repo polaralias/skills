@@ -7,9 +7,9 @@ The knowledge core gives the engineering workflow one deterministic surface for 
 Use the smallest operation that matches the current journey:
 
 ```text
-engineering knowledge check --bundle <repository-relative-directory>
-engineering knowledge build-indexes --bundle <repository-relative-directory>
-engineering knowledge register --knowledge <repository-relative-concept> --source <pattern>
+rke knowledge check --bundle <repository-relative-directory>
+rke knowledge build-indexes --bundle <repository-relative-directory>
+rke knowledge register --knowledge <repository-relative-concept> --source <pattern>
 ```
 
 The same operations are available through the MCP tools `repo_knowledge_bundle_check`, `repo_knowledge_build_indexes`, and `repo_knowledge_register`.
@@ -28,7 +28,7 @@ Generated indexes are navigation, not canonical product truth. They must not be 
 
 ## Register bindings
 
-`knowledge register` requires an existing typed concept and one or more explicit repository-relative source patterns. It creates or updates the concept entry in `.polaralias/repo-context.json`, preserves unrelated manifest and entry fields, and invalidates an existing verification receipt when the source set changes.
+`knowledge register` requires an existing typed concept and one or more explicit repository-relative source patterns. It creates or updates the concept entry in `.rke/repo-context.json`, preserves unrelated manifest and entry fields, and invalidates an existing verification receipt when the source set changes. A legacy `.polaralias/repo-context.json` remains readable only when the canonical manifest is absent; the next manifest write migrates it, while ambiguous dual manifests are refused.
 
 Registration states what implementation evidence must be reviewed when the canonical concept is checked. It does not claim that the document is current. Use `context verify` only after an actual review against every resolved bound source. The receipt includes the concept's own hash so a later documentation edit also makes freshness stale.
 
@@ -42,7 +42,7 @@ A relationship result is a navigation lead, not a textual match, truth claim, fr
 
 - Canonical concepts remain deliberately authored repository truth.
 - Generated indexes remain rebuildable navigation.
-- `.polaralias/repo-context.json` owns source bindings and review receipts.
+- `.rke/repo-context.json` owns source bindings and review receipts.
 - `.engineering-workflow/cache/` remains disposable retrieval evidence.
 - OKF Tasks remains the execution ledger for Tasks, Workstreams, status, acceptance, effort, evidence, and tracker state.
 - Workflow state records phase, capabilities, gates, and compact receipts; it does not copy any of these stronger records.

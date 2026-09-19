@@ -13,8 +13,8 @@ OKF Tasks remains the authoritative specification, validator, record format, and
 Configure and inspect through:
 
 ```text
-engineering task configure --mode <none|lightweight|full> [--task-ref <relative-task.md>] [--bundle <relative-path>]
-engineering task check
+rke task configure --mode <none|lightweight|full> [--task-ref <relative-task.md>] [--bundle <relative-path>]
+rke task check
 ```
 
 An existing task reference survives expansion from lightweight to full. Mode reduction is rejected unless the caller explicitly supplies `--force`; forcing a reduction does not resolve an existing `task-reconciliation` gate or erase its evidence obligation.

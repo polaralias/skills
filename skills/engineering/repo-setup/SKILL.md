@@ -1,11 +1,11 @@
 ---
 name: repo-setup
-description: Use when the user asks to set up, initialise, or scaffold a new repository; choose a licence; add CODEOWNERS, contributor or agent instructions, branch protections, repository rulesets, release scaffolding, or a GitHub description; or establish baseline governance before engineering begins. Produces the governed repository shell and routes active development to EWO. Do not use for final public-release hardening (RPF) or ongoing documentation maintenance (RKE). Shorthand RST.
+description: Use when the user asks to set up, initialise, or scaffold a new repository; choose a licence; add CODEOWNERS, contributor or agent instructions, branch protections, repository rulesets, release scaffolding, or a GitHub description; or establish baseline governance before engineering begins. Produces the governed repository shell and routes active development to Engineering Workflow (EWF) backed by the installed RKE runtime. Do not use for final public-release hardening or active engineering. Shorthand RST.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.0.0
-  updated: '2026-08-24'
+  version: 3.0.1
+  updated: '2026-09-18'
 ---
 
 # repo-setup
@@ -123,7 +123,7 @@ When scaffolding release automation around a repo-level `VERSION` file:
 
 - Do not turn this skill into the full release automation pass.
 - If the repo clearly needs release/version automation, note that `repo-publish-finaliser` should be run later.
-- If engineering work is about to start, recommend `engineering-workflow-orchestrator` as the next skill.
+- If engineering work is about to start, recommend `engineering-workflow` as the next skill and let it activate the installed RKE runtime.
 
 ## Output shape
 
@@ -149,4 +149,4 @@ When using this skill, report:
 - Do not turn `local-docs/` into tracked canonical documentation.
 - Do not remove classic protection merely because a ruleset was added; surface the overlap first.
 - Do not hardcode repository ruleset IDs, numeric role IDs, or organisation-specific owners.
-- Recommend `engineering-workflow-orchestrator` rather than assuming the next implementation stage.
+- Recommend `engineering-workflow` rather than assuming the next implementation stage.

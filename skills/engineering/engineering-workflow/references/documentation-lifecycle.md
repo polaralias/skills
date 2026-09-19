@@ -7,7 +7,7 @@ Use this contract for material change assessment, RCC-compatible explanation rec
 Do not run a full documentation rewrite on every conversational turn. Run assessment at a material checkpoint, close, or pre-push boundary against an explicit Git base:
 
 ```text
-engineering documentation assess --base <ref>
+rke documentation assess --base <ref>
 ```
 
 The assessment filters local workflow state, local-only notes, generated knowledge indexes, bytecode caches, the binding manifest, and release-validator scratch output. It classifies the remaining delta as:
@@ -27,7 +27,7 @@ Default structured output retains the exact fingerprint and full impact counts b
 Record the final material explanation through:
 
 ```text
-engineering change explain --base <ref> --summary <causal-summary>
+rke change explain --base <ref> --summary <causal-summary>
 ```
 
 The receipt fingerprints the current material delta. It stores a bounded explanation, changed paths, base revision, and timestamp under local workflow state. It is RCC-compatible explanatory evidence, not canonical knowledge or a substitute for tests.
@@ -37,7 +37,7 @@ The receipt fingerprints the current material delta. It stores a bounded explana
 After authoring the minimum necessary canonical changes, run:
 
 ```text
-engineering documentation apply \
+rke documentation apply \
   --base <ref> \
   --bundle <knowledge-bundle> \
   --knowledge <affected-concept> \
@@ -64,8 +64,8 @@ One to three reader questions is proportionate for a routine slice. Broader foun
 Use an explicit base for material closure:
 
 ```text
-engineering closure assess --base <ref>
-engineering close --base <ref>
+rke closure assess --base <ref>
+rke close --base <ref>
 ```
 
 A material delta blocks until both the change-explanation and documentation receipts match the current fingerprint. A later source or canonical edit makes the corresponding receipt stale. A `no-op` assessment needs neither receipt.

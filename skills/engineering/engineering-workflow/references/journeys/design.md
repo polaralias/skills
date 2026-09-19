@@ -11,10 +11,16 @@ Enter with enough verified truth to distinguish fact, assumption, unresolved dec
 1. Name the outcome and authoritative inputs. Label facts, assumptions, unresolved decisions, constraints, and non-goals separately.
 2. Define the smallest coherent feature contract: outcome, scope, invariants, dependencies, boundaries, and observable success.
 3. Pressure-test happy paths, edge conditions, failures, permissions, state transitions, retries, concurrency where relevant, and data-integrity expectations.
-4. Express acceptance through public behaviour rather than internal call order or private implementation structure.
-5. Add technical planning only where it materially reduces implementation ambiguity. Do not turn design into speculative architecture inventory.
-6. Create work packages only after the contract is strong enough. Preserve traceability from accepted end-state truth through feature, package, acceptance, and test or implementation target.
-7. Treat a stacked-review candidate as linear only when each lower layer is independently safe and useful. Otherwise prefer ordinary dependency relationships.
+4. Build a scenario and verification matrix that connects each invariant and acceptance statement to happy-path, boundary, failure, permission, state-transition, retry, concurrency, and integrity coverage as relevant. This absorbs test planning without creating a separate QA capability.
+5. Express acceptance through public behaviour rather than internal call order or private implementation structure. Include example inputs/outputs and observable completion signals where they reduce ambiguity.
+6. Add technical planning only where it materially reduces implementation ambiguity: approved stack assumptions, module/API/data boundaries, migration and compatibility constraints, sequencing, research spikes, and risky integration surfaces. Do not turn design into speculative architecture inventory.
+7. Create work packages only after the contract is strong enough. Each package needs purpose, prerequisites, acceptance, verification target, technical entrypoint where useful, open questions, and a downstream implementation target.
+8. Preserve traceability from accepted end-state truth through feature, invariant, scenario, package, acceptance, and test or implementation target. Report gaps instead of manufacturing links.
+9. Treat a stacked-review candidate as linear only when each lower layer is independently safe, useful, and testable. Otherwise prefer ordinary dependency relationships.
+
+## Output contract
+
+Produce only the artefacts justified by scope: epic-to-feature decomposition, bounded feature contracts, invariants and non-goals, scenario/verification matrix, observable acceptance, proportionate technical plan, dependency and risk notes, implementation-ready work packages, open questions, and a traceability summary. Stable packages may be handed to OKF Tasks; tracker formatting and synchronization remain owned there.
 
 ## Decision boundary
 
