@@ -2,17 +2,17 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-18T00:00:00+01:00
+timestamp: 2026-09-19T09:20:00+01:00
 authority: canonical
 verification: verified-working
-verified_at: 2026-09-18T00:00:00+01:00
+verified_at: 2026-09-19T09:20:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE runtime 0.1.0: 106 deterministic tests passed and wheel built"
+  - "RKE runtime 0.2.0: 112 deterministic tests passed and wheel built"
   - "retrieval benchmark: recall@1 0.8, recall@5 1.0, MRR 1.0"
   - "structural benchmark: mean recall 1.0 and mean precision 1.0 across 14 contract cases, 8843 output characters"
   - "model invocation evaluation: installed project routing produced activation evidence before requested edits; nested runner still timed out before final response"
@@ -35,7 +35,7 @@ Documentation-driven development is the governing principle: accepted behaviour 
 
 ## Public lifecycle
 
-The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`. `activate` is the single normal agent entrypoint: it creates missing state, validates active state, or opens a new cycle from closed state, then records the current Git HEAD and bounded dirty-path baseline. Understand, design, and close journeys selectively load the detailed judgement needed for their phase. Optional task, coordination, QA, tracker, and publication capabilities register their own evidence gates.
+The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`. `activate` is the single normal agent entrypoint: it creates missing state, validates active state, or opens a new cycle from closed state, then records the current Git HEAD and bounded dirty-path baseline. Understand, design, and close journeys selectively load the detailed judgement needed for their phase. Optional task, coordination, and publication capabilities register their own evidence gates. Scenario and test planning belong to design acceptance; tracker synchronization belongs to OKF Tasks.
 
 Workflow state is compact restart information. It may point to stronger records but does not replace repository knowledge, OKF Tasks, Git evidence, runtime evidence, or a handoff.
 
@@ -81,15 +81,19 @@ Repository understanding and user-intent convergence are separate. The `understa
 
 Repository Change Comprehension remains the named causal close-path workflow. `change explain` records how the final delta changes entry points, calls, state, effects, removals, and tests; it does not merely list changed files.
 
+Deep repository dissection is an understand-journey mode backed by `dissection assess`, which inventories likely entry points, runtime and verification candidates, task/knowledge surfaces, producer boundaries, and trust gaps without claiming those candidates have executed. The design journey absorbs feature decomposition and test-plan behaviour through feature contracts, invariants, scenario/verification matrices, acceptance, dependencies, risks, and traceable work packages. Session alignment returns an ordered two-lane close assessment: provisional execution reconciliation, durable knowledge promotion, final execution reconciliation, validation, and optional continuation.
+
+Rich continuity is distinct from compact workflow checkpoint state. `handoff write` creates one deterministic, secret-safe standard or max-depth artefact outside task and knowledge bundles; `handoff inspect` selects the active artefact and returns the claims that must be re-verified. Parallel delivery uses `coordination validate/plan` for repository/container boundaries, path ownership, shared integration owners, dependencies, inherited authority, and non-executing worktree argv plans. Publication uses a redacted built-in scanner and an already-installed `gitleaks` binary when available.
+
 ## Shared CLI and MCP access
 
 The separately installed `polaralias-rke` package owns the CLI, MCP adapter, dependencies, caches, benchmarks, and runtime tests. The skills repository contains only the synchronized EWF catalogue package and a source/version manifest; it does not carry an independently maintained runtime copy.
 
-The `rke` CLI and `rke-mcp` stdio adapter dispatch one operation registry for retrieval, structural context, knowledge, documentation, and explanation. Argument validation, annotations, and business handlers therefore have one implementation; each transport only translates its protocol envelope. One machine-wide MCP process accepts an explicit repository on every tool call, validates dynamic targets as Git repositories, and can restrict them with allowed-root boundaries. Repository-local state and evidence never become machine-global merely because the executable is shared. Fixed-root mode remains a compatibility option.
+The `rke` CLI and `rke-mcp` stdio adapter dispatch one operation registry for retrieval, structural context, knowledge, documentation, explanation, dissection, handoff, coordination, and publication scanning. Argument validation, annotations, and business handlers therefore have one implementation; each transport only translates its protocol envelope. One machine-wide MCP process accepts an explicit repository on every tool call, validates dynamic targets as Git repositories, and can restrict them with allowed-root boundaries. Repository-local state and evidence never become machine-global merely because the executable is shared. Fixed-root mode remains a compatibility option.
 
 ## Legacy archive
 
-The absorbed engineering packages are preserved unchanged under the repository-root `archive/` directory. That directory is outside catalogue generation, installation, BM25 retrieval, and structural analysis. Legacy names remain compatibility inputs to EWF routing, not separately invoked or maintained implementations. `repo-setup` remains active because bootstrap precedes the material engineering lifecycle.
+The absorbed engineering packages are preserved unchanged under the repository-root `archive/` directory. That directory is outside catalogue generation, installation, BM25 retrieval, and structural analysis. Retained legacy names remain compatibility inputs to EWF routing, not separately invoked or maintained implementations. TPU and TPW are deliberately retired: OKF Tasks owns tracker synchronization and the design journey owns scenario/test planning. `repo-setup` remains active because bootstrap precedes the material engineering lifecycle.
 
 ## Host integration
 

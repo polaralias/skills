@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 3.0.0
-  updated: '2026-09-18'
+  version: 4.0.0
+  updated: '2026-09-19'
 ---
 
 # engineering-workflow
@@ -59,8 +59,14 @@ rke gate resolve --gate <name> --evidence <summary> --root <repository>
 rke journey enter <understand|design|close> --root <repository>
 rke task configure --mode <none|lightweight|full> --root <repository>
 rke task check --root <repository>
-rke capability enable <query-to-knowledge|parallel-delivery|qa-planning|tracker-sync|publication> --root <repository>
+rke capability enable <query-to-knowledge|parallel-delivery|publication> --root <repository>
 rke closure assess --root <repository>
+rke dissection assess --root <repository>
+rke handoff write --topic <topic> --summary <state> --next-action <action> --root <repository>
+rke handoff inspect --root <repository>
+rke coordination validate --manifest <relative-json-path> --root <repository>
+rke coordination plan --manifest <relative-json-path> --root <repository>
+rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
 rke change explain --base <ref> --summary <causal-summary> --root <repository>
 rke legacy route <legacy-name-or-alias> --root <repository>
@@ -68,7 +74,7 @@ rke legacy route <legacy-name-or-alias> --root <repository>
 
 Read [references/workflow-contract.md](./references/workflow-contract.md) before choosing initial phase, capabilities, gates, or task mode. Do not load conditional journey detail that the current operation does not need.
 
-When entering `understand`, `design`, or `close`, run the journey command and then load only the returned reference under `references/journeys/`. The understand journey absorbs repository orientation, ambiguity resolution, knowledge classification, and deliberate promotion. The design journey absorbs behavioural contracting, scenario pressure-testing, public acceptance, and work-package readiness. The close journey absorbs bounded change explanation and task/knowledge/validation reconciliation.
+When entering `understand`, `design`, or `close`, run the journey command and then load only the returned reference under `references/journeys/`. The understand journey includes a deep dissection mode with machine-readable inventory, runtime-path verification, trust classification, drift analysis, and a minimum documentation foundation. The design journey owns feature decomposition, behavioural contracts, scenario and verification matrices, acceptance, dependency/risk modelling, and traceable work-package readiness. The close journey owns bounded change explanation and ordered provisional-task, knowledge-promotion, final-task, validation, and continuation reconciliation.
 
 Repository understanding and user-intent convergence are separate. When repository evidence cannot settle consequential intent, enable `query-to-knowledge`, load the returned reference, and keep its `shared-understanding` gate open. Ask coherent groups of questions with a recommended answer and rationale, then repeat only while material uncertainty remains.
 
@@ -118,7 +124,7 @@ The adapter and CLI dispatch the same registered operation handlers; MCP is not 
 
 Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when durable execution state may be justified. In `none` mode, `task check` is a deterministic no-op and does not launch OKF Tasks. In durable modes, the adapter delegates strict validation to the authoritative CLI and returns structured evidence; create or mutate records through that CLI rather than reimplementing its schema here.
 
-Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
+Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
 
 Read [references/host-integration.md](./references/host-integration.md) before using `host recipe` or `host install`. Prefer CLI for deterministic automation and MCP for discoverable agent tools. Treat the Git pre-push gate as pre-review enforcement, not merge or publication authority.
 
@@ -137,7 +143,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
    - `close`
    - `pause`
    - `resume`
-4. Activate capabilities only when the work requires them. Examples include task lifecycle, parallel delivery, QA planning, tracker synchronisation, publication, and continuity.
+4. Activate capabilities only when the work requires them. Examples include task lifecycle, parallel delivery, publication, and continuity. Test design belongs to the design/delivery acceptance surface; tracker synchronization belongs to OKF Tasks.
 5. Keep every material unresolved obligation as an explicit gate. Do not rely on the model remembering it later.
 6. Use OKF Tasks only when execution state must survive chat. Select `none`, `lightweight`, or `full` task mode proportionately; time, estimates, visualisation, and tracker synchronisation are opt-in.
 7. Before compaction or pause, call `checkpoint` with a compact verified summary and concrete next action. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.
@@ -154,7 +160,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
 
 ## Compatibility boundary
 
-The replacement slices are implemented. `engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Treat absorbed legacy names as compatibility inputs and resolve them through `legacy route`; preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
+`engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Treat retained absorbed names as compatibility inputs and resolve them through `legacy route`; the retired TPU and TPW aliases are deliberately not active routes. Preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
 
 ## Guardrails
 

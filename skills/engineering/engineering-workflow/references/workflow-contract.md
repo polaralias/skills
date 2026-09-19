@@ -54,7 +54,6 @@ Use concrete obligation names, for example:
 - `knowledge-impact-review`
 - `knowledge-promotion`
 - `worktree-cleanup`
-- `tracker-reconciliation`
 - `publication-safety`
 
 A gate is resolved only by evidence from its owning surface. Workflow state records the obligation and result; it does not manufacture the evidence.
@@ -101,7 +100,23 @@ Activates one bounded extension and registers its required gates. The returned r
 
 ### `closure assess`
 
-Reports change, validation, task, knowledge, coordination, tracker, publication, and residual lanes independently. With `--base`, it recomputes the material-delta fingerprint and checks the explanation and documentation receipts. It is read-only and blocks through its exit status while any gate or event-driven receipt remains unresolved. A ready assessment still leaves workflow state active; only `close` performs the terminal state transition.
+Reports change, validation, task, knowledge, coordination, publication, and residual lanes independently, plus the compact session-alignment contract and its required reconciliation ordering. With `--base`, it recomputes the material-delta fingerprint and checks the explanation and documentation receipts. It is read-only and blocks through its exit status while any gate or event-driven receipt remains unresolved. A ready assessment still leaves workflow state active; only `close` performs the terminal state transition.
+
+### `dissection assess`
+
+Returns a conservative machine-readable inventory of instructions, manifests, entrypoint candidates, tests, documentation, task and knowledge surfaces, OpenWiki ownership signals, Git identity, trust classes, and gaps. It never labels conventional files as verified runtime behaviour.
+
+### `handoff write` and `handoff inspect`
+
+Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Writing rejects secret-like content and manages one active same-stream handoff; inspection selects one active artefact and returns the claims that require current verification.
+
+### `coordination validate` and `coordination plan`
+
+Validate worktree topology, path ownership, dependencies, inherited authority, and validation classes, then return non-executing argv plans. Neither operation allocates worktrees or grants external authority.
+
+### `publication scan`
+
+Scans tracked text and hygiene surfaces without returning matched values. It also uses an already-installed `gitleaks` binary for history-aware detection, but never installs tools implicitly.
 
 ### `documentation assess`
 
@@ -121,7 +136,7 @@ Expose supported MCP activation and local Git pre-push enforcement. Recipe is re
 
 ### `legacy route`
 
-Maps a documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. Unknown inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
+Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. Unknown and deliberately retired inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
 
 ### `context find`
 
