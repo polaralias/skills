@@ -31,7 +31,7 @@ The persisted index contains field lengths, document frequencies, and per-term p
 Direct lexical results use `term-match`. A connected typed concept introduced through the OKF relationship graph uses `knowledge-relationship` plus `linked-from:<path>` and must not be interpreted as containing the query terms.
 Parser-backed neighbours use `structural-neighbour` plus `structurally-linked-from:<path>::<symbol>`. Structural fusion is one-hop, bounded, and attempted only when code leads the results or an exact identifier is present. Native parsing is isolated in workers; one crashing grammar falls back or produces explicit partial-fusion warnings rather than terminating retrieval. Structural fusion is navigation evidence, not proof of runtime reachability.
 
-Refresh is fingerprint-incremental. Unchanged files reuse their prior hash and chunks; changed or newly visible files are read and hashed, and deleted files are removed. Results expose `hashedFiles` and `reusedFiles` so callers can distinguish a content refresh from a no-op check without treating timestamps alone as content truth.
+Refresh is fingerprint-incremental. Demonstrably clean tracked files may reuse Git object identity and prior chunks. Dirty, staged, untracked and uncertain files are read and content-hashed; modification time and size alone are never accepted as identity. Deleted files are removed. Results expose `hashedFiles` and `reusedFiles` so callers can distinguish a content refresh from a no-op check.
 
 ### Check
 
@@ -77,7 +77,8 @@ Corpus schema version 1 contains query records with `id`, `query`, and one or mo
 - The configured repository root is fixed for an invocation.
 - Scopes and benchmark corpora must be repository-relative and cannot escape through traversal or symlinks.
 - In Git repositories, index tracked files plus visible non-ignored untracked files. Outside Git, use a bounded filesystem fallback. Skip and report Git-visible paths that cannot be inspected because of an inaccessible link, reparse point, race, or filesystem error rather than failing the entire refresh.
-- Exclude Git metadata, workflow caches, dependency caches, binary files, files over one megabyte, and common credential paths such as `.env`, private keys, and user credential stores.
+- Exclude Git metadata, workflow caches, dependency caches, binary files, files over one megabyte, and credential surfaces such as `.env`, private keys, `.npmrc`, `.pypirc`, `.netrc`, Docker and Kubernetes configuration, and provider credential stores.
+- Redact detected secret-like values before persistence or response. Report omitted and redacted paths plus finding kinds without returning the values.
 - A local tool is not automatically secret-safe. Never assume arbitrary source text is safe to send to a model merely because its path passed eligibility checks.
 - Store the versioned, disposable cache under `.engineering-workflow/cache/`; consumers should Git-ignore `.engineering-workflow/`.
 
@@ -85,7 +86,7 @@ Corpus schema version 1 contains query records with `id`, `query`, and one or mo
 
 `rke-mcp` is a machine-wide stdio adapter for both MCP protocol eras. It supports the stateless `2026-07-28` protocol through `server/discover`, required per-request protocol metadata, result discriminators, response identity, and cache hints. It retains the `2025-11-25` initialize handshake for legacy clients. It uses newline-delimited UTF-8 JSON-RPC, emits only protocol messages on stdout, bounds each input message to four MiB, and requires an explicit repository on each tool call. `--allow-root` constrains dynamic repositories and `--root` retains fixed-root compatibility.
 
-It exposes context find/check/impact/verify; structural API, trace, map, impact, and benchmark operations; knowledge-bundle check, deterministic index generation, and binding registration; documentation assessment/application; and causal change explanation. Both transports dispatch the same registered handlers and validation contract. Retrieval, structural analysis, context check, impact, bundle check, and documentation assessment are read-only. Application, explanation, verification, index generation, and registration are deliberately mutating. Successful calls return the same payload in `structuredContent` and JSON-encoded text content for backwards compatibility. Domain and validation failures are tool errors; unknown tools and unknown protocol methods remain JSON-RPC errors.
+It exposes every operation in the authoritative registry, including lifecycle, gates, journeys, tasks, closure, host integration, retrieval, structure, knowledge, documentation, dissection, continuity, coordination and publication. Both transports dispatch the same registered handlers and validation contract, including read-only and idempotence annotations. Successful calls return the same payload in `structuredContent` and JSON-encoded text content for backwards compatibility. Non-zero domain and validation outcomes preserve their structured payload and become tool errors; unknown tools and unknown protocol methods remain JSON-RPC errors. An unexpected request failure is isolated to that response so the server can process the next request.
 
 ## Knowledge binding manifest
 

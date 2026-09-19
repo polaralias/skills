@@ -25,7 +25,7 @@ Claude recipes use the documented project `.mcp.json` structure and the installe
 rke host install --host <codex|claude|git> --base <ref>
 ```
 
-Installation writes a local `.git/hooks/pre-push` gate. For Codex it adds the marker-owned project routing block described above. For Claude it also merges the `polaralias-engineering-workflow` entry into project `.mcp.json` while preserving unrelated servers. It refuses to replace an independently owned pre-push hook or MCP entry unless `--force` is explicit, and refuses malformed routing marker pairs.
+Installation writes `.githooks/pre-push` and configures repository-local `core.hooksPath=.githooks`. For Codex it adds the marker-owned project routing block described above. For Claude it also merges the `polaralias-engineering-workflow` entry into project `.mcp.json` while preserving unrelated servers. It refuses to replace an independently configured hooks path, independently owned pre-push hook, or MCP entry unless `--force` is explicit, and refuses malformed routing marker pairs.
 
 Codex installation deliberately returns the separate `codex mcp add` command rather than silently changing user configuration. Git-only installation does not claim MCP support.
 
@@ -33,7 +33,7 @@ Codex installation deliberately returns the separate `codex mcp add` command rat
 
 - Agents invoke CLI commands directly for lifecycle, hooks, and automation.
 - `rke activate` is the one idempotent lifecycle entrypoint for initial agent activation. Its Git baseline lets the model evaluator distinguish activation-before-edit from state created after the requested mutation.
-- MCP clients use the same retrieval, knowledge, documentation-assessment, documentation-apply, and change-explanation cores.
+- MCP clients discover the complete public operation registry and invoke the same lifecycle, repository, knowledge, documentation, continuity, coordination, host, and publication handlers and schemas as the CLI.
 - `pre-push` is the deterministic pre-GitHub-review boundary available to ordinary Git repositories. It blocks the push when closure evidence is missing or stale, accepts a previously closed workflow when its receipts remain current, and does not create or publish a pull request.
 - Session-start and pre-compaction helpers remain lightweight continuity operations. They do not replace close, documentation assessment, or a durable handoff.
 
