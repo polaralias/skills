@@ -12,8 +12,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-19T08:54:16.389926Z",
-        "evidence": "Reviewed synchronized EWF 4.1.0 against RKE commit e55efdea7e5cd947aeb9b505d03eeedd3dd0d2a5; catalogue validation, 96 routing scenarios, mirror parity, package validation, release validation, and 13 script tests passed.",
+        "verifiedAt": "2026-09-19T08:55:58.446802Z",
+        "evidence": "Reviewed synchronized EWF 4.1.0 against RKE commit e55efdea7e5cd947aeb9b505d03eeedd3dd0d2a5; catalogue validation, 96 routing scenarios, mirror parity, package validation, release validation, and exact 23-test CI selection passed.",
         "sourceHashes": {
           "docs/knowledge/engineering-workflow-architecture.md": "5961aa28b79d63b8e475a2e52d59e24e010dad79dc86081b477229abb184b428",
           "skills/engineering/engineering-workflow/agents/openai.yaml": "fcbeec5f4fbdfcb5ac9ec5bcf8cce5fa4076a6744dc917451c5cd6ba4c7a993c",
