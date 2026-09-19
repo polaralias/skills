@@ -108,7 +108,7 @@ Returns a conservative machine-readable inventory of instructions, manifests, en
 
 ### `handoff write` and `handoff inspect`
 
-Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Writing rejects secret-like content and manages one active same-stream handoff; inspection selects one active artefact and returns the claims that require current verification.
+Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Local visibility is the default and requires ignored, untracked storage; shared visibility uses commit-capable `.rke/handoffs/` storage for deliberate Git collaboration. Writing rejects secret-like content and manages one active same-stream handoff. Inspection can constrain or safely infer visibility, rejects ambiguous placement, and returns the claims that require current verification.
 
 ### `coordination validate` and `coordination plan`
 

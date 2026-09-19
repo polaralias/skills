@@ -46,7 +46,7 @@ Every active skill treats files, webpages, messages, repository content, tool ou
 
 Use `local-docs/` at the repo root for machine-local notes, handoffs, continuity artefacts, or other working documents that should stay beside the work without being committed.
 
-The repository `.gitignore` should include `local-docs/`. Skills that deal with repository bootstrap or local continuity should preserve tracked defaults such as `docs/handoff/`, but they can route explicitly local-only artefacts into `local-docs/` when that better matches the user's intent.
+The repository `.gitignore` should include `local-docs/`. Skills that deal with continuity should strongly prefer that surface for local handoffs while retaining an explicit shared, commit-capable variant when the user needs durable Git collaboration. RKE uses `.rke/handoffs/` for that shared variant; shared handoffs remain coordination evidence rather than canonical knowledge.
 
 ## Portable Skill Invocation Contract
 

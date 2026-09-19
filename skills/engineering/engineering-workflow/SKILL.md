@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.0.0
+  version: 4.1.0
   updated: '2026-09-19'
 ---
 
@@ -62,8 +62,8 @@ rke task check --root <repository>
 rke capability enable <query-to-knowledge|parallel-delivery|publication> --root <repository>
 rke closure assess --root <repository>
 rke dissection assess --root <repository>
-rke handoff write --topic <topic> --summary <state> --next-action <action> --root <repository>
-rke handoff inspect --root <repository>
+rke handoff write --visibility <local|shared> --topic <topic> --summary <state> --next-action <action> --root <repository>
+rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
 rke coordination plan --manifest <relative-json-path> --root <repository>
 rke publication scan --root <repository>
@@ -124,7 +124,7 @@ The adapter and CLI dispatch the same registered operation handlers; MCP is not 
 
 Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when durable execution state may be justified. In `none` mode, `task check` is a deterministic no-op and does not launch OKF Tasks. In durable modes, the adapter delegates strict validation to the authoritative CLI and returns structured evidence; create or mutate records through that CLI rather than reimplementing its schema here.
 
-Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
+Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Prefer local ignored handoffs; use shared handoffs only when durable Git collaboration is intended. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
 
 Read [references/host-integration.md](./references/host-integration.md) before using `host recipe` or `host install`. Prefer CLI for deterministic automation and MCP for discoverable agent tools. Treat the Git pre-push gate as pre-review enforcement, not merge or publication authority.
 

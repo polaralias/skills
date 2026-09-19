@@ -89,7 +89,7 @@ It exposes context find/check/impact/verify; structural API, trace, map, impact,
 
 ## Knowledge binding manifest
 
-Store durable bindings in the tracked `.polaralias/repo-context.json` manifest. Its normative schema is [repo-context-manifest.schema.json](./repo-context-manifest.schema.json).
+Store durable bindings in the tracked `.rke/repo-context.json` manifest. Its normative schema is [repo-context-manifest.schema.json](./repo-context-manifest.schema.json). Read-only compatibility accepts the legacy `.polaralias/repo-context.json` only when no canonical manifest exists; writes migrate to `.rke`, and dual manifests are an explicit error.
 
 ```json
 {

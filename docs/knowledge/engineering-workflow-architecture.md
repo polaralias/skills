@@ -12,7 +12,7 @@ verified_against:
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE runtime 0.2.0: 112 deterministic tests passed and wheel built"
+  - "RKE runtime 0.3.0: 116 deterministic tests passed and wheel built"
   - "retrieval benchmark: recall@1 0.8, recall@5 1.0, MRR 1.0"
   - "structural benchmark: mean recall 1.0 and mean precision 1.0 across 14 contract cases, 8843 output characters"
   - "model invocation evaluation: installed project routing produced activation evidence before requested edits; nested runner still timed out before final response"
@@ -57,7 +57,7 @@ Canonical knowledge remains deliberately authored. The native knowledge core pro
 
 - `knowledge check` validates typed concepts and their durable relationship graph;
 - `knowledge build-indexes` generates marked progressive-disclosure navigation from titles and query-shaped descriptions;
-- `knowledge register` records explicit source patterns for a concept in `.polaralias/repo-context.json`.
+- `knowledge register` records explicit source patterns for a concept in `.rke/repo-context.json`; the former `.polaralias/` path is bounded migration input only.
 
 Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records source hashes and compact evidence. Later source changes make that receipt stale.
 
@@ -83,7 +83,7 @@ Repository Change Comprehension remains the named causal close-path workflow. `c
 
 Deep repository dissection is an understand-journey mode backed by `dissection assess`, which inventories likely entry points, runtime and verification candidates, task/knowledge surfaces, producer boundaries, and trust gaps without claiming those candidates have executed. The design journey absorbs feature decomposition and test-plan behaviour through feature contracts, invariants, scenario/verification matrices, acceptance, dependencies, risks, and traceable work packages. Session alignment returns an ordered two-lane close assessment: provisional execution reconciliation, durable knowledge promotion, final execution reconciliation, validation, and optional continuation.
 
-Rich continuity is distinct from compact workflow checkpoint state. `handoff write` creates one deterministic, secret-safe standard or max-depth artefact outside task and knowledge bundles; `handoff inspect` selects the active artefact and returns the claims that must be re-verified. Parallel delivery uses `coordination validate/plan` for repository/container boundaries, path ownership, shared integration owners, dependencies, inherited authority, and non-executing worktree argv plans. Publication uses a redacted built-in scanner and an already-installed `gitleaks` binary when available.
+Rich continuity is distinct from compact workflow checkpoint state. `handoff write` creates one deterministic, secret-safe standard or max-depth artefact outside task and knowledge bundles. Local visibility strongly steers to ignored, untracked `local-docs/handoff/`; shared visibility deliberately uses commit-capable `.rke/handoffs/`. `handoff inspect` constrains or safely infers that visibility and returns the claims that must be re-verified. Parallel delivery uses `coordination validate/plan` for repository/container boundaries, path ownership, shared integration owners, dependencies, inherited authority, and non-executing worktree argv plans. Publication uses a redacted built-in scanner and an already-installed `gitleaks` binary when available.
 
 ## Shared CLI and MCP access
 

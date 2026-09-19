@@ -12,12 +12,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-19T08:23:54.139442Z",
-        "evidence": "Reviewed the catalogue architecture against RKE 0.2.0, the synchronized EWF 4.0.0 mirror, 112 passing runtime tests, and 23 passing catalogue validation tests.",
+        "verifiedAt": "2026-09-19T08:54:16.389926Z",
+        "evidence": "Reviewed synchronized EWF 4.1.0 against RKE commit e55efdea7e5cd947aeb9b505d03eeedd3dd0d2a5; catalogue validation, 96 routing scenarios, mirror parity, package validation, release validation, and 13 script tests passed.",
         "sourceHashes": {
-          "docs/knowledge/engineering-workflow-architecture.md": "809bc2ec334a8b33860e901089714b8ff0fc5801104fe0737417d93e63c71458",
+          "docs/knowledge/engineering-workflow-architecture.md": "5961aa28b79d63b8e475a2e52d59e24e010dad79dc86081b477229abb184b428",
           "skills/engineering/engineering-workflow/agents/openai.yaml": "fcbeec5f4fbdfcb5ac9ec5bcf8cce5fa4076a6744dc917451c5cd6ba4c7a993c",
-          "skills/engineering/engineering-workflow/references/continuity.md": "7b12343e29b2b0b3778b0fea68196d02c2d1f0944d004876e11dfbbf6b8d2eb2",
+          "skills/engineering/engineering-workflow/references/continuity.md": "435df6866d90cc0245549be3de186f28a8c779066a8619fb00ec90dee814a106",
           "skills/engineering/engineering-workflow/references/documentation-lifecycle.md": "c20acfce872490fe08c8b86a6d63f42feea8735282f3b97fc4087c7472496a11",
           "skills/engineering/engineering-workflow/references/extensions/parallel-delivery.md": "48bf89938e2146a44c2e1861707ff1ef7b378b685a0b2e77a3025987e4f2986e",
           "skills/engineering/engineering-workflow/references/extensions/publication.md": "d305b667e804c9ebeaa872d65a6dfc749ba28d449139e720fca547651a263467",
@@ -26,15 +26,15 @@
           "skills/engineering/engineering-workflow/references/journeys/close.md": "6feff693c35c98379b58945f727ad4e060e22441cc30e4b2d5d15c23d367b720",
           "skills/engineering/engineering-workflow/references/journeys/design.md": "4577f4e8ee8312376cb5dd69e269e45bbec3e1edc448bbe45596e8e83ab67ec9",
           "skills/engineering/engineering-workflow/references/journeys/understand.md": "30274fa386f3ed5b29320a8eb38f2302b28566c735ae5799a06639a8ed1880f8",
-          "skills/engineering/engineering-workflow/references/knowledge-contract.md": "d4d176ac3392aa97a7ce5c91f047fd8e3b67facf50af955b15b1485dd3af8567",
+          "skills/engineering/engineering-workflow/references/knowledge-contract.md": "73def0bd6b0701c6a9b6416a2ff61f91f70efef83b3507ab5b9daf8183978c01",
           "skills/engineering/engineering-workflow/references/migration.md": "7f17a01c67d573e1ac12feb960b27c1a2ee3d6a31354a3a95968cddc8419ce11",
           "skills/engineering/engineering-workflow/references/okf-tasks-adapter.md": "0f115a36a4bf1582079f29883f1b476c69a38700e71e3c030f2dd9f6f8d269fe",
           "skills/engineering/engineering-workflow/references/quality-coverage.md": "eac986b77a87ddd52a60ac5919a19ffee551ebfa13de21d6676e6ad51c8dda64",
-          "skills/engineering/engineering-workflow/references/repo-context-contract.md": "0d5ae7429ae47d0d20dd1f3543f7e44b05d6218e4f97c35c510d02e6546c6e66",
+          "skills/engineering/engineering-workflow/references/repo-context-contract.md": "4f7d8dbb5b607792c889fc0c12e16a7c92059a342b29c727099590d0697d647c",
           "skills/engineering/engineering-workflow/references/structural-context.md": "58b2aebd47897188230d55444126ab4ae2b9085dda91a5299f16bd1d06be845a",
-          "skills/engineering/engineering-workflow/references/workflow-contract.md": "1ab749e70efdb4712fa998b390ef5140c2a50837d8688fa6c387063da68bd44e",
-          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "42e40e05b758f833dcef87fee22947ea85df6e1786e214bc87f8aa2331f10fa8",
-          "skills/engineering/engineering-workflow/SKILL.md": "b50820a39e6ce31679de3ed9c0b5cad1ef556afa5da03102221b8a5290ba19ae",
+          "skills/engineering/engineering-workflow/references/workflow-contract.md": "e2f556cbbf429557eff13bf5ac3e6bc33908fded594c73d8c6344fac8a653bd1",
+          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "174c6ddc008eff038f868cd568f01a835bf4b33a57e191615e46b13ee4534e43",
+          "skills/engineering/engineering-workflow/SKILL.md": "36cf1f0b83c7de9dac626de559f68ddfc751e063af980cddf0a2d61148f33eb0",
           "skills/engineering/repo-setup/SKILL.md": "36f9bbf6c0a4e6cc8d9abe136be4f8d0a9c269632a563aaab574e49b7ac8af3c",
           "skills/meta/setup-polaralias-skills/references/config-contract.md": "27d433a4d1d857ed626910fe4adfaf7f81abea6b01a4e13a93d307149f12877a"
         }
