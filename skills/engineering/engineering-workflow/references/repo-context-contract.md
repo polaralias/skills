@@ -31,7 +31,7 @@ The persisted index contains field lengths, document frequencies, and per-term p
 Direct lexical results use `term-match`. A connected typed concept introduced through the OKF relationship graph uses `knowledge-relationship` plus `linked-from:<path>` and must not be interpreted as containing the query terms.
 Parser-backed neighbours use `structural-neighbour` plus `structurally-linked-from:<path>::<symbol>`. Structural fusion is one-hop, bounded, and attempted only when code leads the results or an exact identifier is present. Native parsing is isolated in workers; one crashing grammar falls back or produces explicit partial-fusion warnings rather than terminating retrieval. Structural fusion is navigation evidence, not proof of runtime reachability.
 
-Refresh is fingerprint-incremental. Demonstrably clean tracked files may reuse Git object identity and prior chunks. Dirty, staged, untracked and uncertain files are read and content-hashed; modification time and size alone are never accepted as identity. Deleted files are removed. Results expose `hashedFiles` and `reusedFiles` so callers can distinguish a content refresh from a no-op check.
+Refresh is fingerprint-incremental. Demonstrably clean tracked files may reuse Git object identity and prior chunks only after one batched, filter-aware Git content check proves each eligible worktree blob still matches the index. Dirty, staged, untracked, uncertain and mismatched files are read and content-hashed by the indexer; modification time and size alone are never accepted as identity. The eligible-path set prevents redundant work over excluded trees and avoids repeated file and symlink checks after bounded enumeration. Deleted files are removed. Results expose `hashedFiles` and `reusedFiles` so callers can distinguish a content refresh from a no-op check.
 
 ### Check
 
@@ -72,11 +72,13 @@ rke context benchmark --corpus <repository-relative-json-path>
 
 Corpus schema version 1 contains query records with `id`, `query`, and one or more `relevantPaths`. The result reports per-case ranked paths, recall at 1/5/10, reciprocal rank, and aggregate mean reciprocal rank. The corpus file itself is excluded from ranking to prevent answer leakage.
 
+The repository also provides `python scripts/benchmark_freshness.py` for performance evidence. Its default 1k, 10k and 50k tracked-file matrix measures cold indexing, a warm find, and a same-size one-file change with restored timestamps. The full matrix is deliberately opt-in; deterministic tests execute a small contract case that validates result shape and freshness behaviour.
+
 ## Repository and data boundary
 
 - The configured repository root is fixed for an invocation.
 - Scopes and benchmark corpora must be repository-relative and cannot escape through traversal or symlinks.
-- In Git repositories, index tracked files plus visible non-ignored untracked files. Outside Git, use a bounded filesystem fallback. Skip and report Git-visible paths that cannot be inspected because of an inaccessible link, reparse point, race, or filesystem error rather than failing the entire refresh.
+- In Git repositories, index tracked files plus visible non-ignored untracked files. Outside Git, retrieval and dissection share a bounded filesystem walker that prunes Git metadata, workflow caches, dependencies, vendor output, archives and bytecode caches before descent. Skip and report paths that cannot be inspected because of an inaccessible link, reparse point, race, or filesystem error rather than failing the entire refresh.
 - Exclude Git metadata, workflow caches, dependency caches, binary files, files over one megabyte, and credential surfaces such as `.env`, private keys, `.npmrc`, `.pypirc`, `.netrc`, Docker and Kubernetes configuration, and provider credential stores.
 - Redact detected secret-like values before persistence or response. Report omitted and redacted paths plus finding kinds without returning the values.
 - A local tool is not automatically secret-safe. Never assume arbitrary source text is safe to send to a model merely because its path passed eligibility checks.
