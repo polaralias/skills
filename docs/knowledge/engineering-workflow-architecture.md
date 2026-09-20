@@ -2,17 +2,17 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-20T08:10:00+01:00
+timestamp: 2026-09-20T12:20:24+01:00
 authority: canonical
 verification: verified-working
-verified_at: 2026-09-20T08:10:00+01:00
+reviewed_at: 2026-09-20T12:20:24+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE runtime 0.4.0: 160 deterministic tests passed; Ruff and Pyright passed"
+  - "RKE runtime 0.4.0: 171 deterministic tests passed; Ruff and Pyright passed"
   - "RKE 0.4.0 wheel and sdist built, version-validated, and clean-install smoked independently"
   - "retrieval benchmark: recall@1 0.8, recall@5 1.0, MRR 1.0"
   - "structural benchmark: mean recall 1.0 and mean precision 1.0 across 14 contract cases, 10083 output characters"
@@ -40,7 +40,7 @@ The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`
 
 Workflow state is compact restart information. It may point to stronger records but does not replace repository knowledge, OKF Tasks, Git evidence, runtime evidence, or a handoff.
 
-Durable writers use atomic replacement, revision checks, and ownership-recording file locks. Each owner writes and synchronises a complete PID, creation-time, and random-token record under a unique candidate name, then atomically publishes it as the lock path. A paused live creator therefore never exposes a pre-metadata lock that another process can reclaim. A valid live owner is never evicted by age; a demonstrably dead owner is reclaimed immediately, while a malformed legacy or externally damaged record is reclaimed only after a short grace window. Lock identity rechecks and token-safe cleanup prevent a former owner from deleting a replacement lock.
+Durable writers use atomic replacement, revision checks, and ownership-recording file locks. Each owner writes and synchronises a complete PID, creation-time, and random-token record under a unique candidate name, then atomically publishes it as the lock path. A paused live creator therefore never exposes a pre-metadata lock that another process can reclaim. A valid live owner is never evicted by age; a demonstrably dead owner is reclaimed immediately, while a malformed legacy or externally damaged record is reclaimed only after a short grace window. Lock identity rechecks and token-safe cleanup prevent a former owner from deleting a replacement lock. Filesystems without atomic hard-link publication return `lock_atomic_publish_unsupported` rather than receiving a weaker fallback. Later acquisition removes only complete candidate files whose recorded owner is demonstrably dead.
 
 ## Repository context
 
@@ -67,6 +67,8 @@ Registration does not establish freshness. After a human or agent reviews the co
 Generated indexes, retrieval caches, and model answers remain derived surfaces. They do not become canonical automatically.
 
 ## Event-driven documentation lifecycle
+
+For an inherited or explicitly requested repository-documentation journey, `documentation bootstrap` first classifies the foundation as `no-rke`, `partial-rke`, or `mature-rke`. It returns existing truth surfaces, gaps, minimum recommendations, preserve/review sets, evidence requirements, and likely reader questions without authoring prose or automatically superseding anything. A mature repository may correctly return `no-op`. EWF traces the real runtime, authors the minimum human-readable truth, registers bindings, and then uses apply and context verification to prove the result.
 
 Documentation work is triggered by material Git events rather than every conversational turn. `documentation assess --base <ref>` classifies the current delta as no-op, explicitly bound update work, or a decision requiring agent judgement. It also discovers applicable root-to-nearest `AGENTS.md` rules and canonical entry points so repository instructions travel with the retrieval-to-generation journey. `change explain` records the RCC-compatible causal layer against the same fingerprint.
 
