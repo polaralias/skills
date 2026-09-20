@@ -108,7 +108,7 @@ Returns a conservative machine-readable inventory of instructions, manifests, en
 
 ### `documentation bootstrap`
 
-Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; recommends the minimum foundation or `no-op`; and separates preserve, review, and evidence-required sets. It never authors prose or supersedes an existing truth surface automatically.
+Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; compares verification receipts with current bound-content hashes without persisting a context index; recommends the minimum foundation or `no-op`; and separates preserve, review, freshness, and evidence-required sets. Stale or unverified knowledge cannot produce a mature no-op. It never authors prose or supersedes an existing truth surface automatically.
 
 ### `handoff write` and `handoff inspect`
 
