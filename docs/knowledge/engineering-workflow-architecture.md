@@ -2,10 +2,10 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-20T12:20:24+01:00
+timestamp: 2026-09-20T14:51:59+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-20T12:20:24+01:00
+reviewed_at: 2026-09-20T14:51:59+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
@@ -68,7 +68,7 @@ Generated indexes, retrieval caches, and model answers remain derived surfaces. 
 
 ## Event-driven documentation lifecycle
 
-For an inherited or explicitly requested repository-documentation journey, `documentation bootstrap` first classifies the foundation as `no-rke`, `partial-rke`, or `mature-rke`. It returns existing truth surfaces, gaps, minimum recommendations, preserve/review sets, evidence requirements, and likely reader questions without authoring prose or automatically superseding anything. A mature repository may correctly return `no-op`. EWF traces the real runtime, authors the minimum human-readable truth, registers bindings, and then uses apply and context verification to prove the result.
+For an inherited or explicitly requested repository-documentation journey, `documentation bootstrap` first classifies the foundation as `no-rke`, `partial-rke`, or `mature-rke`. It returns existing truth surfaces, gaps, minimum recommendations, preserve/review sets, evidence requirements, likely reader questions, and `fresh`/`stale`/`unverified` binding sets without authoring prose or automatically superseding anything. Bootstrap hashes current eligible bound files and compares them with verification receipts without writing a context index. Receipt presence alone cannot produce a mature no-op: stale or unverified knowledge is `partial-rke` and requires targeted repair. EWF traces the real runtime, authors the minimum human-readable truth, registers bindings, and then uses apply and context verification to prove the result.
 
 Documentation work is triggered by material Git events rather than every conversational turn. `documentation assess --base <ref>` classifies the current delta as no-op, explicitly bound update work, or a decision requiring agent judgement. It also discovers applicable root-to-nearest `AGENTS.md` rules and canonical entry points so repository instructions travel with the retrieval-to-generation journey. `change explain` records the RCC-compatible causal layer against the same fingerprint.
 

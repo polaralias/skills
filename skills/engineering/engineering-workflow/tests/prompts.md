@@ -295,6 +295,7 @@ Expected behaviour:
 - traces and exercises the real runtime path rather than promoting conventions or old prose as fact
 - preserves useful canonical truth, marks contradictory old material for review, and creates only the missing minimum foundation
 - registers bindings, validates likely-reader retrieval and freshness, and permits an explicit no-op for a mature repository
+- compares receipt hashes with current bound content, treating stale or missing receipts as targeted repair rather than a mature no-op
 - keeps prose authorship with the model; the deterministic runtime assesses and verifies rather than generating documentation
 
 Prompt: "Assess everything changed from main, explain the final causal path, and make the documentation ready for a pull request."
