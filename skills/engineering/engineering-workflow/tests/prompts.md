@@ -287,6 +287,16 @@ Expected behaviour:
 
 ## Event-driven documentation lifecycle
 
+Prompt: "I inherited this underdocumented repository. Document how it actually works for a new maintainer."
+
+Expected behaviour:
+
+- runs `documentation bootstrap` before authoring to distinguish zero, partial, or mature RKE state
+- traces and exercises the real runtime path rather than promoting conventions or old prose as fact
+- preserves useful canonical truth, marks contradictory old material for review, and creates only the missing minimum foundation
+- registers bindings, validates likely-reader retrieval and freshness, and permits an explicit no-op for a mature repository
+- keeps prose authorship with the model; the deterministic runtime assesses and verifies rather than generating documentation
+
 Prompt: "Assess everything changed from main, explain the final causal path, and make the documentation ready for a pull request."
 
 Expected behaviour:

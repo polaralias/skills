@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.3.0
+  version: 4.4.0
   updated: '2026-09-20'
 ---
 
@@ -62,6 +62,7 @@ rke task check --root <repository>
 rke capability enable <query-to-knowledge|parallel-delivery|publication> --root <repository>
 rke closure assess --root <repository>
 rke dissection assess --root <repository>
+rke documentation bootstrap --root <repository>
 rke handoff write --visibility <local|shared> --topic <topic> --summary <state> --next-action <action> --root <repository>
 rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
