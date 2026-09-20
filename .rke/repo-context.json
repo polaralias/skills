@@ -12,10 +12,10 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-20T07:11:36.337732Z",
-        "evidence": "Canonical mirror matches RKE a42473c; skill package, 33 descriptions, 96 routing scenarios, generated indexes, and repository release version validated.",
+        "verifiedAt": "2026-09-20T07:46:47.575850Z",
+        "evidence": "Mirror remains current at EWF 4.3.0; RKE source advanced to 85413f6; 33 descriptions, 96 routing scenarios, 23 tests, generated index, and release version validated.",
         "sourceHashes": {
-          "docs/knowledge/engineering-workflow-architecture.md": "2f897cca397aa4e19887eb78fd894697df4a272194f859320f5bf210f7b8aef8",
+          "docs/knowledge/engineering-workflow-architecture.md": "41ca3a564e797e6dbb8b15ec72710730b47dc2e36d31ad8ddee0f0862e1dff95",
           "skills/engineering/engineering-workflow/agents/openai.yaml": "fcbeec5f4fbdfcb5ac9ec5bcf8cce5fa4076a6744dc917451c5cd6ba4c7a993c",
           "skills/engineering/engineering-workflow/references/continuity.md": "435df6866d90cc0245549be3de186f28a8c779066a8619fb00ec90dee814a106",
           "skills/engineering/engineering-workflow/references/documentation-lifecycle.md": "c20acfce872490fe08c8b86a6d63f42feea8735282f3b97fc4087c7472496a11",
@@ -33,7 +33,7 @@
           "skills/engineering/engineering-workflow/references/repo-context-contract.md": "10b9a8fc8da087f3cae6f0addcbf9a8f13b8110882e9c0766774f4fbf53b3d9b",
           "skills/engineering/engineering-workflow/references/structural-context.md": "d35323af4d7a4618e5c766b6de5f089e03bb1e1ed777fc42244a3219a9c84b6b",
           "skills/engineering/engineering-workflow/references/workflow-contract.md": "e2f556cbbf429557eff13bf5ac3e6bc33908fded594c73d8c6344fac8a653bd1",
-          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "35ab563b06de57bd5fed2afc3aec2515902f1162aed6ea5a34d9c9527fe30de0",
+          "skills/engineering/engineering-workflow/RKE_SOURCE.json": "6b92307f93f0d42f71ef51140a9c8fd521c02af4a0fec930d671f025124b976b",
           "skills/engineering/engineering-workflow/SKILL.md": "f3135236206283479ebe6ae123a868f31fcf5aa7e4e28e4cc92f476cf1dc346b",
           "skills/engineering/repo-setup/SKILL.md": "36f9bbf6c0a4e6cc8d9abe136be4f8d0a9c269632a563aaab574e49b7ac8af3c",
           "skills/meta/setup-polaralias-skills/references/config-contract.md": "27d433a4d1d857ed626910fe4adfaf7f81abea6b01a4e13a93d307149f12877a"
@@ -41,5 +41,5 @@
       }
     }
   ],
-  "revision": 4
+  "revision": 5
 }
