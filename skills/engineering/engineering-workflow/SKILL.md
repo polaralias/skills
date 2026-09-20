@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.2.0
-  updated: '2026-09-19'
+  version: 4.3.0
+  updated: '2026-09-20'
 ---
 
 # engineering-workflow
