@@ -12,8 +12,8 @@ verified_against:
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE runtime 0.4.0: 171 deterministic tests passed; Ruff and Pyright passed"
-  - "RKE 0.4.0 wheel and sdist built, version-validated, and clean-install smoked independently"
+  - "RKE runtime 0.9.0: 171 deterministic tests passed; Ruff and Pyright passed"
+  - "RKE 0.9.0 wheel and sdist built, version-validated, and clean-install smoked independently"
   - "retrieval benchmark: recall@1 0.8, recall@5 1.0, MRR 1.0"
   - "structural benchmark: mean recall 1.0 and mean precision 1.0 across 14 contract cases, 10083 output characters"
   - "model invocation evaluation: installed project routing produced activation evidence before requested edits; nested runner still timed out before final response"
