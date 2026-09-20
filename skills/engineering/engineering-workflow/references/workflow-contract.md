@@ -106,6 +106,10 @@ Reports change, validation, task, knowledge, coordination, publication, and resi
 
 Returns a conservative machine-readable inventory of instructions, manifests, entrypoint candidates, tests, documentation, task and knowledge surfaces, OpenWiki ownership signals, Git identity, trust classes, and gaps. It never labels conventional files as verified runtime behaviour.
 
+### `documentation bootstrap`
+
+Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; recommends the minimum foundation or `no-op`; and separates preserve, review, and evidence-required sets. It never authors prose or supersedes an existing truth surface automatically.
+
 ### `handoff write` and `handoff inspect`
 
 Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Local visibility is the default and requires ignored, untracked storage; shared visibility uses commit-capable `.rke/handoffs/` storage for deliberate Git collaboration. Writing rejects secret-like content and manages one active same-stream handoff. Inspection can constrain or safely infer visibility, rejects ambiguous placement, and returns the claims that require current verification.
