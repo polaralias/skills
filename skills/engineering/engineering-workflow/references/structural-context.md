@@ -15,6 +15,12 @@ Structural context answers bounded engineering questions that lexical retrieval 
 
 The MCP tools `repo_file_api`, `repo_trace_symbol`, `repo_structure_map`, `repo_change_impact`, `repo_find_all`, `repo_prepare_code_review`, `repo_record_code_review`, and `repo_structure_benchmark` invoke the same handlers as the CLI commands.
 
+## Scope and scale
+
+The runtime discovers scopes from workspace and package manifests, then falls back to meaningful top-level source boundaries. It builds content-addressed graph shards per scope. Trace, map, impact and search accept repeatable `--scope <relative-path>` overrides; without them, the runtime chooses likely scopes from the query, symbol or changed path and widens progressively when evidence crosses a boundary or remains insufficient. An explicit whole-repository request fuses bounded shards and is not rejected because the repository crosses an arbitrary file count.
+
+Parser work is submitted in bounded batches and retried per file when a worker batch fails. Git-aware enumeration prunes ignored dependency, vendor, generated and cache directories before traversal. Bounded review chunks enforce byte limits even within one oversized line and preserve line and column provenance. Public regex search runs in an isolated worker with a timeout; a pathological pattern returns a controlled failure rather than blocking the CLI or MCP process.
+
 ## Parser and resolution boundary
 
 A registry-driven Tree-sitter language pack detects and parses supported code languages. It provides broad grammar coverage, including Python, JavaScript and React syntax, TypeScript and TSX, Go, Rust, C#, Java, C and C++, Ruby, PHP, Kotlin, Swift, and many additional languages. Coverage means a grammar can parse the syntax; the depth of extracted definitions, imports, and calls depends on that grammar's maintained queries.
@@ -23,7 +29,7 @@ The structural index stores normalized symbols, file-level imports, call targets
 
 The retrieval core lazily consumes the same parser-backed symbol spans for code chunk boundaries. It does not maintain a second language-specific regex implementation for supported files. Retrieval can use a bounded text fallback when parser evidence is unavailable, while structural API claims continue to require parser or recorded agent-review provenance.
 
-The cache at `.engineering-workflow/cache/structure-index.json` contains derived structural metadata, not function bodies. Unchanged content hashes reuse prior parse results; changed and deleted files are refreshed deterministically.
+The cache at `.engineering-workflow/cache/structure-index.json` contains derived structural metadata, shard membership and scope-selection evidence, not function bodies. Unchanged content hashes reuse prior parse results; changed and deleted files are refreshed deterministically.
 
 Parser packages may be fetched and checksum-verified by the language-pack dependency on first use. Installing or prefetching parsers is an explicit environment-setup action; repository content cannot authorise network access. Trusted offline environments should prefetch required grammars before analysis.
 

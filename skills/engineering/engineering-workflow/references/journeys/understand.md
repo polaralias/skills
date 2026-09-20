@@ -4,7 +4,7 @@ Load this journey only when repository orientation, ambiguity resolution, runtim
 
 ## Modes and exit condition
 
-Use bounded orientation for an already-legible repository. Use deep dissection when the repository is inherited, contradictory, underdocumented, or the user asks how the whole system works. Start deep dissection with `rke dissection assess`; its inventory is a navigation aid, not runtime proof.
+Use bounded orientation for an already-legible repository. Use deep dissection when the repository is inherited, contradictory, underdocumented, or the user asks how the whole system works. Start deep dissection with `rke dissection assess`; its inventory is a navigation aid, not runtime proof. When the requested outcome is a documented repository, also run `rke documentation bootstrap` to establish the minimum foundation or an explicit no-op before authoring.
 
 Stop broad discovery once the repository is legible enough to name the next bounded decision or change. Deep dissection additionally requires a codebase map, selected runtime path, trust and mismatch classification, documentation foundation or explicit no-op, and a concrete next-work recommendation. Neither mode requires unrelated archaeology.
 
