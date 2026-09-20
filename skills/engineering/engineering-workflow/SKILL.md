@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.1.0
-  updated: '2026-09-19'
+  version: 4.4.1
+  updated: '2026-09-20'
 ---
 
 # engineering-workflow
@@ -62,6 +62,7 @@ rke task check --root <repository>
 rke capability enable <query-to-knowledge|parallel-delivery|publication> --root <repository>
 rke closure assess --root <repository>
 rke dissection assess --root <repository>
+rke documentation bootstrap --root <repository>
 rke handoff write --visibility <local|shared> --topic <topic> --summary <state> --next-action <action> --root <repository>
 rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
@@ -69,6 +70,7 @@ rke coordination plan --manifest <relative-json-path> --root <repository>
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
 rke change explain --base <ref> --summary <causal-summary> --root <repository>
+rke documentation apply --base <ref> --bundle <knowledge-bundle> --knowledge <affected-concept> --evidence <review-summary> --reader-query <question> --root <repository>
 rke legacy route <legacy-name-or-alias> --root <repository>
 ```
 
@@ -102,6 +104,8 @@ Use deterministic retrieval first. If its bounded lexical, structural, and relat
 
 Read [references/structural-context.md](./references/structural-context.md) before relying on structural traces or extending language coverage. Structural output is bounded navigation and impact evidence, not a decorative graph or a substitute for reading consequential source.
 
+Structural operations select package and source scopes automatically and widen progressively when the first shard is insufficient. Pass repeatable `--scope <relative-path>` overrides only when the user or verified repository evidence provides a better boundary; do not default to whole-repository analysis or impose an arbitrary file-count refusal.
+
 When canonical OKF knowledge must be validated, indexed, or bound to implementation evidence, use:
 
 ```text
@@ -112,7 +116,7 @@ rke knowledge register --knowledge <relative-concept> --source <pattern> --root 
 
 Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
-For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Assess against an explicit Git base, record the causal explanation, author only the minimum necessary canonical change, then use `documentation apply` to validate the graph, rebuild navigation, test likely reader questions, and record exact-delta freshness receipts. This replaces a separately remembered RCC/RKE sequence during normal closure without turning hooks into documentation authors.
+For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow the normal sequence `activate → retrieve/trace → change → documentation assess → explain → apply → close`: assess against an explicit Git base, record the causal explanation, author only the minimum necessary canonical change, then use `documentation apply` to validate the graph, rebuild navigation, test likely reader questions, and record exact-delta freshness receipts. This replaces a separately remembered RCC/RKE sequence during normal closure without turning hooks into documentation authors.
 
 For MCP clients, start the optional machine-wide stdio adapter once:
 
@@ -120,7 +124,7 @@ For MCP clients, start the optional machine-wide stdio adapter once:
 rke-mcp
 ```
 
-The adapter and CLI dispatch the same registered operation handlers; MCP is not a second retrieval, knowledge, documentation, or structural implementation. Each MCP tool call names its repository explicitly, and one process may serve multiple Git repositories while keeping caches, workflow state, paths, and results repository-bound. Optional `--allow-root` arguments constrain accepted repositories further; `--root` remains a single-repository compatibility mode. Use the CLI for hooks and shell automation, and MCP when a client needs discoverable structured tools.
+The adapter and CLI dispatch the complete same registered operation set, schemas, outcomes, and exit semantics; MCP is not a second lifecycle, retrieval, knowledge, documentation, structural, continuity, coordination, host, or publication implementation. Each MCP tool call names its repository explicitly, and one process may serve multiple Git repositories while keeping caches, workflow state, paths, and results repository-bound. Optional `--allow-root` arguments constrain accepted repositories further; `--root` remains a single-repository compatibility mode. Use the CLI for hooks and shell automation, and MCP when a client needs discoverable structured tools.
 
 Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when durable execution state may be justified. In `none` mode, `task check` is a deterministic no-op and does not launch OKF Tasks. In durable modes, the adapter delegates strict validation to the authoritative CLI and returns structured evidence; create or mutate records through that CLI rather than reimplementing its schema here.
 
@@ -130,7 +134,7 @@ Read [references/host-integration.md](./references/host-integration.md) before u
 
 Use [references/quality-coverage.md](./references/quality-coverage.md) for the Slice 4/5 completeness boundary. Do not present deterministic generation guardrails as an executed model-quality evaluation.
 
-Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
+Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. Its corpus is a packaged resource, so an installed wheel does not depend on a source checkout. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
 
 ## Operating rules
 
