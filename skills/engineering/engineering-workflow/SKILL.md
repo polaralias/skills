@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.5.0
-  updated: '2026-09-21'
+  version: 4.6.0
+  updated: '2026-09-22'
 ---
 
 # engineering-workflow
@@ -148,7 +148,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
    - `pause`
    - `resume`
 4. Activate capabilities only when the work requires them. Examples include task lifecycle, parallel delivery, publication, and continuity. Test design belongs to the design/delivery acceptance surface; tracker synchronization belongs to OKF Tasks.
-5. Apply convergence control to exploratory work. When delivery depends on an uncertain technical or behavioural hypothesis, record its evidence, governing assumption, expected observation, falsifier, acceptance condition, corrective-attempt limit, and reset or kill condition during design. After two assumption-relevant failures against the same acceptance condition by default, stop corrective delivery, capture what the attempts taught, run `rke journey enter design`, and explicitly reaffirm, simplify, replace, or abandon the design. Incidental failures such as a typo, broken fixture, or unrelated build fault do not count. Simplification and deletion are first-class outcomes; a design reset must not default to adding machinery.
+5. Apply convergence control to exploratory work. Define a falsifiable experiment contract during design. If its falsifier occurs, or the default two assumption-relevant acceptance failures occur without decisive evidence, stop delivery and re-enter design. Capture learning and explicitly reaffirm, simplify, replace, or abandon the design. Incidental implementation failures do not count. Do not weaken acceptance to accommodate the current implementation. See the Design Journey.
 6. Keep every material unresolved obligation as an explicit gate. Do not rely on the model remembering it later.
 7. Use OKF Tasks only when execution state must survive chat. Select `none`, `lightweight`, or `full` task mode proportionately; time, estimates, visualisation, and tracker synchronisation are opt-in.
 8. Before compaction or pause, call `checkpoint` with a compact verified summary and concrete next action. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.

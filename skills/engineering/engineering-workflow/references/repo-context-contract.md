@@ -28,7 +28,7 @@ Results include:
 
 The persisted FTS table owns corpus statistics and postings, so ordinary queries do not reconstruct an in-memory JavaScript search index. Snippets are produced by SQLite around matching terms. Tree-sitter runs in the Node process with grammars loaded once; a parse failure is recorded against the affected file and does not discard valid records for unrelated files. Structural traces are navigation evidence, not proof of runtime reachability.
 
-Refresh is content-incremental. A cold scan hashes every eligible file. Later scans may reuse a stable size, modification-time, and change-time fingerprint; size and modification time alone are never accepted as identity. A watcher invalidates a persistent engine after ordinary edits, suspicious files are content-hashed, matching content and extractor identities reuse existing rows, changed files are parsed once and replaced transactionally, and deleted files are removed. Results expose `hashedFiles`, `parsed`, `rowsChanged`, and `reusedFiles` so callers can distinguish a content refresh from a no-op parse.
+Refresh is content-incremental and does not treat ordinary filesystem metadata as content identity. A recursive watcher provides hot-cache invalidation only: the engine yields through a short event-delivery barrier before reusing hot state and periodically performs authoritative Git verification, so the watcher is neither the sole correctness boundary nor permission for an indefinitely stale cache. In a Git repository, one batched index listing supplies tracked object identities and one porcelain-status call classifies dirty, staged and visible untracked paths. Clean tracked files reuse a matching recorded Git object identity without per-file stats or reads. Dirty, staged, untracked, uncertain and non-Git files are content-hashed; matching content and extractor identities reuse existing rows, changed files are parsed once and replaced transactionally, and deleted files are removed. Concurrent callers coalesce one refresh, and composed structural operations refresh once before querying the current SQLite snapshot. Results expose `hashedFiles`, `parsed`, `rowsChanged`, and `reusedFiles` so callers can distinguish content work from a no-op parse.
 
 ### Check
 
@@ -62,7 +62,7 @@ rke context benchmark --corpus <repository-relative-json-path>
 
 Corpus schema version 1 contains query records with `id`, `query`, and one or more `relevantPaths`. The result reports per-case ranked paths, recall at 1/5/10, reciprocal rank, and aggregate mean reciprocal rank. The corpus file itself is excluded from ranking to prevent answer leakage.
 
-The repository also provides `npm run benchmark` for performance evidence. It creates a realistic mixed Python, TypeScript and C# corpus and measures cold incremental indexing and a warm freshness check, including elapsed time and process memory. `RKE_BENCHMARK_FILES` controls scale; large runs are deliberately opt-in while deterministic tests execute a small freshness contract.
+The repository also provides `npm run benchmark` for performance evidence. It creates a realistic clean tracked mixed Python, TypeScript and C# corpus and measures cold incremental indexing, hot-cache freshness, forced verified-warm freshness, one-file change, repeated retrieval, memory, measured Git process launches, and parser child-process launches. `RKE_BENCHMARK_FILES` controls scale; large runs are deliberately opt-in while deterministic tests execute a small freshness contract.
 
 ## Repository and data boundary
 

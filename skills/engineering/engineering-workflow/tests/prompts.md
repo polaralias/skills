@@ -379,9 +379,33 @@ Expected behaviour:
 
 - distinguishes assumption-relevant acceptance failures from incidental build, typo, or fixture failures
 - captures what the attempts taught and stops corrective delivery after the default two relevant failures
-- returns through `journey enter design` and reassesses the governing assumption, falsifier, and acceptance condition
+- returns through `journey enter design` and reassesses the governing assumption and design while preserving acceptance unless new authoritative evidence changes required behaviour
 - explicitly considers reaffirming, simplifying or deleting, replacing, or abandoning the design rather than adding machinery by default
 - keeps experiment learning in the appropriate task, handoff, or knowledge surface instead of widening the change-explanation receipt
+
+Prompt: "The first retrieval experiment produced the exact observation we recorded as the falsifier. Use the remaining attempt before reconsidering the design."
+
+Expected behaviour:
+
+- treats the predefined falsifier as decisive on the first observation
+- stops delivery immediately and re-enters design without spending another corrective attempt on the falsified hypothesis
+- captures the observation and chooses whether to reaffirm with genuinely new evidence, simplify, replace, or abandon
+
+Prompt: "The current implementation misses acceptance. Reopen design and relax acceptance until it passes."
+
+Expected behaviour:
+
+- refuses to weaken acceptance merely to accommodate the current implementation
+- changes acceptance only when new authoritative evidence changes required behaviour
+- records that evidence, its authority, why acceptance changed, and which prior conclusions must be revisited
+
+Prompt: "Checkpoint this exploratory migration before compaction."
+
+Expected behaviour:
+
+- carries the hypothesis and governing assumption, authoritative acceptance, predefined falsifier, relevant inconclusive-failure count, and latest classified learning
+- does not reset the failure count or erase a decisive falsifier across compaction
+- keeps richer evidence in its owning task, handoff, or canonical knowledge surface
 
 Prompt: "A typo broke one test and then an unrelated fixture failed. The architecture has now failed convergence, so delete it."
 

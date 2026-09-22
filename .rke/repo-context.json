@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-22T07:14:52.254Z",
-        "evidence": "RKE 0.10.0 canonical mirror and final source provenance after macOS freshness correction.",
+        "verifiedAt": "2026-09-22T14:00:53.169Z",
+        "evidence": "Reviewed the synchronized EWF 4.6.0 package, exact RKE source provenance, TypeScript/SQLite architecture, benchmark evidence, and focused convergence evaluation.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "6b1c684591c4237492b38abaca4f9531be6cde0d14e91ebc2e2e04ba48c094f3"
+            "sha256": "d8913a357d339a77fcaf48a22eea330a1329b18e2ba135b17ae28a49521c2e1f"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -27,7 +27,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/continuity.md",
-            "sha256": "435df6866d90cc0245549be3de186f28a8c779066a8619fb00ec90dee814a106"
+            "sha256": "3eaa73932df2dfce758256042641639a9f5b78e3c65c4c52020087d7b55cd053"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/documentation-lifecycle.md",
@@ -55,7 +55,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/journeys/design.md",
-            "sha256": "72d677a5abaf9a1b85cd5d919a48b18d9bf098deebd614930cf23982ad7a543d"
+            "sha256": "9264cb90a9a559a50349d10065f5ff08a5d4508d3d662ae48074df0e0531c0e1"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/journeys/understand.md",
@@ -75,11 +75,11 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/quality-coverage.md",
-            "sha256": "e42ddf91b841f1062c478b60cf19e4edbbd23db1beccfac3e8705fb896169fe0"
+            "sha256": "acf9392431e3896f2cf6895fbc6cd8626db58beb85203c84550ee0eb9d866ace"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/repo-context-contract.md",
-            "sha256": "de1a8aac1d9e2cdbc9824dc24531c2b78bc69f34a18ceb9551a3e9f6d4db5eea"
+            "sha256": "31505817413137522dfc07adf0cf05ccbdfcb08d8bad4ed448ba6ca3b05670b4"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/structural-context.md",
@@ -91,15 +91,15 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "e343c1b94dabc2c129a850f3100dfe85aa897355638ed176cac00134a30a9eba"
+            "sha256": "7d6e6bf79d6dc7b29d1e1bef7233fbd603de96a66427ac60412a32425d74d424"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "07157535003f53dc451d8130060b07547674b0773f777cd97c591b1af28ad6f6"
+            "sha256": "6574cc87157a5d034797226c50f0cad90b516a92c7bb218a2c1155d57c9930ad"
           },
           {
             "path": "skills/engineering/engineering-workflow/tests/prompts.md",
-            "sha256": "30542ec64aba585b91cbad7135eb4c2cef6fa3db1804a23db3773a6b981b4855"
+            "sha256": "7d0bd4ae3a8a00dcb3532f31085861a6419bf1b8bc7c43e0e1df83c34a3f925d"
           },
           {
             "path": "skills/engineering/repo-setup/SKILL.md",
@@ -117,5 +117,5 @@
       }
     }
   ],
-  "revision": 11
+  "revision": 12
 }

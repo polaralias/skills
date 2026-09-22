@@ -29,13 +29,19 @@ Record:
 - the governing assumption being tested
 - the expected observable result
 - the observation that would falsify the hypothesis
-- the acceptance condition
-- the maximum corrective attempts before reset, defaulting to two assumption-relevant failures
+- the acceptance condition and the authority or evidence that established it
+- the maximum corrective attempts before reset, defaulting to two individually inconclusive assumption-relevant failures
 - the reset or kill condition
 
-Count failures against the same governing assumption and acceptance condition, not every failed build. A typo, broken fixture, or unrelated integration fault is an implementation defect and does not consume the convergence limit.
+Observing the predefined falsifier immediately falsifies the hypothesis. Stop delivery and return through `rke journey enter design` after that first decisive observation; do not spend the remaining corrective-attempt allowance trying the same hypothesis again.
 
-When the limit is reached, stop delivery before repairing the next symptom. Capture what each attempt taught, return through `rke journey enter design`, and explicitly choose one outcome: reaffirm with new evidence, simplify or delete, replace, or abandon. Do not interpret design reconsideration as permission to add machinery by default. Keep the learning in the task, handoff, or canonical knowledge surface justified by its durability; `change explain` remains bounded to the Git delta.
+Use the corrective-attempt limit only for repeated acceptance failures that are relevant to the same governing assumption but individually inconclusive. Count those failures against the same assumption and acceptance condition, not every failed build. A typo, broken fixture, or unrelated integration fault is an implementation defect and does not consume the convergence limit.
+
+When the limit is reached, stop delivery before repairing the next symptom. Capture what each attempt taught, return through `rke journey enter design`, and explicitly choose one outcome: reaffirm with new evidence, simplify or delete, replace, or abandon. Do not interpret design reconsideration as permission to add machinery by default.
+
+Design re-entry is not permission to move the goalposts. Refine acceptance only when new authoritative evidence changes the required behaviour; never weaken acceptance to accommodate the current implementation. Record the new evidence, the authority it came from, why acceptance changed, and which earlier conclusions must be reconsidered. Otherwise preserve the existing acceptance condition while changing or abandoning the design.
+
+Keep the learning in the task, handoff, checkpoint, or canonical knowledge surface justified by its durability; `change explain` remains bounded to the Git delta. If work may cross compaction or a session boundary, continuity must retain the minimum active convergence state defined in the [Continuity Contract](../continuity.md).
 
 ## Output contract
 
