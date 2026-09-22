@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-22T07:05:55.605Z",
-        "evidence": "RKE 0.10.0 canonical Engineering Workflow mirror, convergence controls, source identity schema migration, and mirror validation.",
+        "verifiedAt": "2026-09-22T07:14:52.254Z",
+        "evidence": "RKE 0.10.0 canonical mirror and final source provenance after macOS freshness correction.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -91,7 +91,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "6f676fafb5dcfe265ad2bc0944db984d9b5ef589d2e991bb09be214315eb3107"
+            "sha256": "e343c1b94dabc2c129a850f3100dfe85aa897355638ed176cac00134a30a9eba"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
@@ -117,5 +117,5 @@
       }
     }
   ],
-  "revision": 10
+  "revision": 11
 }
