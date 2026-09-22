@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.4.1
-  updated: '2026-09-20'
+  version: 4.5.0
+  updated: '2026-09-21'
 ---
 
 # engineering-workflow
@@ -134,7 +134,7 @@ Read [references/host-integration.md](./references/host-integration.md) before u
 
 Use [references/quality-coverage.md](./references/quality-coverage.md) for the Slice 4/5 completeness boundary. Do not present deterministic generation guardrails as an executed model-quality evaluation.
 
-Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. Its corpus is a packaged resource, so an installed wheel does not depend on a source checkout. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
+Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. Its corpus is a packaged resource, so an installed npm package does not depend on a source checkout. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
 
 ## Operating rules
 
@@ -148,19 +148,20 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
    - `pause`
    - `resume`
 4. Activate capabilities only when the work requires them. Examples include task lifecycle, parallel delivery, publication, and continuity. Test design belongs to the design/delivery acceptance surface; tracker synchronization belongs to OKF Tasks.
-5. Keep every material unresolved obligation as an explicit gate. Do not rely on the model remembering it later.
-6. Use OKF Tasks only when execution state must survive chat. Select `none`, `lightweight`, or `full` task mode proportionately; time, estimates, visualisation, and tracker synchronisation are opt-in.
-7. Before compaction or pause, call `checkpoint` with a compact verified summary and concrete next action. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.
-8. At completion, call `close`. A blocked result is an honest outcome, not permission to discard or waive the remaining gates.
-9. Use `context find` before broad repository archaeology. Inspect returned source before relying on consequential details, and do not treat retrieval rank as correctness proof.
-10. Resolve a gate only through `gate resolve` with concise evidence from the owning truth surface. A receipt records why the obligation was discharged; it does not replace the underlying evidence.
-11. Treat `bound`, `candidate`, and `unmapped` knowledge impacts differently. Only explicit bindings plus current verification receipts can establish `fresh` or `stale`; lexical candidates require review and unmapped changes remain visible.
-12. Run `context verify` only after the named canonical document has actually been reviewed against all resolved bound sources. Never create a freshness receipt merely to clear a gate.
-13. Use `knowledge check` for conformance and graph integrity, `knowledge build-indexes` for generated reading order, and `knowledge register` for explicit source ownership. Do not make agents infer bindings silently from lexical similarity.
-14. Treat graph-expanded retrieval as navigation evidence. A linked concept can be relevant without containing the query terms and can still be stale or incorrect.
-15. Run documentation assessment at material checkpoints and close, not on every conversational turn. A material close or pre-push check must use an explicit Git base and current explanation/documentation receipts.
-16. `documentation apply` validates agent-authored canonical changes; it must not fabricate prose or mark an unreviewed concept fresh.
-17. If `file-api` returns `agent-review-required`, inspect only the bounded packet, produce the declared review schema, record it with `review-apply`, and rerun the structural query. Reviewed evidence is derived, confidence-labelled, source-digest-bound, and must never override parser evidence.
+5. Apply convergence control to exploratory work. When delivery depends on an uncertain technical or behavioural hypothesis, record its evidence, governing assumption, expected observation, falsifier, acceptance condition, corrective-attempt limit, and reset or kill condition during design. After two assumption-relevant failures against the same acceptance condition by default, stop corrective delivery, capture what the attempts taught, run `rke journey enter design`, and explicitly reaffirm, simplify, replace, or abandon the design. Incidental failures such as a typo, broken fixture, or unrelated build fault do not count. Simplification and deletion are first-class outcomes; a design reset must not default to adding machinery.
+6. Keep every material unresolved obligation as an explicit gate. Do not rely on the model remembering it later.
+7. Use OKF Tasks only when execution state must survive chat. Select `none`, `lightweight`, or `full` task mode proportionately; time, estimates, visualisation, and tracker synchronisation are opt-in.
+8. Before compaction or pause, call `checkpoint` with a compact verified summary and concrete next action. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.
+9. At completion, call `close`. A blocked result is an honest outcome, not permission to discard or waive the remaining gates.
+10. Use `context find` before broad repository archaeology. Inspect returned source before relying on consequential details, and do not treat retrieval rank as correctness proof.
+11. Resolve a gate only through `gate resolve` with concise evidence from the owning truth surface. A receipt records why the obligation was discharged; it does not replace the underlying evidence.
+12. Treat `bound`, `candidate`, and `unmapped` knowledge impacts differently. Only explicit bindings plus current verification receipts can establish `fresh` or `stale`; lexical candidates require review and unmapped changes remain visible.
+13. Run `context verify` only after the named canonical document has actually been reviewed against all resolved bound sources. Never create a freshness receipt merely to clear a gate.
+14. Use `knowledge check` for conformance and graph integrity, `knowledge build-indexes` for generated reading order, and `knowledge register` for explicit source ownership. Do not make agents infer bindings silently from lexical similarity.
+15. Treat graph-expanded retrieval as navigation evidence. A linked concept can be relevant without containing the query terms and can still be stale or incorrect.
+16. Run documentation assessment at material checkpoints and close, not on every conversational turn. A material close or pre-push check must use an explicit Git base and current explanation/documentation receipts.
+17. `documentation apply` validates agent-authored canonical changes; it must not fabricate prose or mark an unreviewed concept fresh.
+18. If `file-api` returns `agent-review-required`, inspect only the bounded packet, produce the declared review schema, record it with `review-apply`, and rerun the structural query. Reviewed evidence is derived, confidence-labelled, source-digest-bound, and must never override parser evidence.
 
 ## Compatibility boundary
 

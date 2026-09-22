@@ -144,7 +144,7 @@ Maps a retained documented legacy alias or full package name to exactly one repl
 
 ### `context find`
 
-Refreshes disposable repository evidence and returns BM25F-ranked chunks with repository-relative paths, line spans, symbols or headings, snippets, score reasons, and an index revision. Parser-backed one-hop fusion is attempted only for code-led or exact-identifier result sets. A scope must remain inside the configured repository root.
+Refreshes disposable repository evidence and returns SQLite FTS5-ranked chunks with repository-relative paths, line spans, symbols or headings, snippets, and native rank. A scope must remain inside the configured repository root.
 
 ### `context check`
 

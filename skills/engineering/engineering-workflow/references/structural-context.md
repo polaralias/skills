@@ -17,9 +17,9 @@ The MCP tools `repo_file_api`, `repo_trace_symbol`, `repo_structure_map`, `repo_
 
 ## Scope and scale
 
-The runtime discovers scopes from workspace and package manifests, then falls back to meaningful top-level source boundaries. It builds content-addressed graph shards per scope. Trace, map, impact and search accept repeatable `--scope <relative-path>` overrides; without them, the runtime chooses likely scopes from the query, symbol or changed path and widens progressively when evidence crosses a boundary or remains insufficient. An explicit whole-repository request fuses bounded shards and is not rejected because the repository crosses an arbitrary file count.
+The runtime stores one incremental repository graph in SQLite. Trace, map, impact and search accept repeatable `--scope <relative-path>` overrides where the operation supports them; without an override, they query the repository boundary selected by the caller. Scope paths are repository-relative and cannot escape through traversal or links.
 
-Parser work is submitted in bounded batches and retried per file when a worker batch fails. Git-aware enumeration prunes ignored dependency, vendor, generated and cache directories before traversal. Bounded review chunks enforce byte limits even within one oversized line and preserve line and column provenance. Public regex search runs in an isolated worker with a timeout; a pathological pattern returns a controlled failure rather than blocking the CLI or MCP process.
+Parser work runs in-process and commits each changed file independently. Git-aware enumeration prunes ignored dependency, vendor, generated and cache directories before traversal. Bounded review chunks enforce byte limits even within one oversized line and preserve line and column provenance. Search validates patterns and bounds returned matches so one query cannot materialize an unbounded response.
 
 ## Parser and resolution boundary
 
@@ -29,9 +29,9 @@ The structural index stores normalized symbols, file-level imports, call targets
 
 The retrieval core lazily consumes the same parser-backed symbol spans for code chunk boundaries. It does not maintain a second language-specific regex implementation for supported files. Retrieval can use a bounded text fallback when parser evidence is unavailable, while structural API claims continue to require parser or recorded agent-review provenance.
 
-The cache at `.engineering-workflow/cache/structure-index.json` contains derived structural metadata, shard membership and scope-selection evidence, not function bodies. Unchanged content hashes reuse prior parse results; changed and deleted files are refreshed deterministically.
+The SQLite cache at `.engineering-workflow/cache/rke.sqlite` contains normalized files, symbols, imports, edges, chunks and FTS terms. Unchanged fingerprints reuse prior parse results; each changed or deleted file updates its own rows transactionally. Queries return bounded result rows instead of hydrating the repository graph into the JavaScript heap.
 
-Parser packages may be fetched and checksum-verified by the language-pack dependency on first use. Installing or prefetching parsers is an explicit environment-setup action; repository content cannot authorise network access. Trusted offline environments should prefetch required grammars before analysis.
+Version-pinned grammar WASMs ship as package dependencies and are loaded locally. Repository content cannot authorise parser downloads or any other network access.
 
 ## Agent-review fallback
 

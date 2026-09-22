@@ -17,7 +17,7 @@ The command is read-only and returns:
 
 Codex recipes use the installed `codex mcp add` interface. MCP activation remains an explicit user-level action because the installed CLI exposes that configuration at user scope and current official documentation does not establish a portable project-scoped hook schema for this workflow. The host installer also merges a marker-owned activation block into the repository `AGENTS.md`; it preserves all independently authored instructions and replaces only its own marked block on repeated installation.
 
-Claude recipes use the documented project `.mcp.json` structure and the installed `rke-mcp` executable; do not commit a machine-specific skill or Python path.
+Claude recipes use the documented project `.mcp.json` structure and the installed `rke-mcp` executable; do not commit a machine-specific skill or runtime path.
 
 ## Local installation
 
