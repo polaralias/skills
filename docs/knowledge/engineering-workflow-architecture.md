@@ -2,21 +2,20 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-20T14:51:59+01:00
+timestamp: 2026-09-22T15:00:00+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-20T14:51:59+01:00
+reviewed_at: 2026-09-22T15:00:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE runtime 0.9.0: 171 deterministic tests passed; Ruff and Pyright passed"
-  - "RKE 0.9.0 wheel and sdist built, version-validated, and clean-install smoked independently"
-  - "retrieval benchmark: recall@1 0.8, recall@5 1.0, MRR 1.0"
-  - "structural benchmark: mean recall 1.0 and mean precision 1.0 across 14 contract cases, 10083 output characters"
-  - "model invocation evaluation: installed project routing produced activation evidence before requested edits; nested runner still timed out before final response"
+  - "RKE 0.10.0: 36 deterministic TypeScript tests and 24 packaged grammar fixtures passed"
+  - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
+  - "50,000-file mixed corpus: 770.99 ms Git-verified warm refresh, zero hashes/parses, 546.7 MB peak RSS, zero parser child processes"
+  - "focused convergence evaluation: 2/2 packaged Codex cases passed with persisted phase and gate assertions"
 owner: polaralias
 tags:
   - engineering-workflow
@@ -40,17 +39,19 @@ The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`
 
 Workflow state is compact restart information. It may point to stronger records but does not replace repository knowledge, OKF Tasks, Git evidence, runtime evidence, or a handoff.
 
+Exploratory design uses convergence control. Its experiment contract records the hypothesis, governing assumption, expected observation, predefined falsifier, authoritative acceptance, and reset/kill condition. Observing the falsifier causes immediate design re-entry; otherwise the default reset threshold is two individually inconclusive, assumption-relevant acceptance failures. Incidental implementation faults do not count. Design re-entry cannot weaken acceptance to fit an implementation, and checkpoint/handoff continuity carries the minimum active convergence state across compaction or sessions.
+
 Durable writers use atomic replacement, revision checks, and ownership-recording file locks. Each owner writes and synchronises a complete PID, creation-time, and random-token record under a unique candidate name, then atomically publishes it as the lock path. A paused live creator therefore never exposes a pre-metadata lock that another process can reclaim. A valid live owner is never evicted by age; a demonstrably dead owner is reclaimed immediately, while a malformed legacy or externally damaged record is reclaimed only after a short grace window. Lock identity rechecks and token-safe cleanup prevent a former owner from deleting a replacement lock. Filesystems without atomic hard-link publication return `lock_atomic_publish_unsupported` rather than receiving a weaker fallback. Later acquisition removes only complete candidate files whose recorded owner is demonstrably dead.
 
 ## Repository context
 
-`context find` builds a disposable repository-local BM25F index over eligible code and documentation. Paths, filenames, symbols, heading ancestry, and bodies are scored as separate fields, with corpus statistics and postings persisted for reuse. Tree-sitter symbol spans define code chunks across supported languages; oversized Markdown sections become bounded overlapping passages. Clean tracked files reuse Git object identity only after a batched, filter-aware Git content check confirms that the eligible worktree blob still matches the index, so same-size restored-timestamp edits cannot hide behind platform stat caching. Dirty, staged, untracked, uncertain, and mismatched files are content-hashed by the indexer. Outside Git, retrieval and dissection share one bounded walker that prunes dependency, vendor, archive, and cache directories before descent. Results favour distinct files before repeated passages and contain exact paths, line spans, headings or symbols, match-centred snippets, scores, and reasons. Inaccessible paths are skipped and reported rather than failing the complete refresh. A maintained benchmark measures cold indexing, warm retrieval, and one same-size changed file across 1k, 10k, and 50k tracked-file fixtures. It disables Git ctime trust and uses minimal stat checks so the changed-file trial consistently exercises RKE's content verifier; its small correctness case runs in the deterministic suite while the complete matrix remains opt-in.
+`context find` queries a disposable repository-local SQLite FTS5 database over eligible code and documentation. Paths, filenames, symbols, headings, and bodies are weighted without reconstructing a repository-wide JavaScript postings graph. A recursive watcher is only a bounded hot-cache invalidation hint: a short event-delivery barrier and periodic Git verification prevent watcher timing from becoming the correctness boundary. In Git repositories, two batched commands provide tracked index-object identities and dirty/staged/untracked classification. Clean tracked files reuse matching Git identity without per-file stats or reads; dirty, staged, untracked, uncertain, and non-Git files are content-hashed. Concurrent public operations coalesce one refresh, and composed structural operations query the same refreshed SQLite snapshot. The checked 1k/10k/50k mixed-language benchmark separates hot-cache and forced Git-verified warm paths, measures Git launches, and proves zero parser child processes.
 
 Typed OKF concepts contribute their relative Markdown relationships to the index. A direct lexical match remains the ranking baseline; a directly connected concept may be returned as lower-scored `knowledge-relationship` evidence. One-hop parser-backed callers and callees may contribute labelled `structural-neighbour` evidence. Both expansions are navigation, not proof of truth, freshness, or complete runtime reachability. When deterministic evidence is insufficient, the consuming model may reformulate queries and compare bounded returned passages without requiring a second embedding index or whole-repository model ingestion.
 
 ## Structural context
 
-The structural core complements BM25F with syntax-aware source inspection: compact file API surfaces, bounded incoming and outgoing call traces, source-cluster and dependency-hub orientation, changed-file caller impact, and regex matches grouped by enclosing symbol and coupling. It selects package and source scopes automatically, persists graph shards, and widens progressively instead of imposing an arbitrary repository file cap. Explicit scopes remain available when the user or repository evidence provides a better boundary. A registry-driven Tree-sitter language pack provides broad grammar coverage, while language adapters supplement definitions, imports, and conservative resolution for representative Python, JavaScript, Rust, Go, .NET, JVM, native, scripting, PHP, and Swift surfaces. Retrieval consumes the same parser-backed symbol spans rather than maintaining another language-specific parser. Batched parsing falls back per file after a worker failure, and regex search is isolated behind a timeout. Content hashes reuse unchanged parse results.
+The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. One Node process loads WebAssembly Tree-sitter grammars in-process for TypeScript, Python, C#, and the rest of the packaged 24-language fixture set. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
 
 Structural results are navigation evidence, not completeness proof. Duplicate names, dynamic dispatch, reflection, generated code, and framework wiring may remain unresolved. When reliable parser evidence is unavailable, the CLI and MCP return a bounded agent-review packet with an explicit inference schema and uncertainty field rather than presenting pattern matches as parser facts. Validated findings are stored separately with their source digest, confidence, and uncertainties; they participate in navigation until the source changes and never override parser evidence. The checked-in benchmark measures recall, precision, and output size for maintained cases.
 
@@ -62,7 +63,7 @@ Canonical knowledge remains deliberately authored. The native knowledge core pro
 - `knowledge build-indexes` generates marked progressive-disclosure navigation from titles and query-shaped descriptions;
 - `knowledge register` records explicit source patterns for a concept in `.rke/repo-context.json`; the former `.polaralias/` path is bounded migration input only.
 
-Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records source hashes and compact evidence. Later source changes make that receipt stale.
+Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records an ordered `{path, sha256}` identity list and compact evidence. Paths are values rather than JSON property names so generic secret scanners do not mistake names such as `auth.py` for credential assignments. Later source changes make that receipt stale; the legacy path-keyed hash map remains migration input only.
 
 Generated indexes, retrieval caches, and model answers remain derived surfaces. They do not become canonical automatically.
 
@@ -92,13 +93,13 @@ Rich continuity is distinct from compact workflow checkpoint state. `handoff wri
 
 ## Shared CLI and MCP access
 
-The separately installed `polaralias-rke` package owns the CLI, MCP adapter, dependencies, caches, benchmarks, and runtime tests. The skills repository contains only the synchronized EWF catalogue package and a source/version manifest; it does not carry an independently maintained runtime copy.
+The separately installed `@polaralias/rke` npm package owns the CLI, MCP adapter, dependencies, caches, benchmarks, and runtime tests. The skills repository contains only the synchronized EWF catalogue package and a source/version manifest; it does not carry an independently maintained runtime copy.
 
 The `rke` CLI and `rke-mcp` stdio adapter dispatch the complete same operation registry for lifecycle, retrieval, structural context, knowledge, documentation, explanation, dissection, handoff, coordination, host integration, and publication scanning. Schemas, argument validation, annotations, outcomes, exit semantics, and business handlers therefore have one implementation; each transport only translates its protocol envelope. One machine-wide MCP process accepts an explicit repository on every tool call, validates dynamic targets as Git repositories, and can restrict them with allowed-root boundaries. Repository-local state and evidence never become machine-global merely because the executable is shared. Fixed-root mode remains a compatibility option.
 
 ## Distribution and release integrity
 
-RKE's package version has one source and is checked against the requested `vX.Y.Z` release tag and both built artifacts. CI builds the wheel and source distribution, then installs and exercises each independently in a clean environment, including the CLI, MCP initialization, hooks, and packaged evaluation resources. The tag workflow attests the artifacts and publishes them to PyPI through trusted publishing before it promotes an existing draft or creates the public GitHub release. The checkout-free GitHub job receives explicit repository identity, so `gh` cannot lose its target after PyPI succeeds. A PyPI failure therefore cannot present an incomplete version as the latest public GitHub release.
+RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, tests, audits the no-Python invariant, validates the 41-operation/24-grammar release contract, packs the package, and exercises CLI retrieval, MCP discovery, and evaluator resources from a clean installation. The tag workflow attests and publishes the npm package with provenance before promoting the GitHub release.
 
 ## Legacy archive
 
@@ -110,9 +111,9 @@ The absorbed engineering packages are preserved unchanged under the repository-r
 
 Codex integration uses `codex mcp add rke -- rke-mcp` once at user scope. The project `AGENTS.md` block directs material changes through EWF and `rke activate`; repository selection belongs to each operation rather than the server installation. Git-only mode provides pre-push enforcement without claiming an MCP installation.
 
-The packaged model-evaluation runner tests implicit activation, project-routed activation ordering, nearby non-activation, and source-driven authority expansion in temporary repositories. It grades the activation receipt rather than mere state-file existence and checks that named implementation files were clean in the activation Git baseline. Windows fixtures seed an evaluator-owned unactivated state file so sandbox ACLs cannot hide evidence from the parent grader, and timeout diagnostics are bounded.
+The packaged model-evaluation runner tests implicit activation, project-routed activation ordering, nearby non-activation, source-driven authority expansion, documentation bootstrap, and convergence decisions in isolated temporary repositories. It copies the exact packaged EWF source under evaluation, grades persisted phase and gates as well as activation order and authored evidence, and bounds timeout diagnostics.
 
-On the latest 2026-09-18 project-routed run, EWF activated before either requested implementation file became dirty and the agent completed both requested edits. The nested Codex process still timed out before emitting its final response. Project-routed CLI invocation is therefore evidenced; catalogue-only discovery and timely end-to-end completion remain separate measured residuals rather than completed claims.
+On the focused 2026-09-22 Codex run, both packaged convergence cases passed. The first observed falsifier persisted `design` with `acceptance-defined` reopened. Two incidental failures persisted `deliver`, left the gate closed, kept acceptance unchanged, and requested a valid hypothesis-relevant observation. This proves only those dated host/model cases; future model behaviour remains evaluation evidence rather than a deterministic runtime guarantee.
 
 ## Reading order
 
