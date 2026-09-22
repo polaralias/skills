@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-22T14:00:53.169Z",
-        "evidence": "Reviewed the synchronized EWF 4.6.0 package, exact RKE source provenance, TypeScript/SQLite architecture, benchmark evidence, and focused convergence evaluation.",
+        "verifiedAt": "2026-09-22T20:00:17.631Z",
+        "evidence": "Updated catalogue provenance to final RKE source commit 98a14aa; mirrored skill remains feature-identical, 23 repository tests and index validation pass, and both PR CIs are green.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -79,7 +79,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/repo-context-contract.md",
-            "sha256": "31505817413137522dfc07adf0cf05ccbdfcb08d8bad4ed448ba6ca3b05670b4"
+            "sha256": "8c7b9fc6b81f427150dd079789d12861ad8077187b0f7494904e538085b4d80d"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/structural-context.md",
@@ -91,7 +91,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "7d6e6bf79d6dc7b29d1e1bef7233fbd603de96a66427ac60412a32425d74d424"
+            "sha256": "4f4905b926497469af1f7e4991f56776232b96fb733144be6025b0df1fcca516"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
@@ -117,5 +117,5 @@
       }
     }
   ],
-  "revision": 12
+  "revision": 14
 }
