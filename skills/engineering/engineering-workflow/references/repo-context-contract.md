@@ -28,7 +28,7 @@ Results include:
 
 The persisted FTS table owns corpus statistics and postings, so ordinary queries do not reconstruct an in-memory JavaScript search index. Snippets are produced by SQLite around matching terms. Tree-sitter runs in the Node process with grammars loaded once; a parse failure is recorded against the affected file and does not discard valid records for unrelated files. Structural traces are navigation evidence, not proof of runtime reachability.
 
-Refresh is content-incremental and does not treat ordinary filesystem metadata as content identity. Every hot Git query checks porcelain status and HEAD, then hashes only dirty paths against the last indexed state. A stable modified working tree reuses the index; another edit to the same path triggers refresh. Explicit full verification also checks tracked Git object identities through one batched index listing. Clean tracked files reuse a matching recorded Git object identity without per-file stats or reads. Dirty, staged, untracked, uncertain and non-Git files are content-hashed; matching content and extractor identities reuse existing rows, changed files are parsed once and replaced transactionally, and deleted files are removed. Concurrent callers coalesce one refresh, and composed structural operations refresh once before querying the current SQLite snapshot. Results expose `hashedFiles`, `parsed`, `rowsChanged`, and `reusedFiles` so callers can distinguish content work from a no-op parse.
+Refresh is content-incremental. Every hot Git query checks porcelain status and HEAD, then hashes dirty paths against the last indexed state. A stable modified working tree reuses the index; another ordinary edit to the same path triggers refresh. `rke context check` performs full content verification, including clean tracked files. Git status can miss a same-size edit when timestamps are deliberately restored, so retrieval may be stale in that edge case until a full check. Clean tracked files otherwise reuse matching recorded Git object identities without per-file reads. Dirty, staged, untracked, uncertain and non-Git files are content-hashed; matching content and extractor identities reuse existing rows, changed files are parsed once and replaced transactionally, and deleted files are removed. Concurrent callers coalesce one refresh, and composed structural operations refresh once before querying the current SQLite snapshot. Results expose `hashedFiles`, `parsed`, `rowsChanged`, and `reusedFiles` so callers can distinguish content work from a no-op parse.
 
 ### Check
 
@@ -36,7 +36,7 @@ Refresh is content-incremental and does not treat ordinary filesystem metadata a
 rke context check
 ```
 
-Check refreshes the index and reports generated-index freshness separately from canonical-knowledge freshness. Registered knowledge is `fresh` only when every resolved source matches its receipt, `stale` when a receipt differs, and `unknown` when no receipt exists. An empty manifest cannot prove freshness.
+Check performs full source-content verification and reports generated-index freshness separately from canonical-knowledge freshness. Registered knowledge is `fresh` only when every resolved source matches its receipt, `stale` when a receipt differs, and `unknown` when no receipt exists. An empty manifest cannot prove freshness.
 
 ### Impact
 
