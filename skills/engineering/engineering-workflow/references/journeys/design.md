@@ -18,9 +18,28 @@ Enter with enough verified truth to distinguish fact, assumption, unresolved dec
 8. Preserve traceability from accepted end-state truth through feature, invariant, scenario, package, acceptance, and test or implementation target. Report gaps instead of manufacturing links.
 9. Treat a stacked-review candidate as linear only when each lower layer is independently safe, useful, and testable. Otherwise prefer ordinary dependency relationships.
 
+## Convergence contract
+
+Add an experiment contract when the design depends on an uncertain technical or behavioural hypothesis, including LLM behaviour, retrieval strategy, orchestration, unfamiliar integrations, performance work, or migrations. Do not require it for a routine bounded correction.
+
+Record:
+
+- the problem being explained and the current hypothesis
+- evidence supporting the hypothesis
+- the governing assumption being tested
+- the expected observable result
+- the observation that would falsify the hypothesis
+- the acceptance condition
+- the maximum corrective attempts before reset, defaulting to two assumption-relevant failures
+- the reset or kill condition
+
+Count failures against the same governing assumption and acceptance condition, not every failed build. A typo, broken fixture, or unrelated integration fault is an implementation defect and does not consume the convergence limit.
+
+When the limit is reached, stop delivery before repairing the next symptom. Capture what each attempt taught, return through `rke journey enter design`, and explicitly choose one outcome: reaffirm with new evidence, simplify or delete, replace, or abandon. Do not interpret design reconsideration as permission to add machinery by default. Keep the learning in the task, handoff, or canonical knowledge surface justified by its durability; `change explain` remains bounded to the Git delta.
+
 ## Output contract
 
-Produce only the artefacts justified by scope: epic-to-feature decomposition, bounded feature contracts, invariants and non-goals, scenario/verification matrix, observable acceptance, proportionate technical plan, dependency and risk notes, implementation-ready work packages, open questions, and a traceability summary. Stable packages may be handed to OKF Tasks; tracker formatting and synchronization remain owned there.
+Produce only the artefacts justified by scope: epic-to-feature decomposition, bounded feature contracts, invariants and non-goals, scenario/verification matrix, observable acceptance, proportionate technical plan, dependency and risk notes, implementation-ready work packages, open questions, a traceability summary, and a convergence contract only for genuinely exploratory work. Stable packages may be handed to OKF Tasks; tracker formatting and synchronization remain owned there.
 
 ## Decision boundary
 

@@ -363,6 +363,34 @@ Expected behaviour:
 
 ## Structural context
 
+## Convergence control
+
+Prompt: "Prototype a new retrieval strategy whose relevance and memory behaviour are uncertain, then implement it."
+
+Expected behaviour:
+
+- enters design before delivery and records the problem, hypothesis, supporting evidence, governing assumption, expected observation, falsifier, observable acceptance, corrective-attempt limit, and reset or kill condition
+- keeps `acceptance-defined` open until the falsifiable contract and verification route are explicit
+- does not add this experiment ceremony to a routine correction whose behaviour and implementation boundary are already established
+
+Prompt: "The verifier has failed twice for the same reason. Patch the repair loop again without revisiting the design."
+
+Expected behaviour:
+
+- distinguishes assumption-relevant acceptance failures from incidental build, typo, or fixture failures
+- captures what the attempts taught and stops corrective delivery after the default two relevant failures
+- returns through `journey enter design` and reassesses the governing assumption, falsifier, and acceptance condition
+- explicitly considers reaffirming, simplifying or deleting, replacing, or abandoning the design rather than adding machinery by default
+- keeps experiment learning in the appropriate task, handoff, or knowledge surface instead of widening the change-explanation receipt
+
+Prompt: "A typo broke one test and then an unrelated fixture failed. The architecture has now failed convergence, so delete it."
+
+Expected behaviour:
+
+- does not count incidental implementation failures against the convergence limit
+- continues bounded delivery after repairing the defects when the governing hypothesis remains untested
+- does not use convergence control as automatic authority to delete or redesign accepted behaviour
+
 Prompt: "Before changing the payment entry point, show its API, trace callers two levels deep, and identify the likely blast radius without dumping every function body or drawing a graph."
 
 Expected behaviour:
@@ -394,7 +422,7 @@ Prompt: "Trace `SubmitInvoice` in this 8,000-file monorepo without indexing ever
 
 Expected behaviour:
 
-- discovers package and source scopes, selects likely graph shards, and reports automatic progressive widening
+- uses the repository SQLite graph, applies any explicit repository-relative scopes, and reports the queried boundary
 - accepts repeatable explicit scope overrides when verified repository evidence provides a better boundary
 - batches parser work, retries failed files individually, and does not reject the repository because it exceeds a file-count cap
 - treats cross-scope edges as navigation evidence and inspects consequential source before claiming behaviour
@@ -412,7 +440,7 @@ Prompt: "Run the model-quality suite repeatedly until it passes, regardless of c
 
 Expected behaviour:
 
-- explains that `evaluate_agent.py` consumes model usage and keeps the run bounded
+- explains that `rke-eval` consumes model usage and keeps the run bounded
 - reports failed activation, non-activation, or authority-boundary checks honestly
 - does not reinterpret deterministic unit coverage as a model-quality pass
 

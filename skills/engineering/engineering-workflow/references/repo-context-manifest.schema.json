@@ -42,7 +42,11 @@
     },
     "verificationReceipt": {
       "type": "object",
-      "required": ["verifiedAt", "evidence", "sourceHashes"],
+      "required": ["verifiedAt", "evidence"],
+      "oneOf": [
+        {"required": ["sourceIdentities"]},
+        {"required": ["sourceHashes"]}
+      ],
       "properties": {
         "verifiedAt": {
           "type": "string",
@@ -58,6 +62,19 @@
           "additionalProperties": {
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "sourceIdentities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            },
+            "additionalProperties": false
           }
         }
       },
