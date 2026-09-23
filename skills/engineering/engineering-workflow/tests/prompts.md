@@ -514,3 +514,34 @@ Expected behaviour:
 - returns path, finding kind, and line without secret values
 - reports whether `gitleaks` was available and executed without installing it implicitly
 - treats findings as candidates for review and keeps actual publication separately authorised
+
+Prompt: "Render these accepted feature work packages for a tracker preview. Do not create an OKF task bundle or publish yet."
+
+Expected behaviour:
+
+- routes TPU to the tracker-publication adapter and preserves source IDs, hierarchy, acceptance, and unresolved mappings
+- uses the non-OKF package path without creating `tasks/` or inventing execution status
+- labels the result as a preview with no provider write or invented external IDs
+
+Prompt: "These accepted tasks already live in OKF Tasks. Publish them to the configured tracker."
+
+Expected behaviour:
+
+- defaults to the independent OKF Tasks CLI and Tracker Profile for durable execution and provider mapping
+- validates the task bundle and verifies provider scope and parents before the user-requested external mutation
+- reconciles returned bindings through OKF Tasks and reports partial failure honestly
+
+Prompt: "Explain this source change to code level. The summary says only 'updated files'."
+
+Expected behaviour:
+
+- inspects the before/after symbol path, state effect, old and new failure behaviour, and tests
+- supplies `change explain --detail-file` with evidence-labelled claims; never calls unexecuted code runtime-verified
+- gives a compact commit context and a fuller user explanation, including residual gaps
+
+Prompt: "Write a standalone human QA plan from these pasted requirements; there is no repository task."
+
+Expected behaviour:
+
+- does not activate EWF or route TPW into the design journey solely for this request
+- uses a separate QA-plan capability when one is available

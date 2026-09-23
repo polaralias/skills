@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.6.1
+  version: 4.7.0
   updated: '2026-09-23'
 ---
 
@@ -69,7 +69,7 @@ rke coordination validate --manifest <relative-json-path> --root <repository>
 rke coordination plan --manifest <relative-json-path> --root <repository>
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
-rke change explain --base <ref> --summary <causal-summary> --root <repository>
+rke change explain --base <ref> --summary <causal-summary> [--detail-file <relative-json-path>] --root <repository>
 rke documentation apply --base <ref> --bundle <knowledge-bundle> --knowledge <affected-concept> --evidence <review-summary> --reader-query <question> --root <repository>
 rke legacy route <legacy-name-or-alias> --root <repository>
 ```
@@ -128,6 +128,8 @@ The adapter and CLI dispatch the complete same registered operation set, schemas
 
 Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when durable execution state may be justified. In `none` mode, `task check` is a deterministic no-op and does not launch OKF Tasks. In durable modes, the adapter delegates strict validation to the authoritative CLI and returns structured evidence; create or mutate records through that CLI rather than reimplementing its schema here.
 
+For tracker publication or import-ready mapping, read [references/tracker-publication.md](./references/tracker-publication.md). Default to independent OKF Tasks for durable execution and its Tracker Profiles for publication. Also support stable non-OKF work packages without inventing task records. A preview never performs external writes; live publication needs the user's scoped request and a verified destination.
+
 Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Prefer local ignored handoffs; use shared handoffs only when durable Git collaboration is intended. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
 
 Read [references/host-integration.md](./references/host-integration.md) before using `host recipe` or `host install`. Prefer CLI for deterministic automation and MCP for discoverable agent tools. Treat the Git pre-push gate as pre-review enforcement, not merge or publication authority.
@@ -165,7 +167,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
 
 ## Compatibility boundary
 
-`engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Treat retained absorbed names as compatibility inputs and resolve them through `legacy route`; the retired TPU and TPW aliases are deliberately not active routes. Preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
+`engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Treat retained absorbed names as compatibility inputs and resolve them through `legacy route`; TPU routes to the bounded tracker-publication adapter, while TPW remains outside EWF. Preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
 
 ## Guardrails
 

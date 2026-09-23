@@ -116,7 +116,7 @@ Write and consume deterministic continuation artefacts outside workflow, task, a
 
 ### `coordination validate` and `coordination plan`
 
-Validate worktree topology, path ownership, dependencies, inherited authority, and validation classes, then return non-executing argv plans. Neither operation allocates worktrees or grants external authority.
+Validate an explicit Git base, lane names and branches, sibling worktree targets, non-overlapping path ownership, and acyclic dependencies, then return non-executing argv plans. The agent must separately inspect inherited authority, validation classes, actual Git topology, and exact-tip integration evidence before allocation or cleanup. Neither operation allocates worktrees or grants external authority.
 
 ### `publication scan`
 
@@ -128,7 +128,7 @@ Computes the material Git delta from an explicit base, filters local/generated c
 
 ### `change explain`
 
-Records a bounded RCC-compatible causal explanation against the exact material-delta fingerprint. The local receipt is explanatory evidence, not canonical knowledge, validation proof, or publication authority.
+Records a bounded RCC-compatible causal explanation against the exact material-delta fingerprint. Source-code changes require a `--detail-file` with before/after, why, changed symbol paths, and evidence-labelled verification claims; a short summary alone is refused. The local receipt is explanatory evidence, not canonical knowledge, validation proof, or publication authority.
 
 ### `documentation apply`
 
@@ -140,7 +140,7 @@ Expose supported MCP activation and local Git pre-push enforcement. Recipe is re
 
 ### `legacy route`
 
-Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. Unknown and deliberately retired inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
+Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. TPU maps to the tracker-publication adapter; TPW and unknown inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
 
 ### `context find`
 
