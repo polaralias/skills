@@ -124,7 +124,7 @@ Scans tracked text and hygiene surfaces without returning matched values. It als
 
 ### `documentation assess`
 
-Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify update candidates; lexical or unmapped changes retain an agent-judgement obligation.
+Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify affected knowledge; unmatched changes retain an agent-judgement obligation.
 
 ### `change explain`
 
@@ -152,7 +152,7 @@ Refreshes the generated index and reports index freshness, changed and deleted f
 
 ### `context impact`
 
-Classifies each supplied changed path exactly once as explicitly bound, a lexical review candidate, or unmapped. Bound impacts report `fresh`, `stale`, or `unknown` from verification receipts; candidates never receive deterministic freshness status.
+Matches supplied changed paths against explicit manifest bindings and reports affected knowledge and unmatched paths separately. Verification receipts establish `fresh`, `stale`, or `unknown` only for bound knowledge; lexical similarity does not create bindings or freshness status.
 
 ### `context verify`
 

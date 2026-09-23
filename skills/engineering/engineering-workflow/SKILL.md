@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.6.0
-  updated: '2026-09-22'
+  version: 4.6.1
+  updated: '2026-09-23'
 ---
 
 # engineering-workflow
@@ -104,7 +104,7 @@ Use deterministic retrieval first. If its bounded lexical, structural, and relat
 
 Read [references/structural-context.md](./references/structural-context.md) before relying on structural traces or extending language coverage. Structural output is bounded navigation and impact evidence, not a decorative graph or a substitute for reading consequential source.
 
-Structural operations select package and source scopes automatically and widen progressively when the first shard is insufficient. Pass repeatable `--scope <relative-path>` overrides only when the user or verified repository evidence provides a better boundary; do not default to whole-repository analysis or impose an arbitrary file-count refusal.
+Structural operations query the repository graph by default. When the user or verified repository evidence supplies a narrower boundary, pass repeatable `--scope <relative-path>` overrides to trace, map, impact, or search; widen explicitly if that boundary is insufficient. Do not imply automatic shard selection or impose an arbitrary file-count refusal.
 
 When canonical OKF knowledge must be validated, indexed, or bound to implementation evidence, use:
 
@@ -155,7 +155,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
 9. At completion, call `close`. A blocked result is an honest outcome, not permission to discard or waive the remaining gates.
 10. Use `context find` before broad repository archaeology. Inspect returned source before relying on consequential details, and do not treat retrieval rank as correctness proof.
 11. Resolve a gate only through `gate resolve` with concise evidence from the owning truth surface. A receipt records why the obligation was discharged; it does not replace the underlying evidence.
-12. Treat `bound`, `candidate`, and `unmapped` knowledge impacts differently. Only explicit bindings plus current verification receipts can establish `fresh` or `stale`; lexical candidates require review and unmapped changes remain visible.
+12. Treat explicitly bound and unmapped knowledge impacts differently. Only explicit bindings plus current verification receipts can establish `fresh` or `stale`; unmatched changes require agent judgement and remain visible. Retrieval similarity never creates a binding.
 13. Run `context verify` only after the named canonical document has actually been reviewed against all resolved bound sources. Never create a freshness receipt merely to clear a gate.
 14. Use `knowledge check` for conformance and graph integrity, `knowledge build-indexes` for generated reading order, and `knowledge register` for explicit source ownership. Do not make agents infer bindings silently from lexical similarity.
 15. Treat graph-expanded retrieval as navigation evidence. A linked concept can be relevant without containing the query terms and can still be stale or incorrect.
@@ -173,5 +173,5 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
 - Do not make hooks the correctness boundary; hooks may invoke stable lifecycle commands and warm deterministic state.
 - Do not treat a commit, merge, tracker update, generated context refresh, or passing targeted test as proof that every closure gate is satisfied.
 - Do not create task ceremony for explanation, exploration, or a truly small completed correction.
-- Do not mark canonical knowledge fresh merely because lexical or structural retrieval found no candidate impact.
+- Do not mark canonical knowledge fresh merely because retrieval or structural search found no relevant result.
 - Keep repository-context implementation, schemas, prompts, tests, and dependencies independently selected and maintained within the RKE family.

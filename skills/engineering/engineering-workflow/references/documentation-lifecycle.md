@@ -26,7 +26,7 @@ The assessment filters local workflow state, local-only notes, generated knowled
 
 - `no-op`: no material paths remain;
 - `update`: every material path has an explicit canonical binding;
-- `decision-required`: candidate or unmapped changes require agent judgement.
+- `decision-required`: unmatched changes require agent judgement.
 
 Assessment is evidence for navigation, not permission to alter every suggested document. An agent must inspect the causal change and choose whether to update an existing concept, create a durable concept or decision, or verify that current canonical wording remains correct.
 
