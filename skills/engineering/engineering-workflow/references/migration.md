@@ -22,9 +22,10 @@
 | LHO | local-handoff | `handoff write` plus continuity contract | absorbed with deterministic standard/max artefacts and supersession |
 | LPK | local-pickup | `handoff inspect`, lifecycle resume, and continuity contract | absorbed with active selection and re-verification contract |
 | RPF | repo-publish-finaliser | publication extension plus `publication scan` | absorbed |
+| TPU | tracker-publisher | tracker-publication adapter; OKF Tasks by default for durable execution, non-OKF stable work packages supported | retained |
 | RST | repo-setup | separate bootstrap capability | retained separately |
 
-TPU and TPW are deliberately retired rather than routed. Tracker synchronization belongs to the independent OKF Tasks primitive. Scenario and test planning are part of the DDD design/delivery acceptance surface, so a second QA capability would create competing ownership.
+TPW is deliberately outside EWF: a standalone human QA-plan request belongs to a separate capability, not the repository design journey. TPU is retained for mapping and publication; OKF Tasks remains the independent execution ledger and provider adapter when durable state exists, while non-OKF stable packages can be mapped without manufacturing that ledger. A mapping or preview does not authorise a tracker write.
 
 ## Physical packages
 
@@ -34,4 +35,4 @@ New behaviour and fixes belong in the EWF journey, extension, adapter, or core t
 
 ## Parity evidence
 
-The executable route test covers every retained alias, checks full-name case-insensitive lookup, verifies one destination per input, and proves TPU/TPW rejection. Public-interface tests separately cover lifecycle, journeys, task modes, ordered session alignment, dissection, handoff writing and pickup, worktree coordination, publication scanning, closure gates, event-driven documentation, host installation, hooks, context retrieval, knowledge impact, and CLI/MCP parity.
+The executable route test covers every retained alias, checks full-name case-insensitive lookup, verifies one destination per input, and proves TPW rejection. Public-interface tests separately cover lifecycle, journeys, task modes, ordered session alignment, dissection, handoff writing and pickup, worktree coordination, publication scanning, closure gates, event-driven documentation, host installation, hooks, context retrieval, knowledge impact, and CLI/MCP parity.

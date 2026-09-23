@@ -39,10 +39,10 @@ Default structured output retains the exact fingerprint and full impact counts b
 Record the final material explanation through:
 
 ```text
-rke change explain --base <ref> --summary <causal-summary>
+rke change explain --base <ref> --summary <causal-summary> --detail-file <relative-json-path>
 ```
 
-The receipt fingerprints the current material delta. It stores a bounded explanation, changed paths, base revision, and timestamp under local workflow state. It is RCC-compatible explanatory evidence, not canonical knowledge or a substitute for tests.
+For a source-code delta, supply a repository-local JSON detail with non-empty `before`, `after`, and `why`; `causalPath` entries naming each relevant changed path and symbol; and `verification` entries that label claims as runtime, test, code-only, or unknown with evidence. Explain changed state effects and former/new failure paths in those fields rather than saying only which files changed. The command rejects a vacuous summary or missing code-level detail. A documentation-only delta may use the summary alone. The receipt fingerprints the exact material delta, retains bounded diff evidence, and distinguishes the agent's causal account from test/runtime proof. It is not canonical knowledge or a substitute for tests. The user-facing explanation should expand the receipt into the complete before/after code path and remaining uncertainties.
 
 ## Apply and quality gate
 
