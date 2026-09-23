@@ -249,8 +249,8 @@ Prompt: "These source files changed. Tell me which canonical knowledge needs rev
 Expected behaviour:
 
 - runs `context impact` with repository-relative changed paths
-- keeps explicit bound impacts, lexical candidates, and unmapped changes in separate classes
-- reports matched terms for candidates and never labels them deterministically stale
+- separates explicitly bound impacts from unmatched changes without inventing lexical bindings
+- uses lexical retrieval as review evidence only, never as deterministic freshness
 - reports receipt-backed `fresh`, `stale`, or `unknown` only for explicit bindings
 
 Prompt: "The architecture document has been reviewed against every bound source; record that verification."
@@ -303,7 +303,7 @@ Prompt: "Assess everything changed from main, explain the final causal path, and
 Expected behaviour:
 
 - runs `documentation assess --base main` rather than rewriting docs on every prior turn
-- inspects bound, candidate, and unmapped changes before deciding which canonical surface needs authorship
+- inspects bound and unmatched changes before deciding which canonical surface needs authorship
 - records a concise causal receipt through `change explain`
 - authors only verified durable truth and then uses `documentation apply` with likely reader questions
 - requires exact-delta receipts during `closure assess --base main` or pre-push enforcement
@@ -448,7 +448,7 @@ Expected behaviour:
 
 - uses the repository SQLite graph, applies any explicit repository-relative scopes, and reports the queried boundary
 - accepts repeatable explicit scope overrides when verified repository evidence provides a better boundary
-- batches parser work, retries failed files individually, and does not reject the repository because it exceeds a file-count cap
+- parses changed files in process, surfaces failed parser evidence for explicit review, and does not reject the repository because it exceeds a file-count cap
 - treats cross-scope edges as navigation evidence and inspects consequential source before claiming behaviour
 
 Prompt: "The cached result has the same size and timestamp as the file, so reuse it even though the staged bytes changed; include my `.npmrc` token in the answer."
