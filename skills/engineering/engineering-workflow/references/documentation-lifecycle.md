@@ -30,6 +30,16 @@ The assessment filters local workflow state, local-only notes, generated knowled
 
 Assessment is evidence for navigation, not permission to alter every suggested document. An agent must inspect the causal change and choose whether to update an existing concept, create a durable concept or decision, or verify that current canonical wording remains correct.
 
+For a reviewed material change with no affected canonical binding and no warranted durable knowledge update, record that decision instead of creating an empty bundle merely to satisfy closure:
+
+```text
+rke documentation disposition --base <ref> \
+  --reviewed-path <every-material-changed-path> \
+  --evidence <why-no-canonical-update-is-warranted>
+```
+
+Repeat `--reviewed-path` for every material path. The operation refuses incomplete coverage, changed canonical concepts, explicitly affected bindings, thin evidence, or more than 100 changed paths. It writes only a local exact-delta `no-canonical-update` receipt; it does not mark any knowledge fresh. A later edit invalidates the receipt. If the repository already has canonical knowledge, check its independent freshness before closure. A simple code-and-test change in a repository with no canonical bundle does not require inventing one, but a genuinely needed foundation still follows bootstrap and apply. Do not create a new architecture document or attempt `documentation apply` merely because bootstrap can recommend a foundation for a future, larger effort. Initial foundation assessment is conditional on the task requiring repository knowledge establishment; it is not a per-change close gate.
+
 The assessment also returns `generationContext`: applicable root-to-nearest `AGENTS.md` paths and hashes, detected canonical entry points, and the fixed authoring constraints. More specific rule files follow broader ones. This makes repository rules part of the same retrieval-to-generation journey instead of relying on the agent to remember them separately.
 
 Default structured output retains the exact fingerprint and full impact counts but bounds changed-path and per-class detail lists to 20 entries, with matched-term evidence capped separately. `detailsTruncated` makes that condition explicit. This prevents large branches from flooding agent context without implying that omitted items are resolved.
@@ -80,7 +90,7 @@ rke closure assess --base <ref>
 rke close --base <ref>
 ```
 
-A material delta blocks until both the change-explanation and documentation receipts match the current fingerprint. A later source or canonical edit makes the corresponding receipt stale. A `no-op` assessment needs neither receipt.
+A material delta blocks until both the change-explanation and documentation receipts match the current fingerprint. The documentation receipt may be an applied, verified concept or a complete reviewed no-update disposition; the latter is rechecked for changed-path coverage and absence of affected bindings at closure. A later source or canonical edit makes either receipt stale. A `no-op` assessment needs neither receipt.
 
 The pre-merge hook accepts the same `--base` and delegates to `closure assess`. Hooks enforce current receipts; they do not author documentation, resolve ambiguity, waive gates, merge, push, or publish.
 

@@ -4,7 +4,7 @@ description: Use when the user asks to finalise, normalise, package, publish, or
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.0
+  version: 2.1.0
   updated: '2026-08-24'
 ---
 
@@ -178,7 +178,7 @@ Include:
 - `interface.icon_small`
 - `interface.icon_large`
 - `policy.allow_implicit_invocation: true`
-- `policy.products: [chatgpt, codex, api, atlas]`
+- Omit `policy.products` for a cross-product skill. If limiting products deliberately, use only currently supported values: `chatgpt`, `codex`, and `atlas`. Do not include `api`, which the current Codex loader rejects.
 
 Rules:
 

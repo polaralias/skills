@@ -15,7 +15,7 @@ MAX_DESCRIPTION_LENGTH = 1024
 MIN_SHORT_DESCRIPTION_LENGTH = 20
 MAX_SHORT_DESCRIPTION_LENGTH = 120
 ALLOWED_FRONTMATTER_KEYS = {"name", "description", "license", "metadata"}
-REQUIRED_PRODUCTS = {"chatgpt", "codex", "api", "atlas"}
+SUPPORTED_PRODUCTS = {"chatgpt", "codex", "atlas"}
 ALLOWED_ICON_PATHS = {"assets/icon.svg", "./assets/icon.svg"}
 REQUIRED_PRECEDENCE_LINE = (
     "Where this skill specifies branding, structure, tone, or formatting, "
@@ -157,8 +157,8 @@ def validate_skill_directory(skill_dir: Path) -> list[str]:
                 if policy.get("allow_implicit_invocation") is not True:
                     errors.append("policy.allow_implicit_invocation must be true")
                 products = policy.get("products")
-                if not isinstance(products, list) or set(products) != REQUIRED_PRODUCTS:
-                    errors.append("policy.products must contain chatgpt, codex, api, and atlas")
+                if products is not None and (not isinstance(products, list) or not products or not set(products).issubset(SUPPORTED_PRODUCTS)):
+                    errors.append("policy.products must be omitted or contain only supported products: chatgpt, codex, atlas")
 
     icon_path = skill_dir / "assets" / "icon.svg"
     if not icon_path.exists():
