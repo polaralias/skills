@@ -2,17 +2,18 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-22T15:00:00+01:00
+timestamp: 2026-09-23T13:09:00+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-22T15:00:00+01:00
+reviewed_at: 2026-09-23T13:09:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE 0.10.0: 36 deterministic TypeScript tests and 24 packaged grammar fixtures passed"
+  - "RKE 0.10.0: 46 default and 13 adversarial TypeScript tests, plus 24 packaged grammar fixtures passed"
+  - "Skills catalogue: 23 isolated repository tests, 33 skill descriptions, 96 routing scenarios, and EWF mirror parity passed"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
   - "50,000-file mixed corpus: 770.99 ms Git-verified warm refresh, zero hashes/parses, 546.7 MB peak RSS, zero parser child processes"
   - "focused convergence evaluation: 2/2 packaged Codex cases passed with persisted phase and gate assertions"
@@ -35,7 +36,7 @@ Documentation-driven development is the governing principle: accepted behaviour 
 
 ## Public lifecycle
 
-The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`. `activate` is the single normal agent entrypoint: it creates missing state, validates active state, or opens a new cycle from closed state, then records the current Git HEAD and bounded dirty-path baseline. Understand, design, and close journeys selectively load the detailed judgement needed for their phase. Optional task, coordination, and publication capabilities register their own evidence gates. Scenario and test planning belong to design acceptance; tracker synchronization belongs to OKF Tasks.
+The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`. `activate` is the single normal agent entrypoint: it creates missing state, validates active state, or opens a new cycle from closed state, then records the current Git HEAD and bounded dirty-path baseline. Understand, design, and close journeys selectively load the detailed judgement needed for their phase. Optional task, coordination, and publication capabilities register their own evidence gates. Scenario planning belongs to design acceptance; standalone human QA-plan writing remains outside EWF. Tracker publication uses OKF Tasks for durable execution by default and can map stable non-OKF work packages without creating task records.
 
 Workflow state is compact restart information. It may point to stronger records but does not replace repository knowledge, OKF Tasks, Git evidence, runtime evidence, or a handoff.
 
@@ -71,7 +72,7 @@ Generated indexes, retrieval caches, and model answers remain derived surfaces. 
 
 For an inherited or explicitly requested repository-documentation journey, `documentation bootstrap` first classifies the foundation as `no-rke`, `partial-rke`, or `mature-rke`. It returns existing truth surfaces, gaps, minimum recommendations, preserve/review sets, evidence requirements, likely reader questions, and `fresh`/`stale`/`unverified` binding sets without authoring prose or automatically superseding anything. Bootstrap hashes current eligible bound files and compares them with verification receipts without writing a context index. Receipt presence alone cannot produce a mature no-op: stale or unverified knowledge is `partial-rke` and requires targeted repair. EWF traces the real runtime, authors the minimum human-readable truth, registers bindings, and then uses apply and context verification to prove the result.
 
-Documentation work is triggered by material Git events rather than every conversational turn. `documentation assess --base <ref>` classifies the current delta as no-op, explicitly bound update work, or a decision requiring agent judgement. It also discovers applicable root-to-nearest `AGENTS.md` rules and canonical entry points so repository instructions travel with the retrieval-to-generation journey. `change explain` records the RCC-compatible causal layer against the same fingerprint.
+Documentation work is triggered by material Git events rather than every conversational turn. `documentation assess --base <ref>` classifies the current delta as no-op, explicitly bound update work, or a decision requiring agent judgement. It also discovers applicable root-to-nearest `AGENTS.md` rules and canonical entry points so repository instructions travel with the retrieval-to-generation journey. `change explain` refuses a summary-only source delta: the agent supplies a code-level before/after, why, changed symbol paths, and evidence-labelled verification detail tied to the same fingerprint.
 
 After an agent authors the minimum durable change, `documentation apply` validates the OKF graph, regenerates marked navigation, requires likely reader questions to retrieve affected canonical knowledge, records binding verification, and writes a local exact-delta completion receipt. Its transaction holds both the documentation lock and the canonical manifest lock, so a failed rollback cannot erase an ordinary manifest writer's concurrent update. It never generates canonical prose from a diff by itself.
 
@@ -85,11 +86,11 @@ OKF Tasks owns durable execution truth: outcomes, acceptance, status, workstream
 
 Repository understanding and user-intent convergence are separate. The `understand` journey gathers and verifies repository evidence. Query-to-Knowledge is an explicit capability with a `shared-understanding` gate: it groups consequential questions, explains why each matters, recommends an answer with rationale, and repeats until no material implementation decision is being guessed. Durable decisions are promoted deliberately rather than turning every answer into documentation.
 
-Repository Change Comprehension remains the named causal close-path workflow. `change explain` records how the final delta changes entry points, calls, state, effects, removals, and tests; it does not merely list changed files.
+Repository Change Comprehension remains the named causal close-path workflow. `change explain` records a supplied code-level account and bounded diff evidence; it does not merely list changed files, but its receipt cannot prove the account semantically correct. The agent must give the user the fuller before/after explanation and label unverified runtime claims.
 
 Deep repository dissection is an understand-journey mode backed by `dissection assess`, which inventories likely entry points, runtime and verification candidates, task/knowledge surfaces, producer boundaries, and trust gaps without claiming those candidates have executed. The design journey absorbs feature decomposition and test-plan behaviour through feature contracts, invariants, scenario/verification matrices, acceptance, dependencies, risks, and traceable work packages. Session alignment returns an ordered two-lane close assessment: provisional execution reconciliation, durable knowledge promotion, final execution reconciliation, validation, and optional continuation.
 
-Rich continuity is distinct from compact workflow checkpoint state. `handoff write` creates one deterministic, secret-safe standard or max-depth artefact outside task and knowledge bundles. Local visibility strongly steers to ignored, untracked `local-docs/handoff/`; shared visibility deliberately uses commit-capable `.rke/handoffs/`. `handoff inspect` constrains or safely infers that visibility and returns the claims that must be re-verified. Parallel delivery uses `coordination validate/plan` for repository/container boundaries, path ownership, shared integration owners, dependencies, inherited authority, and non-executing worktree argv plans. Publication uses a redacted built-in scanner and an already-installed `gitleaks` binary when available.
+Rich continuity is distinct from compact workflow checkpoint state. `handoff write` creates one deterministic, secret-safe standard or max-depth artefact outside task and knowledge bundles, superseding older active records for the same stream. Local visibility requires ignored, untracked `local-docs/handoff/`; shared visibility requires a commit-capable destination and tracking before pickup. `handoff inspect` checks visibility, expiry, branch, and HEAD drift before returning claims for re-verification. Parallel delivery validates an explicit base, sibling container, unique branches, path ownership, and acyclic dependencies, returning non-executing worktree argv plans. Shared integration ownership, inherited authority, and exact-tip cleanup still need agent review. Publication uses a redacted built-in scanner and an already-installed `gitleaks` binary for working-tree and history scans.
 
 ## Shared CLI and MCP access
 
@@ -103,7 +104,7 @@ RKE's `package.json` is the sole runtime version source and is checked against t
 
 ## Legacy archive
 
-The absorbed engineering packages are preserved unchanged under the repository-root `archive/` directory. That directory is outside catalogue generation, installation, BM25 retrieval, and structural analysis. Retained legacy names remain compatibility inputs to EWF routing, not separately invoked or maintained implementations. TPU and TPW are deliberately retired: OKF Tasks owns tracker synchronization and the design journey owns scenario/test planning. `repo-setup` remains active because bootstrap precedes the material engineering lifecycle.
+The absorbed engineering packages are preserved unchanged under the repository-root `archive/` directory. That directory is outside catalogue generation, installation, BM25 retrieval, and structural analysis. Retained legacy names remain compatibility inputs to EWF routing, not separately invoked or maintained implementations. TPU routes to the bounded tracker-publication adapter: OKF Tasks owns durable execution and its Tracker Profiles, while stable non-OKF work packages can be previewed or published through a separately authorised connector. TPW remains outside EWF as standalone human QA-plan writing. `repo-setup` remains active because bootstrap precedes the material engineering lifecycle.
 
 ## Host integration
 
@@ -114,6 +115,8 @@ Codex integration uses `codex mcp add rke -- rke-mcp` once at user scope. The pr
 The packaged model-evaluation runner tests implicit activation, project-routed activation ordering, nearby non-activation, source-driven authority expansion, documentation bootstrap, and convergence decisions in isolated temporary repositories. It copies the exact packaged EWF source under evaluation, grades persisted phase and gates as well as activation order and authored evidence, and bounds timeout diagnostics.
 
 On the focused 2026-09-22 Codex run, both packaged convergence cases passed. The first observed falsifier persisted `design` with `acceptance-defined` reopened. Two incidental failures persisted `deliver`, left the gate closed, kept acceptance unchanged, and requested a valid hypothesis-relevant observation. This proves only those dated host/model cases; future model behaviour remains evaluation evidence rather than a deterministic runtime guarantee.
+
+The 2026-09-23 parity qualification used a temporary TypeScript RKE installation because the machine's legacy Python shim was broken. A nearby read-only control passed; the material activation case activated before edits and changed code/tests but timed out without a final response at four minutes, even after replacing its Python fixture with a Node-native one. It remains a failed agent-level parity case, not a release sign-off. The v0.10 PRs stay open while that non-convergence and the other legacy agent/delegated-provider contracts are resolved.
 
 ## Reading order
 
