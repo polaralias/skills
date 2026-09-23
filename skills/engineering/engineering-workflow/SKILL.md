@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.7.0
+  version: 4.8.0
   updated: '2026-09-23'
 ---
 
@@ -67,8 +67,10 @@ rke handoff write --visibility <local|shared> --topic <topic> --summary <state> 
 rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
 rke coordination plan --manifest <relative-json-path> --root <repository>
+rke coordination cleanup-check --lane <name> --branch <source-branch> --review-head <exact-reviewed-commit> --remote <remote-name> --destination-branch <name> --root <repository>
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
+rke documentation disposition --base <ref> --reviewed-path <changed-path> --evidence <causal-reason> --root <repository>
 rke change explain --base <ref> --summary <causal-summary> [--detail-file <relative-json-path>] --root <repository>
 rke documentation apply --base <ref> --bundle <knowledge-bundle> --knowledge <affected-concept> --evidence <review-summary> --reader-query <question> --root <repository>
 rke legacy route <legacy-name-or-alias> --root <repository>
@@ -116,7 +118,9 @@ rke knowledge register --knowledge <relative-concept> --source <pattern> --root 
 
 Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
-For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow the normal sequence `activate → retrieve/trace → change → documentation assess → explain → apply → close`: assess against an explicit Git base, record the causal explanation, author only the minimum necessary canonical change, then use `documentation apply` to validate the graph, rebuild navigation, test likely reader questions, and record exact-delta freshness receipts. This replaces a separately remembered RCC/RKE sequence during normal closure without turning hooks into documentation authors.
+For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → documentation disposition or apply → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. This replaces a separately remembered RCC/RKE sequence during normal closure without turning hooks into documentation authors.
+
+For a bounded code-and-test correction with no existing canonical knowledge, no durable task lane, and no exploratory design decision, take the proportional path: activate; inspect the named files; edit and run the focused test; enter close and assess the explicit Git delta; write the required code-level explanation detail; record `documentation disposition` for exactly the assessed material paths; then assess and close. Do not bootstrap a knowledge bundle, create architecture prose, add task records, run broad retrieval, or perform unrelated cleanup just to complete this path. If assessment finds an affected binding or genuinely durable new truth, switch to the ordinary knowledge path instead. A blocked close is reported honestly, but it is not a reason to expand the requested change without evidence.
 
 For MCP clients, start the optional machine-wide stdio adapter once:
 

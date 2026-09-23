@@ -118,6 +118,10 @@ Write and consume deterministic continuation artefacts outside workflow, task, a
 
 Validate an explicit Git base, lane names and branches, sibling worktree targets, non-overlapping path ownership, and acyclic dependencies, then return non-executing argv plans. The agent must separately inspect inherited authority, validation classes, actual Git topology, and exact-tip integration evidence before allocation or cleanup. Neither operation allocates worktrees or grants external authority.
 
+### `coordination cleanup-check`
+
+Rechecks one existing lane before any cleanup: owned sibling worktree, clean state, exact current tip equal to the reviewed commit, observed remote destination containing that tip, and absent remote source branch. It is read-only and fails closed on stale review heads, unavailable remote evidence or un-fetched destination commits. It does not remove worktrees or branches or infer integration from PR names.
+
 ### `publication scan`
 
 Scans tracked text and hygiene surfaces without returning matched values. It also uses an already-installed `gitleaks` binary for history-aware detection, but never installs tools implicitly.
@@ -133,6 +137,10 @@ Records a bounded RCC-compatible causal explanation against the exact material-d
 ### `documentation apply`
 
 Validates already-authored canonical changes, requires affected-concept coverage, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
+
+### `documentation disposition`
+
+Records a reviewed `no-canonical-update` decision for a material delta with no affected binding. It requires every material changed path and substantive causal evidence, refuses changed canonical concepts or incomplete coverage, and writes only a local exact-delta receipt. Closure rechecks its coverage and affected-binding status; this route never marks knowledge fresh or creates a bundle.
 
 ### `host recipe` and `host install`
 

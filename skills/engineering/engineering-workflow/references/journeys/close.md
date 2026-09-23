@@ -21,7 +21,7 @@ Produce two proportionate layers when useful: compact commit context and a user-
 2. Record the bounded causal explanation with `change explain --base <ref>` after inspecting the final material delta.
 3. Discover task and knowledge lanes independently; an absent or unchanged lane is an explicit no-op, not a silently skipped responsibility.
 4. Reconcile task state provisionally when durable tracking is active.
-5. Promote verified durable conclusions where required, then run `documentation apply` with the affected concepts and likely reader questions.
+5. Promote verified durable conclusions where required, then run `documentation apply` with the affected concepts and likely reader questions. If no canonical update is warranted after reviewing every changed path, record `documentation disposition` instead; do not bootstrap an empty bundle for closure.
 6. Reconcile task acceptance, workstreams, evidence, knowledge links, tracker state, and running effort finally.
 7. Validate the integrated tree and any capability-specific surfaces.
 8. Run `closure assess --base <ref>`; resolve only gates backed by owning evidence; then run `close --base <ref>`.

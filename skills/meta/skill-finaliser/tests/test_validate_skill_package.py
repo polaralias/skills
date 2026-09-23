@@ -46,11 +46,6 @@ Bring a loose, imported, or half-finished skill up to a clean package standard.
   default_prompt: "Use this skill to inspect a draft or imported skill, normalise its packaging, align its metadata and bundled resources, add proportionate tests, and validate the result before treating it as finished."
 policy:
   allow_implicit_invocation: true
-  products:
-  - chatgpt
-  - codex
-  - api
-  - atlas
 """,
         encoding="utf-8",
     )
@@ -81,6 +76,14 @@ def test_validator_accepts_valid_package(tmp_path: Path) -> None:
     assert "Skill package is valid!" in result.stdout
 
 
+def test_validator_accepts_supported_product_scope(tmp_path: Path) -> None:
+    skill_dir = write_valid_package(tmp_path / "skill-finaliser")
+    metadata = skill_dir / "agents" / "openai.yaml"
+    metadata.write_text(metadata.read_text(encoding="utf-8") + "  products:\n  - codex\n", encoding="utf-8")
+    result = run_validator(skill_dir)
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
 def test_validator_rejects_bad_product_set(tmp_path: Path) -> None:
     skill_dir = write_valid_package(tmp_path / "skill-finaliser")
     (skill_dir / "agents" / "openai.yaml").write_text(
@@ -93,15 +96,13 @@ def test_validator_rejects_bad_product_set(tmp_path: Path) -> None:
 policy:
   allow_implicit_invocation: true
   products:
-  - chatgpt
-  - codex
   - api
 """,
         encoding="utf-8",
     )
     result = run_validator(skill_dir)
     assert result.returncode != 0
-    assert "policy.products must contain chatgpt, codex, api, and atlas" in result.stdout
+    assert "policy.products must be omitted or contain only supported products" in result.stdout
 
 
 def test_validator_rejects_missing_precedence_line(tmp_path: Path) -> None:
