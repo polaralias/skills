@@ -68,6 +68,7 @@ rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
 rke coordination plan --manifest <relative-json-path> --root <repository>
 rke coordination cleanup-check --lane <name> --branch <source-branch> --review-head <exact-reviewed-commit> --remote <remote-name> --destination-branch <name> --root <repository>
+rke tracker preview --packages <accepted-work-packages.yml> --tracker <name> --scope <destination> --root <repository>
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
 rke documentation disposition --base <ref> --reviewed-path <changed-path> --evidence <causal-reason> --root <repository>
