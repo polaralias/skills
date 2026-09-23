@@ -126,6 +126,10 @@ Rechecks one existing lane before any cleanup: owned sibling worktree, clean sta
 
 Scans tracked text and hygiene surfaces without returning matched values. It also uses an already-installed `gitleaks` binary for history-aware detection, but never installs tools implicitly.
 
+### `tracker preview`
+
+Renders accepted non-OKF work packages from a repository-local YAML or JSON file into tracker-neutral, hierarchy- and acceptance-preserving rows. It refuses unresolved source relationships and records `publication: not performed` and `tasksCreated: false`; it never calls a provider or creates a task ledger. Durable execution and live tracker synchronisation still default to the independent OKF Tasks CLI and Tracker Profiles.
+
 ### `documentation assess`
 
 Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify affected knowledge; unmatched changes retain an agent-judgement obligation.
