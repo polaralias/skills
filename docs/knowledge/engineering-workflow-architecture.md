@@ -2,18 +2,18 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-23T13:09:00+01:00
+timestamp: 2026-09-24T09:07:00+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-23T13:09:00+01:00
+reviewed_at: 2026-09-24T09:07:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE 0.10.0: 46 default and 13 adversarial TypeScript tests, plus 24 packaged grammar fixtures passed"
-  - "Skills catalogue: 23 isolated repository tests, 33 skill descriptions, 96 routing scenarios, and EWF mirror parity passed"
+  - "RKE 0.10.0: 49 default and 28 adversarial TypeScript tests, plus 24 packaged grammar fixtures passed on 2026-09-24"
+  - "Skills catalogue: skill package, 33 skill descriptions, 96 routing scenarios, and EWF mirror parity passed on 2026-09-24"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
   - "50,000-file mixed corpus: 770.99 ms Git-verified warm refresh, zero hashes/parses, 546.7 MB peak RSS, zero parser child processes"
   - "focused convergence evaluation: 2/2 packaged Codex cases passed with persisted phase and gate assertions"
@@ -76,7 +76,7 @@ Documentation work is triggered by material Git events rather than every convers
 
 After an agent authors the minimum durable change, `documentation apply` validates the OKF graph, regenerates marked navigation, requires likely reader questions to retrieve affected canonical knowledge, records binding verification, and writes a local exact-delta completion receipt. Its transaction holds both the documentation lock and the canonical manifest lock, so a failed rollback cannot erase an ordinary manifest writer's concurrent update. It never generates canonical prose from a diff by itself.
 
-`closure assess --base <ref>`, `close --base <ref>`, and the pre-push hook recompute the fingerprint. Material work blocks when either the causal explanation or documentation receipt is missing or stale. A closed workflow remains eligible for read-only reassessment, so completing the lifecycle does not make the subsequent pre-push gate fail. A no-op assessment avoids documentation ceremony.
+`closure assess --base <ref>`, `close --base <ref>`, and the pre-push hook recompute the fingerprint. Material work blocks when either the causal explanation or documentation receipt is missing or stale. For a bounded code-and-test correction with no task lane, canonical knowledge, or open gate, `closure complete-small` reuses the same assessment, causal explanation, exact-path no-update disposition, and close validators in one fail-closed operation. It refuses unreviewed paths and ineligible deltas; it does not waive receipts. A closed workflow remains eligible for read-only reassessment, so completing the lifecycle does not make the subsequent pre-push gate fail. A no-op assessment avoids documentation ceremony.
 
 ## OKF Tasks boundary
 
@@ -100,7 +100,7 @@ The `rke` CLI and `rke-mcp` stdio adapter dispatch the complete same operation r
 
 ## Distribution and release integrity
 
-RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, tests, audits the no-Python invariant, validates the 41-operation/24-grammar release contract, packs the package, and exercises CLI retrieval, MCP discovery, and evaluator resources from a clean installation. The tag workflow attests and publishes the npm package with provenance before promoting the GitHub release.
+RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, tests, audits the no-Python invariant, validates the 46-operation/24-grammar release contract, packs the package, and exercises CLI retrieval, MCP discovery, and evaluator resources from a clean installation. The tag workflow attests and publishes the npm package with provenance before promoting the GitHub release.
 
 ## Legacy archive
 
@@ -116,7 +116,7 @@ The packaged model-evaluation runner tests implicit activation, project-routed a
 
 On the focused 2026-09-22 Codex run, both packaged convergence cases passed. The first observed falsifier persisted `design` with `acceptance-defined` reopened. Two incidental failures persisted `deliver`, left the gate closed, kept acceptance unchanged, and requested a valid hypothesis-relevant observation. This proves only those dated host/model cases; future model behaviour remains evaluation evidence rather than a deterministic runtime guarantee.
 
-The 2026-09-23 parity qualification used a temporary TypeScript RKE installation because the machine's legacy Python shim was broken. A nearby read-only control passed; the material activation case activated before edits and changed code/tests but timed out without a final response at four minutes, even after replacing its Python fixture with a Node-native one. It remains a failed agent-level parity case, not a release sign-off. The v0.10 PRs stay open while that non-convergence and the other legacy agent/delegated-provider contracts are resolved.
+The 2026-09-24 parity qualification used a temporary TypeScript RKE installation because the machine's legacy Python shim was broken. A nearby read-only control passed. Earlier material activation attempts timed out after edits and test; a redacted command timeline showed prolonged closure work. The fail-closed small-change route then passed the same 180-second material agent case: activation before edits, focused test, exact-delta receipts, persisted closure and final response. The DDD unresolved-public-semantics agent case kept design and acceptance gates open without product edits; a standalone QA-plan request correctly stayed outside EWF. A scoped loopback provider validated OKF Tasks create/sync/readback and a conflict refusal, but no live tracker write was authorised. The v0.10 PRs stay open while hostile-restart and other legacy semantic cases are qualified; these dated runs are not blanket parity sign-off.
 
 ## Reading order
 
