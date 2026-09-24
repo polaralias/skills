@@ -18,6 +18,8 @@ Enter with enough verified truth to distinguish fact, assumption, unresolved dec
 8. Preserve traceability from accepted end-state truth through feature, invariant, scenario, package, acceptance, and test or implementation target. Report gaps instead of manufacturing links.
 9. Treat a stacked-review candidate as linear only when each lower layer is independently safe, useful, and testable. Otherwise prefer ordinary dependency relationships.
 
+For a public-behaviour decision, show the feature-to-scenario-to-acceptance-to-work-package chain in a compact table or equivalent trace. Include the permission and failure case that could change the API or user experience. If those semantics are unresolved, keep `acceptance-defined` open: do not begin delivery or publish a tracker package that presents the tentative choice as accepted.
+
 ## Convergence contract
 
 Add an experiment contract when the design depends on an uncertain technical or behavioural hypothesis, including LLM behaviour, retrieval strategy, orchestration, unfamiliar integrations, performance work, or migrations. Do not require it for a routine bounded correction.

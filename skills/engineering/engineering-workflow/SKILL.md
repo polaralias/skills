@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.8.0
-  updated: '2026-09-23'
+  version: 4.9.0
+  updated: '2026-09-24'
 ---
 
 # engineering-workflow
@@ -68,6 +68,7 @@ rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
 rke coordination plan --manifest <relative-json-path> --root <repository>
 rke coordination cleanup-check --lane <name> --branch <source-branch> --review-head <exact-reviewed-commit> --remote <remote-name> --destination-branch <name> --root <repository>
+rke coordination cleanup --lane <name> --branch <source-branch> --review-head <exact-reviewed-commit> --remote <remote-name> --destination-branch <name> --root <repository>
 rke tracker preview --packages <accepted-work-packages.yml> --tracker <name> --scope <destination> --root <repository>
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
@@ -119,7 +120,7 @@ rke knowledge register --knowledge <relative-concept> --source <pattern> --root 
 
 Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
-For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → documentation disposition or apply → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. This replaces a separately remembered RCC/RKE sequence during normal closure without turning hooks into documentation authors.
+For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → provisional task reconciliation → documentation disposition or apply → final task reconciliation → independent lane validation → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. The explanation receipt is a bounded record, not the full Repository Change Comprehension output: give the user the code-level before/after path and a distinct compact commit-context layer. This replaces separately remembered RCC/RKE/RSA sequences during normal closure without turning hooks into documentation authors.
 
 For a bounded code-and-test correction with no existing canonical knowledge, no durable task lane, and no exploratory design decision, take the proportional path: activate; inspect the named files; edit and run the focused test; enter close and assess the explicit Git delta; write the required code-level explanation detail; record `documentation disposition` for exactly the assessed material paths; then assess and close. Do not bootstrap a knowledge bundle, create architecture prose, add task records, run broad retrieval, or perform unrelated cleanup just to complete this path. If assessment finds an affected binding or genuinely durable new truth, switch to the ordinary knowledge path instead. A blocked close is reported honestly, but it is not a reason to expand the requested change without evidence.
 

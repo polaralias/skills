@@ -54,6 +54,8 @@ rke change explain --base <ref> --summary <causal-summary> --detail-file <relati
 
 For a source-code delta, supply a repository-local JSON detail with non-empty `before`, `after`, and `why`; `causalPath` entries naming each relevant changed path and symbol; and `verification` entries that label claims as runtime, test, code-only, or unknown with evidence. Explain changed state effects and former/new failure paths in those fields rather than saying only which files changed. The command rejects a vacuous summary or missing code-level detail. A documentation-only delta may use the summary alone. The receipt fingerprints the exact material delta, retains bounded diff evidence, and distinguishes the agent's causal account from test/runtime proof. It is not canonical knowledge or a substitute for tests. The user-facing explanation should expand the receipt into the complete before/after code path and remaining uncertainties.
 
+For Repository Change Comprehension parity, the receipt is only one layer. Produce a separate commit subject candidate plus one to three verified causal facts, and a fuller user explanation that names the entry point, callers, removed or bypassed branch, state effect, failure behaviour and evidence class. Do not claim runtime verification from inspected code or an unexecuted test. On a later question, refresh the relevant evidence and reopen only a real implementation, decision, documentation or task gap; a clearer explanation alone does not invent new work.
+
 ## Apply and quality gate
 
 After authoring the minimum necessary canonical changes, run:
