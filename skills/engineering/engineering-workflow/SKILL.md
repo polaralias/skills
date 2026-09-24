@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.9.0
+  version: 4.10.1
   updated: '2026-09-24'
 ---
 
@@ -73,6 +73,7 @@ rke tracker preview --packages <accepted-work-packages.yml> --tracker <name> --s
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
 rke documentation disposition --base <ref> --reviewed-path <changed-path> --evidence <causal-reason> --root <repository>
+rke closure complete-small --base <ref> --summary <causal-summary> --detail-file <relative-json-path> --reviewed-path <changed-path> --evidence <no-update-reason> --root <repository>
 rke change explain --base <ref> --summary <causal-summary> [--detail-file <relative-json-path>] --root <repository>
 rke documentation apply --base <ref> --bundle <knowledge-bundle> --knowledge <affected-concept> --evidence <review-summary> --reader-query <question> --root <repository>
 rke legacy route <legacy-name-or-alias> --root <repository>
@@ -122,7 +123,7 @@ Read [references/knowledge-contract.md](./references/knowledge-contract.md) befo
 
 For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → provisional task reconciliation → documentation disposition or apply → final task reconciliation → independent lane validation → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. The explanation receipt is a bounded record, not the full Repository Change Comprehension output: give the user the code-level before/after path and a distinct compact commit-context layer. This replaces separately remembered RCC/RKE/RSA sequences during normal closure without turning hooks into documentation authors.
 
-For a bounded code-and-test correction with no existing canonical knowledge, no durable task lane, and no exploratory design decision, take the proportional path: activate; inspect the named files; edit and run the focused test; enter close and assess the explicit Git delta; write the required code-level explanation detail; record `documentation disposition` for exactly the assessed material paths; then assess and close. Do not bootstrap a knowledge bundle, create architecture prose, add task records, run broad retrieval, or perform unrelated cleanup just to complete this path. If assessment finds an affected binding or genuinely durable new truth, switch to the ordinary knowledge path instead. A blocked close is reported honestly, but it is not a reason to expand the requested change without evidence.
+For a bounded code-and-test correction with no existing canonical knowledge, no durable task lane, and no exploratory design decision, take the proportional path: activate; inspect the named files; edit and run the focused test; write the required code-level explanation detail; then use `closure complete-small` with the explicit Git base, every reviewed material path, and a causal no-update reason. This operation assesses the delta and reuses the normal explanation, disposition, and close validators; it refuses open gates, task lanes, canonical knowledge, unreviewed paths, and broader deltas. Do not pre-run the full closure sequence or bootstrap a knowledge bundle, create architecture prose, add task records, run broad retrieval, or perform unrelated cleanup just to complete this path. When it reports `small-change-closed`, give the final code-level explanation immediately; an extra status or Git check after closure adds no proof. If the operation refuses because a binding or durable obligation exists, switch to the ordinary route; do not weaken the refusal. A blocked close is reported honestly, but it is not a reason to expand the requested change without evidence.
 
 For MCP clients, start the optional machine-wide stdio adapter once:
 
