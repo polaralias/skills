@@ -18,7 +18,7 @@ Stop broad discovery once the repository is legible enough to name the next boun
 6. Answer repository-resolvable questions from evidence. When user judgement is irreducible, ask one dense, decision-coherent batch using concrete scenarios and contradictions. After repeated non-progress, switch back to bounded inspection.
 7. Run `context impact` when changed paths may affect canonical knowledge. Distinguish explicit bindings from unmatched changes; use retrieval only as review evidence, never as an inferred binding.
 8. Classify mismatches as documentation drift, packaging/runtime drift, behavioural defect, missing test, architecture debt, support-boundary mismatch, or unresolved product judgement.
-9. In deep dissection, exercise the selected public runtime path where safe and record success path, error path, state location, public boundary, and whether source, package, wrapper, container, or deployed artefact actually ran.
+9. In deep dissection, exercise the selected public runtime path where safe and record success path, error path, state location, public boundary, and whether source, package, wrapper, container, or deployed artefact actually ran. Where source and packaged launchers disagree, exercise both independently with the same representative request; identify the exact executable, arguments, working directory, version, artefact, and observed result. An entrypoint named in a manifest is only declared support. An importable module or passing source test does not prove that the installed or packaged command works.
 10. Promote only verified durable conclusions into the lightest correct canonical surface. When the repository has no trustworthy foundation, establish the minimum useful reading order, glossary/decisions/operating surface, machine-readable support or trust artefact, and repair plan. Generated answers, derived summaries, and producer-owned records do not become canonical automatically.
 
 ## Evidence rules
@@ -33,7 +33,7 @@ Stop broad discovery once the repository is legible enough to name the next boun
 
 ## Deep-dissection output contract
 
-Return a codebase map, runtime validation record, declared-versus-verified trust table, mismatch classification, documentation spine disposition, task/knowledge inventory, one machine-readable trust artefact when it prevents rediscovery, repair or refactor plan, and the next bounded journey. Label unexecuted tests and conventional entry points as candidates rather than proof.
+Return a codebase map, runtime validation record, declared-versus-verified trust table, mismatch classification, documentation spine disposition, task/knowledge inventory, one machine-readable trust artefact when it prevents rediscovery, repair or refactor plan, and the next bounded journey. For each material support claim, cite the selected entrypoint and the observed public invocation or label it `declared`, `code-supported`, `unverified`, or `broken`. Preserve conflicting source and packaged observations rather than collapsing them into one verdict. Label unexecuted tests and conventional entry points as candidates rather than proof.
 
 ## Gates
 

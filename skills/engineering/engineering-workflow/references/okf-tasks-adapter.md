@@ -30,3 +30,5 @@ The optional `--cli` override is for a caller-selected trusted local executable 
 Configuring or initially activating a durable mode activates `task-lifecycle` and registers `task-reconciliation`. Create and mutate task records with the authoritative OKF Tasks CLI under its own contract. At closure, validation alone is necessary but not sufficient: acceptance, workstreams, evidence, knowledge obligations, tracker state, and running effort must be reconciled as applicable before the gate can be resolved.
 
 Task execution truth remains distinct from canonical product and architecture knowledge. Relationships connect the surfaces; neither is copied into workflow state.
+
+When a durable task lane exists, run the authoritative strict validator after the final task pass even if no workflow task gate was registered. A task whose relationships are invalid, whose time is still running, or whose CLI version is unsupported blocks closure. Repair records only through OKF Tasks; never rewrite YAML from RKE to make validation pass. The final pass follows knowledge promotion so task-to-knowledge links and acceptance are checked against the promoted truth.

@@ -32,6 +32,8 @@ Generated indexes are navigation, not canonical product truth. They must not be 
 
 Registration states what implementation evidence must be reviewed when the canonical concept is checked. It does not claim that the document is current. Use `context verify` only after an actual review against every resolved bound source. The receipt includes the concept's own hash so a later documentation edit also makes freshness stale.
 
+When generated notes, an old concept and current source disagree, preserve the retained decision while investigating; the generated note is non-authoritative. Review the changed bound source and, for a behavioural claim, the actual public runtime path before rewriting or verifying the concept. Promote only the reviewed durable conclusion, explicitly classify unresolved contradictions, and disposition superseded source material so two current answers do not remain. `knowledge check`, generated indexes and a high retrieval rank establish neither semantic truth nor runtime support.
+
 ## Relationship-aware retrieval
 
 The disposable repository-context index records relative Markdown relationships for typed OKF concepts. `context find` ranks direct lexical matches with BM25, then may add directly connected concepts as lower-scored relationship evidence. Expanded results are labelled `knowledge-relationship` and name the source concept through `linked-from:<path>`.

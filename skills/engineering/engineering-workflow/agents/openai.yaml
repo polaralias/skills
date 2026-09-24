@@ -1,7 +1,7 @@
 interface:
   display_name: "Engineering Workflow"
   short_description: "Coordinate material repository engineering through one lifecycle"
-  default_prompt: "Use $engineering-workflow for this material repository task; activate the installed RKE runtime before inspection or edits, assess a minimum documentation foundation for inherited repositories, use shared context and documentation operations when relevant, and keep checkpoint and closure evidence explicit."
+  default_prompt: "Use $engineering-workflow for this material repository task; activate the installed RKE runtime before inspection or edits, verify source versus packaged behaviour when relevant, preserve accepted design and convergence gates, then close with code-level explanation and ordered task/knowledge reconciliation."
   icon_small: "assets/icon.svg"
   icon_large: "assets/icon.svg"
 

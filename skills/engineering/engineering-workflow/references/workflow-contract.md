@@ -114,6 +114,8 @@ Returns a read-only documentation-foundation assessment for an inherited or expl
 
 Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Local visibility is the default and requires ignored, untracked storage; shared visibility uses commit-capable `.rke/handoffs/` storage for deliberate Git collaboration. Writing rejects secret-like content and manages one active same-stream handoff. Inspection can constrain or safely infer visibility, rejects ambiguous placement, and returns the claims that require current verification.
 
+Max handoff writing accepts repeatable verification, change, risk and canonical-reference details in addition to the compact summary. It normalises each supplied value to one line so a source-provided heading cannot forge a new next-action section. A missing canonical reference makes inspection stale and withholds the proposed next action.
+
 ### `coordination validate` and `coordination plan`
 
 Validate an explicit Git base, lane names and branches, sibling worktree targets, non-overlapping path ownership, and acyclic dependencies, then return non-executing argv plans. The agent must separately inspect inherited authority, validation classes, actual Git topology, and exact-tip integration evidence before allocation or cleanup. Neither operation allocates worktrees or grants external authority.
@@ -121,6 +123,10 @@ Validate an explicit Git base, lane names and branches, sibling worktree targets
 ### `coordination cleanup-check`
 
 Rechecks one existing lane before any cleanup: owned sibling worktree, clean state, exact current tip equal to the reviewed commit, observed remote destination containing that tip, and absent remote source branch. It is read-only and fails closed on stale review heads, unavailable remote evidence or un-fetched destination commits. It does not remove worktrees or branches or infer integration from PR names.
+
+### `coordination cleanup`
+
+A separate, mutating operation for an expressly authorised exact lane and branch. It repeats the cleanup-check immediately before mutation, repairs only the selected Git worktree link if needed, then asks Git to remove the clean owned worktree and delete its local branch without force. It does not delete the remote branch or infer PR state. A partial result reports which local mutation succeeded; never treat eligibility as authorisation to call this operation.
 
 ### `publication scan`
 
