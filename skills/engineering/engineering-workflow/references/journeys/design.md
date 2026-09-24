@@ -18,9 +18,36 @@ Enter with enough verified truth to distinguish fact, assumption, unresolved dec
 8. Preserve traceability from accepted end-state truth through feature, invariant, scenario, package, acceptance, and test or implementation target. Report gaps instead of manufacturing links.
 9. Treat a stacked-review candidate as linear only when each lower layer is independently safe, useful, and testable. Otherwise prefer ordinary dependency relationships.
 
+For a public-behaviour decision, show the feature-to-scenario-to-acceptance-to-work-package chain in a compact table or equivalent trace. Include the permission and failure case that could change the API or user experience. If those semantics are unresolved, keep `acceptance-defined` open: do not begin delivery or publish a tracker package that presents the tentative choice as accepted.
+
+## Convergence contract
+
+Add an experiment contract when the design depends on an uncertain technical or behavioural hypothesis, including LLM behaviour, retrieval strategy, orchestration, unfamiliar integrations, performance work, or migrations. Do not require it for a routine bounded correction.
+
+Record:
+
+- the problem being explained and the current hypothesis
+- evidence supporting the hypothesis
+- the governing assumption being tested
+- the expected observable result
+- the observation that would falsify the hypothesis
+- the acceptance condition and the authority or evidence that established it
+- the maximum corrective attempts before reset, defaulting to two individually inconclusive assumption-relevant failures
+- the reset or kill condition
+
+Observing the predefined falsifier immediately falsifies the hypothesis. Stop delivery and return through `rke journey enter design` after that first decisive observation; do not spend the remaining corrective-attempt allowance trying the same hypothesis again.
+
+Use the corrective-attempt limit only for repeated acceptance failures that are relevant to the same governing assumption but individually inconclusive. Count those failures against the same assumption and acceptance condition, not every failed build. A typo, broken fixture, or unrelated integration fault is an implementation defect and does not consume the convergence limit.
+
+When the limit is reached, stop delivery before repairing the next symptom. Capture what each attempt taught, return through `rke journey enter design`, and explicitly choose one outcome: reaffirm with new evidence, simplify or delete, replace, or abandon. Do not interpret design reconsideration as permission to add machinery by default.
+
+Design re-entry is not permission to move the goalposts. Refine acceptance only when new authoritative evidence changes the required behaviour; never weaken acceptance to accommodate the current implementation. Record the new evidence, the authority it came from, why acceptance changed, and which earlier conclusions must be reconsidered. Otherwise preserve the existing acceptance condition while changing or abandoning the design.
+
+Keep the learning in the task, handoff, checkpoint, or canonical knowledge surface justified by its durability; `change explain` remains bounded to the Git delta. If work may cross compaction or a session boundary, continuity must retain the minimum active convergence state defined in the [Continuity Contract](../continuity.md).
+
 ## Output contract
 
-Produce only the artefacts justified by scope: epic-to-feature decomposition, bounded feature contracts, invariants and non-goals, scenario/verification matrix, observable acceptance, proportionate technical plan, dependency and risk notes, implementation-ready work packages, open questions, and a traceability summary. Stable packages may be handed to OKF Tasks; tracker formatting and synchronization remain owned there.
+Produce only the artefacts justified by scope: epic-to-feature decomposition, bounded feature contracts, invariants and non-goals, scenario/verification matrix, observable acceptance, proportionate technical plan, dependency and risk notes, implementation-ready work packages, open questions, a traceability summary, and a convergence contract only for genuinely exploratory work. Stable packages may be handed to OKF Tasks; tracker formatting and synchronization remain owned there.
 
 ## Decision boundary
 

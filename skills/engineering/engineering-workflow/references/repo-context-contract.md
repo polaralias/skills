@@ -4,7 +4,7 @@
 
 The repository-context core reduces repeated exploration by returning compact, exact repository evidence through a deterministic local interface. Its contracts, implementation, schemas, prompts, tests, and dependencies are independently maintained within the RKE family.
 
-Field-aware BM25F is the measurable lexical baseline. It independently weights paths, filenames, complete symbols, heading ancestry, and bodies instead of approximating fields through token repetition. Canonical knowledge and foundational or entry-point navigation roles receive bounded, explicitly labelled boosts after lexical scoring; these labels improve reader routing but do not prove truth or freshness. One-hop parser-backed call relationships and directly linked typed OKF concepts may add lower-scored, explicitly labelled evidence. Further expansion must demonstrate improvement against the checked-in corpus rather than replacing the baseline by assumption.
+SQLite FTS5 with field-weighted BM25 is the measurable lexical baseline. It independently weights paths, filenames, complete symbols, heading ancestry, and bodies. Structural operations query normalized symbol, import, and edge rows in the same database. Further expansion must demonstrate improvement against the checked-in corpus rather than replacing the baseline by assumption.
 
 ## Public operations
 
@@ -21,17 +21,14 @@ Results include:
 - repository-relative path and exact line span;
 - symbol or Markdown heading when available;
 - code or documentation kind;
-- score and debuggable match reasons;
+- the native FTS rank used for deterministic ordering;
 - bounded source snippet;
 - index revision and refresh counts.
 - inaccessible Git-visible paths skipped during bounded scanning.
 
-The persisted index contains field lengths, document frequencies, and per-term postings so ordinary queries do not rebuild corpus statistics. Exact identifier and heading matches receive labelled bounded boosts. Result selection first favours distinct files, then fills remaining capacity with additional passages, reducing repeated same-file chunks. Snippets are centred on a matched term when the stored passage exceeds the response bound.
+The persisted FTS table owns corpus statistics and postings, so ordinary queries do not reconstruct an in-memory JavaScript search index. Snippets are produced by SQLite around matching terms. Tree-sitter runs in the Node process with grammars loaded once; a parse failure is recorded against the affected file and does not discard valid records for unrelated files. Structural traces are navigation evidence, not proof of runtime reachability.
 
-Direct lexical results use `term-match`. A connected typed concept introduced through the OKF relationship graph uses `knowledge-relationship` plus `linked-from:<path>` and must not be interpreted as containing the query terms.
-Parser-backed neighbours use `structural-neighbour` plus `structurally-linked-from:<path>::<symbol>`. Structural fusion is one-hop, bounded, and attempted only when code leads the results or an exact identifier is present. Native parsing is isolated in workers; one crashing grammar falls back or produces explicit partial-fusion warnings rather than terminating retrieval. Structural fusion is navigation evidence, not proof of runtime reachability.
-
-Refresh is fingerprint-incremental. Demonstrably clean tracked files may reuse Git object identity and prior chunks only after one batched, filter-aware Git content check proves each eligible worktree blob still matches the index. Dirty, staged, untracked, uncertain and mismatched files are read and content-hashed by the indexer; modification time and size alone are never accepted as identity. The eligible-path set prevents redundant work over excluded trees and avoids repeated file and symlink checks after bounded enumeration. Deleted files are removed. Results expose `hashedFiles` and `reusedFiles` so callers can distinguish a content refresh from a no-op check.
+Refresh is content-incremental. Every hot Git query checks porcelain status and HEAD, then hashes dirty paths against the last indexed state. A stable modified working tree reuses the index; another ordinary edit to the same path triggers refresh. `rke context check` performs full content verification, including clean tracked files. Git status can miss a same-size edit when timestamps are deliberately restored, so retrieval may be stale in that edge case until a full check. Clean tracked files otherwise reuse matching recorded Git object identities without per-file reads. Dirty, staged, untracked, uncertain and non-Git files are content-hashed; matching content and extractor identities reuse existing rows, changed files are parsed once and replaced transactionally, and deleted files are removed. Concurrent callers coalesce one refresh, and composed structural operations refresh once before querying the current SQLite snapshot. Results expose `hashedFiles`, `parsed`, `rowsChanged`, and `reusedFiles` so callers can distinguish content work from a no-op parse.
 
 ### Check
 
@@ -39,7 +36,7 @@ Refresh is fingerprint-incremental. Demonstrably clean tracked files may reuse G
 rke context check
 ```
 
-Check refreshes the index and reports generated-index freshness separately from canonical-knowledge freshness. Registered knowledge is `fresh` only when every resolved source matches its receipt, `stale` when a receipt differs, and `unknown` when no receipt exists. An empty manifest cannot prove freshness.
+Check performs full source-content verification and reports generated-index freshness separately from canonical-knowledge freshness. Registered knowledge is `fresh` only when every resolved source matches its receipt, `stale` when a receipt differs, and `unknown` when no receipt exists. An empty manifest cannot prove freshness.
 
 ### Impact
 
@@ -47,14 +44,7 @@ Check refreshes the index and reports generated-index freshness separately from 
 rke context impact --changed <repository-relative-path> [--changed <path> ...]
 ```
 
-Impact classifies each changed path into one evidence class:
-
-- `boundImpacts`: an explicit source pattern connects the change to canonical knowledge; its receipt can report `fresh`, `stale`, or `unknown`;
-- `candidateImpacts`: at least two non-generic terms from the changed file's name and immediate parent all occur in a registered canonical document, alongside meaningful lexical overlap; this conservative fallback means review-candidate, never stale;
-- `unmappedChanges`: no explicit or meaningful lexical relationship was found.
-
-Explicit bindings take precedence. One changed path is not also emitted as a candidate or unmapped change.
-Weaker overlap remains unmapped so broad repository vocabulary does not flood assessment output.
+Impact matches changed paths against explicit manifest source patterns and returns `affectedKnowledge`. It does not infer semantic bindings from generic lexical overlap; an unmatched change remains a documentation-review decision for the caller.
 
 ### Verify
 
@@ -72,7 +62,7 @@ rke context benchmark --corpus <repository-relative-json-path>
 
 Corpus schema version 1 contains query records with `id`, `query`, and one or more `relevantPaths`. The result reports per-case ranked paths, recall at 1/5/10, reciprocal rank, and aggregate mean reciprocal rank. The corpus file itself is excluded from ranking to prevent answer leakage.
 
-The repository also provides `python scripts/benchmark_freshness.py` for performance evidence. Its default 1k, 10k and 50k tracked-file matrix measures cold indexing, a warm find, and a same-size one-file change with restored timestamps. The full matrix is deliberately opt-in; deterministic tests execute a small contract case that validates result shape and freshness behaviour.
+The repository also provides `npm run benchmark` for performance evidence. It creates a realistic clean tracked mixed Python, TypeScript and C# corpus and measures cold incremental indexing, hot-cache freshness, forced verified-warm freshness, one-file change, repeated retrieval, memory, measured Git process launches, and parser child-process launches. `RKE_BENCHMARK_FILES` controls scale; large runs are deliberately opt-in while deterministic tests execute a small freshness contract.
 
 ## Repository and data boundary
 
@@ -108,7 +98,7 @@ Store durable bindings in the tracked `.rke/repo-context.json` manifest. Its nor
 
 Paths and patterns are repository-relative. `*` stays within one segment; `**` spans zero or more directories. Canonical documents must exist, entries must have unique paths, and source patterns cannot escape the repository. The engine preserves unknown manifest and entry fields that do not violate these invariants.
 
-The optional `verified` object is engine-maintained receipt data. It contains `verifiedAt`, the supplied evidence summary, and a `sourceHashes` map. Generated indexes remain ignored and disposable; bindings and receipts are tracked knowledge-maintenance evidence.
+The optional `verified` object is engine-maintained receipt data. New receipts contain `verifiedAt`, the supplied evidence summary, and an ordered `sourceIdentities` list of `{path, sha256}` records. Keeping paths out of JSON property names prevents filenames such as `auth.py` from looking like credential assignments to generic secret scanners. RKE continues to read the legacy `sourceHashes` map during the pre-1.0 migration. Generated indexes remain ignored and disposable; bindings and receipts are tracked knowledge-maintenance evidence.
 
 ## Evidence limits
 

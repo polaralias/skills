@@ -114,25 +114,43 @@ Returns a read-only documentation-foundation assessment for an inherited or expl
 
 Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Local visibility is the default and requires ignored, untracked storage; shared visibility uses commit-capable `.rke/handoffs/` storage for deliberate Git collaboration. Writing rejects secret-like content and manages one active same-stream handoff. Inspection can constrain or safely infer visibility, rejects ambiguous placement, and returns the claims that require current verification.
 
+Max handoff writing accepts repeatable verification, change, risk and canonical-reference details in addition to the compact summary. It normalises each supplied value to one line so a source-provided heading cannot forge a new next-action section. A missing canonical reference makes inspection stale and withholds the proposed next action.
+
 ### `coordination validate` and `coordination plan`
 
-Validate worktree topology, path ownership, dependencies, inherited authority, and validation classes, then return non-executing argv plans. Neither operation allocates worktrees or grants external authority.
+Validate an explicit Git base, lane names and branches, sibling worktree targets, non-overlapping path ownership, and acyclic dependencies, then return non-executing argv plans. The agent must separately inspect inherited authority, validation classes, actual Git topology, and exact-tip integration evidence before allocation or cleanup. Neither operation allocates worktrees or grants external authority.
+
+### `coordination cleanup-check`
+
+Rechecks one existing lane before any cleanup: owned sibling worktree, clean state, exact current tip equal to the reviewed commit, observed remote destination containing that tip, and absent remote source branch. It is read-only and fails closed on stale review heads, unavailable remote evidence or un-fetched destination commits. It does not remove worktrees or branches or infer integration from PR names.
+
+### `coordination cleanup`
+
+A separate, mutating operation for an expressly authorised exact lane and branch. It repeats the cleanup-check immediately before mutation, repairs only the selected Git worktree link if needed, then asks Git to remove the clean owned worktree and delete its local branch without force. It does not delete the remote branch or infer PR state. A partial result reports which local mutation succeeded; never treat eligibility as authorisation to call this operation.
 
 ### `publication scan`
 
 Scans tracked text and hygiene surfaces without returning matched values. It also uses an already-installed `gitleaks` binary for history-aware detection, but never installs tools implicitly.
 
+### `tracker preview`
+
+Renders accepted non-OKF work packages from a repository-local YAML or JSON file into tracker-neutral, hierarchy- and acceptance-preserving rows. It refuses unresolved source relationships and records `publication: not performed` and `tasksCreated: false`; it never calls a provider or creates a task ledger. Durable execution and live tracker synchronisation still default to the independent OKF Tasks CLI and Tracker Profiles.
+
 ### `documentation assess`
 
-Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify update candidates; lexical or unmapped changes retain an agent-judgement obligation.
+Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify affected knowledge; unmatched changes retain an agent-judgement obligation.
 
 ### `change explain`
 
-Records a bounded RCC-compatible causal explanation against the exact material-delta fingerprint. The local receipt is explanatory evidence, not canonical knowledge, validation proof, or publication authority.
+Records a bounded RCC-compatible causal explanation against the exact material-delta fingerprint. Source-code changes require a `--detail-file` with before/after, why, changed symbol paths, and evidence-labelled verification claims; a short summary alone is refused. The local receipt is explanatory evidence, not canonical knowledge, validation proof, or publication authority.
 
 ### `documentation apply`
 
 Validates already-authored canonical changes, requires affected-concept coverage, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
+
+### `documentation disposition`
+
+Records a reviewed `no-canonical-update` decision for a material delta with no affected binding. It requires every material changed path and substantive causal evidence, refuses changed canonical concepts or incomplete coverage, and writes only a local exact-delta receipt. Closure rechecks its coverage and affected-binding status; this route never marks knowledge fresh or creates a bundle.
 
 ### `host recipe` and `host install`
 
@@ -140,11 +158,11 @@ Expose supported MCP activation and local Git pre-push enforcement. Recipe is re
 
 ### `legacy route`
 
-Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. Unknown and deliberately retired inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
+Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. TPU maps to the tracker-publication adapter; TPW and unknown inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
 
 ### `context find`
 
-Refreshes disposable repository evidence and returns BM25F-ranked chunks with repository-relative paths, line spans, symbols or headings, snippets, score reasons, and an index revision. Parser-backed one-hop fusion is attempted only for code-led or exact-identifier result sets. A scope must remain inside the configured repository root.
+Refreshes disposable repository evidence and returns SQLite FTS5-ranked chunks with repository-relative paths, line spans, symbols or headings, snippets, and native rank. A scope must remain inside the configured repository root.
 
 ### `context check`
 
@@ -152,7 +170,7 @@ Refreshes the generated index and reports index freshness, changed and deleted f
 
 ### `context impact`
 
-Classifies each supplied changed path exactly once as explicitly bound, a lexical review candidate, or unmapped. Bound impacts report `fresh`, `stale`, or `unknown` from verification receipts; candidates never receive deterministic freshness status.
+Matches supplied changed paths against explicit manifest bindings and reports affected knowledge and unmatched paths separately. Verification receipts establish `fresh`, `stale`, or `unknown` only for bound knowledge; lexical similarity does not create bindings or freshness status.
 
 ### `context verify`
 

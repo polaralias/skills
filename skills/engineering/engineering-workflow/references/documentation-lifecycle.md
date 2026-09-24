@@ -26,9 +26,19 @@ The assessment filters local workflow state, local-only notes, generated knowled
 
 - `no-op`: no material paths remain;
 - `update`: every material path has an explicit canonical binding;
-- `decision-required`: candidate or unmapped changes require agent judgement.
+- `decision-required`: unmatched changes require agent judgement.
 
 Assessment is evidence for navigation, not permission to alter every suggested document. An agent must inspect the causal change and choose whether to update an existing concept, create a durable concept or decision, or verify that current canonical wording remains correct.
+
+For a reviewed material change with no affected canonical binding and no warranted durable knowledge update, record that decision instead of creating an empty bundle merely to satisfy closure:
+
+```text
+rke documentation disposition --base <ref> \
+  --reviewed-path <every-material-changed-path> \
+  --evidence <why-no-canonical-update-is-warranted>
+```
+
+Repeat `--reviewed-path` for every material path. The operation refuses incomplete coverage, changed canonical concepts, explicitly affected bindings, thin evidence, or more than 100 changed paths. It writes only a local exact-delta `no-canonical-update` receipt; it does not mark any knowledge fresh. A later edit invalidates the receipt. If the repository already has canonical knowledge, check its independent freshness before closure. A simple code-and-test change in a repository with no canonical bundle does not require inventing one, but a genuinely needed foundation still follows bootstrap and apply. Do not create a new architecture document or attempt `documentation apply` merely because bootstrap can recommend a foundation for a future, larger effort. Initial foundation assessment is conditional on the task requiring repository knowledge establishment; it is not a per-change close gate.
 
 The assessment also returns `generationContext`: applicable root-to-nearest `AGENTS.md` paths and hashes, detected canonical entry points, and the fixed authoring constraints. More specific rule files follow broader ones. This makes repository rules part of the same retrieval-to-generation journey instead of relying on the agent to remember them separately.
 
@@ -39,10 +49,12 @@ Default structured output retains the exact fingerprint and full impact counts b
 Record the final material explanation through:
 
 ```text
-rke change explain --base <ref> --summary <causal-summary>
+rke change explain --base <ref> --summary <causal-summary> --detail-file <relative-json-path>
 ```
 
-The receipt fingerprints the current material delta. It stores a bounded explanation, changed paths, base revision, and timestamp under local workflow state. It is RCC-compatible explanatory evidence, not canonical knowledge or a substitute for tests.
+For a source-code delta, supply a repository-local JSON detail with non-empty `before`, `after`, and `why`; `causalPath` entries naming each relevant changed path and symbol; and `verification` entries that label claims as runtime, test, code-only, or unknown with evidence. Explain changed state effects and former/new failure paths in those fields rather than saying only which files changed. The command rejects a vacuous summary or missing code-level detail. A documentation-only delta may use the summary alone. The receipt fingerprints the exact material delta, retains bounded diff evidence, and distinguishes the agent's causal account from test/runtime proof. It is not canonical knowledge or a substitute for tests. The user-facing explanation should expand the receipt into the complete before/after code path and remaining uncertainties.
+
+For Repository Change Comprehension parity, the receipt is only one layer. Produce a separate commit subject candidate plus one to three verified causal facts, and a fuller user explanation that names the entry point, callers, removed or bypassed branch, state effect, failure behaviour and evidence class. Do not claim runtime verification from inspected code or an unexecuted test. On a later question, refresh the relevant evidence and reopen only a real implementation, decision, documentation or task gap; a clearer explanation alone does not invent new work.
 
 ## Apply and quality gate
 
@@ -80,9 +92,11 @@ rke closure assess --base <ref>
 rke close --base <ref>
 ```
 
-A material delta blocks until both the change-explanation and documentation receipts match the current fingerprint. A later source or canonical edit makes the corresponding receipt stale. A `no-op` assessment needs neither receipt.
+A material delta blocks until both the change-explanation and documentation receipts match the current fingerprint. The documentation receipt may be an applied, verified concept or a complete reviewed no-update disposition; the latter is rechecked for changed-path coverage and absence of affected bindings at closure. A later source or canonical edit makes either receipt stale. A `no-op` assessment needs neither receipt.
 
 The pre-merge hook accepts the same `--base` and delegates to `closure assess`. Hooks enforce current receipts; they do not author documentation, resolve ambiguity, waive gates, merge, push, or publish.
+
+For a bounded code-and-test correction with no task lane, canonical knowledge, open gates, or exploratory design, `rke closure complete-small` combines the same assessment, causal explanation, exact-path no-update disposition, and close checks. Supply the code-level detail file, all reviewed material paths, and a real no-update reason. The command refuses an ineligible or unreviewed delta and cannot skip either receipt. Use the ordinary reconciliation route when it refuses; do not split or weaken the validation to force eligibility.
 
 ## Trust boundary
 
