@@ -22,11 +22,11 @@ Do not run a full documentation rewrite on every conversational turn. Run assess
 rke documentation assess --base <ref>
 ```
 
-The assessment filters local workflow state, local-only notes, generated knowledge indexes, bytecode caches, the binding manifest, and release-validator scratch output. It classifies the remaining delta as:
+The assessment filters local workflow state and generated knowledge indexes. Treat other changed tracked files, including binding declarations, as part of the exact Git delta until reviewed. It classifies the remaining delta as:
 
-- `no-op`: no material paths remain;
-- `update`: every material path has an explicit canonical binding;
-- `decision-required`: unmatched changes require agent judgement.
+- `no-op`: no material paths remain and any selected claim bindings are current;
+- `update`: a canonical knowledge binding is affected or a selected claim needs review;
+- `decision-required`: other changes or an unresolved claim need agent judgement.
 
 Assessment is evidence for navigation, not permission to alter every suggested document. An agent must inspect the causal change and choose whether to update an existing concept, create a durable concept or decision, or verify that current canonical wording remains correct.
 
@@ -38,11 +38,11 @@ rke documentation disposition --base <ref> \
   --evidence <why-no-canonical-update-is-warranted>
 ```
 
-Repeat `--reviewed-path` for every material path. The operation refuses incomplete coverage, changed canonical concepts, explicitly affected bindings, thin evidence, or more than 100 changed paths. It writes only a local exact-delta `no-canonical-update` receipt; it does not mark any knowledge fresh. A later edit invalidates the receipt. If the repository already has canonical knowledge, check its independent freshness before closure. A simple code-and-test change in a repository with no canonical bundle does not require inventing one, but a genuinely needed foundation still follows bootstrap and apply. Do not create a new architecture document or attempt `documentation apply` merely because bootstrap can recommend a foundation for a future, larger effort. Initial foundation assessment is conditional on the task requiring repository knowledge establishment; it is not a per-change close gate.
+Repeat `--reviewed-path` for every material path. The operation refuses incomplete coverage, changed canonical concepts, explicitly affected bindings, selected claims requiring review, thin evidence, or more than 100 changed paths. It writes only a local exact-delta `no-canonical-update` receipt; it does not mark any knowledge fresh. A later edit invalidates the receipt. If the repository already has canonical knowledge, check its independent freshness before closure. A simple code-and-test change in a repository with no canonical bundle does not require inventing one, but a genuinely needed foundation still follows bootstrap and apply. Do not create a new architecture document or attempt `documentation apply` merely because bootstrap can recommend a foundation for a future, larger effort. Initial foundation assessment is conditional on the task requiring repository knowledge establishment; it is not a per-change close gate.
 
-The assessment also returns `generationContext`: applicable root-to-nearest `AGENTS.md` paths and hashes, detected canonical entry points, and the fixed authoring constraints. More specific rule files follow broader ones. This makes repository rules part of the same retrieval-to-generation journey instead of relying on the agent to remember them separately.
+An optional tracked `.rke/claim-bindings.json` can select a few important document sections. When present, assessment reports the exact reviewed section and source identities, move candidates, ambiguity and unsupported-language gaps. `current` means the recorded section and source bytes still match; it does not mean a test ran or the behavioral statement is true. Review moved or changed evidence against the actual code and tests, then update the tracked binding only after confirming the durable claim. An unsupported source requires a digest-bound agent review before the binding can be current. Do not assign a binding to every paragraph or code symbol.
 
-Default structured output retains the exact fingerprint and full impact counts but bounds changed-path and per-class detail lists to 20 entries, with matched-term evidence capped separately. `detailsTruncated` makes that condition explicit. This prevents large branches from flooding agent context without implying that omitted items are resolved.
+Assessment bounds the changed-path list to 20 entries and reports `detailsTruncated` when more changed paths exist. Exact-path disposition still requires all material paths, including those omitted from the preview.
 
 ## Causal explanation
 
@@ -72,16 +72,17 @@ rke documentation apply \
 Apply does not generate prose. It:
 
 1. reassesses the current delta;
-2. carries the applicable repository-rule paths and hashes into the completion receipt;
-3. requires every identified affected concept to be covered;
-4. validates the typed knowledge bundle and relationship graph;
-5. rebuilds marked generated indexes;
-6. requires each supplied reader question to retrieve an affected canonical concept in the first five results;
-7. records explicit verification receipts for the reviewed concepts;
-8. requires repository knowledge freshness to be `fresh`;
-9. stores a local completion receipt tied to the exact delta fingerprint.
+2. requires every identified affected concept to be covered and selected claim bindings to be current;
+3. validates the typed knowledge bundle and relationship graph;
+4. rebuilds marked generated indexes;
+5. requires each supplied reader question to retrieve an affected canonical concept in the first five results;
+6. records explicit verification receipts for the reviewed concepts;
+7. requires repository knowledge freshness to be `fresh`;
+8. stores a local completion receipt tied to the exact delta fingerprint.
 
 One to three reader questions is proportionate for a routine slice. Broader foundation or migration work may use more. Passing retrieval proves findability, not factual correctness; evidence and source review remain mandatory.
+
+For a request limited to authoring or repairing canonical knowledge, stop after the requested source review, bundle and reader checks, freshness verification, and current `documentation apply` receipt. Report the authored concept, evidence class, retrieval result, and any residual uncertainty promptly. Do not run `change explain`, `closure assess`, or `close` unless the user also requested change closure; those steps are a separate workflow outcome.
 
 ## Closure
 
