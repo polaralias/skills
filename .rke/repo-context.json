@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-27T09:09:18.564Z",
-        "evidence": "Reviewed the exact RKE PR 3 source commit cfdd161, unchanged EWF 4.12 mirror, user-precedence package validation, and current cross-platform checks.",
+        "verifiedAt": "2026-09-27T17:13:14.577Z",
+        "evidence": "Reviewed synchronized EWF 4.12.1 source and Claude CLAUDE.md project routing against RKE 217e836; package, catalogue descriptions, 13 script tests, generated index, release version and mirror parity validated.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "6d5a1480abd2a650575d94d3f52dafd1d95d0ec9a70555e1f05fabb1950bdab7"
+            "sha256": "6048306a2754f92c05a6ea981d3c74d1bcf94854e09c2a3c9ae70358dd7615f2"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -47,7 +47,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/host-integration.md",
-            "sha256": "858fbe4cc72b22c5517d916857eae96205f5ca348eb0f1a74210df905e8973b1"
+            "sha256": "4e01b3147d44f62cecb815748e830fac37e9ac807e82d2a3aa349d660d7bf36d"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/journeys/close.md",
@@ -95,11 +95,11 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "d436417a20fcb4ba7ee2375aa160fd68e7b0872549b1c0b8ad28437c504ba5ef"
+            "sha256": "b8b5dbc4376e804f47620d5a0ea33c89285548412c244438c5e44f0d0abe3c1c"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "e8f6c7ae49e41bf04367babae96128cb01d2b2b1f9942ea15f9e6b1933767131"
+            "sha256": "7cfee047d221fe0fbb960a3d10b8019d212b44b38eee1972f681ff9d159977de"
           },
           {
             "path": "skills/engineering/engineering-workflow/tests/prompts.md",
@@ -115,11 +115,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "b4a3dfddc038552a4141075dfdf5c44d0bff0b0e8b44d2329a232768a1dcbb50"
+            "sha256": "ef487b416459f90beb8e267722c2d81b20e811f87ea05b36006721786d406cf1"
           }
         ]
       }
     }
   ],
-  "revision": 21
+  "revision": 22
 }

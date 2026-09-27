@@ -13,11 +13,11 @@ The command is read-only and returns:
 - the machine-wide MCP launch or activation recipe supported by the selected host;
 - the local Git `pre-push` gate path and command;
 - the explicit Git base used for documentation and explanation receipts.
-- the project instruction surface used to route material Codex work into EWF before task actions.
+- the project instruction surface used to route repository work into EWF before task actions in Codex or Claude.
 
 Codex recipes use the installed `codex mcp add` interface. MCP activation remains an explicit user-level action because the installed CLI exposes that configuration at user scope and current official documentation does not establish a portable project-scoped hook schema for this workflow. The host installer also merges a marker-owned activation block into the repository `AGENTS.md`; it preserves all independently authored instructions and replaces only its own marked block on repeated installation.
 
-Claude recipes use the documented project `.mcp.json` structure and the installed `rke-mcp` executable; do not commit a machine-specific skill or runtime path.
+Claude recipes use project `CLAUDE.md` for standing routing guidance and the documented project `.mcp.json` structure for the installed `rke-mcp` executable. [Claude's documentation](https://code.claude.com/docs/en/features-overview) distinguishes always-loaded project instructions from on-demand skills and MCP tools. Keep the routing block small and do not commit a machine-specific skill or runtime path. Project guidance supports selection but does not prove that a particular Claude agent run selected EWF.
 
 ## Local installation
 
@@ -25,7 +25,7 @@ Claude recipes use the documented project `.mcp.json` structure and the installe
 rke host install --host <codex|claude|git> --base <ref>
 ```
 
-Installation writes `.githooks/pre-push` and configures repository-local `core.hooksPath=.githooks`. For Codex it adds the marker-owned project routing block described above. For Claude it also merges the `polaralias-engineering-workflow` entry into project `.mcp.json` while preserving unrelated servers. It refuses to replace an independently configured hooks path, independently owned pre-push hook, or MCP entry unless `--force` is explicit, and refuses malformed routing marker pairs.
+Installation writes `.githooks/pre-push` and configures repository-local `core.hooksPath=.githooks`. For Codex it adds a marker-owned routing block to `AGENTS.md`. For Claude it adds the same routing block to `CLAUDE.md` and merges the `rke` entry into project `.mcp.json` while preserving unrelated servers. It preflights independently configured hook paths, owned hooks and MCP entries, and malformed routing markers before writing any host files. Repeated installation recognizes its own MCP entry and replaces only its own routing block. `--force` is required to replace independently owned configuration.
 
 Codex installation deliberately returns the separate `codex mcp add` command rather than silently changing user configuration. Git-only installation does not claim MCP support.
 

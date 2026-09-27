@@ -2,17 +2,17 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-27T09:55:00+01:00
+timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-27T09:55:00+01:00
+reviewed_at: 2026-09-27T18:12:08+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE 0.10.0: 71 default and 30 adversarial TypeScript tests, plus 24 packaged grammar fixtures passed locally on 2026-09-27"
+  - "RKE 0.10.0: 76 default and 30 legacy parity tests, plus 24 packaged grammar fixtures passed locally on 2026-09-27"
   - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, 13 script tests, generated index check, and EWF mirror parity passed locally on 2026-09-27"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
   - "Real RKE snapshot: 130 tracked files, about 3.7 s cold index, 0.24 s warm query, 0.84 s one-file refresh, 66 MB parent peak and 397 MB largest parser child observed"
@@ -108,7 +108,7 @@ The absorbed engineering packages are preserved unchanged under the repository-r
 
 ## Host integration
 
-`host recipe` describes machine-wide MCP activation, project routing, and repository-local Git-gate setup. `host install` writes a local Git `pre-push` hook; for Codex it merges a marker-owned activation block into project `AGENTS.md`, and for Claude it merges an `rke-mcp` entry. Independently authored instructions, hooks, and unrelated configuration are preserved.
+`host recipe` describes machine-wide MCP activation, project routing, and repository-local Git-gate setup. `host install` writes a local Git `pre-push` hook; for Codex it merges a marker-owned activation block into project `AGENTS.md`, and for Claude it merges that block into `CLAUDE.md` and an `rke` server entry into `.mcp.json`. The installer checks routing markers and MCP ownership before writing and accepts its own existing entry on repeat installation. Independently authored instructions, hooks, and unrelated configuration are preserved. Claude project routing has static installation coverage accepted for PR review; an actual Claude agent selection run has not been observed.
 
 Codex integration uses `codex mcp add rke -- rke-mcp` once at user scope. The project `AGENTS.md` block directs material changes through EWF and `rke activate`; repository selection belongs to each operation rather than the server installation. Git-only mode provides pre-push enforcement without claiming an MCP installation.
 

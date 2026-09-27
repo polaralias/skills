@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.12.0
+  version: 4.12.1
   updated: '2026-09-27'
 ---
 
