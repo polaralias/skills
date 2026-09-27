@@ -105,7 +105,7 @@ policy:
     assert "policy.products must be omitted or contain only supported products" in result.stdout
 
 
-def test_validator_rejects_missing_precedence_line(tmp_path: Path) -> None:
+def test_validator_accepts_user_authoritative_skill_without_precedence_line(tmp_path: Path) -> None:
     skill_dir = write_valid_package(tmp_path / "skill-finaliser")
     (skill_dir / "SKILL.md").write_text(
         """---
@@ -124,8 +124,7 @@ Bring a loose, imported, or half-finished skill up to a clean package standard.
         encoding="utf-8",
     )
     result = run_validator(skill_dir)
-    assert result.returncode != 0
-    assert "SKILL.md is missing the required precedence line" in result.stdout
+    assert result.returncode == 0, result.stdout + result.stderr
 
 
 def test_validator_rejects_multiline_description(tmp_path: Path) -> None:
