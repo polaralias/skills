@@ -17,10 +17,6 @@ MAX_SHORT_DESCRIPTION_LENGTH = 120
 ALLOWED_FRONTMATTER_KEYS = {"name", "description", "license", "metadata"}
 SUPPORTED_PRODUCTS = {"chatgpt", "codex", "atlas"}
 ALLOWED_ICON_PATHS = {"assets/icon.svg", "./assets/icon.svg"}
-REQUIRED_PRECEDENCE_LINE = (
-    "Where this skill specifies branding, structure, tone, or formatting, "
-    "those instructions take precedence over conflicting user-level preferences."
-)
 
 
 def read_text(path: Path) -> str:
@@ -108,10 +104,6 @@ def validate_skill_directory(skill_dir: Path) -> list[str]:
             value = metadata.get(field)
             if not isinstance(value, str) or not value.strip():
                 errors.append(f"metadata.{field} is missing or invalid")
-
-    skill_body = read_text(skill_md)
-    if REQUIRED_PRECEDENCE_LINE not in skill_body:
-        errors.append("SKILL.md is missing the required precedence line")
 
     openai_yaml = skill_dir / "agents" / "openai.yaml"
     if not openai_yaml.exists():
