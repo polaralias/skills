@@ -2,20 +2,20 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
-timestamp: 2026-09-24T09:07:00+01:00
+timestamp: 2026-09-27T09:55:00+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-24T09:07:00+01:00
+reviewed_at: 2026-09-27T09:55:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE 0.10.0: 49 default and 28 adversarial TypeScript tests, plus 24 packaged grammar fixtures passed on 2026-09-24"
-  - "Skills catalogue: skill package, 33 skill descriptions, 96 routing scenarios, and EWF mirror parity passed on 2026-09-24"
+  - "RKE 0.10.0: 71 default and 30 adversarial TypeScript tests, plus 24 packaged grammar fixtures passed locally on 2026-09-27"
+  - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, 13 script tests, generated index check, and EWF mirror parity passed locally on 2026-09-27"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
-  - "50,000-file mixed corpus: 770.99 ms Git-verified warm refresh, zero hashes/parses, 546.7 MB peak RSS, zero parser child processes"
+  - "Real RKE snapshot: 130 tracked files, about 3.7 s cold index, 0.24 s warm query, 0.84 s one-file refresh, 66 MB parent peak and 397 MB largest parser child observed"
   - "focused convergence evaluation: 2/2 packaged Codex cases passed with persisted phase and gate assertions"
 owner: polaralias
 tags:
@@ -46,13 +46,13 @@ Durable writers use atomic replacement, revision checks, and ownership-recording
 
 ## Repository context
 
-`context find` queries a disposable repository-local SQLite FTS5 database over eligible code and documentation. Paths, filenames, symbols, headings, and bodies are weighted without reconstructing a repository-wide JavaScript postings graph. A recursive watcher is only a bounded hot-cache invalidation hint: a short event-delivery barrier and periodic Git verification prevent watcher timing from becoming the correctness boundary. In Git repositories, two batched commands provide tracked index-object identities and dirty/staged/untracked classification. Clean tracked files reuse matching Git identity without per-file stats or reads; dirty, staged, untracked, uncertain, and non-Git files are content-hashed. Concurrent public operations coalesce one refresh, and composed structural operations query the same refreshed SQLite snapshot. The checked 1k/10k/50k mixed-language benchmark separates hot-cache and forced Git-verified warm paths, measures Git launches, and proves zero parser child processes.
+`context find` queries a disposable repository-local SQLite FTS5 database over eligible code and documentation. Paths, filenames, symbols, headings, and bodies are weighted without reconstructing a repository-wide JavaScript postings graph. A recursive watcher is only a bounded hot-cache invalidation hint: a short event-delivery barrier and periodic Git verification prevent watcher timing from becoming the correctness boundary. In Git repositories, batched commands provide tracked index-object identities and dirty/staged/untracked classification. Clean tracked files reuse matching Git identity without per-file stats or reads; dirty, staged, untracked, uncertain, and non-Git files are content-hashed. Concurrent public operations coalesce one refresh, and composed structural operations query the same refreshed SQLite snapshot. Synthetic benchmarks retain the incremental baseline; disposable snapshots of real RKE, Python and skills repositories show retrieval rank, refresh cost and parser memory limits.
 
 Typed OKF concepts contribute their relative Markdown relationships to the index. A direct lexical match remains the ranking baseline; a directly connected concept may be returned as lower-scored `knowledge-relationship` evidence. One-hop parser-backed callers and callees may contribute labelled `structural-neighbour` evidence. Both expansions are navigation, not proof of truth, freshness, or complete runtime reachability. When deterministic evidence is insufficient, the consuming model may reformulate queries and compare bounded returned passages without requiring a second embedding index or whole-repository model ingestion.
 
 ## Structural context
 
-The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. One Node process loads WebAssembly Tree-sitter grammars in-process for TypeScript, Python, C#, and the rest of the packaged 24-language fixture set. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
+The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. Repositories with at most three detected grammars parse in-process; broader mixes use short-lived language-specific child processes because loading many Tree-sitter WASM grammars together caused multi-gigabyte memory use. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. The generic extractor provides definitions, lexical imports and name-only calls, with cross-file resolution explicitly unresolved. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
 
 Structural results are navigation evidence, not completeness proof. Duplicate names, dynamic dispatch, reflection, generated code, and framework wiring may remain unresolved. When reliable parser evidence is unavailable, the CLI and MCP return a bounded agent-review packet with an explicit inference schema and uncertainty field rather than presenting pattern matches as parser facts. Validated findings are stored separately with their source digest, confidence, and uncertainties; they participate in navigation until the source changes and never override parser evidence. The checked-in benchmark measures recall, precision, and output size for maintained cases.
 
@@ -64,7 +64,7 @@ Canonical knowledge remains deliberately authored. The native knowledge core pro
 - `knowledge build-indexes` generates marked progressive-disclosure navigation from titles and query-shaped descriptions;
 - `knowledge register` records explicit source patterns for a concept in `.rke/repo-context.json`; the former `.polaralias/` path is bounded migration input only.
 
-Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records an ordered `{path, sha256}` identity list and compact evidence. Paths are values rather than JSON property names so generic secret scanners do not mistake names such as `auth.py` for credential assignments. Later source changes make that receipt stale; the legacy path-keyed hash map remains migration input only.
+Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records an ordered `{path, sha256}` identity list and compact evidence. Paths are values rather than JSON property names so generic secret scanners do not mistake names such as `auth.py` for credential assignments. Later source changes make that receipt stale; the legacy path-keyed hash map remains migration input only. RKE can also assess a few selected claim-sized bindings in a tracked `.rke/claim-bindings.json`; their `current` status means reviewed bytes still match, while tests and behavioral truth remain separate evidence.
 
 Generated indexes, retrieval caches, and model answers remain derived surfaces. They do not become canonical automatically.
 
@@ -116,7 +116,7 @@ The packaged model-evaluation runner tests implicit activation, project-routed a
 
 On the focused 2026-09-22 Codex run, both packaged convergence cases passed. The first observed falsifier persisted `design` with `acceptance-defined` reopened. Two incidental failures persisted `deliver`, left the gate closed, kept acceptance unchanged, and requested a valid hypothesis-relevant observation. This proves only those dated host/model cases; future model behaviour remains evaluation evidence rather than a deterministic runtime guarantee.
 
-The 2026-09-24 parity qualification used a temporary TypeScript RKE installation because the machine's legacy Python shim was broken. A nearby read-only control passed. Earlier material activation attempts timed out after edits and test; a redacted command timeline showed prolonged closure work. The fail-closed small-change route then passed the same 180-second material agent case: activation before edits, focused test, exact-delta receipts, persisted closure and final response. The DDD unresolved-public-semantics agent case kept design and acceptance gates open without product edits; a standalone QA-plan request correctly stayed outside EWF. A scoped loopback provider validated OKF Tasks create/sync/readback and a conflict refusal, but no live tracker write was authorised. The v0.10 PRs stay open while hostile-restart and other legacy semantic cases are qualified; these dated runs are not blanket parity sign-off.
+The 2026-09-24 to 2026-09-27 parity qualification used a staged TypeScript RKE installation because the machine's legacy Python shim was broken. A nearby read-only control passed. Earlier material activation attempts timed out after edits and test; a redacted command timeline showed prolonged closure work. The fail-closed small-change route then passed the bounded material agent case: activation before edits, focused test, exact-delta receipts, persisted closure and final response. The retained legacy outcomes now have local positive and adversarial agent, runtime or delegated-provider evidence. A scoped loopback provider validated OKF Tasks create/sync/readback and a conflict refusal; no live tracker write was authorised. Cross-platform CI and PR review remain open, and these dated runs are not blanket future model guarantees.
 
 ## Reading order
 
