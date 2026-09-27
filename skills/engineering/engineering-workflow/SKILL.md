@@ -4,25 +4,25 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.10.1
-  updated: '2026-09-24'
+  version: 4.12.0
+  updated: '2026-09-27'
 ---
 
 # engineering-workflow
-
-Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
 This skill produces chat output. Include this proof line in the response: `engineering-workflow was used in this response.`
 
 ## Activation gate
 
-For material repository work, activation is the first workflow action after reading applicable instructions. Require the separately installed RKE runtime and run:
+For material repository mutation or closure work, activation is the first workflow action after reading applicable instructions. Require the separately installed RKE runtime and run:
 
 ```text
 rke activate --phase <phase> --task-mode <none|lightweight|full> --root <repository>
 ```
 
-`activate` is the single idempotent entry: it creates absent state, validates active state, and opens a new cycle from closed state. It also records the Git HEAD and dirty paths observed at activation so behaviour evaluations can prove activation preceded the intended edits. Do not inspect broadly, edit, test, or claim EWF use before it succeeds. Explanation-only and trivial read-only requests remain dormant.
+`activate` is the single idempotent entry: it creates absent state, validates active state, and opens a new cycle from closed state. It also records the Git HEAD and dirty paths observed at activation so behaviour evaluations can prove activation preceded the intended edits. Do not inspect broadly, edit, test, or claim material-workflow use before it succeeds. Ordinary explanation-only and trivial read-only requests remain dormant unless the user explicitly asks to use EWF for a code-level explanation.
+
+A trivial local correction can use EWF without runtime state when it changes only spelling, formatting, or an explanatory comment, does not alter public behaviour, tests, canonical knowledge, tasks, or an existing gate, and needs only the named file and a focused check. Report the precise edit and evidence without claiming a machine gate passed. Follow applicable `AGENTS.md` preferences for a proportionate Repository Change Comprehension account even on this route. If inspection reveals material scope, activate before any further material work and disclose the already edited path in the activation baseline.
 
 ## Untrusted content boundary
 
@@ -46,7 +46,7 @@ Use one of four lifecycle operations:
 - `resume`: validate saved state against the current repository before continuing.
 - `close`: reconcile required gates and refuse completion while material obligations remain.
 
-For any repository mutation that routes to this skill, selection alone is not activation. Use `activate` rather than making the agent decide between `start`, `resume`, and `start --new-cycle`. Resolve the machine-installed `rke` executable rather than assuming the target repository or installed skill contains executable source. Do not emit the proof line or claim EWF use when activation did not succeed.
+For any material repository mutation or closure that routes to this skill, selection alone is not activation. Use `activate` rather than making the agent decide between `start`, `resume`, and `start --new-cycle`. Resolve the machine-installed `rke` executable rather than assuming the target repository or installed skill contains executable source. If the executable is missing or activation fails, report the exact failure and stop before material edits or closure; reference-led read-only assessment can continue with explicitly reduced assurance, but no machine gate, receipt, or EWF activation has passed. Do not emit the proof line or claim EWF use for that failed material route. A user-requested read-only explanation of an existing diff can use the RCC explanation reference without activation: inspect the current diff and relevant source, label code versus executed evidence, answer promptly, and do not write a receipt or claim a machine gate passed.
 
 Run the deterministic helper through:
 
@@ -64,6 +64,7 @@ rke closure assess --root <repository>
 rke dissection assess --root <repository>
 rke documentation bootstrap --root <repository>
 rke handoff write --visibility <local|shared> --topic <topic> --summary <state> --next-action <action> --root <repository>
+rke handoff write --mode max --visibility local --topic <topic> --summary <state> --next-action <action> --verification <labelled-result> --changes <changed-path-and-effect> --risks <unresolved-risk> --root <repository>
 rke handoff inspect --visibility <auto|local|shared> --root <repository>
 rke coordination validate --manifest <relative-json-path> --root <repository>
 rke coordination plan --manifest <relative-json-path> --root <repository>
@@ -105,7 +106,7 @@ rke structure benchmark --corpus <relative-json-path> --root <repository>
 
 Read [references/repo-context-contract.md](./references/repo-context-contract.md) when using, evaluating, or extending repository retrieval. Generated context is disposable evidence, never canonical knowledge.
 
-Use deterministic retrieval first. If its bounded lexical, structural, and relationship evidence is insufficient, the consuming model may reformulate the query and semantically compare the returned passages. Do not make a model tokenize or ingest the whole repository, and do not add a second semantic index or remote embedding dependency by default.
+When the implementation location or relationship is unknown, use bounded deterministic retrieval before broad repository archaeology. If the named source and test already make the route clear, inspect them directly. When retrieval is insufficient, reformulate the query and semantically compare returned passages. Do not make a model tokenize or ingest the whole repository, and do not add a second semantic index or remote embedding dependency by default.
 
 Read [references/structural-context.md](./references/structural-context.md) before relying on structural traces or extending language coverage. Structural output is bounded navigation and impact evidence, not a decorative graph or a substitute for reading consequential source.
 
@@ -122,6 +123,8 @@ rke knowledge register --knowledge <relative-concept> --source <pattern> --root 
 Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
 For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → provisional task reconciliation → documentation disposition or apply → final task reconciliation → independent lane validation → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. The explanation receipt is a bounded record, not the full Repository Change Comprehension output: give the user the code-level before/after path and a distinct compact commit-context layer. This replaces separately remembered RCC/RKE/RSA sequences during normal closure without turning hooks into documentation authors.
+
+For a local delivery slice whose user did not request closure or readiness, stop after the focused change and validation, then report the evidence and outstanding gates. Do not run `closure assess`, write receipts, or enter the close journey solely to finish that report; those actions belong to a closure request or a pre-push gate.
 
 For a bounded code-and-test correction with no existing canonical knowledge, no durable task lane, and no exploratory design decision, take the proportional path: activate; inspect the named files; edit and run the focused test; write the required code-level explanation detail; then use `closure complete-small` with the explicit Git base, every reviewed material path, and a causal no-update reason. This operation assesses the delta and reuses the normal explanation, disposition, and close validators; it refuses open gates, task lanes, canonical knowledge, unreviewed paths, and broader deltas. Do not pre-run the full closure sequence or bootstrap a knowledge bundle, create architecture prose, add task records, run broad retrieval, or perform unrelated cleanup just to complete this path. When it reports `small-change-closed`, give the final code-level explanation immediately; an extra status or Git check after closure adds no proof. If the operation refuses because a binding or durable obligation exists, switch to the ordinary route; do not weaken the refusal. A blocked close is reported honestly, but it is not a reason to expand the requested change without evidence.
 
@@ -161,7 +164,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
 6. Keep every material unresolved obligation as an explicit gate. Do not rely on the model remembering it later.
 7. Use OKF Tasks only when execution state must survive chat. Select `none`, `lightweight`, or `full` task mode proportionately; time, estimates, visualisation, and tracker synchronisation are opt-in.
 8. Before compaction or pause, call `checkpoint` with a compact verified summary and concrete next action. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.
-9. At completion, call `close`. A blocked result is an honest outcome, not permission to discard or waive the remaining gates.
+9. At requested change closure or a pre-push gate, call `closure assess` and then `close` only when the owning evidence clears every applicable obligation. A local delivery slice can end with validated changes and an honest report of outstanding gates.
 10. Use `context find` before broad repository archaeology. Inspect returned source before relying on consequential details, and do not treat retrieval rank as correctness proof.
 11. Resolve a gate only through `gate resolve` with concise evidence from the owning truth surface. A receipt records why the obligation was discharged; it does not replace the underlying evidence.
 12. Treat explicitly bound and unmapped knowledge impacts differently. Only explicit bindings plus current verification receipts can establish `fresh` or `stale`; unmatched changes require agent judgement and remain visible. Retrieval similarity never creates a binding.

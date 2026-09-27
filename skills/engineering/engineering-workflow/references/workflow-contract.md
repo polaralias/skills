@@ -138,7 +138,7 @@ Renders accepted non-OKF work packages from a repository-local YAML or JSON file
 
 ### `documentation assess`
 
-Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify affected knowledge; unmatched changes retain an agent-judgement obligation.
+Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit whole-document bindings identify affected knowledge; optional selected claim bindings report exact section/source freshness, move candidates and unresolved evidence. Unmatched changes retain an agent-judgement obligation. A current claim binding does not prove behavior.
 
 ### `change explain`
 
@@ -146,11 +146,11 @@ Records a bounded RCC-compatible causal explanation against the exact material-d
 
 ### `documentation apply`
 
-Validates already-authored canonical changes, requires affected-concept coverage, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
+Validates already-authored canonical changes, requires affected-concept coverage and current selected claim bindings, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
 
 ### `documentation disposition`
 
-Records a reviewed `no-canonical-update` decision for a material delta with no affected binding. It requires every material changed path and substantive causal evidence, refuses changed canonical concepts or incomplete coverage, and writes only a local exact-delta receipt. Closure rechecks its coverage and affected-binding status; this route never marks knowledge fresh or creates a bundle.
+Records a reviewed `no-canonical-update` decision for a material delta with no affected binding and no selected claim requiring review. It requires every material changed path and substantive causal evidence, refuses changed canonical concepts or incomplete coverage, and writes only a local exact-delta receipt. Closure rechecks its coverage and binding status; this route never marks knowledge fresh or creates a bundle.
 
 ### `host recipe` and `host install`
 

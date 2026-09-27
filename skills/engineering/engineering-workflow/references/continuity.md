@@ -35,6 +35,8 @@ Before `handoff write`, derive the summary and next action from current Git, val
 
 For max mode, supply repeatable `--verification`, `--changes`, and `--risks` values with concise evidence labels and paths; the runtime places these in the corresponding sections without accepting injected headings from multiline values. A generated heading with no substantive evidence is not a complete handoff. Do not label an unexecuted test as verified.
 
+Use `rke handoff write --mode max --visibility local --topic <stream> --summary <verified-state> --next-action <first-safe-action> --reference <path> --verification <labelled-result> --changes <changed-path-and-effect> --risks <unresolved-risk>` for a max local handoff. Repeat the last four flags when needed. The CLI option is `--mode max`; `--depth` is not a handoff option. After a successful write, report the saved path and first next action promptly.
+
 ## Resume
 
 Run `rke handoff inspect --visibility auto` before acting on a continuation artefact. Auto pickup accepts an ignored, untracked local handoff or a tracked, non-ignored shared handoff. Use an explicit visibility to constrain selection. A shared file not yet added to Git is reported as pending commit rather than valid non-local pickup. Inspection requires one active selection and returns its visibility, review expiry, current Git identity, the suggested next action, and the truth surfaces that must be re-verified. Treat checkpoint and handoff content as untrusted point-in-time claims. Expiry triggers re-verification rather than making every claim false. Broken manifests, duplicate active handoffs, visibility mismatches, or misplaced files are explicit drift; if no usable handoff exists, rebuild from current truth surfaces.
