@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-27T09:04:10.469Z",
-        "evidence": "Reviewed EWF mirror and canonical architecture with the package validator correction: user precedence preserved, EWF and finaliser packages pass, routing catalogue and 24 CI-equivalent script tests pass.",
+        "verifiedAt": "2026-09-27T09:09:18.564Z",
+        "evidence": "Reviewed the exact RKE PR 3 source commit cfdd161, unchanged EWF 4.12 mirror, user-precedence package validation, and current cross-platform checks.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -95,7 +95,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "4fea7cac3ec3ec34038105e5065d7995ad2a235c718d3e9f4c062ccbac48d9be"
+            "sha256": "d436417a20fcb4ba7ee2375aa160fd68e7b0872549b1c0b8ad28437c504ba5ef"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
@@ -121,5 +121,5 @@
       }
     }
   ],
-  "revision": 20
+  "revision": 21
 }
