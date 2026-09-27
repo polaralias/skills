@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-27T08:56:06.823Z",
-        "evidence": "Reviewed EWF 4.12 mirror, current RKE PR 3 source and parser isolation, claim-binding reference, scoped OKF adapter, seven claim cases, and local release checks.",
+        "verifiedAt": "2026-09-27T09:04:10.469Z",
+        "evidence": "Reviewed EWF mirror and canonical architecture with the package validator correction: user precedence preserved, EWF and finaliser packages pass, routing catalogue and 24 CI-equivalent script tests pass.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -121,5 +121,5 @@
       }
     }
   ],
-  "revision": 19
+  "revision": 20
 }
