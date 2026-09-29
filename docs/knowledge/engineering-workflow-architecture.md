@@ -5,15 +5,15 @@ description: Explains how the Engineering Workflow skill coordinates the indepen
 timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-29T10:30:18+01:00
+reviewed_at: 2026-09-29T15:56:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE 0.10.0: 84 default and 30 legacy parity tests, plus 24 packaged grammar fixtures and focused final structural tests passed locally on 2026-09-29"
-  - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, 13 script tests, generated index check, and EWF mirror parity passed locally on 2026-09-27"
+  - "RKE 0.10.0: 94 default and 30 legacy parity tests, plus 24 packaged grammar fixtures and focused final structural tests passed locally on 2026-09-29"
+  - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, 24 isolated tests, generated index check, and EWF mirror parity passed locally on 2026-09-29"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
   - "Real RKE snapshot: 130 tracked files, about 3.7 s cold index, 0.24 s warm query, 0.84 s one-file refresh, 66 MB parent peak and 397 MB largest parser child observed"
   - "focused convergence evaluation: 2/2 packaged Codex cases passed with persisted phase and gate assertions"
@@ -38,7 +38,7 @@ Documentation-driven development is the governing principle: accepted behaviour 
 
 The stable lifecycle is `activate`, `start`, `checkpoint`, `resume`, and `close`. `activate` is the single normal agent entrypoint: it creates missing state, validates active state, or opens a new cycle from closed state, then records the current Git HEAD and bounded dirty-path baseline. Understand, design, and close journeys selectively load the detailed judgement needed for their phase. Optional task, coordination, and publication capabilities register their own evidence gates. Scenario planning belongs to design acceptance; standalone human QA-plan writing remains outside EWF. Tracker publication uses OKF Tasks for durable execution by default and can map stable non-OKF work packages without creating task records.
 
-Workflow state is compact restart information. It may point to stronger records but does not replace repository knowledge, OKF Tasks, Git evidence, runtime evidence, or a handoff.
+Workflow state is compact restart information. It may point to stronger records but does not replace repository knowledge, OKF Tasks, Git evidence, runtime evidence, or a handoff. Activation, checkpoint, task checks, and closure validate status, continuity, task fields, timestamps, and receipts before using saved state.
 
 Exploratory design uses convergence control. Its experiment contract records the hypothesis, governing assumption, expected observation, predefined falsifier, authoritative acceptance, and reset/kill condition. Observing the falsifier causes immediate design re-entry; otherwise the default reset threshold is two individually inconclusive, assumption-relevant acceptance failures. Incidental implementation faults do not count. Design re-entry cannot weaken acceptance to fit an implementation, and checkpoint/handoff continuity carries the minimum active convergence state across compaction or sessions.
 
@@ -52,7 +52,7 @@ Typed OKF concepts contribute their relative Markdown relationships to the index
 
 ## Structural context
 
-The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. Repositories with at most three detected grammars parse in-process; broader mixes use short-lived language-specific child processes because loading many Tree-sitter WASM grammars together caused multi-gigabyte memory use. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. The generic extractor provides definitions, lexical imports and name-only calls. Unique same-file and Go same-package targets and relative static imports in TypeScript, JavaScript and Python can resolve to indexed symbols; ambiguous calls remain unresolved. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
+The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. Repositories with at most three detected grammars parse in-process; broader mixes use short-lived language-specific child processes because loading many Tree-sitter WASM grammars together caused multi-gigabyte memory use. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. The generic extractor provides definitions, lexical imports and name-only calls. Unique same-file and Go same-package targets and relative static imports in TypeScript, JavaScript and Python can resolve to indexed symbols; ambiguous calls remain unresolved. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. Trace and impact query indexed edge candidates at each frontier and cap parser trace evidence at 500 edges. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
 
 Structural results are navigation evidence, not completeness proof. Duplicate names, dynamic dispatch, reflection, generated code, and framework wiring may remain unresolved. When reliable parser evidence is unavailable, the CLI and MCP return a bounded agent-review packet with an explicit inference schema and uncertainty field rather than presenting pattern matches as parser facts. Validated findings are stored separately with their source digest, confidence, and uncertainties; they may augment partial parser relationships until the source changes, while extracted parser symbols take precedence. The checked-in benchmark measures recall, precision, and output size for maintained cases.
 
@@ -65,6 +65,8 @@ Canonical knowledge remains deliberately authored. The native knowledge core pro
 - `knowledge register` records explicit source patterns for a concept in `.rke/repo-context.json`; the former `.polaralias/` path is bounded migration input only.
 
 Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records an ordered `{path, sha256}` identity list and compact evidence. Paths are values rather than JSON property names so generic secret scanners do not mistake names such as `auth.py` for credential assignments. Later source changes make that receipt stale; the legacy path-keyed hash map remains migration input only. RKE can also assess a few selected claim-sized bindings in a tracked `.rke/claim-bindings.json`; their `current` status means reviewed bytes still match, while tests and behavioral truth remain separate evidence.
+
+The manifest reader rejects unsupported schema versions, malformed or duplicate bindings, and invalid verification receipts before a writer can change the file. A legacy manifest migrates on the next write only when no canonical manifest exists. Registration requires an existing typed concept. Durable graph checks reject disconnected components while excluding transient concepts, and missing title or description remains a warning. Index generation writes relative navigation in the bundle root and nested concept directories. Linked typed concepts are recorded in the disposable SQLite index and can expand a direct lexical result with lower-ranked provenance.
 
 Generated indexes, retrieval caches, and model answers remain derived surfaces. They do not become canonical automatically.
 

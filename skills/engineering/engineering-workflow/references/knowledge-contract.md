@@ -20,15 +20,21 @@ The same operations are available through the MCP tools `repo_knowledge_bundle_c
 
 `index.md` and `log.md` are reserved navigation and history surfaces. Generated/vendor content, runbooks, handoffs, sessions, and temporary or scratch concepts are excluded from the durable relationship graph. Validation never upgrades the truth or evidential authority of a document.
 
+The graph includes only typed durable concepts. `title` and `description` are recommended retrieval metadata; missing values produce warnings. Ordinary LF and CRLF frontmatter are accepted. More than one connected component is an error even when each component contains internally linked concepts.
+
 ## Build indexes
 
 `knowledge build-indexes` creates deterministic progressive-disclosure `index.md` files from concept titles and query-shaped descriptions. Generated indexes are marked and may be rebuilt safely. The command refuses to replace a manually maintained or producer-owned index unless the caller explicitly supplies `--force` after reviewing ownership.
+
+The builder checks ownership across the full bundle before writing, then creates an index in the bundle root and each nested concept directory. Each index links to its direct concepts and child directories using paths relative to that index.
 
 Generated indexes are navigation, not canonical product truth. They must not be used as verification evidence merely because generation succeeded.
 
 ## Register bindings
 
 `knowledge register` requires an existing typed concept and one or more explicit repository-relative source patterns. It creates or updates the concept entry in `.rke/repo-context.json`, preserves unrelated manifest and entry fields, and invalidates an existing verification receipt when the source set changes. A legacy `.polaralias/repo-context.json` remains readable only when the canonical manifest is absent; the next manifest write migrates it, while ambiguous dual manifests are refused.
+
+Manifest reads reject unknown schema versions and malformed revisions, entries, duplicate paths or source patterns, and verification receipts. An incompatible or invalid manifest is never rewritten as schema version 1. Legacy receipts with `sourceHashes` remain readable alongside current `sourceIdentities` receipts.
 
 Registration states what implementation evidence must be reviewed when the canonical concept is checked. It does not claim that the document is current. Use `context verify` only after an actual review against every resolved bound source. The receipt includes the concept's own hash so a later documentation edit also makes freshness stale.
 

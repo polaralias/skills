@@ -8,6 +8,10 @@
     "schemaVersion": {
       "const": 1
     },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
     "knowledge": {
       "type": "array",
       "items": {
