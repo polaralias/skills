@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-29T09:31:42.228Z",
-        "evidence": "Reviewed the synchronized EWF 4.13.0 source and RKE runtime changes; 84 default tests, 30 parity probes, structural regressions, package validation and catalogue release validation passed.",
+        "verifiedAt": "2026-09-29T09:33:20.144Z",
+        "evidence": "Reviewed the existing EWF catalogue branch and its new RKE 4.13.0 guidance against the canonical architecture, mirrored runtime source, package validation, strict knowledge and task checks, and release version validation.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -121,5 +121,5 @@
       }
     }
   ],
-  "revision": 23
+  "revision": 24
 }
