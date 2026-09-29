@@ -4,7 +4,7 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.13.2
+  version: 4.14.0
   updated: '2026-09-29'
 ---
 
@@ -122,6 +122,8 @@ rke knowledge register --knowledge <relative-concept> --source <pattern> --root 
 
 Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
+When establishing a knowledge foundation, promoting durable truth, maintaining decisions or glossary terms, or streamlining the reading path, also read [references/knowledge-methodology.md](./references/knowledge-methodology.md). It retains editorial judgement without claiming that every convention is enforced by the runtime.
+
 For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → provisional task reconciliation → documentation disposition or apply → final task reconciliation → independent lane validation → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. The explanation receipt is a bounded record, not the full Repository Change Comprehension output: give the user the code-level before/after path and a distinct compact commit-context layer. This replaces separately remembered RCC/RKE/RSA sequences during normal closure without turning hooks into documentation authors.
 
 For a local delivery slice whose user did not request closure or readiness, stop after the focused change and validation, then report the evidence and outstanding gates. Do not run `closure assess`, write receipts, or enter the close journey solely to finish that report; those actions belong to a closure request or a pre-push gate.
@@ -139,6 +141,8 @@ The adapter and CLI dispatch the complete same registered operation set, schemas
 Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when durable execution state may be justified. In `none` mode, `task check` is a deterministic no-op and does not launch OKF Tasks. In durable modes, the adapter delegates strict validation to the authoritative CLI and returns structured evidence; create or mutate records through that CLI rather than reimplementing its schema here.
 
 For tracker publication or import-ready mapping, read [references/tracker-publication.md](./references/tracker-publication.md). Default to independent OKF Tasks for durable execution and its Tracker Profiles for publication. Also support stable non-OKF work packages without inventing task records. A preview never performs external writes; live publication needs the user's scoped request and a verified destination.
+
+For a public-readiness or release-automation review, enable the publication capability and read [references/extensions/publication.md](./references/extensions/publication.md) and its focused [publication review](./references/publication-review.md). Release-profile mechanics remain with the separate `repo-setup` package.
 
 Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Prefer local ignored handoffs; use shared handoffs only when durable Git collaboration is intended. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
 

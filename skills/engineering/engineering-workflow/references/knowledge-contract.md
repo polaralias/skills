@@ -4,6 +4,8 @@
 
 The knowledge core gives the engineering workflow one deterministic surface for typed OKF knowledge without conflating authored truth, generated navigation, repository-context evidence, or OKF Tasks execution records.
 
+For authoring, decision lifecycles, glossary choices, verification wording and streamline dispositions, use the conditional [canonical knowledge methodology](knowledge-methodology.md). Those editorial conventions are distinct from the checks currently performed by the runtime.
+
 Use the smallest operation that matches the current journey:
 
 ```text

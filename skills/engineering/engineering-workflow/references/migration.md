@@ -36,3 +36,5 @@ New behaviour and fixes belong in the EWF journey, extension, adapter, or core t
 ## Parity evidence
 
 The executable route test covers every retained alias, checks full-name case-insensitive lookup, verifies one destination per input, and proves TPW rejection. Public-interface tests separately cover lifecycle, journeys, task modes, ordered session alignment, dissection, handoff writing and pickup, worktree coordination, publication scanning, closure gates, event-driven documentation, host installation, hooks, context retrieval, knowledge impact, and CLI/MCP parity.
+
+The [instruction preservation audit](instruction-preservation-audit.md) separately classifies every absorbed package's archived agent judgement, executable mechanics, and intentionally omitted or independently owned material. Outcome probes and this editorial audit answer different parity questions; neither substitutes for the other.

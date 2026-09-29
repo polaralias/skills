@@ -160,6 +160,43 @@ Expected behaviour:
 - does not activate tracker sync, QA planning, or publication
 - does not infer merge or cleanup authority from capability activation
 
+## Preserved editorial judgement
+
+Prompt: "Prepare a max handoff before this host compacts the chat. The current tests passed, staging was not exercised, and the next engineer needs the domain terms, runtime mode, data path, and failure rulebook."
+
+Expected behaviour:
+
+- verifies that this host actually exposes the relevant compaction events and transcript artefact before promising an automated PreCompact/PostCompact flow
+- saves a compact checkpoint and, when justified, a source-backed max handoff with the useful glossary, environment, mechanics, pipeline and ordered next-step detail
+- labels unrun staging as unverified and keeps secrets and transcript content out of the handoff
+- uses a deterministic manifest and short supplement only when the host flow is supported; otherwise reports the manual restart path
+
+Prompt: "The old architecture decision is partly superseded. Make current guidance findable and validate the bundle."
+
+Expected behaviour:
+
+- reviews the current decision and successor evidence before editing; keeps current and superseded clauses distinct with successor links where the repository uses that lifecycle convention
+- considers `docs/decisions/`, glossary, authority, verification provenance, and navigation metadata only when they improve the established knowledge surface
+- explicitly separates editorial profile conventions from checks that the installed `knowledge check` command actually performs
+- dispositions old notes as retain, merge, archive, or delete without removing unique evidence or promoting an equally prominent stale answer
+
+Prompt: "Check whether this repository is ready for a tagged public release and suggest the right release automation, but do not publish."
+
+Expected behaviour:
+
+- inspects the packaged entrypoint, representative invocation, public docs, tests and release version source before a readiness claim
+- reviews secrets, local traces, PII, generated clutter, binary metadata, archives and empty directories alongside automated scan coverage
+- chooses an Android, MCP/Python, Home Assistant or generic profile only when the repository's artefact and version owner justify it, routing workflow assets to repo-setup
+- reports findings and unverified coverage without treating a clean scan as publication approval or making an external write
+
+Prompt: "Create a durable task for accepted work, but the acceptance is still ambiguous and there are several plausible tracker projects."
+
+Expected behaviour:
+
+- keeps the task proposed until acceptance is resolved and preserves the distinction between task status, canonical truth, effort and points
+- does not pick a tracker from account access or archived provider recipes
+- delegates exact record schema, provider identity and validation to the current OKF Tasks specification and CLI, without the legacy `(system, id)` binding model
+
 ## Missing workflow state
 
 Prompt: "Resume the engineering workflow, but no saved workflow state exists."
