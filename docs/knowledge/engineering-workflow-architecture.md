@@ -5,14 +5,14 @@ description: Explains how the Engineering Workflow skill coordinates the indepen
 timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-27T18:12:08+01:00
+reviewed_at: 2026-09-29T10:30:18+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
-  - "RKE 0.10.0: 76 default and 30 legacy parity tests, plus 24 packaged grammar fixtures passed locally on 2026-09-27"
+  - "RKE 0.10.0: 84 default and 30 legacy parity tests, plus 24 packaged grammar fixtures and focused final structural tests passed locally on 2026-09-29"
   - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, 13 script tests, generated index check, and EWF mirror parity passed locally on 2026-09-27"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
   - "Real RKE snapshot: 130 tracked files, about 3.7 s cold index, 0.24 s warm query, 0.84 s one-file refresh, 66 MB parent peak and 397 MB largest parser child observed"
@@ -46,15 +46,15 @@ Durable writers use atomic replacement, revision checks, and ownership-recording
 
 ## Repository context
 
-`context find` queries a disposable repository-local SQLite FTS5 database over eligible code and documentation. Paths, filenames, symbols, headings, and bodies are weighted without reconstructing a repository-wide JavaScript postings graph. A recursive watcher is only a bounded hot-cache invalidation hint: a short event-delivery barrier and periodic Git verification prevent watcher timing from becoming the correctness boundary. In Git repositories, batched commands provide tracked index-object identities and dirty/staged/untracked classification. Clean tracked files reuse matching Git identity without per-file stats or reads; dirty, staged, untracked, uncertain, and non-Git files are content-hashed. Concurrent public operations coalesce one refresh, and composed structural operations query the same refreshed SQLite snapshot. Synthetic benchmarks retain the incremental baseline; disposable snapshots of real RKE, Python and skills repositories show retrieval rank, refresh cost and parser memory limits.
+`context find` queries a disposable repository-local SQLite FTS5 database over eligible code and documentation. Parser symbol chunks are supplemented by full-file text windows so module-level wiring remains searchable. Paths, filenames, symbols, headings, and bodies are weighted without reconstructing a repository-wide JavaScript postings graph. A recursive watcher is only a bounded hot-cache invalidation hint: a short event-delivery barrier and periodic Git verification prevent watcher timing from becoming the correctness boundary. In Git repositories, batched commands provide tracked index-object identities and dirty/staged/untracked classification. Clean tracked files reuse matching Git identity without per-file stats or reads; dirty, staged, untracked, uncertain, and non-Git files are content-hashed. Concurrent public operations coalesce one refresh, and composed structural operations query the same refreshed SQLite snapshot. Synthetic benchmarks retain the incremental baseline; disposable snapshots of real RKE, Python and skills repositories show retrieval rank, refresh cost and parser memory limits.
 
 Typed OKF concepts contribute their relative Markdown relationships to the index. A direct lexical match remains the ranking baseline; a directly connected concept may be returned as lower-scored `knowledge-relationship` evidence. One-hop parser-backed callers and callees may contribute labelled `structural-neighbour` evidence. Both expansions are navigation, not proof of truth, freshness, or complete runtime reachability. When deterministic evidence is insufficient, the consuming model may reformulate queries and compare bounded returned passages without requiring a second embedding index or whole-repository model ingestion.
 
 ## Structural context
 
-The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. Repositories with at most three detected grammars parse in-process; broader mixes use short-lived language-specific child processes because loading many Tree-sitter WASM grammars together caused multi-gigabyte memory use. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. The generic extractor provides definitions, lexical imports and name-only calls, with cross-file resolution explicitly unresolved. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
+The structural core shares the same SQLite files, symbols, imports, edges, and chunks with retrieval. Repositories with at most three detected grammars parse in-process; broader mixes use short-lived language-specific child processes because loading many Tree-sitter WASM grammars together caused multi-gigabyte memory use. Changed files are parsed once and replaced transactionally; unchanged files reuse their rows. The generic extractor provides definitions, lexical imports and name-only calls. Unique same-file and Go same-package targets and relative static imports in TypeScript, JavaScript and Python can resolve to indexed symbols; ambiguous calls remain unresolved. Compact file APIs, bounded caller/callee traces, repository maps, changed-file impact, and exhaustive regex search all consume that current snapshot. `change impact` refreshes once before tracing up to its bounded symbol set, so composition cannot multiply whole-repository freshness work.
 
-Structural results are navigation evidence, not completeness proof. Duplicate names, dynamic dispatch, reflection, generated code, and framework wiring may remain unresolved. When reliable parser evidence is unavailable, the CLI and MCP return a bounded agent-review packet with an explicit inference schema and uncertainty field rather than presenting pattern matches as parser facts. Validated findings are stored separately with their source digest, confidence, and uncertainties; they participate in navigation until the source changes and never override parser evidence. The checked-in benchmark measures recall, precision, and output size for maintained cases.
+Structural results are navigation evidence, not completeness proof. Duplicate names, dynamic dispatch, reflection, generated code, and framework wiring may remain unresolved. When reliable parser evidence is unavailable, the CLI and MCP return a bounded agent-review packet with an explicit inference schema and uncertainty field rather than presenting pattern matches as parser facts. Validated findings are stored separately with their source digest, confidence, and uncertainties; they may augment partial parser relationships until the source changes, while extracted parser symbols take precedence. The checked-in benchmark measures recall, precision, and output size for maintained cases.
 
 ## Canonical knowledge
 
@@ -100,7 +100,7 @@ The `rke` CLI and `rke-mcp` stdio adapter dispatch the complete same operation r
 
 ## Distribution and release integrity
 
-RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, tests, audits the no-Python invariant, validates the 46-operation/24-grammar release contract, packs the package, and exercises CLI retrieval, MCP discovery, and evaluator resources from a clean installation. The tag workflow attests and publishes the npm package with provenance before promoting the GitHub release.
+RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, runs the default and executable legacy-parity suites, audits the no-Python invariant, validates the 46-operation/24-grammar release contract, packs the package, and exercises CLI retrieval, MCP discovery, and evaluator resources from a clean installation. The tag workflow attests and publishes the npm package with provenance before promoting the GitHub release.
 
 ## Legacy archive
 
