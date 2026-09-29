@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-29T14:57:07.756Z",
-        "evidence": "Reviewed EWF 4.13.1 mirrored references, RKE 648ba20 runtime and regression evidence, catalogue version, package validation, routing scenarios, and isolated tests against the architecture concept.",
+        "verifiedAt": "2026-09-29T14:58:49.833Z",
+        "evidence": "Reviewed the full skills PR delta against origin/main, including the EWF 4.13.1 mirror, source provenance, knowledge contract, catalogue validation, and RKE runtime tests.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -121,5 +121,5 @@
       }
     }
   ],
-  "revision": 25
+  "revision": 26
 }
