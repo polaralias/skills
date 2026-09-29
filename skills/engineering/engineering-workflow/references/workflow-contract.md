@@ -82,6 +82,8 @@ Stores a compact verified summary and next action. It never copies complete task
 
 Validates the stored schema and returns the saved state for repository re-verification. Invalid state is reported rather than silently repaired.
 
+Validation covers status, non-empty capability and gate names, task tracking shape, continuity and checkpoint shape, timestamps, and gate receipts. Activation, checkpoint, task checks, closure assessment, and close also refuse malformed state with `invalid-state` before using it.
+
 ### `close`
 
 Returns a blocked result while outstanding gates remain. With `--base`, it also requires current causal-explanation and documentation receipts for a material Git delta. A gate-free valid state can become closed only when those event-driven checks are clear. Adapters may resolve gates only from structured evidence produced by their owning systems.

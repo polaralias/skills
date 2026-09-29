@@ -29,7 +29,9 @@ The structural index stores normalized symbols, file-level imports, extracted ca
 
 The retrieval core consumes parser-backed symbol spans as code chunks and also indexes full-file text windows, including module-level code. It does not maintain a second language-specific regex implementation for supported files. Failed parser results can still contribute bounded text chunks, while structural claims require parser or digest-bound agent-review provenance.
 
-The SQLite cache at `.engineering-workflow/cache/rke.sqlite` contains normalized files, symbols, imports, edges, chunks and FTS terms. Unchanged fingerprints reuse prior parse results; each changed or deleted file updates its own rows transactionally. Queries return bounded result rows instead of hydrating the repository graph into the JavaScript heap.
+The SQLite cache at `.engineering-workflow/cache/rke.sqlite` contains normalized files, symbols, imports, edges, chunks, FTS terms, and typed knowledge relationships. Unchanged fingerprints reuse prior parse results; each changed or deleted file updates its own rows transactionally. Queries return bounded result rows instead of hydrating the repository graph into the JavaScript heap.
+
+Trace and impact query indexed edge candidates for each frontier symbol, then resolve only the candidate imports and symbols. Trace depth is at most five and parser edge results are capped at 500 per trace.
 
 Version-pinned grammar WASMs ship as package dependencies and are loaded locally. Repository content cannot authorise parser downloads or any other network access.
 
