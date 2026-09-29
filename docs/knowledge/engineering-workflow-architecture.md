@@ -5,13 +5,18 @@ description: Explains how the Engineering Workflow skill coordinates the indepen
 timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-29T15:56:00+01:00
+reviewed_at: 2026-09-29T23:00:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
   - skills/engineering/engineering-workflow/references/repo-context-contract.md
   - skills/engineering/engineering-workflow/references/extensions/query-to-knowledge.md
   - skills/engineering/engineering-workflow/references/documentation-lifecycle.md
+  - skills/engineering/engineering-workflow/references/instruction-preservation-audit.md
+  - skills/engineering/engineering-workflow/references/continuity.md
+  - skills/engineering/engineering-workflow/references/knowledge-methodology.md
+  - skills/engineering/engineering-workflow/references/publication-review.md
+  - skills/engineering/engineering-workflow/references/okf-tasks-adapter.md
   - "RKE 0.10.0: 100 default and 30 legacy parity tests, plus 24 packaged grammar fixtures and focused final structural tests passed locally on 2026-09-29"
   - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, 24 isolated tests, generated index check, and EWF mirror parity passed locally on 2026-09-29"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
@@ -93,6 +98,8 @@ Repository Change Comprehension remains the named causal close-path workflow. `c
 Deep repository dissection is an understand-journey mode backed by `dissection assess`, which inventories likely entry points, runtime and verification candidates, task/knowledge surfaces, producer boundaries, and trust gaps without claiming those candidates have executed. The design journey absorbs feature decomposition and test-plan behaviour through feature contracts, invariants, scenario/verification matrices, acceptance, dependencies, risks, and traceable work packages. Session alignment returns an ordered two-lane close assessment: provisional execution reconciliation, durable knowledge promotion, final execution reconciliation, validation, and optional continuation.
 
 Rich continuity is distinct from compact workflow checkpoint state. `handoff write` creates one deterministic, secret-safe standard or max-depth artefact outside task and knowledge bundles, superseding older active records for the same stream. Local visibility requires ignored, untracked `local-docs/handoff/`; shared visibility requires a commit-capable destination and tracking before pickup. `handoff inspect` checks visibility, expiry, branch, and HEAD drift before returning claims for re-verification. Parallel delivery validates an explicit base, sibling container, unique branches, path ownership, and acyclic dependencies, returning non-executing worktree argv plans. Shared integration ownership, inherited authority, and exact-tip cleanup still need agent review. Publication uses a redacted built-in scanner and an already-installed `gitleaks` binary for working-tree and history scans.
+
+The instruction-preservation audit classifies every absorbed legacy package by editorial judgement retained in EWF Markdown, deterministic behaviour owned by commands, and superseded material or independent owners. Continuity now documents a host-conditional compaction pattern and selective max-handoff depth. Knowledge methodology retains glossary, decision lifecycle, provenance, reading-order and streamline judgement without making optional conventions validator rules. Publication review retains the public-readiness sweep and release-profile questions, while repo-setup owns starter automation. The OKF Tasks adapter retains task-lifecycle judgement but defers record schemas, tracker profiles and provider bindings to the current OKF Tasks specification and CLI.
 
 ## Shared CLI and MCP access
 

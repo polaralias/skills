@@ -17,6 +17,8 @@ Produce two proportionate layers for a material code change. Commit context is a
 
 For a user-requested read-only explanation of an existing diff, use this causal account directly after inspecting the changed source and callers. Return the commit context and fuller explanation promptly. Do not create workflow state, a `change explain` receipt, documentation receipt, or closure gate merely to answer; those records belong to an actual change-closure request. Label unexecuted runtime claims as code-supported and say which paths were not exercised.
 
+When a long-running change needs a local explanation for later questions, keep one ignored, secret-safe change-comprehension note rather than a Q&A transcript. Record the bounded source scope, a subject candidate and one to three causal facts, the current fuller explanation, evidence and uncertainty, and any verified reconciliation route. Mark the first account `initial`; after evidence-backed correction, distil it into one current account instead of preserving competing versions. This note is optional continuation context, not canonical knowledge, task state, or a prerequisite for answering a read-only question.
+
 ## Reconciliation order
 
 1. Establish the final change boundary and current validation evidence with `documentation assess --base <ref>`. Review any selected claim binding marked `review-needed` or `unresolved` against the source and focused tests before updating its tracked decision; a `current` binding is only byte-level freshness.
@@ -29,6 +31,8 @@ For a user-requested read-only explanation of an existing diff, use this causal 
 8. Run `closure assess --base <ref>`; resolve only gates backed by owning evidence; then run `close --base <ref>`. Optional selected claim bindings must also be current, with behavioral truth established by the agent's separate review and execution evidence.
 
 `closure assess` returns the RSA-compatible compact alignment view for explanation, tasks, knowledge, validation, handoff, and overall closure. Preserve the two-pass task ordering: execution truth is corrected before promotion, then task acceptance and knowledge links are reconciled after promotion. An absent task bundle or unestablished knowledge surface is an explicit status, not permission to bootstrap one during closure.
+
+In the user report, name the task lane as `updated`, `no-op`, `not present`, or `blocked`; name the knowledge lane as `updated`, `no-op`, `not established`, or `blocked`. Use `complete` only when all required checks and obligations are clear, `incomplete` for truthful unfinished work with a next owner or handoff, and `blocked` when a required check, mutation or validation could not complete. Mention pending external tracker reconciliation separately; it is not a silent closure action.
 
 For an eligible small correction only, use the `closure complete-small` route in the documentation lifecycle. Its fail-closed checks replace the individual receipt and close commands, not the agent's source review or focused validation. Do not apply it to an exploratory design, durable task, canonical knowledge, or unresolved gate.
 
