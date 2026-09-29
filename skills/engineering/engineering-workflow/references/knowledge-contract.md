@@ -32,7 +32,7 @@ Generated indexes are navigation, not canonical product truth. They must not be 
 
 ## Register bindings
 
-`knowledge register` requires an existing typed concept and one or more explicit repository-relative source patterns. It creates or updates the concept entry in `.rke/repo-context.json`, preserves unrelated manifest and entry fields, and invalidates an existing verification receipt when the source set changes. A legacy `.polaralias/repo-context.json` remains readable only when the canonical manifest is absent; the next manifest write migrates it, while ambiguous dual manifests are refused.
+`knowledge register` requires an existing typed concept and one or more explicit repository-relative source patterns. It creates or updates the concept entry in `.rke/repo-context.json`, preserves unrelated manifest and entry fields, and invalidates an existing verification receipt when the source set changes. A legacy `.polaralias/repo-context.json` remains readable only when the canonical manifest is absent; the next manifest write migrates it, while ambiguous dual manifests are refused. Manifest paths are resolved against the repository, including symlink parents, before reads, locks, writes or migration. Bootstrap, closure freshness and the small-change shortcut use the same effective presence check so a legacy-only manifest is never skipped.
 
 Manifest reads reject unknown schema versions and malformed revisions, entries, duplicate paths or source patterns, and verification receipts. An incompatible or invalid manifest is never rewritten as schema version 1. Legacy receipts with `sourceHashes` remain readable alongside current `sourceIdentities` receipts.
 
@@ -42,7 +42,7 @@ When generated notes, an old concept and current source disagree, preserve the r
 
 ## Relationship-aware retrieval
 
-The disposable repository-context index records relative Markdown relationships for typed OKF concepts. `context find` ranks direct lexical matches with BM25, then may add directly connected concepts as lower-scored relationship evidence. Expanded results are labelled `knowledge-relationship` and name the source concept through `linked-from:<path>`.
+The disposable repository-context index records relative Markdown relationships for typed OKF concepts. `context find` gathers bounded direct lexical matches with BM25, then reserves limited result space for directly connected concepts even when lexical matches fill the requested limit. Expanded results are labelled `knowledge-relationship` and name the source concept through `linked-from:<path>`.
 
 A relationship result is a navigation lead, not a textual match, truth claim, freshness receipt, or permission to act. The caller must inspect the cited source before relying on it.
 

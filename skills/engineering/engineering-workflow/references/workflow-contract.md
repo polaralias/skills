@@ -19,6 +19,7 @@ gate_receipts: []
 ```
 
 Use exactly one primary phase and any number of independently justified capabilities and gates.
+State validation rejects duplicate capability or gate names and phase-history transitions with unrecognised endpoints before consequential workflow operations.
 
 ## Phase selection
 
