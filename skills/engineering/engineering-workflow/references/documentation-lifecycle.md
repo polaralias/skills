@@ -80,6 +80,8 @@ Apply does not generate prose. It:
 7. requires repository knowledge freshness to be `fresh`;
 8. stores a local completion receipt tied to the exact delta fingerprint.
 
+Apply snapshots every generated index it may touch, including nested indexes, along with the manifest and receipt. A later generation or freshness failure restores prior bytes and removes newly created indexes. It resolves manifest targets against the repository boundary before mutation.
+
 One to three reader questions is proportionate for a routine slice. Broader foundation or migration work may use more. Passing retrieval proves findability, not factual correctness; evidence and source review remain mandatory.
 
 For a request limited to authoring or repairing canonical knowledge, stop after the requested source review, bundle and reader checks, freshness verification, and current `documentation apply` receipt. Report the authored concept, evidence class, retrieval result, and any residual uncertainty promptly. Do not run `change explain`, `closure assess`, or `close` unless the user also requested change closure; those steps are a separate workflow outcome.

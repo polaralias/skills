@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-29T14:58:49.833Z",
-        "evidence": "Reviewed the full skills PR delta against origin/main, including the EWF 4.13.1 mirror, source provenance, knowledge contract, catalogue validation, and RKE runtime tests.",
+        "verifiedAt": "2026-09-29T16:21:35.338Z",
+        "evidence": "Reviewed synchronized EWF 4.13.2 mirror, RKE source provenance, manifest and rollback contracts, retrieval and trace boundaries, and passing skill package, routing, mirror and 24 isolated tests.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "f1a7d861201e8bf95604109b229f0ebbbbebc824bc85247750612e160c1ba30b"
+            "sha256": "b2d99fbec9a85d2626539d6406f636d0646d77aa7687b70c01244bc5c15eeb91"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -31,7 +31,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/documentation-lifecycle.md",
-            "sha256": "99cb669b3736e3e4dd283b608a784d4fed848f4997cdf3df66a7bd0263798b26"
+            "sha256": "6e2c5487fb85a61bbd508c605ad35263257daa89739016e3ba334b0838c2c765"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/extensions/parallel-delivery.md",
@@ -63,7 +63,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/knowledge-contract.md",
-            "sha256": "3a2d47b3bdfd2660689cc7baebea6564b170064725c3f7e2c7a2a565f952041c"
+            "sha256": "2e6fbb977b307d63bf4883f8dd775d9515cc660e85370139768e420e6176c611"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/migration.md",
@@ -83,7 +83,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/structural-context.md",
-            "sha256": "e1c823c5ae15eaaf42b863fc84b56ac881f539a29f8f154111f0fc8a8059fa30"
+            "sha256": "b36e80f394b168353a6386bf8226ffc33f73d5c21cf1c46ea783dc4e2baa5776"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/tracker-publication.md",
@@ -91,15 +91,15 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/workflow-contract.md",
-            "sha256": "1374582d6064873fd828ce7360ebbcb717650004e314dd091641a7750ece348b"
+            "sha256": "660fbd9c2a4c4cf300efb6869008733a9d1f37375ee96a2f0deed3fc775f5ee2"
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "88c65258c4e3ca2c42f219f26006286731d0247ffc8823d2154e91ae382c8ee0"
+            "sha256": "af1ffd7d3e8e2a7e68528d3222a3d205c4f806496d125ba9ad35f9016e78e9d7"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "1f13c583626a7ad92b29cf191ec0e5a155d9fb543c127edb300bc9a4fd4ac6e6"
+            "sha256": "75de0e4075dd1be61a2bda42d575813ead4ab24b7d554687ae97a68c77aebc54"
           },
           {
             "path": "skills/engineering/engineering-workflow/tests/prompts.md",
@@ -115,11 +115,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "0d3384a0b7a328c412d773b5be0ea571ec651eb2d866f8c36c63fb454e6da8a3"
+            "sha256": "fa542917267f59c50bbbf9b308572fc20fc0445732a3c8d251b3190c52d5e989"
           }
         ]
       }
     }
   ],
-  "revision": 26
+  "revision": 27
 }
