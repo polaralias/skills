@@ -14,8 +14,8 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-30T02:44:30.605Z",
-        "evidence": "Reviewed EWF 5.0 mirror, RKE operation boundary, host routing, release checks, and skills validation against source.",
+        "verifiedAt": "2026-09-30T02:47:16.529Z",
+        "evidence": "Reviewed EWF 5.0 mirror, routing assertion, architecture knowledge, and all 24 skills tests against source.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
@@ -133,5 +133,5 @@
       }
     }
   ],
-  "revision": 29
+  "revision": 30
 }
