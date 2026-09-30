@@ -2,23 +2,23 @@
 
 This repository is a local skills library.
 
-Read [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md) first for the current family layout.
+Read [README.md](README.md) first for the current family layout.
 
-Read [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) for the canonical `SKILL.md` path index and frontmatter line counts.
+Read [INDEX.md](INDEX.md) for the canonical `SKILL.md` path index and frontmatter line counts.
 
 ## Working Rules
 
 - Treat each `SKILL.md` as the source of truth for that skill.
-- If you only need trigger metadata, read just the frontmatter first using the line counts in [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md).
+- If you only need trigger metadata, read just the frontmatter first using the line counts in [INDEX.md](INDEX.md).
 - Read beyond the frontmatter only when you are actually using or updating that skill.
-- Treat documented three-letter all-caps acronym shorthands in [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md) and [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) as valid invocation forms for the matching skill.
-- Route material repository engineering through `engineering-workflow` (EWF) as the single normal skill entry point. EWF works without RKE. When RKE is available, use its deterministic repository evidence and safety operations; activate durable workflow state when continuity or machine gates are useful. OKF Tasks remains the independent execution-record primitive. Resolve legacy engineering names and aliases through EWF compatibility routing; do not invoke absorbed packages as orchestration peers. `repo-setup` remains a separate pre-workflow bootstrap capability.
+- Treat documented three-letter all-caps acronym shorthands in [README.md](README.md) and [INDEX.md](INDEX.md) as valid invocation forms for the matching skill.
+- Route material repository engineering and read-only explanations of repository code, implementation behaviour, or diffs through `engineering-workflow` (EWF) as the single normal skill entry point. Code explanations use RCC prose without creating RKE state. Simple document wording questions and trivial read-only inspection stay outside EWF. EWF works without RKE. When RKE is available, use its deterministic repository evidence and safety operations; activate durable workflow state when continuity or machine gates are useful. OKF Tasks remains the independent execution-record primitive. Resolve legacy engineering names and aliases through EWF compatibility routing; do not invoke absorbed packages as orchestration peers. `repo-setup` remains a separate pre-workflow bootstrap capability.
 - Treat `skills/engineering/engineering-workflow` as the synchronized catalogue mirror declared by its `RKE_SOURCE.json`; its canonical skill source and executable runtime live in `polaralias/rke`. Do not restore runtime scripts or dependencies inside the mirror.
 - Write every active skill description as catalogue routing metadata: start with `Use when`, name observable user requests or workflow moments in user vocabulary, state the outcome concisely, distinguish the nearest confusable siblings where useful, and end with the documented shorthand. Keep implementation inventories and skill-internal jargon in the body rather than the description.
-- Run [scripts/validate_skill_descriptions.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/validate_skill_descriptions.py) after changing active skill descriptions or the routing scenario corpus.
-- Use [scripts/build_skill_index.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/build_skill_index.py) to regenerate [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md) and the marker-delimited README family-routing blocks after any frontmatter, skill-path, or family-membership change. Keep the core routing block hand-maintained and do not copy full skill frontmatter into it.
-- Use [`.agents/skills/skill-finaliser`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser>) as the preferred local path when finalising or normalising skill packages.
-- Keep package validation under [`.agents/skills/skill-finaliser/scripts/validate_skill_package.py`](</C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/.agents/skills/skill-finaliser/scripts/validate_skill_package.py>) rather than duplicating a second repo-level validator.
+- Run [scripts/validate_skill_descriptions.py](scripts/validate_skill_descriptions.py) after changing active skill descriptions or the routing scenario corpus.
+- Use [scripts/build_skill_index.py](scripts/build_skill_index.py) to regenerate [INDEX.md](INDEX.md) and the marker-delimited README family-routing blocks after any frontmatter, skill-path, or family-membership change. Keep the core routing block hand-maintained and do not copy full skill frontmatter into it.
+- Use [`.agents/skills/skill-finaliser`](<.agents/skills/skill-finaliser>) as the preferred local path when finalising or normalising skill packages.
+- Keep package validation under [`.agents/skills/skill-finaliser/scripts/validate_skill_package.py`](<.agents/skills/skill-finaliser/scripts/validate_skill_package.py>) rather than duplicating a second repo-level validator.
 - Keep package structure consistent with the finalised engineering skills and the `skill-finaliser` expectations.
 - For setup or customisation skills, keep persistent user configuration outside installed skill folders. Prefer `~/.agents/config/<skill-name>/` and use `~/.config/<skill-name>/` only as fallback.
 - Treat `local-docs/` at the repo root as the standard gitignored workspace for machine-local notes, handoffs, and other local-only artefacts that should live beside the work without becoming tracked documentation.
@@ -48,7 +48,7 @@ Any change set that modifies one or more packaged skills, changes repo packaging
 - changing more than one packaged skill in one release requires at least a repo-minor bump
 - changing exactly one packaged skill is usually a repo-patch bump unless that skill's own semver bump is larger
 - if a packaged skill changes and its `metadata.version` does not change, the release validation should fail
-- run [scripts/validate_release_version.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/validate_release_version.py) before finishing a slice that should affect `VERSION`, and clean up any generated `version-metadata.json` afterward
+- run [scripts/validate_release_version.py](scripts/validate_release_version.py) before finishing a slice that should affect `VERSION`, and clean up any generated `version-metadata.json` afterward
 
 ## Repo Maintenance Rule
 
@@ -56,13 +56,13 @@ When you make structural or packaging changes in this repository, update every r
 
 Usually that means checking and updating:
 
-- [README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/README.md)
-- [CLAUDE.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/CLAUDE.md) when Claude Code routing or repository instructions change
-- [INDEX.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/INDEX.md)
-- [AGENTS.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/AGENTS.md)
-- [VERSION](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/VERSION) when the slice changes packaged skills, repo packaging guidance, or release-validation expectations
-- [future-consideration/README.md](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/future-consideration/README.md) when future-note handling changes
-- [scripts/build_skill_index.py](/C:/Users/james.DESKTOP-Q8VOBFS/Documents/Development/skills/scripts/build_skill_index.py) if the `INDEX.md` source data changed
+- [README.md](README.md)
+- [CLAUDE.md](CLAUDE.md) when Claude Code routing or repository instructions change
+- [INDEX.md](INDEX.md)
+- [AGENTS.md](AGENTS.md)
+- [VERSION](VERSION) when the slice changes packaged skills, repo packaging guidance, or release-validation expectations
+- [future-consideration/README.md](future-consideration/README.md) when future-note handling changes
+- [scripts/build_skill_index.py](scripts/build_skill_index.py) if the `INDEX.md` source data changed
 - the changed skill's `metadata.version`
 
 Do not leave the tree changed while the repo guidance still points at old paths, old family membership, or old packaging rules.

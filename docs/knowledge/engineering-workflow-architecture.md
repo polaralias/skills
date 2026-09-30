@@ -5,7 +5,7 @@ description: Explains how the Engineering Workflow skill coordinates the indepen
 timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-30T04:00:00+01:00
+reviewed_at: 2026-09-30T08:27:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
@@ -17,8 +17,8 @@ verified_against:
   - skills/engineering/engineering-workflow/references/knowledge-methodology.md
   - skills/engineering/engineering-workflow/references/publication-review.md
   - skills/engineering/engineering-workflow/references/okf-tasks-adapter.md
-  - "RKE 0.10.0: 100 default and 28 legacy parity tests, plus 24 packaged grammar fixtures and four focused EWF agent qualifications passed locally on 2026-09-30"
-  - "Skills catalogue: 33 skill descriptions, 96 routing scenarios, package, version, and EWF mirror parity checks passed locally on 2026-09-30"
+  - "RKE 0.10.0: default and legacy parity suites, 24 packaged grammar fixtures, and a read-only RCC routing agent case passed locally on 2026-09-30"
+  - "Skills catalogue: 33 skill descriptions, 98 routing scenarios, package, version, and EWF mirror parity checks passed locally on 2026-09-30"
   - "RKE 0.10.0 npm artefact built, version-validated, no-Python audited, and clean-install smoked"
   - "Real RKE snapshot: 130 tracked files, about 3.7 s cold index, 0.24 s warm query, 0.84 s one-file refresh, 66 MB parent peak and 397 MB largest parser child observed"
   - "focused convergence evaluation: 2/2 packaged Codex cases passed with persisted phase and gate assertions"
@@ -35,7 +35,7 @@ navigation:
 
 # Polaralias engineering workflow architecture
 
-The `engineering-workflow` skill is the single normal agent entry point for material repository engineering. It contains the engineering methodology and remains usable without RKE. RKE is the independently installed repository memory, retrieval, freshness, and deterministic safety toolbelt used when available. OKF Tasks remains a separate execution-record primitive. EWF owns phase and capability judgement; optional RKE state can persist long-running work and unresolved gates.
+The `engineering-workflow` skill is the single normal agent entry point for material repository engineering and read-only explanations of repository code, implementation behaviour, or diffs. Code explanations use RCC prose without RKE state; simple document wording questions remain outside EWF. It contains the engineering methodology and remains usable without RKE. RKE is the independently installed repository memory, retrieval, freshness, and deterministic safety toolbelt used when available. OKF Tasks remains a separate execution-record primitive. EWF owns phase and capability judgement; optional RKE state can persist long-running work and unresolved gates.
 
 Documentation-driven development is the governing principle: accepted behaviour and durable repository knowledge guide implementation and are rechecked against source, tests, and runtime evidence. RKE operationalises that principle through retrieval, structural analysis, knowledge bindings, documentation impact, and closure evidence.
 
@@ -71,7 +71,7 @@ Canonical knowledge remains deliberately authored. The native knowledge core pro
 
 Registration does not establish freshness. After a human or agent reviews the concept against every resolved bound source, `context verify` records an ordered `{path, sha256}` identity list and compact evidence. Paths are values rather than JSON property names so generic secret scanners do not mistake names such as `auth.py` for credential assignments. Later source changes make that receipt stale; the legacy path-keyed hash map remains migration input only. RKE can also assess a few selected claim-sized bindings in a tracked `.rke/claim-bindings.json`; their `current` status means reviewed bytes still match, while tests and behavioral truth remain separate evidence.
 
-The manifest reader rejects unsupported schema versions, malformed or duplicate bindings, and invalid verification receipts before a writer can change the file. All manifest targets pass repository containment checks, including symlink parents. A legacy manifest migrates on the next write only when no canonical manifest exists; bootstrap and closure use the same effective presence check. Registration requires an existing typed concept. Durable graph checks reject disconnected components while excluding transient concepts, and missing title or description remains a warning. Index generation writes relative navigation in the bundle root and nested concept directories. Linked typed concepts are recorded in the disposable SQLite index and can expand a direct lexical result with source provenance.
+The manifest reader rejects unsupported schema versions, malformed or duplicate bindings, and invalid verification receipts before a writer can change the file. Manifest and workflow writers validate their mutated objects before atomic write; the shared operation boundary rejects blank evidence and checkpoint text. All manifest targets pass repository containment checks, including symlink parents. A legacy manifest migrates on the next write only when no canonical manifest exists; bootstrap and closure use the same effective presence check. Registration requires an existing typed concept. Durable graph checks reject disconnected components while excluding transient concepts, and missing title or description remains a warning. Index generation writes relative navigation in the bundle root and nested concept directories. Linked typed concepts are recorded in the disposable SQLite index and can expand a direct lexical result with source provenance.
 
 Generated indexes, retrieval caches, and model answers remain derived surfaces. They do not become canonical automatically.
 
@@ -109,7 +109,7 @@ The `rke` CLI and `rke-mcp` stdio adapter dispatch the same 43-operation registr
 
 ## Distribution and release integrity
 
-RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, runs the default and executable legacy-parity suites, audits the no-Python invariant, validates the 43-operation/24-grammar release contract, packs the package, and exercises every npm bin shim from a clean installation. The tag workflow verifies that the tag commit is on main, then attests and publishes the npm package with provenance before promoting the GitHub release.
+RKE's `package.json` is the sole runtime version source and is checked against the requested `vX.Y.Z` release tag and built npm artefact. CI type-checks, runs the default and executable legacy-parity suites, audits the no-Python invariant, validates the 43-operation/24-grammar release contract, packs the package, and exercises every npm bin shim from a clean installation. The tag workflow verifies that the tag commit is on main, then attests the npm package. Publication compares the tested tarball's SHA-512 integrity with any existing exact npm version, so a matching retry can finish GitHub Release promotion; mismatched bytes or registry failure block. New versions publish with provenance.
 
 ## Legacy archive
 
@@ -121,7 +121,7 @@ The absorbed engineering packages are preserved unchanged under the repository-r
 
 Codex integration uses `codex mcp add rke -- rke-mcp` once at user scope. The project `AGENTS.md` block directs material changes through EWF; `rke activate` is used when persistent state helps. Repository selection belongs to each operation rather than the server installation. Git-only mode provides optional pre-push checks without claiming an MCP installation.
 
-The packaged model-evaluation runner tests EWF routing, source-driven authority expansion, documentation bootstrap, convergence decisions, RCC prose without a change-explanation command, ordinary engineering without RKE, evidence-based foundation choice, and optional continuity state in isolated temporary repositories. It copies the exact packaged EWF source under evaluation and grades authored evidence and state when applicable.
+The packaged model-evaluation runner tests EWF routing, source-driven authority expansion, documentation bootstrap, convergence decisions, read-only RCC routing without workflow state, RCC prose without a change-explanation command, ordinary engineering without RKE, evidence-based foundation choice, and optional continuity state in isolated temporary repositories. It copies the exact packaged EWF source under evaluation and grades authored evidence and state when applicable.
 
 On the focused 2026-09-22 Codex run, both packaged convergence cases passed. The first observed falsifier persisted `design` with `acceptance-defined` reopened. Two incidental failures persisted `deliver`, left the gate closed, kept acceptance unchanged, and requested a valid hypothesis-relevant observation. This proves only those dated host/model cases; future model behaviour remains evaluation evidence rather than a deterministic runtime guarantee.
 

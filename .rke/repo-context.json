@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-30T02:47:16.529Z",
-        "evidence": "Reviewed EWF 5.0 mirror, routing assertion, architecture knowledge, and all 24 skills tests against source.",
+        "verifiedAt": "2026-09-30T07:41:52.268Z",
+        "evidence": "Reviewed EWF 5.1 routing and mirror, portable AGENTS links, release retry contract, 24 skills tests, 98 routing scenarios, and source freshness.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "ae27ed6679dff408815470d69ec03466223a499b6643b5cf5b3688fb1cd7469d"
+            "sha256": "efb41ac22ceb866c7cacae8bdaf36b6254c3aeb8214c7f79aca9202fec920f90"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -31,7 +31,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/documentation-lifecycle.md",
-            "sha256": "78a40b092444ef828a5e8186a66486dda8fef0227971f6ed8ae4bc56facbfd8c"
+            "sha256": "2ba81c0e08983f8f76aafe0ea3b19ef3e71af0236c18a06b7c10c418861fa54a"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/extensions/parallel-delivery.md",
@@ -107,15 +107,15 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "350822603c850899e4f1aea564849fbe230ef63da595dbdfe2756c66b2d044d1"
+            "sha256": "842111f63a0bbf46126627f2ba352b964ba59165c3ac509cfdc28b8c517028ed"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "eaf0dc15449b0f65dbfad0e46d924db549097de1cb68ded37d621e80b88e753e"
+            "sha256": "cb4622f6bb8d46947fb3b122530559658d7bcae000163da6d0a97372a3c4c980"
           },
           {
             "path": "skills/engineering/engineering-workflow/tests/prompts.md",
-            "sha256": "370908500a202e9137d49b53f27486aca6d9ba5229c7c0e1b8dc93f689e17cf9"
+            "sha256": "97f2d62f7a5b091870f55effca28b53ab718d4dbc5759328cdc327e035c0b937"
           },
           {
             "path": "skills/engineering/repo-setup/SKILL.md",
@@ -127,11 +127,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "7bd6bcbe3813e0cd55e0998053d182b7bc8c97dcfd0b85028e9f7f55af4ad61b"
+            "sha256": "cd1c6f8954599978e16a05c72be16dc4c2056e5f2bce9ecda206ab66f3d1e0eb"
           }
         ]
       }
     }
   ],
-  "revision": 30
+  "revision": 31
 }

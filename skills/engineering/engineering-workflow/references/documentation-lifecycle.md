@@ -1,6 +1,6 @@
 # Documentation Lifecycle
 
-Use this contract for material change assessment, RCC-compatible explanation receipts, canonical documentation completion, and close or pre-merge enforcement.
+Use this contract for material change assessment, prose RCC explanation, canonical documentation completion, and close or pre-push enforcement.
 
 ## Inherited-repository bootstrap
 
@@ -10,9 +10,9 @@ For “document this repository,” or an inherited, contradictory, or underdocu
 rke documentation bootstrap
 ```
 
-Bootstrap is read-only. It returns a `no-rke`, `partial-rke`, or `mature-rke` starting state plus existing truth surfaces, gaps, the minimum recommended foundation, preserve/review/supersede classifications, required evidence, reader questions, and `fresh`/`stale`/`unverified` binding sets. It hashes current bound content without writing the disposable context index; receipt presence alone never establishes freshness. Stale or unverified canonical knowledge is `partial-rke` and requires targeted repair. `supersede` remains empty until source and runtime evidence justify that decision. Only a genuinely current mature foundation should return an explicit `no-op`; do not manufacture a standard set of files.
+Bootstrap is read-only. It returns a `no-rke`, `partial-rke`, or `mature-rke` starting state, existing truth surfaces, gaps, preserve/review sets, an empty `supersede` set, and `fresh`/`stale`/`unverified` binding sets. A `no-rke` repository returns `foundation-undetermined`: EWF chooses whether to strengthen an existing README or create architecture, glossary, decision, support, or operating knowledge from the repository evidence. Bootstrap hashes current bound content without writing the disposable context index; receipt presence alone never establishes freshness. Stale or unverified canonical knowledge is `partial-rke` and requires targeted repair. Only a genuinely current mature foundation should return an explicit `no-op`; do not manufacture a standard set of files.
 
-RKE discovers what documentation is needed and verifies the completed result. The model authors the human-readable content from verified evidence, then registers source bindings, applies documentation validation, and checks context freshness. Never treat bootstrap inventory or legacy prose as runtime proof.
+RKE reports documentation surfaces and gaps, then verifies the authored result. EWF chooses what documentation is needed from repository evidence and authors human-readable content before registering source bindings, applying documentation validation, and checking context freshness. Never treat bootstrap inventory or legacy prose as runtime proof.
 
 ## Event-driven boundary
 
