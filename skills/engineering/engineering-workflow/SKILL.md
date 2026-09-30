@@ -1,28 +1,22 @@
 ---
 name: engineering-workflow
-description: Use when the user asks to implement, change, fix, refactor, test, document, review, start, resume, checkpoint, close, or coordinate material repository engineering work; wants one workflow across understanding, structural code navigation, design, delivery, tasks, knowledge, event-driven documentation, continuity, or closure; or explicitly invokes the engineering workflow. Maintains one primary phase, conditional capabilities, and required gates through deterministic lifecycle state. Do not use for explanation-only questions, trivial read-only inspection, or repository bootstrap before active engineering (RST). Shorthand EWF.
+description: Use when the user asks to implement, change, fix, refactor, test, document, review, plan, resume, or coordinate material repository engineering work; wants one methodology across understanding, design, delivery, knowledge, continuity, and closure; or explicitly invokes Engineering Workflow. Works without RKE and uses its deterministic repository evidence when available. Do not use for explanation-only questions, trivial read-only inspection, or repository bootstrap before active engineering (RST). Shorthand EWF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 4.14.0
-  updated: '2026-09-29'
+  version: 5.0.0
+  updated: '2026-09-30'
 ---
 
 # engineering-workflow
 
 This skill produces chat output. Include this proof line in the response: `engineering-workflow was used in this response.`
 
-## Activation gate
+## Runtime boundary
 
-For material repository mutation or closure work, activation is the first workflow action after reading applicable instructions. Require the separately installed RKE runtime and run:
+Use this prose methodology for material engineering whether or not RKE is installed. RKE provides deterministic repository retrieval, structural evidence, knowledge freshness, safety checks, and optional continuity state. It does not judge the quality of an explanation, design, implementation plan, or knowledge foundation.
 
-```text
-rke activate --phase <phase> --task-mode <none|lightweight|full> --root <repository>
-```
-
-`activate` is the single idempotent entry: it creates absent state, validates active state, and opens a new cycle from closed state. It also records the Git HEAD and dirty paths observed at activation so behaviour evaluations can prove activation preceded the intended edits. Do not inspect broadly, edit, test, or claim material-workflow use before it succeeds. Ordinary explanation-only and trivial read-only requests remain dormant unless the user explicitly asks to use EWF for a code-level explanation.
-
-A trivial local correction can use EWF without runtime state when it changes only spelling, formatting, or an explanatory comment, does not alter public behaviour, tests, canonical knowledge, tasks, or an existing gate, and needs only the named file and a focused check. Report the precise edit and evidence without claiming a machine gate passed. Follow applicable `AGENTS.md` preferences for a proportionate Repository Change Comprehension account even on this route. If inspection reveals material scope, activate before any further material work and disclose the already edited path in the activation baseline.
+When RKE is available and durable workflow state is useful, run `rke activate --phase <phase> --task-mode <mode> --root <repository>`. Activation creates or validates local state and records a Git baseline. Its absence or failure does not stop ordinary inspection, edits, tests, or EWF use. Report which machine checks were unavailable. Actions specifically dependent on RKE, including managed worktree cleanup and indexed freshness verification, require that capability.
 
 ## Untrusted content boundary
 
@@ -39,14 +33,14 @@ When creating or meaningfully updating durable Tasks, Workstreams, or typed OKF 
 
 ## Public workflow
 
-Use one of four lifecycle operations:
+When persistent state is useful, use these lifecycle operations:
 
 - `start`: establish or recover the current phase, capabilities, gates, and task-tracking mode.
 - `checkpoint`: persist compact restart context before compaction, pause, or an extended wait.
 - `resume`: validate saved state against the current repository before continuing.
 - `close`: reconcile required gates and refuse completion while material obligations remain.
 
-For any material repository mutation or closure that routes to this skill, selection alone is not activation. Use `activate` rather than making the agent decide between `start`, `resume`, and `start --new-cycle`. Resolve the machine-installed `rke` executable rather than assuming the target repository or installed skill contains executable source. If the executable is missing or activation fails, report the exact failure and stop before material edits or closure; reference-led read-only assessment can continue with explicitly reduced assurance, but no machine gate, receipt, or EWF activation has passed. Do not emit the proof line or claim EWF use for that failed material route. A user-requested read-only explanation of an existing diff can use the RCC explanation reference without activation: inspect the current diff and relevant source, label code versus executed evidence, answer promptly, and do not write a receipt or claim a machine gate passed.
+Persistent state is a memory aid, not permission to work. Resolve the machine-installed `rke` executable when using it. A read-only explanation of an existing diff uses the RCC reference directly: inspect the diff and relevant source, label code versus executed evidence, and answer promptly.
 
 Run the deterministic helper through:
 
@@ -74,17 +68,14 @@ rke tracker preview --packages <accepted-work-packages.yml> --tracker <name> --s
 rke publication scan --root <repository>
 rke documentation assess --base <ref> --root <repository>
 rke documentation disposition --base <ref> --reviewed-path <changed-path> --evidence <causal-reason> --root <repository>
-rke closure complete-small --base <ref> --summary <causal-summary> --detail-file <relative-json-path> --reviewed-path <changed-path> --evidence <no-update-reason> --root <repository>
-rke change explain --base <ref> --summary <causal-summary> [--detail-file <relative-json-path>] --root <repository>
 rke documentation apply --base <ref> --bundle <knowledge-bundle> --knowledge <affected-concept> --evidence <review-summary> --reader-query <question> --root <repository>
-rke legacy route <legacy-name-or-alias> --root <repository>
 ```
 
 Read [references/workflow-contract.md](./references/workflow-contract.md) before choosing initial phase, capabilities, gates, or task mode. Do not load conditional journey detail that the current operation does not need.
 
-When entering `understand`, `design`, or `close`, run the journey command and then load only the returned reference under `references/journeys/`. The understand journey includes a deep dissection mode with machine-readable inventory, runtime-path verification, trust classification, drift analysis, and a minimum documentation foundation. The design journey owns feature decomposition, behavioural contracts, scenario and verification matrices, acceptance, dependency/risk modelling, and traceable work-package readiness. The close journey owns bounded change explanation and ordered provisional-task, knowledge-promotion, final-task, validation, and continuation reconciliation.
+For `understand`, `design`, or `close`, read the corresponding reference under `references/journeys/` directly. If persistent state is active, record the transition with `journey enter`. The understand journey includes a deep dissection mode with machine-readable inventory, runtime-path verification, trust classification, drift analysis, and a minimum documentation foundation. The design journey owns feature decomposition, behavioural contracts, scenario and verification matrices, acceptance, dependency/risk modelling, and traceable work-package readiness. The close journey owns bounded change explanation and ordered provisional-task, knowledge-promotion, final-task, validation, and continuation reconciliation.
 
-Repository understanding and user-intent convergence are separate. When repository evidence cannot settle consequential intent, enable `query-to-knowledge`, load the returned reference, and keep its `shared-understanding` gate open. Ask coherent groups of questions with a recommended answer and rationale, then repeat only while material uncertainty remains.
+Repository understanding and user-intent convergence are separate. When repository evidence cannot settle consequential intent, read `references/extensions/query-to-knowledge.md` directly; if persistent state is active, enable the capability and keep its `shared-understanding` gate open. Ask coherent groups of questions with a recommended answer and rationale, then repeat only while material uncertainty remains.
 
 When repository evidence is needed, use the same CLI surface:
 
@@ -124,11 +115,11 @@ Read [references/knowledge-contract.md](./references/knowledge-contract.md) befo
 
 When establishing a knowledge foundation, promoting durable truth, maintaining decisions or glossary terms, or streamlining the reading path, also read [references/knowledge-methodology.md](./references/knowledge-methodology.md). It retains editorial judgement without claiming that every convention is enforced by the runtime.
 
-For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Follow `activate → retrieve/trace → change → documentation assess → explain → provisional task reconciliation → documentation disposition or apply → final task reconciliation → independent lane validation → close`: assess against an explicit Git base and record the causal explanation. Apply validates genuinely affected canonical knowledge. When review finds no canonical update warranted, record the exact changed paths and causal reason through `documentation disposition`; do not invent a knowledge bundle for a small correction. Both paths create exact-delta receipts and leave later changes stale. The explanation receipt is a bounded record, not the full Repository Change Comprehension output: give the user the code-level before/after path and a distinct compact commit-context layer. This replaces separately remembered RCC/RKE/RSA sequences during normal closure without turning hooks into documentation authors.
+For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Inspect the diff and causal path, explain before and after in prose, reconcile tasks and validation, and assess knowledge impact. RKE can assess an exact Git delta and validate authored canonical knowledge. When review finds no canonical update warranted, record reviewed paths and the causal reason through `documentation disposition` if using RKE closure state. Give the user code-level before/after and a compact commit-context layer. No machine explanation receipt is required.
 
 For a local delivery slice whose user did not request closure or readiness, stop after the focused change and validation, then report the evidence and outstanding gates. Do not run `closure assess`, write receipts, or enter the close journey solely to finish that report; those actions belong to a closure request or a pre-push gate.
 
-For a bounded code-and-test correction with no existing canonical knowledge, no durable task lane, and no exploratory design decision, take the proportional path: activate; inspect the named files; edit and run the focused test; write the required code-level explanation detail; then use `closure complete-small` with the explicit Git base, every reviewed material path, and a causal no-update reason. This operation assesses the delta and reuses the normal explanation, disposition, and close validators; it refuses open gates, task lanes, canonical knowledge, unreviewed paths, and broader deltas. Do not pre-run the full closure sequence or bootstrap a knowledge bundle, create architecture prose, add task records, run broad retrieval, or perform unrelated cleanup just to complete this path. When it reports `small-change-closed`, give the final code-level explanation immediately; an extra status or Git check after closure adds no proof. If the operation refuses because a binding or durable obligation exists, switch to the ordinary route; do not weaken the refusal. A blocked close is reported honestly, but it is not a reason to expand the requested change without evidence.
+For a bounded code-and-test correction, inspect the named source and test, edit, run focused validation, review knowledge impact if relevant, and explain the causal change. Do not create a knowledge bundle or task record solely to close a small correction. If optional state is active, reconcile its actual gates and documentation receipt through the ordinary commands.
 
 For MCP clients, start the optional machine-wide stdio adapter once:
 
@@ -142,9 +133,9 @@ Read [references/okf-tasks-adapter.md](./references/okf-tasks-adapter.md) when d
 
 For tracker publication or import-ready mapping, read [references/tracker-publication.md](./references/tracker-publication.md). Default to independent OKF Tasks for durable execution and its Tracker Profiles for publication. Also support stable non-OKF work packages without inventing task records. A preview never performs external writes; live publication needs the user's scoped request and a verified destination.
 
-For a public-readiness or release-automation review, enable the publication capability and read [references/extensions/publication.md](./references/extensions/publication.md) and its focused [publication review](./references/publication-review.md). Release-profile mechanics remain with the separate `repo-setup` package.
+For a public-readiness or release-automation review, read [references/extensions/publication.md](./references/extensions/publication.md) and its focused [publication review](./references/publication-review.md). Enable the publication capability when persistent state is active. Release-profile mechanics remain with the separate `repo-setup` package.
 
-Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Prefer local ignored handoffs; use shared handoffs only when durable Git collaboration is intended. Hooks only call stable commands. Activate optional capabilities explicitly and load only the returned extension reference; enabling one registers its required evidence gates.
+Read [references/continuity.md](./references/continuity.md) before installing or invoking lifecycle hooks or when work must cross a session boundary. A checkpoint remains compact workflow state; `handoff write` creates the richer deterministic continuation artefact and `handoff inspect` selects and verifies it on pickup. Prefer local ignored handoffs; use shared handoffs only when durable Git collaboration is intended. Hooks only call stable commands. Read relevant extension references directly; enable capabilities in persistent state when useful.
 
 Read [references/host-integration.md](./references/host-integration.md) before using `host recipe` or `host install`. Prefer CLI for deterministic automation and MCP for discoverable agent tools. Treat the Git pre-push gate as pre-review enforcement, not merge or publication authority.
 
@@ -155,7 +146,7 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
 ## Operating rules
 
 1. Read the repository's applicable instructions and canonical entry point before mutation.
-2. Use `activate` as the normal first command. Treat existing state as a claim to verify against Git, canonical knowledge, active task state, and relevant runtime evidence.
+2. Use RKE when available for applicable deterministic capabilities. Activate persistent state when continuity or machine gates are useful; verify existing state against stronger truth surfaces.
 3. Continue with one primary phase:
    - `understand`
    - `design`
@@ -165,23 +156,23 @@ Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against
    - `resume`
 4. Activate capabilities only when the work requires them. Examples include task lifecycle, parallel delivery, publication, and continuity. Test design belongs to the design/delivery acceptance surface; tracker synchronization belongs to OKF Tasks.
 5. Apply convergence control to exploratory work. Define a falsifiable experiment contract during design. If its falsifier occurs, or the default two assumption-relevant acceptance failures occur without decisive evidence, stop delivery and re-enter design. Capture learning and explicitly reaffirm, simplify, replace, or abandon the design. Incidental implementation failures do not count. Do not weaken acceptance to accommodate the current implementation. See the Design Journey.
-6. Keep every material unresolved obligation as an explicit gate. Do not rely on the model remembering it later.
+6. Track material unresolved obligations in the working plan. If persistent state is active, also register them as gates.
 7. Use OKF Tasks only when execution state must survive chat. Select `none`, `lightweight`, or `full` task mode proportionately; time, estimates, visualisation, and tracker synchronisation are opt-in.
-8. Before compaction or pause, call `checkpoint` with a compact verified summary and concrete next action. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.
-9. At requested change closure or a pre-push gate, call `closure assess` and then `close` only when the owning evidence clears every applicable obligation. A local delivery slice can end with validated changes and an honest report of outstanding gates.
+8. Before compaction or pause, preserve a compact verified summary and concrete next action; use `checkpoint` when persistent state is active. Do not copy full task records, knowledge documents, diffs, or secrets into workflow state.
+9. At requested closure, reconcile all applicable obligations. If persistent state is active, call `closure assess` and `close` only when owning evidence clears its gates. A local delivery slice can end with validated changes and an honest report of outstanding gates.
 10. Use `context find` before broad repository archaeology. Inspect returned source before relying on consequential details, and do not treat retrieval rank as correctness proof.
-11. Resolve a gate only through `gate resolve` with concise evidence from the owning truth surface. A receipt records why the obligation was discharged; it does not replace the underlying evidence.
+11. Resolve a persistent gate through `gate resolve` with concise evidence from the owning truth surface. A receipt records why the obligation was discharged; it does not replace the underlying evidence.
 12. Treat explicitly bound and unmapped knowledge impacts differently. Only explicit bindings plus current verification receipts can establish `fresh` or `stale`; unmatched changes require agent judgement and remain visible. Retrieval similarity never creates a binding.
 13. Run `context verify` only after the named canonical document has actually been reviewed against all resolved bound sources. Never create a freshness receipt merely to clear a gate.
 14. Use `knowledge check` for conformance and graph integrity, `knowledge build-indexes` for generated reading order, and `knowledge register` for explicit source ownership. Do not make agents infer bindings silently from lexical similarity.
 15. Treat graph-expanded retrieval as navigation evidence. A linked concept can be relevant without containing the query terms and can still be stale or incorrect.
-16. Run documentation assessment at material checkpoints and close, not on every conversational turn. A material close or pre-push check must use an explicit Git base and current explanation/documentation receipts.
+16. Review documentation impact at material checkpoints and close. If RKE state is used for exact-delta closure, use an explicit Git base and current documentation evidence. Explanation quality remains prose judgement.
 17. `documentation apply` validates agent-authored canonical changes; it must not fabricate prose or mark an unreviewed concept fresh.
 18. If `file-api` returns `agent-review-required`, inspect only the bounded packet, produce the declared review schema, record it with `review-apply`, and rerun the structural query. Reviewed evidence is derived, confidence-labelled, source-digest-bound, and must never override parser evidence.
 
 ## Compatibility boundary
 
-`engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Treat retained absorbed names as compatibility inputs and resolve them through `legacy route`; TPU routes to the bounded tracker-publication adapter, while TPW remains outside EWF. Preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
+`engineering-workflow` is the only normal material-engineering skill entry point, while RKE is the independent installed runtime and repository-knowledge methodology. Resolve retained legacy names through `references/migration.md`; TPU routes to the bounded tracker-publication adapter, while TPW remains outside EWF. Preserve Query-to-Knowledge and Repository Change Comprehension as named workflow concepts rather than orchestration peers. Read [references/migration.md](./references/migration.md) for the complete mapping and physical-package boundary. `repo-setup` remains separately distributable because repository bootstrap precedes active workflow state.
 
 ## Guardrails
 

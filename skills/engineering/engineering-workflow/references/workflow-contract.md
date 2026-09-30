@@ -32,7 +32,7 @@ State validation rejects duplicate capability or gate names and phase-history tr
 
 A phase is current control context, not the only concern that exists. Capabilities and outstanding gates survive phase changes until deliberately resolved.
 
-Use `journey enter understand`, `journey enter design`, or `journey enter close` to make those transitions deterministically. The operation preserves existing capabilities and gates, records phase history, adds only the journey defaults, and returns the one internal reference to load. Understand activates repository-context retrieval without inventing a knowledge gate. Design registers `acceptance-defined` because observable acceptance is its exit condition. Close adds no gates by assumption; material obligations must already be registered from actual scope.
+Read the relevant journey reference directly. When persistent state is active, use `journey enter understand`, `journey enter design`, or `journey enter close` to record the transition. The operation preserves existing capabilities and gates, records phase history, and adds only the journey defaults. Understand activates repository-context retrieval without inventing a knowledge gate. Design registers `acceptance-defined` because observable acceptance is its exit condition. Close adds no gates by assumption; material obligations must already be registered from actual scope.
 
 ## Task modes
 
@@ -69,7 +69,7 @@ Every command returns structured JSON and a meaningful exit status.
 
 ### `activate`
 
-Provides the single normal lifecycle entrypoint for agents. It creates missing state, validates and returns active state, or starts a new cycle from valid closed state. It records a bounded Git baseline—HEAD, dirty-path count, and at most 500 dirty paths—so evaluation can establish whether activation happened before the intended mutation. Invalid existing state is reported rather than overwritten.
+Provides an optional lifecycle entrypoint for agents using durable state. It creates missing state, validates and returns active state, or starts a new cycle from valid closed state. It records a bounded Git baseline—HEAD, dirty-path count, and at most 500 dirty paths—so evaluation can establish whether activation happened before the intended mutation. Invalid existing state is reported rather than overwritten.
 
 ### `start`
 
@@ -87,7 +87,7 @@ Validation covers status, non-empty capability and gate names, task tracking sha
 
 ### `close`
 
-Returns a blocked result while outstanding gates remain. With `--base`, it also requires current causal-explanation and documentation receipts for a material Git delta. A gate-free valid state can become closed only when those event-driven checks are clear. Adapters may resolve gates only from structured evidence produced by their owning systems.
+Returns a blocked result while outstanding gates remain. With `--base`, it also requires current documentation evidence for a material Git delta. A gate-free valid state can become closed only when those event-driven checks are clear. Adapters may resolve gates only from structured evidence produced by their owning systems.
 
 ### `journey enter`
 
@@ -99,11 +99,11 @@ Configure proportionate execution persistence and delegate strict bundle conform
 
 ### `capability enable`
 
-Activates one bounded extension and registers its required gates. The returned reference is the only extension detail to load. Availability does not imply authority to perform external or destructive actions.
+Activates one bounded extension and registers its required gates. Read the extension reference directly from the skill. Availability does not imply authority to perform external or destructive actions.
 
 ### `closure assess`
 
-Reports change, validation, task, knowledge, coordination, publication, and residual lanes independently, plus the compact session-alignment contract and its required reconciliation ordering. With `--base`, it recomputes the material-delta fingerprint and checks the explanation and documentation receipts. It is read-only and blocks through its exit status while any gate or event-driven receipt remains unresolved. A ready assessment still leaves workflow state active; only `close` performs the terminal state transition.
+Reports validation, task, knowledge, coordination, publication, and residual lanes independently, plus the compact session-alignment contract and its required reconciliation ordering. With `--base`, it recomputes the material-delta fingerprint and checks the documentation receipt. It is read-only and blocks through its exit status while any gate or event-driven receipt remains unresolved. A ready assessment still leaves workflow state active; only `close` performs the terminal state transition.
 
 ### `dissection assess`
 
@@ -111,7 +111,7 @@ Returns a conservative machine-readable inventory of instructions, manifests, en
 
 ### `documentation bootstrap`
 
-Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; compares verification receipts with current bound-content hashes without persisting a context index; recommends the minimum foundation or `no-op`; and separates preserve, review, freshness, and evidence-required sets. Stale or unverified knowledge cannot produce a mature no-op. It never authors prose or supersedes an existing truth surface automatically.
+Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; compares verification receipts with current bound-content hashes without persisting a context index; reports existing surfaces and gaps without selecting a foundation; and separates preserve, review, freshness, and evidence-required sets. Stale or unverified knowledge cannot produce a mature no-op. It never authors prose or supersedes an existing truth surface automatically.
 
 ### `handoff write` and `handoff inspect`
 
@@ -143,10 +143,6 @@ Renders accepted non-OKF work packages from a repository-local YAML or JSON file
 
 Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit whole-document bindings identify affected knowledge; optional selected claim bindings report exact section/source freshness, move candidates and unresolved evidence. Unmatched changes retain an agent-judgement obligation. A current claim binding does not prove behavior.
 
-### `change explain`
-
-Records a bounded RCC-compatible causal explanation against the exact material-delta fingerprint. Source-code changes require a `--detail-file` with before/after, why, changed symbol paths, and evidence-labelled verification claims; a short summary alone is refused. The local receipt is explanatory evidence, not canonical knowledge, validation proof, or publication authority.
-
 ### `documentation apply`
 
 Validates already-authored canonical changes, requires affected-concept coverage and current selected claim bindings, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
@@ -158,10 +154,6 @@ Records a reviewed `no-canonical-update` decision for a material delta with no a
 ### `host recipe` and `host install`
 
 Expose supported MCP activation and local Git pre-push enforcement. Recipe is read-only. Install refuses independently owned hook or MCP entries without explicit force. Codex user-level MCP activation remains a returned command; Claude project MCP configuration uses `.mcp.json`; Git-only mode installs no MCP entry.
-
-### `legacy route`
-
-Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. TPU maps to the tracker-publication adapter; TPW and unknown inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
 
 ### `context find`
 

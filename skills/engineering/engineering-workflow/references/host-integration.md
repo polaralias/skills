@@ -32,7 +32,7 @@ Codex installation deliberately returns the separate `codex mcp add` command rat
 ## Invocation model
 
 - Agents invoke CLI commands directly for lifecycle, hooks, and automation.
-- `rke activate` is the one idempotent lifecycle entrypoint for initial agent activation. Its Git baseline lets the model evaluator distinguish activation-before-edit from state created after the requested mutation.
+- `rke activate` initializes optional durable state. Its Git baseline helps evaluate stateful runs; EWF remains usable without the runtime.
 - MCP clients discover the complete public operation registry and invoke the same lifecycle, repository, knowledge, documentation, continuity, coordination, host, and publication handlers and schemas as the CLI.
 - `pre-push` is the deterministic pre-GitHub-review boundary available to ordinary Git repositories. It blocks the push when closure evidence is missing or stale, accepts a previously closed workflow when its receipts remain current, and does not create or publish a pull request.
 - Session-start and pre-compaction helpers remain lightweight continuity operations. They do not replace close, documentation assessment, or a durable handoff.
