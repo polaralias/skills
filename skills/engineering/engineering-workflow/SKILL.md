@@ -1,10 +1,10 @@
 ---
 name: engineering-workflow
-description: Use when the user asks to implement, change, fix, refactor, test, document, review, plan, resume, or coordinate material repository engineering work; wants one methodology across understanding, design, delivery, knowledge, continuity, and closure; or explicitly invokes Engineering Workflow. Works without RKE and uses its deterministic repository evidence when available. Do not use for explanation-only questions, trivial read-only inspection, or repository bootstrap before active engineering (RST). Shorthand EWF.
+description: Use when the user asks to implement, change, fix, refactor, test, document, review, plan, resume, coordinate, or explain repository code, implementation behaviour, or a diff; wants one methodology across understanding, design, delivery, knowledge, continuity, and closure; or explicitly invokes Engineering Workflow. Works without RKE and uses its deterministic evidence when available. Simple document wording questions, trivial read-only inspection, and repository bootstrap before active engineering (RST) stay outside. Shorthand EWF.
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 5.0.0
+  version: 5.1.0
   updated: '2026-09-30'
 ---
 
@@ -40,7 +40,7 @@ When persistent state is useful, use these lifecycle operations:
 - `resume`: validate saved state against the current repository before continuing.
 - `close`: reconcile required gates and refuse completion while material obligations remain.
 
-Persistent state is a memory aid, not permission to work. Resolve the machine-installed `rke` executable when using it. A read-only explanation of an existing diff uses the RCC reference directly: inspect the diff and relevant source, label code versus executed evidence, and answer promptly.
+Persistent state is a memory aid, not permission to work. Resolve the machine-installed `rke` executable when using it. A read-only explanation of repository code, implementation behaviour, or an existing diff uses the RCC reference directly: inspect the relevant source and callers, label code versus executed evidence, and answer promptly without creating RKE state. A simple question about document wording does not need EWF.
 
 Run the deterministic helper through:
 
@@ -141,7 +141,7 @@ Read [references/host-integration.md](./references/host-integration.md) before u
 
 Use [references/quality-coverage.md](./references/quality-coverage.md) for the Slice 4/5 completeness boundary. Do not present deterministic generation guardrails as an executed model-quality evaluation.
 
-Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. Its corpus is a packaged resource, so an installed npm package does not depend on a source checkout. The checked-in suite covers implicit activation, nearby non-activation, and source-driven authority expansion. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
+Use `rke-eval` for a bounded end-to-end routing and behaviour evaluation against temporary repositories. Its corpus is a packaged resource, so an installed npm package does not depend on a source checkout. The checked-in suite covers EWF use without state, RCC explanation routing, nearby document-question non-routing, optional continuity, and source-driven authority limits. This evaluation invokes a configured Codex model and therefore consumes model usage; deterministic unit tests remain the default inner loop.
 
 ## Operating rules
 

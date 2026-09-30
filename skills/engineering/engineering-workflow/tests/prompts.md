@@ -94,7 +94,9 @@ Prompt: "Explain where this helper is called. Do not change anything."
 Expected behaviour:
 
 - does not create task ceremony for explanation-only work
-- keeps task mode `none`
+- uses EWF's RCC method to trace the helper's callers and explain code-supported behaviour
+- creates no RKE workflow state for this read-only explanation
+- does not configure task mode or create workflow state
 - does not discover, start, or validate OKF Tasks in `none` mode
 
 Prompt: "Implement this accepted multi-session feature with durable acceptance and evidence."
@@ -244,7 +246,8 @@ Expected behaviour:
 - loads EWF before engineering work and uses optional RKE state only when continuity or machine gates help
 - if persistent state is useful, activates before the edits it intends to track
 - does not claim machine checks ran when RKE is unavailable
-- keeps explanation-only requests dormant
+- routes read-only code and diff explanations to EWF without creating RKE state
+- leaves simple document wording questions outside EWF
 
 ## Context trust and benchmarking
 
