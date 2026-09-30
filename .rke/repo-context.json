@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-09-30T07:41:52.268Z",
-        "evidence": "Reviewed EWF 5.1 routing and mirror, portable AGENTS links, release retry contract, 24 skills tests, 98 routing scenarios, and source freshness.",
+        "verifiedAt": "2026-09-30T09:31:05.199Z",
+        "evidence": "Reviewed EWF mirror provenance, README routing, and repository version. RKE source SHA records the pre-recreation snapshot; the fresh 0.1.0 root will contain current functionality without shared ancestry.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "efb41ac22ceb866c7cacae8bdaf36b6254c3aeb8214c7f79aca9202fec920f90"
+            "sha256": "cff950d2d104eb31e7cd0786da90ad40fd6eeb162114a09a1ddc3d92b92efcb8"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -127,11 +127,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "cd1c6f8954599978e16a05c72be16dc4c2056e5f2bce9ecda206ab66f3d1e0eb"
+            "sha256": "e9f35916f29727c2171910afc641b8982df2453b9340d50cf4efc976bbe094a6"
           }
         ]
       }
     }
   ],
-  "revision": 31
+  "revision": 32
 }

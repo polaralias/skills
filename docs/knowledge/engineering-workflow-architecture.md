@@ -103,7 +103,7 @@ The instruction-preservation audit classifies every absorbed legacy package by e
 
 ## Shared CLI and MCP access
 
-The separately installed `@polaralias/rke` npm package owns the CLI, MCP adapter, dependencies, caches, benchmarks, and runtime tests. The skills repository contains only the synchronized EWF catalogue package and a source/version manifest; it does not carry an independently maintained runtime copy.
+The separately installed `@polaralias/rke` npm package owns the CLI, MCP adapter, dependencies, caches, benchmarks, and runtime tests. The skills repository contains only the synchronized EWF catalogue package and a source/version manifest; it does not carry an independently maintained runtime copy. The manifest's source commit records the pre-recreation snapshot of [polaralias/rke](https://github.com/polaralias/rke). RKE is being restarted with current functionality at `0.1.0` from a fresh Git root, so that source commit will not be an ancestor of the new repository history.
 
 The `rke` CLI and `rke-mcp` stdio adapter dispatch the same 43-operation registry for optional continuity, retrieval, structural context, knowledge, documentation evidence, dissection, handoff, coordination, host integration, and publication scanning. Schemas, argument validation, annotations, outcomes, exit semantics, and business handlers therefore have one implementation; each transport only translates its protocol envelope. One machine-wide MCP process accepts an explicit repository on every tool call, validates dynamic targets as Git repositories, and can restrict them with allowed-root boundaries. Repository-local state and evidence never become machine-global merely because the executable is shared. Fixed-root mode remains a compatibility option.
 

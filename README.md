@@ -231,7 +231,7 @@ npx skills add polaralias/skills --skill engineering-workflow
 
 Add `--global` to install for the current user instead of the current project. See the [Skills CLI documentation](https://www.skills.sh/docs/cli) for agent selection and non-interactive options.
 
-`engineering-workflow` is a synchronized agent-skill mirror. Its optional RKE runtime is maintained in [polaralias/rke](https://github.com/polaralias/rke). Install RKE once per machine when its `rke`, `rke-mcp`, or lifecycle-hook commands are useful; the catalogue skill remains usable without that runtime.
+`engineering-workflow` is a synchronized agent-skill mirror. Its optional RKE runtime is maintained in [polaralias/rke](https://github.com/polaralias/rke). RKE is being recreated with the current functionality as a fresh `0.1.0` foundation and no inherited Git history. The commit in the mirror's `RKE_SOURCE.json` identifies the pre-recreation source snapshot; it will not be an ancestor of the new RKE history. Install RKE once per machine when its `rke`, `rke-mcp`, or lifecycle-hook commands are useful; the catalogue skill remains usable without that runtime.
 
 ## Versioning
 
