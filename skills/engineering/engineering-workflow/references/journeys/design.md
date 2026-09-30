@@ -43,7 +43,7 @@ When the limit is reached, stop delivery before repairing the next symptom. Capt
 
 Design re-entry is not permission to move the goalposts. Refine acceptance only when new authoritative evidence changes the required behaviour; never weaken acceptance to accommodate the current implementation. Record the new evidence, the authority it came from, why acceptance changed, and which earlier conclusions must be reconsidered. Otherwise preserve the existing acceptance condition while changing or abandoning the design.
 
-Keep the learning in the task, handoff, checkpoint, or canonical knowledge surface justified by its durability; `change explain` remains bounded to the Git delta. If work may cross compaction or a session boundary, continuity must retain the minimum active convergence state defined in the [Continuity Contract](../continuity.md).
+Keep the learning in the task, handoff, checkpoint, or canonical knowledge surface justified by its durability. If work may cross compaction or a session boundary, continuity must retain the minimum active convergence state defined in the [Continuity Contract](../continuity.md).
 
 ## Output contract
 

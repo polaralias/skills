@@ -38,7 +38,7 @@ rke documentation disposition --base <ref> \
   --evidence <why-no-canonical-update-is-warranted>
 ```
 
-Repeat `--reviewed-path` for every material path. The operation refuses incomplete coverage, changed canonical concepts, explicitly affected bindings, selected claims requiring review, thin evidence, or more than 100 changed paths. It writes only a local exact-delta `no-canonical-update` receipt; it does not mark any knowledge fresh. A later edit invalidates the receipt. If the repository already has canonical knowledge, check its independent freshness before closure. A simple code-and-test change in a repository with no canonical bundle does not require inventing one, but a genuinely needed foundation still follows bootstrap and apply. Do not create a new architecture document or attempt `documentation apply` merely because bootstrap can recommend a foundation for a future, larger effort. Initial foundation assessment is conditional on the task requiring repository knowledge establishment; it is not a per-change close gate.
+Repeat `--reviewed-path` for every material path. The operation refuses incomplete coverage, changed canonical concepts, explicitly affected bindings, selected claims requiring review, thin evidence, or more than 100 changed paths. It writes only a local exact-delta `no-canonical-update` receipt; it does not mark any knowledge fresh. A later edit invalidates the receipt. If the repository already has canonical knowledge, check its independent freshness before closure. A simple code-and-test change in a repository with no canonical bundle does not require inventing one. Use the repository evidence and knowledge methodology to choose a genuinely needed foundation; bootstrap reports gaps and existing surfaces without prescribing a filename.
 
 An optional tracked `.rke/claim-bindings.json` can select a few important document sections. When present, assessment reports the exact reviewed section and source identities, move candidates, ambiguity and unsupported-language gaps. `current` means the recorded section and source bytes still match; it does not mean a test ran or the behavioral statement is true. Review moved or changed evidence against the actual code and tests, then update the tracked binding only after confirming the durable claim. An unsupported source requires a digest-bound agent review before the binding can be current. Do not assign a binding to every paragraph or code symbol.
 
@@ -46,15 +46,7 @@ Assessment bounds the changed-path list to 20 entries and reports `detailsTrunca
 
 ## Causal explanation
 
-Record the final material explanation through:
-
-```text
-rke change explain --base <ref> --summary <causal-summary> --detail-file <relative-json-path>
-```
-
-For a source-code delta, supply a repository-local JSON detail with non-empty `before`, `after`, and `why`; `causalPath` entries naming each relevant changed path and symbol; and `verification` entries that label claims as runtime, test, code-only, or unknown with evidence. Explain changed state effects and former/new failure paths in those fields rather than saying only which files changed. The command rejects a vacuous summary or missing code-level detail. A documentation-only delta may use the summary alone. The receipt fingerprints the exact material delta, retains bounded diff evidence, and distinguishes the agent's causal account from test/runtime proof. It is not canonical knowledge or a substitute for tests. The user-facing explanation should expand the receipt into the complete before/after code path and remaining uncertainties.
-
-For Repository Change Comprehension parity, the receipt is only one layer. Produce a separate commit subject candidate plus one to three verified causal facts, and a fuller user explanation that names the entry point, callers, removed or bypassed branch, state effect, failure behaviour and evidence class. Do not claim runtime verification from inspected code or an unexecuted test. On a later question, refresh the relevant evidence and reopen only a real implementation, decision, documentation or task gap; a clearer explanation alone does not invent new work.
+Inspect the final diff, relevant callers and callees, and focused validation. Reconstruct before and after behaviour, state effects, and former and new failure paths in prose. Produce a commit subject candidate, one to three causal facts, and a fuller explanation that names the entry point, callers, removed or bypassed branch, state effect, failure behaviour, and evidence class. Do not claim runtime verification from inspected code or an unexecuted test. An ignored Markdown comprehension note may preserve this account for a long-running change, but it is optional and is not a closure gate. On a later question, refresh the evidence and reopen only a real implementation, decision, documentation, or task gap.
 
 ## Apply and quality gate
 
@@ -84,7 +76,7 @@ Apply snapshots every generated index it may touch, including nested indexes, al
 
 One to three reader questions is proportionate for a routine slice. Broader foundation or migration work may use more. Passing retrieval proves findability, not factual correctness; evidence and source review remain mandatory.
 
-For a request limited to authoring or repairing canonical knowledge, stop after the requested source review, bundle and reader checks, freshness verification, and current `documentation apply` receipt. Report the authored concept, evidence class, retrieval result, and any residual uncertainty promptly. Do not run `change explain`, `closure assess`, or `close` unless the user also requested change closure; those steps are a separate workflow outcome.
+For a request limited to authoring or repairing canonical knowledge, stop after the requested source review, bundle and reader checks, freshness verification, and current `documentation apply` receipt. Report the authored concept, evidence class, retrieval result, and any residual uncertainty promptly. Do not run `closure assess` or `close` unless the user also requested change closure; those steps are a separate workflow outcome.
 
 ## Closure
 
@@ -95,11 +87,11 @@ rke closure assess --base <ref>
 rke close --base <ref>
 ```
 
-A material delta blocks until both the change-explanation and documentation receipts match the current fingerprint. The documentation receipt may be an applied, verified concept or a complete reviewed no-update disposition; the latter is rechecked for changed-path coverage and absence of affected bindings at closure. A later source or canonical edit makes either receipt stale. A `no-op` assessment needs neither receipt.
+When persistent closure state is used, a material delta blocks until documentation evidence matches the current fingerprint. The documentation receipt may be an applied, verified concept or a complete reviewed no-update disposition; the latter is rechecked for changed-path coverage and absence of affected bindings at closure. A later source or canonical edit makes the documentation receipt stale. A `no-op` assessment needs no receipt.
 
 The pre-merge hook accepts the same `--base` and delegates to `closure assess`. Hooks enforce current receipts; they do not author documentation, resolve ambiguity, waive gates, merge, push, or publish.
 
-For a bounded code-and-test correction with no task lane, canonical knowledge, open gates, or exploratory design, `rke closure complete-small` combines the same assessment, causal explanation, exact-path no-update disposition, and close checks. Supply the code-level detail file, all reviewed material paths, and a real no-update reason. The command refuses an ineligible or unreviewed delta and cannot skip either receipt. Use the ordinary reconciliation route when it refuses; do not split or weaken the validation to force eligibility.
+For a bounded correction, use focused validation and a prose causal account. If persistent state is active, use the ordinary documentation disposition and close checks; no special small-change command is needed.
 
 ## Trust boundary
 

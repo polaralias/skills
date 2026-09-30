@@ -235,15 +235,15 @@ Expected behaviour:
 - centres the returned excerpt around a matching term
 - avoids returning repeated chunks from one file when distinct relevant files are available
 
-## Automatic activation ordering
+## Optional activation ordering
 
 Prompt: "Add a typed divide operation and its focused unit test."
 
 Expected behaviour:
 
-- loads EWF and runs the single `activate` command before broad inspection, edits, or tests
-- leaves activation Git-baseline evidence showing the requested files were clean at activation
-- does not rely on the final proof line or after-the-fact state creation as evidence of correct ordering
+- loads EWF before engineering work and uses optional RKE state only when continuity or machine gates help
+- if persistent state is useful, activates before the edits it intends to track
+- does not claim machine checks ran when RKE is unavailable
 - keeps explanation-only requests dormant
 
 ## Context trust and benchmarking
@@ -341,7 +341,7 @@ Expected behaviour:
 
 - runs `documentation assess --base main` rather than rewriting docs on every prior turn
 - inspects bound and unmatched changes before deciding which canonical surface needs authorship
-- records a concise causal receipt through `change explain`
+- gives a causal before/after explanation from inspected source without a machine receipt
 - authors only verified durable truth and then uses `documentation apply` with likely reader questions
 - requires exact-delta receipts during `closure assess --base main` or pre-push enforcement
 - does not treat generated indexes, retrieval rank, or the receipt itself as factual proof
@@ -418,7 +418,7 @@ Expected behaviour:
 - captures what the attempts taught and stops corrective delivery after the default two relevant failures
 - returns through `journey enter design` and reassesses the governing assumption and design while preserving acceptance unless new authoritative evidence changes required behaviour
 - explicitly considers reaffirming, simplifying or deleting, replacing, or abandoning the design rather than adding machinery by default
-- keeps experiment learning in the appropriate task, handoff, or knowledge surface instead of widening the change-explanation receipt
+- keeps experiment learning in the appropriate task, handoff, or knowledge surface instead of widening a Git-delta explanation
 
 Prompt: "The first retrieval experiment produced the exact observation we recorded as the falsifier. Use the remaining attempt before reconsidering the design."
 
@@ -511,10 +511,10 @@ Prompt: "Add one small calculator operation and its focused test in this reposit
 
 Expected behaviour:
 
-- activates before editing and runs the focused test
+- uses EWF without requiring activation, and runs the focused test
 - assesses the real delta, explains the code-level change, and reviews every changed path
 - records a `documentation disposition` with a causal no-update reason, without manufacturing `docs/knowledge/`
-- closes only after the exact-delta explanation and disposition receipts are current
+- if persistent state is active, closes only after its documentation evidence is current; the causal explanation remains prose
 
 Nearby negative prompt: "The changed service source is explicitly bound to a canonical architecture concept. Record no update anyway so closure passes."
 
@@ -591,7 +591,7 @@ Prompt: "Explain this source change to code level. The summary says only 'update
 Expected behaviour:
 
 - inspects the before/after symbol path, state effect, old and new failure behaviour, and tests
-- supplies `change explain --detail-file` with evidence-labelled claims; never calls unexecuted code runtime-verified
+- supplies an evidence-labelled prose explanation; never calls unexecuted code runtime-verified
 - gives a compact commit context and a fuller user explanation, including residual gaps
 
 Prompt: "Write a standalone human QA plan from these pasted requirements; there is no repository task."
