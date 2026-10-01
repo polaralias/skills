@@ -30,7 +30,10 @@ def test_engineering_family_routes_material_work_through_single_entrypoint() -> 
     rendered = build_skill_index.build_routing_families(entries)
 
     assert "invoke `engineering-workflow` as the normal skill entry point" in rendered
-    assert "installed RKE runtime's idempotent `activate` command" in rendered
+    assert "read-only explanations of repository code, implementation behaviour, or diffs" in rendered
+    assert "Code explanations use RCC prose without creating RKE state" in rendered
+    assert "EWF owns engineering methodology and works without RKE" in rendered
+    assert "optional continuity state" in rendered
     assert "OKF Tasks remains the independent execution-record primitive" in rendered
     assert "Resolve legacy engineering names through EWF compatibility routing" in rendered
     assert "rather than invoking those packages as orchestration peers" in rendered

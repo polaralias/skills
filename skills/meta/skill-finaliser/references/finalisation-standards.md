@@ -105,9 +105,7 @@ For this repository's alias convention:
 - keep the alias stable once published
 - if a clean three-letter alias would collide or mislead, surface the conflict explicitly rather than silently picking a noisy fallback
 
-Near the top of the body, include the required precedence line:
-
-`Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.`
+Keep the body consistent with the current user's instructions and higher-priority host policy. Formatting guidance in a skill does not override a conflicting user preference.
 
 ## 3. Canonical companion metadata
 
@@ -127,7 +125,6 @@ policy:
   products:
   - chatgpt
   - codex
-  - api
   - atlas
 ```
 
@@ -319,7 +316,7 @@ Before treating a skill as complete, confirm:
 - the trigger description is clear, specific, and within spec limits
 - the repository's alias convention is satisfied, including the three-letter alias in frontmatter and any linked local surfaces that expose aliases
 - any companion metadata reflects the actual skill behaviour
-- required precedence language is present
+- skill wording respects user instructions and higher-priority host policy
 - bundled references are present and operational
 - dynamic lookup exceptions are narrow and justified
 - instruction language is internally consistent

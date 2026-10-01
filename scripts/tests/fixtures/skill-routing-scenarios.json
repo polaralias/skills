@@ -62,6 +62,8 @@
   {"id":"qtk-boundary","kind":"boundary","prompt":"Resolve this contested architecture decision before routine documentation maintenance.","expected_skills":["engineering-workflow"]},
   {"id":"rcc-positive","kind":"positive","prompt":"Explain what changed, what calls what, and what was removed before I commit.","expected_skills":["engineering-workflow"]},
   {"id":"rcc-boundary","kind":"boundary","prompt":"The code is tested; give me a causal change summary and invite follow-up questions, not a quiz.","expected_skills":["engineering-workflow"]},
+  {"id":"rcc-readonly-code-explanation","kind":"positive","prompt":"How does this repository implementation work, including its callers and failure path? Explain without changing files.","expected_skills":["engineering-workflow"]},
+  {"id":"rcc-readonly-diff-explanation","kind":"boundary","prompt":"Explain this code diff and what changed. This is read-only; do not start a workflow state or task.","expected_skills":["engineering-workflow"]},
   {"id":"rds-positive","kind":"positive","prompt":"I inherited this vibe-coded repo; map how it actually works.","expected_skills":["engineering-workflow"]},
   {"id":"rds-boundary","kind":"boundary","prompt":"Bootstrap the first trustworthy documentation spine for this unfamiliar repository.","expected_skills":["engineering-workflow"]},
   {"id":"rke-positive","kind":"positive","prompt":"The repository docs are stale, duplicated, and hard to search; make them trustworthy.","expected_skills":["engineering-workflow"]},
