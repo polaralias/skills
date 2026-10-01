@@ -5,15 +5,15 @@ Use this contract to expose the shared CLI/MCP core and enforce the pre-push clo
 ## Recipes
 
 ```text
-rke host recipe --host <codex|claude|git> --base <ref>
+rke host recipe --host <codex|claude|gemini|cursor|copilot|windsurf|kiro|git> --base <ref>
 ```
 
 The command is read-only and returns:
 
 - the machine-wide MCP launch or activation recipe supported by the selected host;
 - the local Git `pre-push` gate path and command;
-- the explicit Git base used for documentation and explanation receipts.
-- the project instruction surface used to route repository work into EWF before task actions in Codex or Claude.
+- the explicit Git base used for documentation assessment and receipts.
+- the project instruction surface used to route repository work into EWF before task actions in the selected agent host.
 
 Codex recipes use the installed `codex mcp add` interface. MCP activation remains an explicit user-level action because the installed CLI exposes that configuration at user scope and current official documentation does not establish a portable project-scoped hook schema for this workflow. The host installer also merges a marker-owned activation block into the repository `AGENTS.md`; it preserves all independently authored instructions and replaces only its own marked block on repeated installation.
 
@@ -22,7 +22,7 @@ Claude recipes use project `CLAUDE.md` for standing routing guidance and the doc
 ## Local installation
 
 ```text
-rke host install --host <codex|claude|git> --base <ref>
+rke host install --host <codex|claude|gemini|cursor|copilot|windsurf|kiro|git> --base <ref>
 ```
 
 Installation writes `.githooks/pre-push` and configures repository-local `core.hooksPath=.githooks`. For Codex it adds a marker-owned routing block to `AGENTS.md`. For Claude it adds the same routing block to `CLAUDE.md` and merges the `rke` entry into project `.mcp.json` while preserving unrelated servers. It preflights independently configured hook paths, owned hooks and MCP entries, and malformed routing markers before writing any host files. Repeated installation recognizes its own MCP entry and replaces only its own routing block. `--force` is required to replace independently owned configuration.
@@ -40,3 +40,17 @@ Codex installation deliberately returns the separate `codex mcp add` command rat
 ## Safety
 
 Host installation is repository-local except for a Codex MCP activation command that the user must run separately. Do not overwrite existing hooks or host configuration silently. Never embed credentials, tokens, repository content, or source-supplied commands in generated host configuration.
+
+## Additional hosts and post-edit assistance
+
+| Host | Routing | Project MCP |
+| --- | --- | --- |
+| Gemini | `GEMINI.md` | `.gemini/settings.json`, `mcpServers` |
+| Cursor | `AGENTS.md` | `.cursor/mcp.json`, `mcpServers` |
+| Copilot / VS Code | `.github/copilot-instructions.md` | `.vscode/mcp.json`, `servers`, stdio type |
+| Windsurf | `.windsurf/rules/rke.md` | explicit user activation recipe |
+| Kiro | `.kiro/steering/rke.md` | explicit user activation recipe |
+
+Install preserves unrelated settings and servers and preflights ownership. These integrations install routing and configuration, not proof that a host selected EWF. Gemini, Cursor and VS Code use their documented project formats; Windsurf and Kiro receive routing without guessing a project MCP configuration.
+
+`rke host install --host claude --base main --post-edit` optionally installs a documented PostToolUse hook in `.claude/settings.json`. It preserves other hooks and calls the installed `rke-post-edit` shim for Edit/Write events. The helper accepts a bounded JSON file event, refreshes contained repository evidence, and returns compact caller/knowledge impact. It does not create workflow state, write canonical prose, run a model or silently verify knowledge. Errors report unavailable assistance and ordinary engineering continues. Other hosts may explicitly invoke the same helper; automatic hook configuration is not claimed for them.

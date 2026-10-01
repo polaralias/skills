@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 5.1.0
-  updated: '2026-09-30'
+  version: 5.2.0
+  updated: '2026-10-01'
 ---
 
 # engineering-workflow
@@ -91,6 +91,8 @@ rke structure review-apply <relative-source-path> --review-file <relative-json-p
 rke structure trace <symbol> --direction <in|out|both> --root <repository>
 rke structure map --root <repository>
 rke structure impact --changed <relative-source-path> --root <repository>
+rke structure impact --base <git-ref> --root <repository>
+rke structure resolve <relative-source-path> --server-command <installed-executable> --language <language-id> --root <repository>
 rke structure search <regex> --root <repository>
 rke structure benchmark --corpus <relative-json-path> --root <repository>
 ```
@@ -107,11 +109,12 @@ When canonical OKF knowledge must be validated, indexed, or bound to implementat
 
 ```text
 rke knowledge check --bundle <relative-directory> --root <repository>
+rke knowledge graph --bundle <relative-directory> --focus <concept-path-within-bundle> --depth 1 --limit 40 --root <repository>
 rke knowledge build-indexes --bundle <relative-directory> --root <repository>
 rke knowledge register --knowledge <relative-concept> --source <pattern> --root <repository>
 ```
 
-Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
+Read [references/knowledge-contract.md](./references/knowledge-contract.md) before mutating knowledge indexes or bindings. Read [references/okf-profile.md](./references/okf-profile.md) for compatible OKF knowledge metadata, trust and expiry signals, and the independent OKF Tasks boundary. Validation and generated navigation do not make a claim true. Register explicit source patterns, review the concept against those sources, and only then use `context verify` to record freshness.
 
 When establishing a knowledge foundation, promoting durable truth, maintaining decisions or glossary terms, or streamlining the reading path, also read [references/knowledge-methodology.md](./references/knowledge-methodology.md). It retains editorial judgement without claiming that every convention is enforced by the runtime.
 

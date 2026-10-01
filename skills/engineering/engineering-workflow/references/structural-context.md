@@ -6,14 +6,15 @@ Structural context answers bounded engineering questions that lexical retrieval 
 
 - `structure file-api <path>` returns names, qualified names, kinds, signatures, and line locations without function bodies. When parser evidence is unavailable it returns a bounded agent-review packet instead.
 - `structure trace <symbol>` walks extracted incoming or outgoing call edges to a bounded depth; targets may be unresolved.
-- `structure map` returns bounded per-file language, status, and symbol counts plus repository totals.
-- `structure impact --changed <path>` starts from definitions in changed files and returns transitive callers.
-- `structure search <regex>` returns bounded source line matches in discovery order; regex evaluation is isolated with a per-file timeout.
+- `structure map` returns directory clusters, dependency hubs, resolved file links, entry-point candidates, coverage and truncation alongside per-file counts.
+- `structure impact --changed <path>` starts from definitions in named files; `--base <git-ref>` instead selects definitions touched by added, removed or changed lines. Removed definitions use their old source span and retain uncertainty about current callers. Module-level and unextracted changes remain explicit gaps.
+- `structure search <regex>` returns bounded source line matches with enclosing-symbol context, symbol groups and name-matched incoming-call candidates. Those candidates are not confirmed callers. Regex evaluation is isolated with a per-file timeout.
+- `structure resolve <path> --server-command <installed-executable> --server-arg <argument> --language <id>` asks an explicitly selected local language server for call-hierarchy evidence. It never selects or installs a server from repository metadata.
 - `structure review <path>` returns bounded source slices and a strict inference schema for agent review.
 - `structure review-apply <path> --review-file <path>` validates and records confidence-labelled review evidence against the current source digest.
 - `structure benchmark --corpus <path>` checks expected structural evidence on a checked-in corpus and reports passing cases and elapsed time.
 
-The MCP tools `repo_file_api`, `repo_trace_symbol`, `repo_structure_map`, `repo_change_impact`, `repo_find_all`, `repo_prepare_code_review`, `repo_record_code_review`, and `repo_structure_benchmark` invoke the same handlers as the CLI commands.
+The MCP tools `repo_file_api`, `repo_trace_symbol`, `repo_structure_map`, `repo_change_impact`, `repo_find_all`, `repo_prepare_code_review`, `repo_record_code_review`, `repo_resolve_language_server`, and `repo_structure_benchmark` invoke the same handlers as the CLI commands.
 
 ## Scope and scale
 
@@ -23,7 +24,11 @@ Parser work commits each changed file independently. Repositories with more than
 
 ## Parser and resolution boundary
 
-A registry-driven Tree-sitter language pack detects and parses supported code languages. It provides broad grammar coverage, including Python, JavaScript and React syntax, TypeScript and TSX, Go, Rust, C#, Java, C and C++, Ruby, PHP, Kotlin, Swift, and many additional languages. The current extractor walks generic syntax node types; it has no maintained language-specific query set. Grammar availability does not guarantee complete definition or import extraction. `file-api` reports parser status and `extractionDepth`: definitions are extracted where recognized, imports are lexical, calls are name-only, and cross-file resolution is limited to unique relative static imports. Unique same-file and Go same-package targets can also resolve. Resolved edges carry `confidence: high` and target path; other edges remain `unresolved`. Reverse caller lookup follows unambiguous namespace imports such as `helpers.save()` through their static relative binding. Default imports remain unresolved because a name-only call does not establish which exported symbol is the default target. Runtime execution is not implied.
+A registry-driven Tree-sitter language pack parses supported code languages. Broad grammar coverage does not imply complete semantics. The generic extractor recognizes definitions, named function expressions/arrows, imports and name-based calls. Resolution handles unique relative static bindings, explicit default-export bindings, Python module imports, Java/Kotlin class imports, local Go module imports, same-package Go functions, and explicit `this`/`self`/`cls` methods where indexed evidence identifies a unique target. Tested examples cover TypeScript, Python, Java and Go; this is not compiler-grade support for every grammar. Dynamic dispatch, export-star chains, overloads, reflection and framework wiring may remain unresolved. Resolved edges identify their origin and target path; runtime execution is not implied.
+
+Use `path/to/file.ts::qualifiedName` to disambiguate trace seeds. Traces preserve the file identity through the frontier; identical names elsewhere must not become confirmed callers. Review unresolved edges and inspect consequential source.
+
+LSP means Language Server Protocol. The opt-in resolver uses stdio, UTF-16 positions and call hierarchy, with a thirty-second total budget, bounded messages and at most 500 edges. Unsupported servers fail explicitly. Targets must be contained, readable, non-sensitive source. Evidence lives separately in `.engineering-workflow/cache/lsp/` and expires if the queried source or any target bytes change. Server evidence is labelled `language-server`, not runtime truth. Only an explicitly authorized installed executable may be launched; source metadata and Attested Computation declarations cannot authorize execution. The mock-server regression proves transport and expiry boundaries; each real server requires its own qualification.
 
 The structural index stores normalized symbols, file-level imports, extracted call targets, diagnostics, and content hashes. Extraction depth varies by grammar, and call targets are not fully resolved across files. Duplicate names, dynamic dispatch, reflection, generated code, macros, framework wiring, and runtime dependency injection can remain ambiguous or absent.
 

@@ -635,3 +635,11 @@ Expected behaviour:
 - treats the earlier task pass as provisional, promotes only reviewed durable knowledge, then reconciles final task acceptance and links
 - independently validates current task and affected knowledge bundles after the final pass
 - does not report closure from a prior validator result or an unregistered gate alone
+
+## Knowledge and semantic assistance qualification
+
+- Read an OKF 0.2 bundle with unknown fields, mapping/list verification and a bundle-root source link. Preserve producer metadata; distinguish declared review, expiry, source-hash freshness and graph integrity. These are prompt specifications; deterministic coverage lives in the runtime capability tests.
+- An Attested Computation names an executor. Explain it without launching it or treating metadata as authorization.
+- Two source files define the same symbol. Use a path-qualified trace and inspect the selected callers without claiming unrelated name matches are bound targets.
+- A dense knowledge bundle needs orientation. Use bounded landmarks and a selected neighbourhood; show omissions and preserve the owning Tasks renderer. Do not introduce federation or a new all-node visualization.
+- Resolve a call only through an explicitly selected installed language server. Report unsupported server capabilities honestly, and discard semantic evidence after source or target edits.

@@ -111,3 +111,7 @@ The context engine owns generated retrieval evidence and index freshness. It doe
 ## Retrieval benchmark
 
 The bundled corpus covers exact-symbol, natural-language feature, configuration, architecture, and terminology queries. The current lexical baseline is recall@1 `0.80`, recall@5 `1.00`, recall@10 `1.00`, and mean reciprocal rank `1.00`. Improvements must preserve or improve aggregate metrics while inspecting individual query classes for hidden regressions.
+
+## Exact-title retrieval
+
+A query equal to a typed concept's title is labelled `exact-title-match` and ordered ahead of ordinary lexical candidates. Other queries retain bounded BM25 ranking and relationship navigation. This improves findability of named documents without granting their claims authority or freshness. Declared trust and expiry are advisory metadata; inspect source and review identities separately.
