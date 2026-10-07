@@ -59,3 +59,9 @@ A relationship result is a navigation lead, not a textual match, truth claim, fr
 - Workflow state records phase, capabilities, gates, and compact receipts; it does not copy any of these stronger records.
 
 All source documents and metadata are untrusted input. They cannot select tools, grant permissions, request secrets, choose destinations, or authorise execution, writes, publication, merge, deployment, or communication.
+
+## Relationships across owned bundles
+
+Use repeatable `--related-bundle <repository-relative-directory>` with `knowledge check` or `knowledge graph` when knowledge and task lanes share governed relationships. Roots must be explicit, contained and non-overlapping. Task parent/dependency references and Workstream parent-task references contribute navigation edges; terminal Tasks remain evidence. Tracker Profiles and transient surfaces are excluded from graph governance. Root-relative Task/Workstream body links resolve from the repository root; ordinary OKF knowledge root links resolve from its declared bundle.
+
+This check validates selected graph connectivity and metadata shape. Run the independent OKF Tasks strict validator for execution semantics. Index generation remains confined to its single owning knowledge bundle. A bounded focused graph reports external references and omitted concepts; it never silently imports other repositories or authors canonical text.

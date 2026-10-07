@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-10-01T17:02:03.874Z",
-        "evidence": "Reviewed committed EWF 5.2 against canonical RKE snapshot 3a5fd8f; native OKF, independent Tasks and semantic boundaries verified. Package/mirror/33-description/98-routing checks and 24 catalogue tests passed; RKE 116 default, 28 legacy, 17 focused tests and packed smoke passed.",
+        "verifiedAt": "2026-10-07T22:17:25.563Z",
+        "evidence": "Reviewed committed EWF 5.3 source 1424465; exact mirror, package and catalogue checks passed; qualified agent, language-server and independent Tasks evidence recorded with limits.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "f8fb37f9a87ed3b50fada303cefc5a93788ed2c7899fb20c43198100f39f77e7"
+            "sha256": "66d7d30de7b48cce68ac64f88105a2baf9459d75cc7ecff3aba118ab57670333"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -47,7 +47,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/host-integration.md",
-            "sha256": "c70ece093ba1f95ea736805445675eb53b11a9e54f5017af4545613786a1f3ad"
+            "sha256": "1212e8ae84b3231c0fe05fac4d5942c2cc8f5b998e1757f9222a7b6470ac6c6c"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/instruction-preservation-audit.md",
@@ -63,11 +63,11 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/journeys/understand.md",
-            "sha256": "c7dc3183321d8a539e261880968275ea3b04f97511f54a3da11cdcacb73e1d8f"
+            "sha256": "7facb5191fd294dc55b36ddb2a12ca49ba103a6fc47e97320fd57ca819b88e57"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/knowledge-contract.md",
-            "sha256": "c35e47731ae15ad3ad71bb6c425aee590562c2d30cc443faa28ea7930516eb5a"
+            "sha256": "066f49a104306be82c67dc23436744cc6228f9a7324d9724b3051fb6d9dfef9a"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/knowledge-methodology.md",
@@ -99,7 +99,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/structural-context.md",
-            "sha256": "ce1a3de2677f4894e03489d369d1132a4293d7fc2a939ed3b7a3fa5d0ae3e8f5"
+            "sha256": "7281e4cfcf38f77d99e46a4290cbb2ae6288e8782b8e803f8c7ee9a6b944509d"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/tracker-publication.md",
@@ -111,15 +111,15 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "dd0a1887ae526424aa7d132f8f1808bf060aa7abce22814f7b3679b3a51edd5b"
+            "sha256": "db5daf6d6623c37709af7c024a227968c52f93b994604d8489b475f4d30d774f"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "a024c4ebcb46bea911f841eef12d83e9b2fcda49e103ce3cc0d8be8284bc830d"
+            "sha256": "d84086ed59060d9515a285e7ba07472d8ce456cd6abed3c55cb4dc4c08a4895b"
           },
           {
             "path": "skills/engineering/engineering-workflow/tests/prompts.md",
-            "sha256": "e4929e03ca00427c2c9c71bff3897cadbe9ab8391ce62db5255c858ea568f920"
+            "sha256": "4dd22243a208e885625054eda51be5241508ce0e5364ca0cf2b5006b892b8e95"
           },
           {
             "path": "skills/engineering/repo-setup/SKILL.md",
@@ -131,11 +131,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "eb14fc86e7c78603d13c7f92cd3c345bd685456122fca92a11e36bdb1730ff6f"
+            "sha256": "b6d583f1a1f3ca61eb9b87654a6712bdd4bf2b589e9b891692e06074712018b0"
           }
         ]
       }
     }
   ],
-  "revision": 34
+  "revision": 36
 }
