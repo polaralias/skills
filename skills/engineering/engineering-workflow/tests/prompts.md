@@ -643,3 +643,12 @@ Expected behaviour:
 - Two source files define the same symbol. Use a path-qualified trace and inspect the selected callers without claiming unrelated name matches are bound targets.
 - A dense knowledge bundle needs orientation. Use bounded landmarks and a selected neighbourhood; show omissions and preserve the owning Tasks renderer. Do not introduce federation or a new all-node visualization.
 - Resolve a call only through an explicitly selected installed language server. Report unsupported server capabilities honestly, and discard semantic evidence after source or target edits.
+
+## Current discovery qualification
+
+- In an unfamiliar package workspace with a small relevant package and a large unrelated one, locate the implementation and identify its actual callers. Use explicit source/scopes where useful; do not equate package-balanced rank with correctness.
+- A function and a same-named class method are exported through a barrel. Explain the change impact with file-qualified identities and retain ambiguous relationships as unresolved.
+- A knowledge concept links to a terminal Task and a Workstream uses its structured task identifier. Query the explicitly selected bundles as one relationship graph, then delegate execution validation to OKF Tasks. Do not turn graph connectivity into acceptance proof.
+- Author a disposable orientation summary only for a repository whose consequential source has been inspected. Record source identities and uncertainty, and withhold reuse after source drift. Never promote generated explanation automatically.
+
+The executable paired qualification corpus is maintained in the canonical runtime at `src/evals/current-boundary-agent.json`. Prompt fixtures here specify behaviour; only a dated executed report counts as agent evidence.

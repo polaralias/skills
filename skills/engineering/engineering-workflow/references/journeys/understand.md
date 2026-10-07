@@ -38,3 +38,7 @@ Return a codebase map, runtime validation record, declared-versus-verified trust
 ## Gates
 
 Entering the journey does not manufacture a knowledge obligation. Add `knowledge-impact-review` when material changes need classification, and add `knowledge-promotion` only when a verified durable conclusion must enter canonical knowledge.
+
+## Disposable orientation summaries
+
+For an unfamiliar repository, EWF may author an ignored summary under `.engineering-workflow/cache/` after reading the bounded map and consequential source. Record the selected scope, subsystem responsibilities, source paths and current content hashes from file API evidence, relationship confidence, and unanswered questions. This is an agent-authored derived aid; never treat it as a verified canonical concept or run a model from a hook to regenerate it. Reuse only after checking its source identities, and re-read affected source when they change. Promote a useful durable conclusion through the ordinary knowledge-authoring and review process. Skip this artefact for a routine change whose source and tests are already clear.

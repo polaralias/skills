@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 5.2.0
-  updated: '2026-10-01'
+  version: 5.3.0
+  updated: '2026-10-07'
 ---
 
 # engineering-workflow
@@ -89,9 +89,9 @@ rke structure file-api <relative-source-path> --root <repository>
 rke structure review <relative-source-path> --root <repository>
 rke structure review-apply <relative-source-path> --review-file <relative-json-path> --root <repository>
 rke structure trace <symbol> --direction <in|out|both> --root <repository>
-rke structure map --root <repository>
+rke structure map --token-budget 3000 --root <repository>
 rke structure impact --changed <relative-source-path> --root <repository>
-rke structure impact --base <git-ref> --root <repository>
+rke structure impact --base <git-ref> --merge-base --root <repository>
 rke structure resolve <relative-source-path> --server-command <installed-executable> --language <language-id> --root <repository>
 rke structure search <regex> --root <repository>
 rke structure benchmark --corpus <relative-json-path> --root <repository>
@@ -103,13 +103,13 @@ When the implementation location or relationship is unknown, use bounded determi
 
 Read [references/structural-context.md](./references/structural-context.md) before relying on structural traces or extending language coverage. Structural output is bounded navigation and impact evidence, not a decorative graph or a substitute for reading consequential source.
 
-Structural operations query the repository graph by default. When the user or verified repository evidence supplies a narrower boundary, pass repeatable `--scope <relative-path>` overrides to trace, map, impact, or search; widen explicitly if that boundary is insufficient. Do not imply automatic shard selection or impose an arbitrary file-count refusal.
+Structural operations query the repository graph by default. When the user or verified repository evidence supplies a narrower boundary, pass repeatable `--scope <relative-path>` overrides to trace, map, impact, or search; widen explicitly if that boundary is insufficient. Package manifests supply balanced ranking scopes automatically; this does not restrict the query to a guessed package. Use `context find --source-only` for implementation-only discovery and explicit scopes for a known boundary.
 
 When canonical OKF knowledge must be validated, indexed, or bound to implementation evidence, use:
 
 ```text
 rke knowledge check --bundle <relative-directory> --root <repository>
-rke knowledge graph --bundle <relative-directory> --focus <concept-path-within-bundle> --depth 1 --limit 40 --root <repository>
+rke knowledge graph --bundle <relative-directory> --related-bundle <task-bundle-if-relevant> --focus <concept-path-within-bundle> --depth 1 --limit 40 --root <repository>
 rke knowledge build-indexes --bundle <relative-directory> --root <repository>
 rke knowledge register --knowledge <relative-concept> --source <pattern> --root <repository>
 ```
@@ -120,7 +120,7 @@ When establishing a knowledge foundation, promoting durable truth, maintaining d
 
 For material change closure, read [references/documentation-lifecycle.md](./references/documentation-lifecycle.md). Inspect the diff and causal path, explain before and after in prose, reconcile tasks and validation, and assess knowledge impact. RKE can assess an exact Git delta and validate authored canonical knowledge. When review finds no canonical update warranted, record reviewed paths and the causal reason through `documentation disposition` if using RKE closure state. Give the user code-level before/after and a compact commit-context layer. No machine explanation receipt is required.
 
-For a local delivery slice whose user did not request closure or readiness, stop after the focused change and validation, then report the evidence and outstanding gates. Do not run `closure assess`, write receipts, or enter the close journey solely to finish that report; those actions belong to a closure request or a pre-push gate.
+For a local delivery slice whose user did not request closure or readiness, stop after the focused change and validation, then report the evidence and outstanding obligations actually required by the task. Do not invent broader validation, formal closure, or release gates for a routine local correction. Do not run `closure assess`, write receipts, or enter the close journey solely to finish that report; those actions belong to a closure request or a pre-push gate.
 
 For a bounded code-and-test correction, inspect the named source and test, edit, run focused validation, review knowledge impact if relevant, and explain the causal change. Do not create a knowledge bundle or task record solely to close a small correction. If optional state is active, reconcile its actual gates and documentation receipt through the ordinary commands.
 

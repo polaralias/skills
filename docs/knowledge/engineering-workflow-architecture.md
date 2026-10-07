@@ -5,7 +5,7 @@ description: Explains how the Engineering Workflow skill coordinates the indepen
 timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-09-30T08:27:00+01:00
+reviewed_at: 2026-10-07T23:00:00+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
@@ -144,3 +144,11 @@ The 2026-09-24 to 2026-09-27 parity qualification used a staged TypeScript RKE i
 The synchronized [OKF profile](../../skills/engineering/engineering-workflow/references/okf-profile.md) preserves unknown producer metadata, mapping/list verification, content time, declared expiry and bundle-root links. Declared review and source-hash freshness remain independent. Attested Computation cannot authorize execution. OKF Tasks retains its strict validator, execution statuses and visualization producer. Dense graph methodology favours selected neighbourhoods, landmarks and readable panels rather than an all-node canvas.
 
 Host routing now covers Codex, Claude, Gemini, Cursor, Copilot, Windsurf and Kiro. Documented project MCP formats are installed where supported; other hosts receive explicit activation recipes. The optional Claude post-edit helper refreshes bounded navigation/knowledge-impact evidence without workflow state or canonical authoring. No federation or new standalone renderer is introduced.
+
+## EWF 5.3 navigation qualification
+
+The synchronized skill documents implementation-only retrieval, manifest-derived package balancing, bounded caller-ranked search, token estimates, semantic workspace/configuration expiry, merge-base impact and optional recent-author evidence. Explicitly selected related bundles let knowledge and independent Task/Workstream records participate in one resolved graph. Execution truth and rendering remain producer-owned.
+
+Optional Claude session/prompt hooks provide bounded stateless context; ordinary edits and RCC explanations create no workflow state. Derived summaries are conditional agent-authored ignored notes with source identities and uncertainty, not automatic canonical documents. Focused local work uses proportionate checks.
+
+The pre-recreation source snapshot is `1424465e64915ec46946acb10122e6b0c0971fca`. Its complete history is preserved locally; the planned fresh 0.1.0 Git root will not inherit it. Qualification recorded 125 full runtime tests plus an independent final host-routing regression, 28 legacy contracts, eight current agent cases, real Pyright and TypeScript server fixtures, strict OKF Tasks 0.1 validation, and eight installed executable shims. Agent fixtures were slower and used more context with RKE; wider languages and live host integrations remain unqualified. These results support conditional tool use, not universal outcome superiority.
