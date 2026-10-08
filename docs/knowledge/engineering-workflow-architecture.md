@@ -168,3 +168,7 @@ This hardening mirror records pre-recreation source `62c44ee2d73e7cba7ab852bf351
 Stateless pre-push requires explicit ownership signals rather than adopting common directories or Task-like Markdown. OKF root declarations and RKE registrations opt the relevant knowledge/task lanes into deterministic checks; custom registrations do not claim unrelated default knowledge folders. Existing persisted workflow checks remain intact.
 
 Explicit LSP resolution has a thirty-second protocol budget plus two forced full workspace fingerprints, each bounded to 50,000 inputs / 512 MiB. It has no thirty-second overall wall-clock guarantee and remains a rare escalation. Host profile authorization does not sandbox server plugins or project configuration.
+
+## EWF 5.4.2 stateful ownership correction
+
+Optional workflow state alone does not claim knowledge or task bundles. Enabled lightweight/full task tracking always validates the configured bundle, including missing or malformed records. Mode none leaves undeclared task conventions alone; explicit OKF declarations and RKE knowledge registrations retain their checks. Workflow gates and exact-delta documentation receipts remain enforced.
