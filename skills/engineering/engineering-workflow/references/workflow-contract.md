@@ -19,6 +19,7 @@ gate_receipts: []
 ```
 
 Use exactly one primary phase and any number of independently justified capabilities and gates.
+State validation rejects duplicate capability or gate names and phase-history transitions with unrecognised endpoints before consequential workflow operations.
 
 ## Phase selection
 
@@ -31,7 +32,7 @@ Use exactly one primary phase and any number of independently justified capabili
 
 A phase is current control context, not the only concern that exists. Capabilities and outstanding gates survive phase changes until deliberately resolved.
 
-Use `journey enter understand`, `journey enter design`, or `journey enter close` to make those transitions deterministically. The operation preserves existing capabilities and gates, records phase history, adds only the journey defaults, and returns the one internal reference to load. Understand activates repository-context retrieval without inventing a knowledge gate. Design registers `acceptance-defined` because observable acceptance is its exit condition. Close adds no gates by assumption; material obligations must already be registered from actual scope.
+Read the relevant journey reference directly. When persistent state is active, use `journey enter understand`, `journey enter design`, or `journey enter close` to record the transition. The operation preserves existing capabilities and gates, records phase history, and adds only the journey defaults. Understand activates repository-context retrieval without inventing a knowledge gate. Design registers `acceptance-defined` because observable acceptance is its exit condition. Close adds no gates by assumption; material obligations must already be registered from actual scope.
 
 ## Task modes
 
@@ -68,7 +69,7 @@ Every command returns structured JSON and a meaningful exit status.
 
 ### `activate`
 
-Provides the single normal lifecycle entrypoint for agents. It creates missing state, validates and returns active state, or starts a new cycle from valid closed state. It records a bounded Git baseline—HEAD, dirty-path count, and at most 500 dirty paths—so evaluation can establish whether activation happened before the intended mutation. Invalid existing state is reported rather than overwritten.
+Provides an optional lifecycle entrypoint for agents using durable state. It creates missing state, validates and returns active state, or starts a new cycle from valid closed state. It records a bounded Git baseline—HEAD, dirty-path count, and at most 500 dirty paths—so evaluation can establish whether activation happened before the intended mutation. Invalid existing state is reported rather than overwritten.
 
 ### `start`
 
@@ -82,9 +83,11 @@ Stores a compact verified summary and next action. It never copies complete task
 
 Validates the stored schema and returns the saved state for repository re-verification. Invalid state is reported rather than silently repaired.
 
+Validation covers status, non-empty capability and gate names, task tracking shape, continuity and checkpoint shape, timestamps, and gate receipts. Activation, checkpoint, task checks, closure assessment, and close also refuse malformed state with `invalid-state` before using it.
+
 ### `close`
 
-Returns a blocked result while outstanding gates remain. With `--base`, it also requires current causal-explanation and documentation receipts for a material Git delta. A gate-free valid state can become closed only when those event-driven checks are clear. Adapters may resolve gates only from structured evidence produced by their owning systems.
+Returns a blocked result while outstanding gates remain. With `--base`, it also requires current documentation evidence for a material Git delta. A gate-free valid state can become closed only when those event-driven checks are clear. Adapters may resolve gates only from structured evidence produced by their owning systems.
 
 ### `journey enter`
 
@@ -96,11 +99,11 @@ Configure proportionate execution persistence and delegate strict bundle conform
 
 ### `capability enable`
 
-Activates one bounded extension and registers its required gates. The returned reference is the only extension detail to load. Availability does not imply authority to perform external or destructive actions.
+Activates one bounded extension and registers its required gates. Read the extension reference directly from the skill. Availability does not imply authority to perform external or destructive actions.
 
 ### `closure assess`
 
-Reports change, validation, task, knowledge, coordination, publication, and residual lanes independently, plus the compact session-alignment contract and its required reconciliation ordering. With `--base`, it recomputes the material-delta fingerprint and checks the explanation and documentation receipts. It is read-only and blocks through its exit status while any gate or event-driven receipt remains unresolved. A ready assessment still leaves workflow state active; only `close` performs the terminal state transition.
+Reports validation, task, knowledge, coordination, publication, and residual lanes independently, plus the compact session-alignment contract and its required reconciliation ordering. With `--base`, it recomputes the material-delta fingerprint and checks the documentation receipt. It is read-only and blocks through its exit status while any gate or event-driven receipt remains unresolved. A ready assessment still leaves workflow state active; only `close` performs the terminal state transition.
 
 ### `dissection assess`
 
@@ -108,43 +111,53 @@ Returns a conservative machine-readable inventory of instructions, manifests, en
 
 ### `documentation bootstrap`
 
-Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; compares verification receipts with current bound-content hashes without persisting a context index; recommends the minimum foundation or `no-op`; and separates preserve, review, freshness, and evidence-required sets. Stale or unverified knowledge cannot produce a mature no-op. It never authors prose or supersedes an existing truth surface automatically.
+Returns a read-only documentation-foundation assessment for an inherited or explicitly requested repository-documentation journey. It distinguishes `no-rke`, `partial-rke`, and `mature-rke`; compares verification receipts with current bound-content hashes without persisting a context index; reports existing surfaces and gaps without selecting a foundation; and separates preserve, review, freshness, and evidence-required sets. Stale or unverified knowledge cannot produce a mature no-op. It never authors prose or supersedes an existing truth surface automatically.
 
 ### `handoff write` and `handoff inspect`
 
 Write and consume deterministic continuation artefacts outside workflow, task, and canonical knowledge state. Local visibility is the default and requires ignored, untracked storage; shared visibility uses commit-capable `.rke/handoffs/` storage for deliberate Git collaboration. Writing rejects secret-like content and manages one active same-stream handoff. Inspection can constrain or safely infer visibility, rejects ambiguous placement, and returns the claims that require current verification.
 
+Max handoff writing accepts repeatable verification, change, risk and canonical-reference details in addition to the compact summary. It normalises each supplied value to one line so a source-provided heading cannot forge a new next-action section. A missing canonical reference makes inspection stale and withholds the proposed next action.
+
 ### `coordination validate` and `coordination plan`
 
-Validate worktree topology, path ownership, dependencies, inherited authority, and validation classes, then return non-executing argv plans. Neither operation allocates worktrees or grants external authority.
+Validate an explicit Git base, lane names and branches, sibling worktree targets, non-overlapping path ownership, and acyclic dependencies, then return non-executing argv plans. The agent must separately inspect inherited authority, validation classes, actual Git topology, and exact-tip integration evidence before allocation or cleanup. Neither operation allocates worktrees or grants external authority.
+
+### `coordination cleanup-check`
+
+Rechecks one existing lane before any cleanup: owned sibling worktree, clean state, exact current tip equal to the reviewed commit, observed remote destination containing that tip, and absent remote source branch. It is read-only and fails closed on stale review heads, unavailable remote evidence or un-fetched destination commits. It does not remove worktrees or branches or infer integration from PR names.
+
+### `coordination cleanup`
+
+A separate, mutating operation for an expressly authorised exact lane and branch. It repeats the cleanup-check immediately before mutation, repairs only the selected Git worktree link if needed, then asks Git to remove the clean owned worktree and delete its local branch without force. It does not delete the remote branch or infer PR state. A partial result reports which local mutation succeeded; never treat eligibility as authorisation to call this operation.
 
 ### `publication scan`
 
 Scans tracked text and hygiene surfaces without returning matched values. It also uses an already-installed `gitleaks` binary for history-aware detection, but never installs tools implicitly.
 
+### `tracker preview`
+
+Renders accepted non-OKF work packages from a repository-local YAML or JSON file into tracker-neutral, hierarchy- and acceptance-preserving rows. It refuses unresolved source relationships and records `publication: not performed` and `tasksCreated: false`; it never calls a provider or creates a task ledger. Durable execution and live tracker synchronisation still default to the independent OKF Tasks CLI and Tracker Profiles.
+
 ### `documentation assess`
 
-Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit bindings identify update candidates; lexical or unmapped changes retain an agent-judgement obligation.
-
-### `change explain`
-
-Records a bounded RCC-compatible causal explanation against the exact material-delta fingerprint. The local receipt is explanatory evidence, not canonical knowledge, validation proof, or publication authority.
+Computes the material Git delta from an explicit base, filters local/generated control surfaces, and returns `no-op`, `update`, or `decision-required`. Explicit whole-document bindings identify affected knowledge; optional selected claim bindings report exact section/source freshness, move candidates and unresolved evidence. Unmatched changes retain an agent-judgement obligation. A current claim binding does not prove behavior.
 
 ### `documentation apply`
 
-Validates already-authored canonical changes, requires affected-concept coverage, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
+Validates already-authored canonical changes, requires affected-concept coverage and current selected claim bindings, rebuilds generated indexes, checks one or more likely reader questions, verifies reviewed bindings, and records an exact-delta completion receipt. It never writes canonical prose from the assessment alone.
+
+### `documentation disposition`
+
+Records a reviewed `no-canonical-update` decision for a material delta with no affected binding and no selected claim requiring review. It requires every material changed path and substantive causal evidence, refuses changed canonical concepts or incomplete coverage, and writes only a local exact-delta receipt. Closure rechecks its coverage and binding status; this route never marks knowledge fresh or creates a bundle.
 
 ### `host recipe` and `host install`
 
 Expose supported MCP activation and local Git pre-push enforcement. Recipe is read-only. Install refuses independently owned hook or MCP entries without explicit force. Codex user-level MCP activation remains a returned command; Claude project MCP configuration uses `.mcp.json`; Git-only mode installs no MCP entry.
 
-### `legacy route`
-
-Maps a retained documented legacy alias or full package name to exactly one replacement journey, capability, adapter, or lifecycle operation. It does not mutate state or execute the destination. Unknown and deliberately retired inputs fail without fuzzy guessing. `repo-setup` maps to a separate bootstrap capability rather than an EWF phase.
-
 ### `context find`
 
-Refreshes disposable repository evidence and returns BM25F-ranked chunks with repository-relative paths, line spans, symbols or headings, snippets, score reasons, and an index revision. Parser-backed one-hop fusion is attempted only for code-led or exact-identifier result sets. A scope must remain inside the configured repository root.
+Refreshes disposable repository evidence and returns SQLite FTS5-ranked chunks with repository-relative paths, line spans, symbols or headings, snippets, and native rank. A scope must remain inside the configured repository root.
 
 ### `context check`
 
@@ -152,7 +165,7 @@ Refreshes the generated index and reports index freshness, changed and deleted f
 
 ### `context impact`
 
-Classifies each supplied changed path exactly once as explicitly bound, a lexical review candidate, or unmapped. Bound impacts report `fresh`, `stale`, or `unknown` from verification receipts; candidates never receive deterministic freshness status.
+Matches supplied changed paths against explicit manifest bindings and reports affected knowledge and unmatched paths separately. Verification receipts establish `fresh`, `stale`, or `unknown` only for bound knowledge; lexical similarity does not create bindings or freshness status.
 
 ### `context verify`
 

@@ -13,20 +13,28 @@ Label claims as:
 - `unresolved`: material evidence is missing or ambiguous;
 - `contradicted`: current strong evidence disagrees with another surface.
 
-Produce two proportionate layers when useful: compact commit context and a user-facing behavioural explanation. Explanation is not a quiz, approval gate, code-review substitute, or completion proof. A follow-up question that reveals implementation, documentation, decision, or task drift reopens only the affected gate.
+Produce two proportionate layers for a material code change. Commit context is a subject candidate and one to three causal facts, including significant removal or replacement. The user explanation names the changed entry point, consequential callers and callees, before/after branch or data flow, state and boundary effect, failure/recovery behaviour, and what was removed. Do not substitute a short summary for this explanation. Label each material claim `runtime-verified`, `test-verified`, `code-supported`, `contract-only`, or `unknown`; an authored but unexecuted test is not test-verified. A compact `A → B → C` path is useful when it clarifies the mechanism. Offer questions without making an answer a closure gate. Explanation is not a quiz, approval gate, code-review substitute, or completion proof. A follow-up question that reveals implementation, documentation, decision, or task drift reopens only the affected gate and refreshes the explanation from current evidence.
+
+For a user-requested read-only explanation of an existing diff, use this causal account directly after inspecting the changed source and callers. Return the commit context and fuller explanation promptly. Do not create workflow state, documentation receipt, or closure gate merely to answer; those records belong to an actual change-closure request. Label unexecuted runtime claims as code-supported and say which paths were not exercised.
+
+When a long-running change needs a local explanation for later questions, keep one ignored, secret-safe change-comprehension note rather than a Q&A transcript. Record the bounded source scope, a subject candidate and one to three causal facts, the current fuller explanation, evidence and uncertainty, and any verified reconciliation route. Mark the first account `initial`; after evidence-backed correction, distil it into one current account instead of preserving competing versions. This note is optional continuation context, not canonical knowledge, task state, or a prerequisite for answering a read-only question.
 
 ## Reconciliation order
 
-1. Establish the final change boundary and current validation evidence with `documentation assess --base <ref>`.
-2. Record the bounded causal explanation with `change explain --base <ref>` after inspecting the final material delta.
+1. Establish the final change boundary and current validation evidence with `documentation assess --base <ref>`. Review any selected claim binding marked `review-needed` or `unresolved` against the source and focused tests before updating its tracked decision; a `current` binding is only byte-level freshness.
+2. Explain the final material delta from inspected code and evidence; keep an optional ignored Markdown note for long-running work.
 3. Discover task and knowledge lanes independently; an absent or unchanged lane is an explicit no-op, not a silently skipped responsibility.
-4. Reconcile task state provisionally when durable tracking is active.
-5. Promote verified durable conclusions where required, then run `documentation apply` with the affected concepts and likely reader questions.
-6. Reconcile task acceptance, workstreams, evidence, knowledge links, tracker state, and running effort finally.
-7. Validate the integrated tree and any capability-specific surfaces.
-8. Run `closure assess --base <ref>`; resolve only gates backed by owning evidence; then run `close --base <ref>`.
+4. Reconcile task state provisionally when durable tracking is active: stop or correct supported effort, record implementation evidence, blockers and remaining work, but do not mark acceptance complete while promotion or validation is pending. Use the OKF Tasks CLI, not a workflow-state summary, for mutations.
+5. Promote verified durable conclusions where required, then run `documentation apply` with the affected concepts and likely reader questions. If no canonical update is warranted after reviewing every changed path, record `documentation disposition` instead; do not bootstrap an empty bundle for closure.
+6. Reconcile task acceptance, workstreams, evidence, knowledge links, tracker state, and running effort finally through the authoritative CLI. If knowledge changed, final task links and acceptance must be checked after that change rather than relying on the provisional pass.
+7. Validate the task bundle strictly when present and the affected canonical knowledge bundle independently. Check invalid relationships and running effort as well as schema. Validate the integrated tree and any capability-specific surfaces. An absent lane is a reported no-op, not a reason to manufacture it.
+8. Run `closure assess --base <ref>`; resolve only gates backed by owning evidence; then run `close --base <ref>`. Optional selected claim bindings must also be current, with behavioral truth established by the agent's separate review and execution evidence.
 
 `closure assess` returns the RSA-compatible compact alignment view for explanation, tasks, knowledge, validation, handoff, and overall closure. Preserve the two-pass task ordering: execution truth is corrected before promotion, then task acceptance and knowledge links are reconciled after promotion. An absent task bundle or unestablished knowledge surface is an explicit status, not permission to bootstrap one during closure.
+
+In the user report, name the task lane as `updated`, `no-op`, `not present`, or `blocked`; name the knowledge lane as `updated`, `no-op`, `not established`, or `blocked`. Use `complete` only when all required checks and obligations are clear, `incomplete` for truthful unfinished work with a next owner or handoff, and `blocked` when a required check, mutation or validation could not complete. Mention pending external tracker reconciliation separately; it is not a silent closure action.
+
+For a small correction, use the same proportional source review and focused validation; reconcile persistent gates only when state is active.
 
 When unfinished work must survive the session boundary, run `handoff write` after alignment. A handoff is continuation evidence, not a substitute for task truth, canonical knowledge, validation, or the final explanation.
 

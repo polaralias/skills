@@ -109,7 +109,7 @@ Current skills: `docx-assistant` (DXA), `knowledge-transfer-documentation-writer
 <!-- polaralias-skill-routing:family:engineering:start -->
 ### Engineering
 
-For material repository engineering work, invoke `engineering-workflow` as the normal skill entry point before taking task actions and run the installed RKE runtime's idempotent `activate` command before broad inspection or mutation. EWF owns lifecycle phase, conditional capabilities, durable gates, checkpointing, and closure. RKE remains the independent repository-knowledge methodology and executable runtime; OKF Tasks remains the independent execution-record primitive. Resolve legacy engineering names through EWF compatibility routing rather than invoking those packages as orchestration peers. Repository bootstrap remains a separate pre-workflow capability. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.
+For material repository engineering work and read-only explanations of repository code, implementation behaviour, or diffs, invoke `engineering-workflow` as the normal skill entry point before taking task actions. Code explanations use RCC prose without creating RKE state. Simple document wording questions remain outside EWF. EWF owns engineering methodology and works without RKE. When available, RKE supplies deterministic retrieval, structural and knowledge evidence, safety checks, and optional continuity state. OKF Tasks remains the independent execution-record primitive. Resolve legacy engineering names through EWF compatibility routing rather than invoking those packages as orchestration peers. Repository bootstrap remains a separate pre-workflow capability. In the source repository, `README.md` and `INDEX.md` provide the canonical family and frontmatter paths.
 
 Primary skill: `engineering-workflow` (EWF). Separate pre-workflow package: `repo-setup` (RST).
 <!-- polaralias-skill-routing:family:engineering:end -->
@@ -138,7 +138,7 @@ Current skills: `llm-instruction-fixer` (LIF), `llm-instruction-reviewer` (LIR),
 Location: [skills/engineering](./skills/engineering)
 
 - <img src="./skills/engineering/repo-setup/assets/icon.svg" alt="repo-setup icon" width="22"> [repo-setup](./skills/engineering/repo-setup) (RST): bootstrap a repository with licensing, governance docs, CODEOWNERS, a named repository ruleset, draft-release scaffolding, and a WIP GitHub description.
-- <img src="./skills/engineering/engineering-workflow/assets/icon.svg" alt="engineering-workflow icon" width="22"> [engineering-workflow](./skills/engineering/engineering-workflow) (EWF): provide the single normal entry point for material repository engineering, with deterministic start, checkpoint, resume, and gated-close lifecycle state plus proportionate optional capabilities.
+- <img src="./skills/engineering/engineering-workflow/assets/icon.svg" alt="engineering-workflow icon" width="22"> [engineering-workflow](./skills/engineering/engineering-workflow) (EWF): guide material repository engineering through prose methodology, using RKE evidence and continuity state when available and useful.
 
 Absorbed engineering packages are preserved outside active discovery in the [legacy archive](./archive/README.md). Their names remain accepted only as EWF compatibility inputs.
 
@@ -231,7 +231,7 @@ npx skills add polaralias/skills --skill engineering-workflow
 
 Add `--global` to install for the current user instead of the current project. See the [Skills CLI documentation](https://www.skills.sh/docs/cli) for agent selection and non-interactive options.
 
-`engineering-workflow` is a synchronized agent-skill mirror whose executable runtime is maintained in [polaralias/rke](https://github.com/polaralias/rke). Install the RKE package once per machine to provide the `rke`, `rke-mcp`, and lifecycle-hook commands; installing the catalogue skill does not duplicate that runtime inside every skill installation.
+`engineering-workflow` is a synchronized agent-skill mirror. Its optional RKE runtime is maintained in [polaralias/rke](https://github.com/polaralias/rke). RKE is being recreated with the current functionality as a fresh `0.1.0` foundation and no inherited Git history. The commit in the mirror's `RKE_SOURCE.json` identifies the pre-recreation source snapshot; it will not be an ancestor of the new RKE history. Install RKE once per machine when its `rke`, `rke-mcp`, or lifecycle-hook commands are useful; the catalogue skill remains usable without that runtime.
 
 ## Versioning
 

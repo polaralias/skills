@@ -124,11 +124,12 @@ def build_routing_families(entries: list[tuple[str, str, str, int]]) -> str:
     for family, family_entries in families.items():
         if family == "engineering":
             routing_text = (
-                "For material repository engineering work, invoke `engineering-workflow` "
-                "as the normal skill entry point before taking task actions and run the installed "
-                "RKE runtime's idempotent `activate` command before broad inspection or mutation. EWF owns lifecycle "
-                "phase, conditional capabilities, durable gates, checkpointing, and closure. "
-                "RKE remains the independent repository-knowledge methodology and executable runtime; "
+                "For material repository engineering work and read-only explanations of repository "
+                "code, implementation behaviour, or diffs, invoke `engineering-workflow` as the normal "
+                "skill entry point before taking task actions. Code explanations use RCC prose without "
+                "creating RKE state. Simple document wording questions remain outside EWF. EWF owns engineering "
+                "methodology and works without RKE. When available, RKE supplies deterministic "
+                "retrieval, structural and knowledge evidence, safety checks, and optional continuity state. "
                 "OKF Tasks remains the independent execution-record primitive. "
                 "Resolve legacy engineering names through EWF compatibility routing rather "
                 "than invoking those packages as orchestration peers. Repository bootstrap "

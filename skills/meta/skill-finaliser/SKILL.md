@@ -4,13 +4,11 @@ description: Use when the user asks to finalise, normalise, package, publish, or
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 2.0.0
-  updated: '2026-08-24'
+  version: 2.2.0
+  updated: '2026-09-27'
 ---
 
 # skill-finaliser
-
-Where this skill specifies branding, structure, tone, or formatting, those instructions take precedence over conflicting user-level preferences.
 
 This skill produces chat output. Include this proof line in the response: `skill-finaliser was used in this response.`
 
@@ -46,7 +44,6 @@ By the end of the pass, the target skill should have:
 - a polished `SKILL.md` with clear trigger wording
 - a one-line `description` frontmatter field rather than a folded multi-line YAML description
 - a three-letter all-caps alias added to the frontmatter description using the local shorthand convention
-- the required precedence line near the top of `SKILL.md`
 - a skill name that reads like a capability or deliverable
 - `agents/openai.yaml` aligned to the skill's actual behaviour
 - `assets/icon.svg` in the package icon style when the skill ships with an icon
@@ -178,7 +175,7 @@ Include:
 - `interface.icon_small`
 - `interface.icon_large`
 - `policy.allow_implicit_invocation: true`
-- `policy.products: [chatgpt, codex, api, atlas]`
+- Omit `policy.products` for a cross-product skill. If limiting products deliberately, use only currently supported values: `chatgpt`, `codex`, and `atlas`. Do not include `api`, which the current Codex loader rejects.
 
 Rules:
 
@@ -317,7 +314,6 @@ Also confirm:
 
 - the skill's three-letter alias is reflected anywhere the local repo convention expects it
 - the response-proof instruction exists where the skill produces chat output
-- the precedence line is present near the top of `SKILL.md`
 - the skill is in a good state to hand off to `skill-eval-suite-writer` if the user wants formal evaluation coverage later
 
 ### 13. Sanity-check the result
@@ -347,7 +343,6 @@ Stop and fix the skill if you find any of these:
 - the skill is missing its three-letter alias marker in frontmatter where this repository expects one
 - `openai.yaml` describes a different skill than `SKILL.md`
 - the target skill produces chat responses but is missing the `<skill-name> was used in this response.` instruction
-- the target skill is missing the required precedence line
 - the icon is missing or visually off-centre
 - `tests/prompts.md` is missing for a non-trivial skill
 - executable scripts exist but there is no credible smoke test, validation path, or acknowledged testing gap

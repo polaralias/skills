@@ -2,7 +2,7 @@
 
 ## Routing policy
 
-`engineering-workflow` is the sole normal skill entry point for material repository engineering. RKE is the independent runtime and methodology. Retained legacy peer names and aliases are compatibility inputs resolved by `rke legacy route <name>`; they are not phases or instructions to load the old package body. Unknown and deliberately retired names are rejected rather than guessed.
+`engineering-workflow` is the sole normal skill entry point for material repository engineering. RKE is the independent runtime and methodology. Retained legacy peer names and aliases are mapped in this reference; they are not phases or instructions to load the old package body. Unknown and deliberately retired names are rejected rather than guessed.
 
 `repo-setup` remains an intentionally separate pre-workflow bootstrap capability. It is not absorbed into active engineering lifecycle state.
 
@@ -17,14 +17,15 @@
 | DDD | doc-driven-development | design journey | absorbed with feature, scenario, verification, acceptance, planning, package, and traceability contracts |
 | RTL | repo-task-lifecycle | proportional OKF Tasks adapter | absorbed; OKF engine remains independent |
 | WTC | worktree-task-coordinator | parallel-delivery extension plus `coordination validate/plan` | absorbed with transport-parity runtime operations |
-| RCC | repo-change-comprehension | `change explain` receipt plus close-journey causal explanation | absorbed |
+| RCC | repo-change-comprehension | close-journey causal explanation | absorbed |
 | RSA | repo-session-alignment | close journey plus ordered two-lane `closure assess` | absorbed with compact alignment status contract |
 | LHO | local-handoff | `handoff write` plus continuity contract | absorbed with deterministic standard/max artefacts and supersession |
 | LPK | local-pickup | `handoff inspect`, lifecycle resume, and continuity contract | absorbed with active selection and re-verification contract |
 | RPF | repo-publish-finaliser | publication extension plus `publication scan` | absorbed |
+| TPU | tracker-publisher | tracker-publication adapter; OKF Tasks by default for durable execution, non-OKF stable work packages supported | retained |
 | RST | repo-setup | separate bootstrap capability | retained separately |
 
-TPU and TPW are deliberately retired rather than routed. Tracker synchronization belongs to the independent OKF Tasks primitive. Scenario and test planning are part of the DDD design/delivery acceptance surface, so a second QA capability would create competing ownership.
+TPW is deliberately outside EWF: a standalone human QA-plan request belongs to a separate capability, not the repository design journey. TPU is retained for mapping and publication; OKF Tasks remains the independent execution ledger and provider adapter when durable state exists, while non-OKF stable packages can be mapped without manufacturing that ledger. A mapping or preview does not authorise a tracker write.
 
 ## Physical packages
 
@@ -34,4 +35,6 @@ New behaviour and fixes belong in the EWF journey, extension, adapter, or core t
 
 ## Parity evidence
 
-The executable route test covers every retained alias, checks full-name case-insensitive lookup, verifies one destination per input, and proves TPU/TPW rejection. Public-interface tests separately cover lifecycle, journeys, task modes, ordered session alignment, dissection, handoff writing and pickup, worktree coordination, publication scanning, closure gates, event-driven documentation, host installation, hooks, context retrieval, knowledge impact, and CLI/MCP parity.
+The migration matrix covers retained aliases and the separate TPW destination. Static skill routing does not require a public runtime command. Public-interface tests separately cover lifecycle, journeys, task modes, ordered session alignment, dissection, handoff writing and pickup, worktree coordination, publication scanning, closure gates, event-driven documentation, host installation, hooks, context retrieval, knowledge impact, and CLI/MCP parity.
+
+The [instruction preservation audit](instruction-preservation-audit.md) separately classifies every absorbed package's archived agent judgement, executable mechanics, and intentionally omitted or independently owned material. Outcome probes and this editorial audit answer different parity questions; neither substitutes for the other.
