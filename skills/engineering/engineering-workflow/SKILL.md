@@ -4,8 +4,8 @@ description: Use when the user asks to implement, change, fix, refactor, test, d
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 5.3.0
-  updated: '2026-10-07'
+  version: 5.4.0
+  updated: '2026-10-08'
 ---
 
 # engineering-workflow
@@ -92,7 +92,7 @@ rke structure trace <symbol> --direction <in|out|both> --root <repository>
 rke structure map --token-budget 3000 --root <repository>
 rke structure impact --changed <relative-source-path> --root <repository>
 rke structure impact --base <git-ref> --merge-base --root <repository>
-rke structure resolve <relative-source-path> --server-command <installed-executable> --language <language-id> --root <repository>
+rke structure resolve <relative-source-path> --server-profile <trusted-host-profile> --root <repository>
 rke structure search <regex> --root <repository>
 rke structure benchmark --corpus <relative-json-path> --root <repository>
 ```
