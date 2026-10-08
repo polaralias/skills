@@ -14,12 +14,12 @@
         "skills/meta/setup-polaralias-skills/references/config-contract.md"
       ],
       "verified": {
-        "verifiedAt": "2026-10-08T19:05:14.084Z",
-        "evidence": "Reviewed EWF 5.4.1 mirror against committed RKE e62caec. Stateless bundle ownership and LSP protocol/fingerprint costs align with runtime and 135 runtime tests, 28 legacy contracts and packed executable smoke.",
+        "verifiedAt": "2026-10-08T20:05:41.872Z",
+        "evidence": "Reviewed synchronized EWF 5.4.2 against RKE ee921b9. Optional workflow state alone claims neither task nor knowledge ownership; configured durable task tracking validates missing and malformed bundles. 137 runtime cases, 28 legacy contracts, package and packed checks passed.",
         "sourceIdentities": [
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "ec945a13ad98b33056675b037352018191625121398097a74952bdf1bad6c667"
+            "sha256": "12e4228ebd89a9690b95d4e990de6abb8156ccc6493f1d1075bb64c3b56a2fd7"
           },
           {
             "path": "skills/engineering/engineering-workflow/agents/openai.yaml",
@@ -47,7 +47,7 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/references/host-integration.md",
-            "sha256": "38279f4ba817e570215421ee8af254c367ebdb5e3870fdabb86e02bce3f6d26f"
+            "sha256": "d50024e8e990b1634dd23e773e59fcc3bdc3b3c78395f82ded2e47410455342f"
           },
           {
             "path": "skills/engineering/engineering-workflow/references/instruction-preservation-audit.md",
@@ -115,11 +115,11 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "b1c67610e64e2f2d120e065e417f605a702eeabc557efaa4117cb0e44456b2bb"
+            "sha256": "dfcd285110da1cf5e17ef2308097d7f72db32cacc8a72d21b5b1dd3056fabd03"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "d94e813927315296cdc3205f6a3af4ef84cac8d204ece4f345c3ba40d23caf14"
+            "sha256": "51dbe339ecea75c56ea5dcabf3298aa9c2f1faa0c432e3adfe36a6bbf52ba054"
           },
           {
             "path": "skills/engineering/engineering-workflow/tests/prompts.md",
@@ -135,11 +135,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "dfaf7d44a1aa9c701b4de95ecc35dd7847b452f699fe093e8426550f69817f00"
+            "sha256": "224992e2254e23abc6586d9f443eb786f19d0a7ce4705c52e62465ca42a94e73"
           }
         ]
       }
     }
   ],
-  "revision": 40
+  "revision": 42
 }
