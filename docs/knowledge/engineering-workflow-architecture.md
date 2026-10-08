@@ -162,3 +162,9 @@ Installed hooks quote root/base values literally and pin the repository root. St
 The dated hardening evidence records hostile shell-argument tests, raw/server profile refusals, stale knowledge and server-implementation expiry, warm hashing checks and the existing runtime/legacy/package qualification. This is implementation hardening of the established architecture. No OKF Tasks implementation change, federation or standalone renderer is introduced.
 
 This hardening mirror records pre-recreation source `62c44ee2d73e7cba7ab852bf3517f0064cf34d4d`. The current qualification comprises 132 runtime cases, 28 legacy contracts, real Python/TypeScript profile fixtures and eight installed executables. Cross-process workspace-cache reuse and invalid-cache recovery are exercised; broader language/host and previous agent outcome limits remain unchanged.
+
+## EWF 5.4.1 ownership and deadline clarification
+
+Stateless pre-push requires explicit ownership signals rather than adopting common directories or Task-like Markdown. OKF root declarations and RKE registrations opt the relevant knowledge/task lanes into deterministic checks; custom registrations do not claim unrelated default knowledge folders. Existing persisted workflow checks remain intact.
+
+Explicit LSP resolution has a thirty-second protocol budget plus two forced full workspace fingerprints, each bounded to 50,000 inputs / 512 MiB. It has no thirty-second overall wall-clock guarantee and remains a rare escalation. Host profile authorization does not sandbox server plugins or project configuration.
