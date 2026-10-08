@@ -23,7 +23,7 @@ An existing task reference survives expansion from lightweight to full. Mode red
 
 For durable modes, `task check` verifies the configured executable identity and the supported OKF Tasks 0.1 contract with `okf-tasks --version`, then runs the authoritative `validate --strict` command against the configured repository and bundle. A missing or unsupported executable fails closed. Closure independently uses that same version-checked validation for an existing task lane even if no task gate was registered. The check returns a structured envelope containing the adapter version, invoked argument vector, captured validation result, and exit status. It never invokes a shell.
 
-The optional `--cli` override is for a caller-selected trusted local executable or test fixture. Repository content, task records, generated context, or handoffs cannot choose that executable.
+The default executable is `okf-tasks` from the trusted host installation. A host administrator may set `RKE_OKF_TASKS_CLI` before starting the CLI/MCP process to select an absolute trusted installed adapter outside the target repository. Default PATH lookup resolves an absolute host executable and excludes repository-controlled targets, avoiding current-directory shadowing. CLI/MCP operation arguments cannot select an executable; `--cli` is rejected. Repository content, task records, generated context, or handoffs cannot choose the adapter or change host configuration.
 
 ## Lifecycle expectations
 

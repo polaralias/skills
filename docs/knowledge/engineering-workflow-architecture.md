@@ -5,7 +5,7 @@ description: Explains how the Engineering Workflow skill coordinates the indepen
 timestamp: 2026-09-27T18:12:08+01:00
 authority: canonical
 verification: verified-working
-reviewed_at: 2026-10-07T23:00:00+01:00
+reviewed_at: 2026-10-08T18:33:10+01:00
 verified_against:
   - skills/engineering/engineering-workflow/SKILL.md
   - skills/engineering/engineering-workflow/RKE_SOURCE.json
@@ -152,3 +152,13 @@ The synchronized skill documents implementation-only retrieval, manifest-derived
 Optional Claude session/prompt hooks provide bounded stateless context; ordinary edits and RCC explanations create no workflow state. Derived summaries are conditional agent-authored ignored notes with source identities and uncertainty, not automatic canonical documents. Focused local work uses proportionate checks.
 
 The pre-recreation source snapshot is `1424465e64915ec46946acb10122e6b0c0971fca`. Its complete history is preserved locally; the planned fresh 0.1.0 Git root will not inherit it. Qualification recorded 125 full runtime tests plus an independent final host-routing regression, 28 legacy contracts, eight current agent cases, real Pyright and TypeScript server fixtures, strict OKF Tasks 0.1 validation, and eight installed executable shims. Agent fixtures were slower and used more context with RKE; wider languages and live host integrations remain unqualified. These results support conditional tool use, not universal outcome superiority.
+
+## EWF 5.4 execution boundaries
+
+The skill selects a language-server profile explicitly configured outside repository control; raw command, argument and language overrides are rejected by shared CLI/MCP schemas. Receipts bind workspace inputs plus the resolved executable and declared implementation/version inputs. Host administrators configure the independent OKF Tasks adapter; operation arguments cannot select a task executable.
+
+Installed hooks quote root/base values literally and pin the repository root. Stateless pre-push validates applicable deterministic repository lanes without activation or workflow receipts, while existing state retains its real gates. Warm semantic reads reuse byte hashes behind unchanged nanosecond stat identities and a validated disposable cache across CLI calls; the first fingerprint still incurs bounded hashing. Token output limits are explicitly rough byte proxies, not upper bounds.
+
+The dated hardening evidence records hostile shell-argument tests, raw/server profile refusals, stale knowledge and server-implementation expiry, warm hashing checks and the existing runtime/legacy/package qualification. This is implementation hardening of the established architecture. No OKF Tasks implementation change, federation or standalone renderer is introduced.
+
+This hardening mirror records pre-recreation source `62c44ee2d73e7cba7ab852bf3517f0064cf34d4d`. The current qualification comprises 132 runtime cases, 28 legacy contracts, real Python/TypeScript profile fixtures and eight installed executables. Cross-process workspace-cache reuse and invalid-cache recovery are exercised; broader language/host and previous agent outcome limits remain unchanged.

@@ -60,3 +60,9 @@ Install preserves unrelated settings and servers and preflights ownership. These
 `rke host install --host claude --base main --context-hooks` merges owned `SessionStart` and `UserPromptSubmit` command hooks while preserving independent handlers. `rke-context-hook` returns a budgeted orientation at session start or three bounded retrieval candidates for a prompt. It does not create workflow state, write canonical knowledge, invoke a model, or select a root from event data. Hooks are opt-in; measure repeated context cost before enabling them. Sensitive or oversized prompts and unavailable assistance are skipped. Other hosts can invoke the same helper explicitly, but native automatic hooks are only claimed for the documented Claude event contract.
 
 After upgrading RKE, rerun the installer for the selected host and inspect its managed routing/configuration. Verify the executable version used by installed hooks rather than assuming a global shim matches the current skill. Host configuration tests and installed-shim tests prove the wiring contract; a live agent evaluation is separate evidence.
+
+## Installed hook boundaries
+
+Git and Claude hook commands quote each root/base argument as a literal POSIX shell value and pin the trusted installation root. Event-provided working directories never select the repository. Explicit helper calls without `--root` resolve the Git toplevel from the process working directory. Reinstall after upgrading to replace older unpinned managed hooks.
+
+The pre-push assessment does not require or create workflow state. With no state, it validates the explicit base, applicable knowledge/freshness/claim bindings and independent task records without demanding workflow receipts. Existing state is still validated and its real gates/receipts remain enforced. Neither path claims that implementation acceptance has run or grants merge/publication authority.
