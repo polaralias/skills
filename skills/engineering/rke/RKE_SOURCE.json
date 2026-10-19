@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/polaralias/rke",
+  "sourceCommit": "ba884ade30ee70c702120047af65002bcb259985",
+  "runtimePackage": "@polaralias/rke",
+  "runtimeVersion": "0.1.0",
+  "skillPath": ".agents/skills/rke",
+  "skillVersion": "1.2.1",
+  "skillDigest": "4e28cdec69fbf62b4e1d33d7cfc0ccf99d332f37dd581e509aaf2cf0aa1daca4",
+  "status": "committed",
+  "authority": "synchronized-mirror"
+}

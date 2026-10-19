@@ -8,5 +8,5 @@ okf_version: "0.1"
 
 - [skills complete Markdown inventory](documentation-inventory.md) - Classifies every in-scope tracked or pending Markdown file in the skills repository by OKF or approved specialised schema.
 - [skills documentation map](documentation-map.md) - Indexes the RKE-governed knowledge concepts and execution truth for the skills repository.
-- [Polaralias engineering workflow architecture](engineering-workflow-architecture.md) - Explains how the Engineering Workflow skill coordinates the independently installed RKE runtime, documentation-driven development, Query-to-Knowledge, Repository Change Comprehension, OKF Tasks, and repository-local evidence.
+- [Polaralias engineering workflow architecture](engineering-workflow-architecture.md) - Identifies each owner of Engineering Workflow methodology, RKE evidence, canonical knowledge and OKF Tasks execution, with optional-state and qualification boundaries.
 - [skills repository OKF visualization](repository-visualization.md) - Defines the source, scope, outputs, interpretation, and verification contract for the repository-wide OKF visualization.
