@@ -1,0 +1,9 @@
+interface:
+  display_name: "RKE"
+  short_description: "Use optional repository runtime evidence and adapters"
+  default_prompt: "Use $rke for the runtime support relevant to this task, keeping the engineering method independent and reporting what the evidence establishes."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+
+policy:
+  allow_implicit_invocation: true
