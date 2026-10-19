@@ -1,0 +1,2194 @@
+{
+  "schema": 1,
+  "producer": "OKF Tasks",
+  "version": "0.1.1",
+  "identity": "Verified committed producer bytes",
+  "adaptations": [
+    "CLI location in Python test and fixture generator",
+    "Duplicate renderer test becomes producer hash check",
+    "Workflow reference package links, proof and user instruction precedence"
+  ],
+  "resources": {
+    "scripts/generate_complex_examples.py": {
+      "source": "skills/okf-task-lifecycle/scripts/generate_complex_examples.py",
+      "source_sha256": "083f683adb510fcfacfc2d735a0b49d4b5c67a2ca2f46b7b8c8cfe9c82088e7a",
+      "package_sha256": "083f683adb510fcfacfc2d735a0b49d4b5c67a2ca2f46b7b8c8cfe9c82088e7a"
+    },
+    "scripts/okf_tasks.py": {
+      "source": "skills/okf-task-lifecycle/scripts/okf_tasks.py",
+      "source_sha256": "aa4525839f69a683a0cf4a95f57942d019ce890bf2a21e9c7a080130fa57e2f8",
+      "package_sha256": "aa4525839f69a683a0cf4a95f57942d019ce890bf2a21e9c7a080130fa57e2f8"
+    },
+    "scripts/vendor/mermaid-11.10.1.LICENSE": {
+      "source": "skills/okf-task-lifecycle/scripts/vendor/mermaid-11.10.1.LICENSE",
+      "source_sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80",
+      "package_sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+    },
+    "scripts/vendor/mermaid-11.10.1.min.js": {
+      "source": "skills/okf-task-lifecycle/scripts/vendor/mermaid-11.10.1.min.js",
+      "source_sha256": "b6c1558569bf5335055debbaf17fba0ff8cba4ac8d79c87c97c9cc51f51821ca",
+      "package_sha256": "b6c1558569bf5335055debbaf17fba0ff8cba4ac8d79c87c97c9cc51f51821ca"
+    },
+    "scripts/visualize_bundle.py": {
+      "source": "skills/okf-task-lifecycle/scripts/visualize_bundle.py",
+      "source_sha256": "8a22f5d633358cbeb7d0deaf356f4f55c4ecd98e22f5e82ff243231f0b0032be",
+      "package_sha256": "8a22f5d633358cbeb7d0deaf356f4f55c4ecd98e22f5e82ff243231f0b0032be"
+    },
+    "scripts/visualizer_template.html": {
+      "source": "skills/okf-task-lifecycle/scripts/visualizer_template.html",
+      "source_sha256": "2ec10eb36d010f5a7ea23eee76745071dd88fbf5e15bc6fd3b181b83043bb81c",
+      "package_sha256": "2ec10eb36d010f5a7ea23eee76745071dd88fbf5e15bc6fd3b181b83043bb81c"
+    },
+    "assets/__init__.py": {
+      "source": "skills/okf-task-lifecycle/assets/__init__.py",
+      "source_sha256": "a3a996fcfac3bc39a165dbc3c474b10c53f9850f35558499db667ad9c11a256b",
+      "package_sha256": "a3a996fcfac3bc39a165dbc3c474b10c53f9850f35558499db667ad9c11a256b"
+    },
+    "assets/icon.svg": {
+      "source": "skills/okf-task-lifecycle/assets/icon.svg",
+      "source_sha256": "49e8c21bb756baf56d64820922c883daecb624b42a6ea37fb7d2f4895ea2046a",
+      "package_sha256": "49e8c21bb756baf56d64820922c883daecb624b42a6ea37fb7d2f4895ea2046a"
+    },
+    "assets/task-body.md.template": {
+      "source": "skills/okf-task-lifecycle/assets/task-body.md.template",
+      "source_sha256": "8f0db040d13f41575a7c8bbe734f4b5c401323923983e4e3fd0401d85dbc1558",
+      "package_sha256": "8f0db040d13f41575a7c8bbe734f4b5c401323923983e4e3fd0401d85dbc1558"
+    },
+    "assets/workstream-body.md.template": {
+      "source": "skills/okf-task-lifecycle/assets/workstream-body.md.template",
+      "source_sha256": "34eb436d458954569ddae6925bc158009c477f4fec545c2991a8bfea46c86e99",
+      "package_sha256": "34eb436d458954569ddae6925bc158009c477f4fec545c2991a8bfea46c86e99"
+    },
+    "references/cli-setup.md": {
+      "source": "skills/okf-task-lifecycle/references/cli-setup.md",
+      "source_sha256": "4fe6a74661479929da960c6f9040e4a09bf04c00b7c6f7a2b2f8eab138a296ec",
+      "package_sha256": "4fe6a74661479929da960c6f9040e4a09bf04c00b7c6f7a2b2f8eab138a296ec"
+    },
+    "references/okf-tasks-profile.md": {
+      "source": "skills/okf-task-lifecycle/references/okf-tasks-profile.md",
+      "source_sha256": "cc7f4957a8a1db79ec881207e70346ec8ba524fae023f8719a726db7604b5bc3",
+      "package_sha256": "cc7f4957a8a1db79ec881207e70346ec8ba524fae023f8719a726db7604b5bc3"
+    },
+    "SPEC.md": {
+      "source": "SPEC.md",
+      "source_sha256": "ed2e1d29feafaae09aaf1592b7f07ac9c1386a057047954d4977fd53ad6ae268",
+      "package_sha256": "ed2e1d29feafaae09aaf1592b7f07ac9c1386a057047954d4977fd53ad6ae268"
+    },
+    "VERSION": {
+      "source": "VERSION",
+      "source_sha256": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c",
+      "package_sha256": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c"
+    },
+    "package.json": {
+      "source": "package.json",
+      "source_sha256": "00d1080c123860dee9b9bc003f80bb32b23e5d996750bc6799ada94234e30481",
+      "package_sha256": "00d1080c123860dee9b9bc003f80bb32b23e5d996750bc6799ada94234e30481"
+    },
+    "package-lock.json": {
+      "source": "package-lock.json",
+      "source_sha256": "3fb0c0dac0350df06ceb7eb2c84c95f3e39f6f4ac04324f0c533aa3c1698bbbb",
+      "package_sha256": "3fb0c0dac0350df06ceb7eb2c84c95f3e39f6f4ac04324f0c533aa3c1698bbbb"
+    },
+    "licenses/okf-tasks-Apache-2.0.txt": {
+      "source": "skills/okf-task-lifecycle/license.txt",
+      "source_sha256": "9f8212f67686e60f3c3fa612d49f8c7abf0fb2e89f4534ede69fd4bdfa170cbe",
+      "package_sha256": "9f8212f67686e60f3c3fa612d49f8c7abf0fb2e89f4534ede69fd4bdfa170cbe"
+    },
+    "scripts/generate_local_docs.py": {
+      "source": "scripts/generate_local_docs.py",
+      "source_sha256": "1eb4c28ffa74d39affa95f16afdd5886c56ea3b28a258d3ef7e0e47f9c58515c",
+      "package_sha256": "1eb4c28ffa74d39affa95f16afdd5886c56ea3b28a258d3ef7e0e47f9c58515c"
+    },
+    "schemas/task.schema.json": {
+      "source": "schemas/task.schema.json",
+      "source_sha256": "419767c0ecb9cf1c464832816d2be2ff789f46e32d7366a3b2f717f66bf866c7",
+      "package_sha256": "419767c0ecb9cf1c464832816d2be2ff789f46e32d7366a3b2f717f66bf866c7"
+    },
+    "schemas/tracker-profile.schema.json": {
+      "source": "schemas/tracker-profile.schema.json",
+      "source_sha256": "24dfd3e0160517a2f45f3d4b13f01b2f877ca70977c80f5a50ffd7d994d83f79",
+      "package_sha256": "24dfd3e0160517a2f45f3d4b13f01b2f877ca70977c80f5a50ffd7d994d83f79"
+    },
+    "schemas/workstream.schema.json": {
+      "source": "schemas/workstream.schema.json",
+      "source_sha256": "11e3e74bb44f3a24364b513e53888288d46ffa75516819b15bb219ac4269d664",
+      "package_sha256": "11e3e74bb44f3a24364b513e53888288d46ffa75516819b15bb219ac4269d664"
+    },
+    "conformance/export-manifest.json": {
+      "source": "conformance/export-manifest.json",
+      "source_sha256": "f8d7ee0d3fe312d264227d2cb09173aceef1252806f3dda93ac3fc0782c03210",
+      "package_sha256": "f8d7ee0d3fe312d264227d2cb09173aceef1252806f3dda93ac3fc0782c03210"
+    },
+    "conformance/generate_fixtures.py": {
+      "source": "conformance/generate_fixtures.py",
+      "source_sha256": "7cc1008dc1e79d27f569eb4ce7195aa2e63ba663db30aa7f3cb0445cf409bf9b",
+      "package_sha256": "2110af22ee42008e154b45619bd9c881049344bb69c71768ad6c485af0fd178f"
+    },
+    "conformance/generated/exports/file-uri/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/file-uri/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/file-uri/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/file-uri/repo/tasks/fixture-task/task.md",
+      "source_sha256": "c86bb2751a99ab1901296f277465d252cb5d6ed620060a266d017600bdee725a",
+      "package_sha256": "c86bb2751a99ab1901296f277465d252cb5d6ed620060a266d017600bdee725a"
+    },
+    "conformance/generated/exports/github-relative/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/github-relative/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/github-relative/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/github-relative/repo/tasks/fixture-task/task.md",
+      "source_sha256": "360f0a3d6efcaa1eb05182ca2fa4028c4c9c519ed2f78088c1000e8f22edb3aa",
+      "package_sha256": "360f0a3d6efcaa1eb05182ca2fa4028c4c9c519ed2f78088c1000e8f22edb3aa"
+    },
+    "conformance/generated/exports/gitlab-relative/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/gitlab-relative/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/gitlab-relative/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/gitlab-relative/repo/tasks/fixture-task/task.md",
+      "source_sha256": "6898a03365fe3de478a655cbb00c1f1b250922770ff36cdf2af951e0a2079464",
+      "package_sha256": "6898a03365fe3de478a655cbb00c1f1b250922770ff36cdf2af951e0a2079464"
+    },
+    "conformance/generated/exports/home-path/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/home-path/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/home-path/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/home-path/repo/tasks/fixture-task/task.md",
+      "source_sha256": "fb324e4c66e54cc6a2d42e02f2bc7dee9dd5d4a1244ad34f38774e7e0d1481cf",
+      "package_sha256": "fb324e4c66e54cc6a2d42e02f2bc7dee9dd5d4a1244ad34f38774e7e0d1481cf"
+    },
+    "conformance/generated/exports/insecure-http/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/insecure-http/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/insecure-http/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/insecure-http/repo/tasks/fixture-task/task.md",
+      "source_sha256": "6411e5349f55bce2cb683daaedd7aa739626f5fe09ef97e1123588017f6d5d50",
+      "package_sha256": "6411e5349f55bce2cb683daaedd7aa739626f5fe09ef97e1123588017f6d5d50"
+    },
+    "conformance/generated/exports/missing-link/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/missing-link/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/missing-link/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/missing-link/repo/tasks/fixture-task/task.md",
+      "source_sha256": "e883d97ec937228e235eb6b73a302bcfd81b75e7b100eda53964246709d56f0d",
+      "package_sha256": "e883d97ec937228e235eb6b73a302bcfd81b75e7b100eda53964246709d56f0d"
+    },
+    "conformance/generated/exports/outside-link/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/outside-link/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/outside-link/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/outside-link/repo/tasks/fixture-task/task.md",
+      "source_sha256": "3a4841b688e24513e89953e57a52e081e9d4df3c99dd03c2624941bed8cf71f4",
+      "package_sha256": "3a4841b688e24513e89953e57a52e081e9d4df3c99dd03c2624941bed8cf71f4"
+    },
+    "conformance/generated/exports/posix-path/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/posix-path/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/posix-path/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/posix-path/repo/tasks/fixture-task/task.md",
+      "source_sha256": "d74a951cfd4901665351f29f7975b06e4db68d21f454ccfb1e5c83361f9faf21",
+      "package_sha256": "d74a951cfd4901665351f29f7975b06e4db68d21f454ccfb1e5c83361f9faf21"
+    },
+    "conformance/generated/exports/remote-image/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/remote-image/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/remote-image/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/remote-image/repo/tasks/fixture-task/task.md",
+      "source_sha256": "6180f216f83dde648c74ec0ea82a9a84dda8fda982d2788979bd040a3e7879aa",
+      "package_sha256": "6180f216f83dde648c74ec0ea82a9a84dda8fda982d2788979bd040a3e7879aa"
+    },
+    "conformance/generated/exports/secret/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/secret/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/secret/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/secret/repo/tasks/fixture-task/task.md",
+      "source_sha256": "11d156b998ccbffd3e65c3950025ad60dc44bb8d27b0021e6fd020bb8f217f46",
+      "package_sha256": "11d156b998ccbffd3e65c3950025ad60dc44bb8d27b0021e6fd020bb8f217f46"
+    },
+    "conformance/generated/exports/secret-link/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/secret-link/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/secret-link/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/secret-link/repo/tasks/fixture-task/task.md",
+      "source_sha256": "05ef25780db226c3f7f5bd929b4ac35cb380ba37f4094c7c3ce0f1af7beab0fd",
+      "package_sha256": "05ef25780db226c3f7f5bd929b4ac35cb380ba37f4094c7c3ce0f1af7beab0fd"
+    },
+    "conformance/generated/exports/untrusted-instructions/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/untrusted-instructions/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/untrusted-instructions/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/untrusted-instructions/repo/tasks/fixture-task/task.md",
+      "source_sha256": "521d57454aa5ed643e2c685ddcb5fa09f83f434996e8f313ab5d323519158017",
+      "package_sha256": "521d57454aa5ed643e2c685ddcb5fa09f83f434996e8f313ab5d323519158017"
+    },
+    "conformance/generated/exports/windows-path/repo/docs/guide.md": {
+      "source": "conformance/generated/exports/windows-path/repo/docs/guide.md",
+      "source_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a",
+      "package_sha256": "110016b4e620f5e15120f65e49eee8ef835235c55d70e535c2df2aa1c086207a"
+    },
+    "conformance/generated/exports/windows-path/repo/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/exports/windows-path/repo/tasks/fixture-task/task.md",
+      "source_sha256": "758e2f361aaacbf50882034a7a62e9ba118ff243fce82d773d46eccf4378fd39",
+      "package_sha256": "758e2f361aaacbf50882034a7a62e9ba118ff243fce82d773d46eccf4378fd39"
+    },
+    "conformance/generated/invalid/active-task-vendor-manifest/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/active-task-vendor-manifest/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/active-task-vendor-manifest/tasks/index.md": {
+      "source": "conformance/generated/invalid/active-task-vendor-manifest/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/active-task-vendor-manifest/tasks/second-task/OKF_UPSTREAM.json": {
+      "source": "conformance/generated/invalid/active-task-vendor-manifest/tasks/second-task/OKF_UPSTREAM.json",
+      "source_sha256": "e99cb0113b4866fe608d0815cb6d01d7aa66c57557c4a346193fd26944ce6dcc",
+      "package_sha256": "e99cb0113b4866fe608d0815cb6d01d7aa66c57557c4a346193fd26944ce6dcc"
+    },
+    "conformance/generated/invalid/active-task-vendor-manifest/tasks/second-task/task.md": {
+      "source": "conformance/generated/invalid/active-task-vendor-manifest/tasks/second-task/task.md",
+      "source_sha256": "0f4fc6b823f19134b4c22cafceef297a6c3bc21c0641c8730b691f518a07a934",
+      "package_sha256": "0f4fc6b823f19134b4c22cafceef297a6c3bc21c0641c8730b691f518a07a934"
+    },
+    "conformance/generated/invalid/changed-vendored-snapshot/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/changed-vendored-snapshot/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/changed-vendored-snapshot/tasks/index.md": {
+      "source": "conformance/generated/invalid/changed-vendored-snapshot/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/changed-vendored-snapshot/third-party/example.md": {
+      "source": "conformance/generated/invalid/changed-vendored-snapshot/third-party/example.md",
+      "source_sha256": "2ab2f0b1839535c6734f027ae664ee116e1c7c5afba4ea5615c2631b0d214ee8",
+      "package_sha256": "2ab2f0b1839535c6734f027ae664ee116e1c7c5afba4ea5615c2631b0d214ee8"
+    },
+    "conformance/generated/invalid/changed-vendored-snapshot/third-party/OKF_UPSTREAM.json": {
+      "source": "conformance/generated/invalid/changed-vendored-snapshot/third-party/OKF_UPSTREAM.json",
+      "source_sha256": "e1d5a99b4756da3bd1288ca7aa984ad2b559ff3015856b2702bc4e5f4146cfb8",
+      "package_sha256": "e1d5a99b4756da3bd1288ca7aa984ad2b559ff3015856b2702bc4e5f4146cfb8"
+    },
+    "conformance/generated/invalid/closed-missing-effort/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/closed-missing-effort/tasks/fixture-task/task.md",
+      "source_sha256": "e6e972c73b37975bdf80ee03a704124cc92e262b57d29a882045b04e7aeec8c0",
+      "package_sha256": "e6e972c73b37975bdf80ee03a704124cc92e262b57d29a882045b04e7aeec8c0"
+    },
+    "conformance/generated/invalid/closed-missing-effort/tasks/index.md": {
+      "source": "conformance/generated/invalid/closed-missing-effort/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/disconnected-durable-links/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/disconnected-durable-links/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/disconnected-durable-links/tasks/index.md": {
+      "source": "conformance/generated/invalid/disconnected-durable-links/tasks/index.md",
+      "source_sha256": "25589ed35a3337b7e7ce1a3ed74a449dd6929c42accc2ac0ff5ccc83953e7601",
+      "package_sha256": "25589ed35a3337b7e7ce1a3ed74a449dd6929c42accc2ac0ff5ccc83953e7601"
+    },
+    "conformance/generated/invalid/disconnected-durable-links/tasks/second-task/task.md": {
+      "source": "conformance/generated/invalid/disconnected-durable-links/tasks/second-task/task.md",
+      "source_sha256": "db9df33b30e1b8c6a601281324af6162347370bdafdb7128931b6341fed0d3d2",
+      "package_sha256": "db9df33b30e1b8c6a601281324af6162347370bdafdb7128931b6341fed0d3d2"
+    },
+    "conformance/generated/invalid/done-active-workstream/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/done-active-workstream/tasks/fixture-task/task.md",
+      "source_sha256": "37e38212272427d081906bad79b513fa33c1c6a44e51f51cffb4e45b131b5193",
+      "package_sha256": "37e38212272427d081906bad79b513fa33c1c6a44e51f51cffb4e45b131b5193"
+    },
+    "conformance/generated/invalid/done-active-workstream/tasks/fixture-task/workstreams/delivery.md": {
+      "source": "conformance/generated/invalid/done-active-workstream/tasks/fixture-task/workstreams/delivery.md",
+      "source_sha256": "d3865b7674f1b0f67aefdc81c801d26ac0b4031ef52d7bb54261394fabb36999",
+      "package_sha256": "d3865b7674f1b0f67aefdc81c801d26ac0b4031ef52d7bb54261394fabb36999"
+    },
+    "conformance/generated/invalid/done-active-workstream/tasks/index.md": {
+      "source": "conformance/generated/invalid/done-active-workstream/tasks/index.md",
+      "source_sha256": "0beba1b4a7caa7b92b0b8bdb813ab5359bb67f45467ee83ea9ce94d71fa81c2a",
+      "package_sha256": "0beba1b4a7caa7b92b0b8bdb813ab5359bb67f45467ee83ea9ce94d71fa81c2a"
+    },
+    "conformance/generated/invalid/done-running-time/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/done-running-time/tasks/fixture-task/task.md",
+      "source_sha256": "7df4c241e2c4f72d8e6d00b75ca7a476d68b66d3348b8aa7ae30e21f766529ed",
+      "package_sha256": "7df4c241e2c4f72d8e6d00b75ca7a476d68b66d3348b8aa7ae30e21f766529ed"
+    },
+    "conformance/generated/invalid/done-running-time/tasks/index.md": {
+      "source": "conformance/generated/invalid/done-running-time/tasks/index.md",
+      "source_sha256": "0beba1b4a7caa7b92b0b8bdb813ab5359bb67f45467ee83ea9ce94d71fa81c2a",
+      "package_sha256": "0beba1b4a7caa7b92b0b8bdb813ab5359bb67f45467ee83ea9ce94d71fa81c2a"
+    },
+    "conformance/generated/invalid/duplicate-active-branch/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/duplicate-active-branch/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/duplicate-active-branch/tasks/fixture-task/workstreams/one.md": {
+      "source": "conformance/generated/invalid/duplicate-active-branch/tasks/fixture-task/workstreams/one.md",
+      "source_sha256": "8040dc688e2a5d47868f57b5bab57aeb729d766204aad37bf760bc2dcc4b2035",
+      "package_sha256": "8040dc688e2a5d47868f57b5bab57aeb729d766204aad37bf760bc2dcc4b2035"
+    },
+    "conformance/generated/invalid/duplicate-active-branch/tasks/fixture-task/workstreams/two.md": {
+      "source": "conformance/generated/invalid/duplicate-active-branch/tasks/fixture-task/workstreams/two.md",
+      "source_sha256": "6bd99b7f9a0d69d37813e530312bf727a9cee6f948efe9fbb24effbb66e65334",
+      "package_sha256": "6bd99b7f9a0d69d37813e530312bf727a9cee6f948efe9fbb24effbb66e65334"
+    },
+    "conformance/generated/invalid/duplicate-active-branch/tasks/index.md": {
+      "source": "conformance/generated/invalid/duplicate-active-branch/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/duplicate-external-mapping/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/duplicate-external-mapping/tasks/fixture-task/task.md",
+      "source_sha256": "9fe912728db099f5238775b9a587da3ce05f8d911d75bb4a1e43d22279ad5f38",
+      "package_sha256": "9fe912728db099f5238775b9a587da3ce05f8d911d75bb4a1e43d22279ad5f38"
+    },
+    "conformance/generated/invalid/duplicate-external-mapping/tasks/index.md": {
+      "source": "conformance/generated/invalid/duplicate-external-mapping/tasks/index.md",
+      "source_sha256": "29dc12b728a47cb26be7e50b4ff76ac1e5752340711bb98dfbad7c21f54f67ba",
+      "package_sha256": "29dc12b728a47cb26be7e50b4ff76ac1e5752340711bb98dfbad7c21f54f67ba"
+    },
+    "conformance/generated/invalid/duplicate-external-mapping/tasks/second-task/task.md": {
+      "source": "conformance/generated/invalid/duplicate-external-mapping/tasks/second-task/task.md",
+      "source_sha256": "471ac2caa67e967bc3f473aebcd92bf91119d52ea9673b7a933244c012df6958",
+      "package_sha256": "471ac2caa67e967bc3f473aebcd92bf91119d52ea9673b7a933244c012df6958"
+    },
+    "conformance/generated/invalid/duplicate-external-mapping/tasks/trackers/github-main.md": {
+      "source": "conformance/generated/invalid/duplicate-external-mapping/tasks/trackers/github-main.md",
+      "source_sha256": "227d76fd19b688367c0ae4f382299089f52bd9a4e728f2d6dbeb9eada9e3dde8",
+      "package_sha256": "227d76fd19b688367c0ae4f382299089f52bd9a4e728f2d6dbeb9eada9e3dde8"
+    },
+    "conformance/generated/invalid/duplicate-running-combination/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/duplicate-running-combination/tasks/fixture-task/task.md",
+      "source_sha256": "11403ecead58f90b3cc2d1a316f1f63eaf2f7e394908fae362bbb4d8e160fc1b",
+      "package_sha256": "11403ecead58f90b3cc2d1a316f1f63eaf2f7e394908fae362bbb4d8e160fc1b"
+    },
+    "conformance/generated/invalid/duplicate-running-combination/tasks/index.md": {
+      "source": "conformance/generated/invalid/duplicate-running-combination/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/escaping-vendor-manifest/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/escaping-vendor-manifest/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/escaping-vendor-manifest/tasks/index.md": {
+      "source": "conformance/generated/invalid/escaping-vendor-manifest/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/escaping-vendor-manifest/third-party/example.md": {
+      "source": "conformance/generated/invalid/escaping-vendor-manifest/third-party/example.md",
+      "source_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93",
+      "package_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93"
+    },
+    "conformance/generated/invalid/escaping-vendor-manifest/third-party/OKF_UPSTREAM.json": {
+      "source": "conformance/generated/invalid/escaping-vendor-manifest/third-party/OKF_UPSTREAM.json",
+      "source_sha256": "8324b105f6878aca8c1083adc238dd0f72fa7ef12644190eef65159aa607e2da",
+      "package_sha256": "8324b105f6878aca8c1083adc238dd0f72fa7ef12644190eef65159aa607e2da"
+    },
+    "conformance/generated/invalid/external-missing-fields/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/external-missing-fields/tasks/fixture-task/task.md",
+      "source_sha256": "4775effcad843ee11f5f7d6ce629d199c70d58e9a9a5d903d4fc544e22e8c9d1",
+      "package_sha256": "4775effcad843ee11f5f7d6ce629d199c70d58e9a9a5d903d4fc544e22e8c9d1"
+    },
+    "conformance/generated/invalid/external-missing-fields/tasks/index.md": {
+      "source": "conformance/generated/invalid/external-missing-fields/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/incomplete-status-map/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/incomplete-status-map/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/incomplete-status-map/tasks/index.md": {
+      "source": "conformance/generated/invalid/incomplete-status-map/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/incomplete-status-map/tasks/trackers/github-main.md": {
+      "source": "conformance/generated/invalid/incomplete-status-map/tasks/trackers/github-main.md",
+      "source_sha256": "f911debd9883e8a25b2efe8ac6aa54a58148c26930ef2544ba94c9a72995b2c2",
+      "package_sha256": "f911debd9883e8a25b2efe8ac6aa54a58148c26930ef2544ba94c9a72995b2c2"
+    },
+    "conformance/generated/invalid/invalid-completion-history/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-completion-history/tasks/fixture-task/task.md",
+      "source_sha256": "553f7e4887e9b3c6b215d0797a5ba473666f536be71f5db4ac0aa69be3ed6ed9",
+      "package_sha256": "553f7e4887e9b3c6b215d0797a5ba473666f536be71f5db4ac0aa69be3ed6ed9"
+    },
+    "conformance/generated/invalid/invalid-completion-history/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-completion-history/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/invalid-estimate/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-estimate/tasks/fixture-task/task.md",
+      "source_sha256": "8e2bddebfb764336ab9d1016a66a21112783448b1f51c4a7bcd056d5681826f5",
+      "package_sha256": "8e2bddebfb764336ab9d1016a66a21112783448b1f51c4a7bcd056d5681826f5"
+    },
+    "conformance/generated/invalid/invalid-estimate/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-estimate/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/invalid-frontmatter-formatting/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-frontmatter-formatting/tasks/fixture-task/task.md",
+      "source_sha256": "26c5b45fa4d2695a4638b8bd416f4ccade6d9ce66e3469a9e1f081e8909cbe43",
+      "package_sha256": "26c5b45fa4d2695a4638b8bd416f4ccade6d9ce66e3469a9e1f081e8909cbe43"
+    },
+    "conformance/generated/invalid/invalid-frontmatter-formatting/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-frontmatter-formatting/tasks/index.md",
+      "source_sha256": "51ed9b59efb42f3333ff753d95986d70b9596e91c61571fbbc187b96164a1389",
+      "package_sha256": "51ed9b59efb42f3333ff753d95986d70b9596e91c61571fbbc187b96164a1389"
+    },
+    "conformance/generated/invalid/invalid-navigation-role/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-navigation-role/tasks/fixture-task/task.md",
+      "source_sha256": "4b955bd626ec40ff94fac0b843f7a1fc1ca0e54667533bf85bcd7e7e83749c72",
+      "package_sha256": "4b955bd626ec40ff94fac0b843f7a1fc1ca0e54667533bf85bcd7e7e83749c72"
+    },
+    "conformance/generated/invalid/invalid-navigation-role/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-navigation-role/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/invalid-points/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-points/tasks/fixture-task/task.md",
+      "source_sha256": "4c71fee5e737496d1e04648c5c6c430f922c0dd6ee7ea651726c24ae9d4e6acb",
+      "package_sha256": "4c71fee5e737496d1e04648c5c6c430f922c0dd6ee7ea651726c24ae9d4e6acb"
+    },
+    "conformance/generated/invalid/invalid-points/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-points/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/invalid-portable-field/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-portable-field/tasks/fixture-task/task.md",
+      "source_sha256": "e4ffb73ae113a53deec2dfc79407b448f47ebfce2eb00e92638f8e869f323114",
+      "package_sha256": "e4ffb73ae113a53deec2dfc79407b448f47ebfce2eb00e92638f8e869f323114"
+    },
+    "conformance/generated/invalid/invalid-portable-field/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-portable-field/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/invalid-task-level-sync/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-task-level-sync/tasks/fixture-task/task.md",
+      "source_sha256": "c3431fb80ad0f40112337fd943211fcb7e0abbf738e1662de90dc386d7fc8d2c",
+      "package_sha256": "c3431fb80ad0f40112337fd943211fcb7e0abbf738e1662de90dc386d7fc8d2c"
+    },
+    "conformance/generated/invalid/invalid-task-level-sync/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-task-level-sync/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/invalid-task-slug/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-task-slug/tasks/index.md",
+      "source_sha256": "0a3717e5982d2ea308add04ffd7b08785753ff27948faee0c1acefeb93030ae4",
+      "package_sha256": "0a3717e5982d2ea308add04ffd7b08785753ff27948faee0c1acefeb93030ae4"
+    },
+    "conformance/generated/invalid/invalid-task-slug/tasks/Not-Kebab/task.md": {
+      "source": "conformance/generated/invalid/invalid-task-slug/tasks/Not-Kebab/task.md",
+      "source_sha256": "12e4fc0c314a3fcd8f3f0d23542d0558ac89f283267ada39a902959097a4d46c",
+      "package_sha256": "12e4fc0c314a3fcd8f3f0d23542d0558ac89f283267ada39a902959097a4d46c"
+    },
+    "conformance/generated/invalid/invalid-task-timestamp/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/invalid-task-timestamp/tasks/fixture-task/task.md",
+      "source_sha256": "3f915dd6094f67cb94d27504dccf0e1f4b62d1df911d77409af09f79dd8c4736",
+      "package_sha256": "3f915dd6094f67cb94d27504dccf0e1f4b62d1df911d77409af09f79dd8c4736"
+    },
+    "conformance/generated/invalid/invalid-task-timestamp/tasks/index.md": {
+      "source": "conformance/generated/invalid/invalid-task-timestamp/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/lossy-tracker-authority/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/lossy-tracker-authority/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/lossy-tracker-authority/tasks/index.md": {
+      "source": "conformance/generated/invalid/lossy-tracker-authority/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/lossy-tracker-authority/tasks/trackers/github-main.md": {
+      "source": "conformance/generated/invalid/lossy-tracker-authority/tasks/trackers/github-main.md",
+      "source_sha256": "913d6185db939f9a6ddd7fb4435199cb9fe4ccbf54551b9da92814f01e1b7fb6",
+      "package_sha256": "913d6185db939f9a6ddd7fb4435199cb9fe4ccbf54551b9da92814f01e1b7fb6"
+    },
+    "conformance/generated/invalid/malformed-yaml/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/malformed-yaml/tasks/fixture-task/task.md",
+      "source_sha256": "d3037134781290428ea22f62833aa7d66006b06a45cf3db607a1e64f8cc483e5",
+      "package_sha256": "d3037134781290428ea22f62833aa7d66006b06a45cf3db607a1e64f8cc483e5"
+    },
+    "conformance/generated/invalid/malformed-yaml/tasks/index.md": {
+      "source": "conformance/generated/invalid/malformed-yaml/tasks/index.md",
+      "source_sha256": "d52a5182896afb3376518d8a5fc289317c39d7e48dfb677acb113138ed754603",
+      "package_sha256": "d52a5182896afb3376518d8a5fc289317c39d7e48dfb677acb113138ed754603"
+    },
+    "conformance/generated/invalid/missing-frontmatter/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/missing-frontmatter/tasks/fixture-task/task.md",
+      "source_sha256": "a1759d76ca7b539b44808d59935a9d8410612859ae1dd232a4e6f7025d35b7fd",
+      "package_sha256": "a1759d76ca7b539b44808d59935a9d8410612859ae1dd232a4e6f7025d35b7fd"
+    },
+    "conformance/generated/invalid/missing-frontmatter/tasks/index.md": {
+      "source": "conformance/generated/invalid/missing-frontmatter/tasks/index.md",
+      "source_sha256": "d52a5182896afb3376518d8a5fc289317c39d7e48dfb677acb113138ed754603",
+      "package_sha256": "d52a5182896afb3376518d8a5fc289317c39d7e48dfb677acb113138ed754603"
+    },
+    "conformance/generated/invalid/missing-index/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/missing-index/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/missing-task-field/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/missing-task-field/tasks/fixture-task/task.md",
+      "source_sha256": "955860472e1b68e2044de43862dd06caa9b725f036b9f4714d25939ed3d89c47",
+      "package_sha256": "955860472e1b68e2044de43862dd06caa9b725f036b9f4714d25939ed3d89c47"
+    },
+    "conformance/generated/invalid/missing-task-field/tasks/index.md": {
+      "source": "conformance/generated/invalid/missing-task-field/tasks/index.md",
+      "source_sha256": "0c420689352db6e3b11dccfa9b1e8cca4164a8f6201021112fa093b3911ac341",
+      "package_sha256": "0c420689352db6e3b11dccfa9b1e8cca4164a8f6201021112fa093b3911ac341"
+    },
+    "conformance/generated/invalid/missing-task-heading/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/missing-task-heading/tasks/fixture-task/task.md",
+      "source_sha256": "1fb262521f2abe84da5c1e5f27cbdebe3cdec2d7d851b24afcfa0678ce741414",
+      "package_sha256": "1fb262521f2abe84da5c1e5f27cbdebe3cdec2d7d851b24afcfa0678ce741414"
+    },
+    "conformance/generated/invalid/missing-task-heading/tasks/index.md": {
+      "source": "conformance/generated/invalid/missing-task-heading/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/missing-time-activity/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/missing-time-activity/tasks/fixture-task/task.md",
+      "source_sha256": "f78ec422d45f7a62dcb1c0e5e7c55c554cc5ef6466cba9c987ad7bd6a60d87af",
+      "package_sha256": "f78ec422d45f7a62dcb1c0e5e7c55c554cc5ef6466cba9c987ad7bd6a60d87af"
+    },
+    "conformance/generated/invalid/missing-time-activity/tasks/index.md": {
+      "source": "conformance/generated/invalid/missing-time-activity/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/missing-tracker-profile/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/missing-tracker-profile/tasks/fixture-task/task.md",
+      "source_sha256": "9fe912728db099f5238775b9a587da3ce05f8d911d75bb4a1e43d22279ad5f38",
+      "package_sha256": "9fe912728db099f5238775b9a587da3ce05f8d911d75bb4a1e43d22279ad5f38"
+    },
+    "conformance/generated/invalid/missing-tracker-profile/tasks/index.md": {
+      "source": "conformance/generated/invalid/missing-tracker-profile/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/multiple-default-trackers/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/multiple-default-trackers/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/multiple-default-trackers/tasks/index.md": {
+      "source": "conformance/generated/invalid/multiple-default-trackers/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/multiple-default-trackers/tasks/trackers/github-main.md": {
+      "source": "conformance/generated/invalid/multiple-default-trackers/tasks/trackers/github-main.md",
+      "source_sha256": "10e504109ff2a393c9e4a5e998580cec2ddfb6f6d06ec344201bf39f938abfed",
+      "package_sha256": "10e504109ff2a393c9e4a5e998580cec2ddfb6f6d06ec344201bf39f938abfed"
+    },
+    "conformance/generated/invalid/multiple-default-trackers/tasks/trackers/linear-default.md": {
+      "source": "conformance/generated/invalid/multiple-default-trackers/tasks/trackers/linear-default.md",
+      "source_sha256": "6c82c9f21c0b3e948f25404e954842528068c2d5f69ce87fe156a0a43349a62b",
+      "package_sha256": "6c82c9f21c0b3e948f25404e954842528068c2d5f69ce87fe156a0a43349a62b"
+    },
+    "conformance/generated/invalid/running-with-closed-fields/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/running-with-closed-fields/tasks/fixture-task/task.md",
+      "source_sha256": "4adeefa84a63fec508eb00b50607c0dc1497f21ad5dfa9ef086e72ac4374d96d",
+      "package_sha256": "4adeefa84a63fec508eb00b50607c0dc1497f21ad5dfa9ef086e72ac4374d96d"
+    },
+    "conformance/generated/invalid/running-with-closed-fields/tasks/index.md": {
+      "source": "conformance/generated/invalid/running-with-closed-fields/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/stale-index/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/stale-index/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/stale-index/tasks/index.md": {
+      "source": "conformance/generated/invalid/stale-index/tasks/index.md",
+      "source_sha256": "f980720cea712a135887714025a36720c9220a9214bc47c17be16091fa2e8868",
+      "package_sha256": "f980720cea712a135887714025a36720c9220a9214bc47c17be16091fa2e8868"
+    },
+    "conformance/generated/invalid/unknown-task-status/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/unknown-task-status/tasks/fixture-task/task.md",
+      "source_sha256": "eae83f6ced60c4a1e88be8bef0f5fbbdff741d203a65c97c9bf38ef809d5e412",
+      "package_sha256": "eae83f6ced60c4a1e88be8bef0f5fbbdff741d203a65c97c9bf38ef809d5e412"
+    },
+    "conformance/generated/invalid/unknown-task-status/tasks/index.md": {
+      "source": "conformance/generated/invalid/unknown-task-status/tasks/index.md",
+      "source_sha256": "e985712d4783b26032d43194a284bc7bff9aa06fd691b4c33e563c590047b5d4",
+      "package_sha256": "e985712d4783b26032d43194a284bc7bff9aa06fd691b4c33e563c590047b5d4"
+    },
+    "conformance/generated/invalid/unknown-time-activity/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/unknown-time-activity/tasks/fixture-task/task.md",
+      "source_sha256": "c61536cb628d84302a5847382ac91ec9cc60f800906edb6605536f3f02167eae",
+      "package_sha256": "c61536cb628d84302a5847382ac91ec9cc60f800906edb6605536f3f02167eae"
+    },
+    "conformance/generated/invalid/unknown-time-activity/tasks/index.md": {
+      "source": "conformance/generated/invalid/unknown-time-activity/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/unknown-time-method/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/unknown-time-method/tasks/fixture-task/task.md",
+      "source_sha256": "16aba4f1d5965cfe096cf104eb52eef3cbf79db49d4f4124c66c95553d1cce19",
+      "package_sha256": "16aba4f1d5965cfe096cf104eb52eef3cbf79db49d4f4124c66c95553d1cce19"
+    },
+    "conformance/generated/invalid/unknown-time-method/tasks/index.md": {
+      "source": "conformance/generated/invalid/unknown-time-method/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/unlisted-vendored-concept/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/unlisted-vendored-concept/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/unlisted-vendored-concept/tasks/index.md": {
+      "source": "conformance/generated/invalid/unlisted-vendored-concept/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/unlisted-vendored-concept/third-party/example.md": {
+      "source": "conformance/generated/invalid/unlisted-vendored-concept/third-party/example.md",
+      "source_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93",
+      "package_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93"
+    },
+    "conformance/generated/invalid/unlisted-vendored-concept/third-party/OKF_UPSTREAM.json": {
+      "source": "conformance/generated/invalid/unlisted-vendored-concept/third-party/OKF_UPSTREAM.json",
+      "source_sha256": "1d75e0c37b8800d9a78fb4779dba96d32b9f22a1917239f4020e7501428400f4",
+      "package_sha256": "1d75e0c37b8800d9a78fb4779dba96d32b9f22a1917239f4020e7501428400f4"
+    },
+    "conformance/generated/invalid/workstream-missing-created/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/workstream-missing-created/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/workstream-missing-created/tasks/fixture-task/workstreams/delivery.md": {
+      "source": "conformance/generated/invalid/workstream-missing-created/tasks/fixture-task/workstreams/delivery.md",
+      "source_sha256": "b88c1058d3b0b1b92f5539da72a2a37daafdf95c34f3ba1370b5880e40c2a4c8",
+      "package_sha256": "b88c1058d3b0b1b92f5539da72a2a37daafdf95c34f3ba1370b5880e40c2a4c8"
+    },
+    "conformance/generated/invalid/workstream-missing-created/tasks/index.md": {
+      "source": "conformance/generated/invalid/workstream-missing-created/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/invalid/workstream-parent-mismatch/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/invalid/workstream-parent-mismatch/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/invalid/workstream-parent-mismatch/tasks/fixture-task/workstreams/delivery.md": {
+      "source": "conformance/generated/invalid/workstream-parent-mismatch/tasks/fixture-task/workstreams/delivery.md",
+      "source_sha256": "abfb3e7090fee4addd15e571c5f261a083649a262de2ec2a81fc0d9d72179723",
+      "package_sha256": "abfb3e7090fee4addd15e571c5f261a083649a262de2ec2a81fc0d9d72179723"
+    },
+    "conformance/generated/invalid/workstream-parent-mismatch/tasks/index.md": {
+      "source": "conformance/generated/invalid/workstream-parent-mismatch/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/broken-relationships-warning/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/broken-relationships-warning/tasks/fixture-task/task.md",
+      "source_sha256": "4a69220de4f3e7bc33ca40e79fc3736b50d726e9b79a00d42c11a81499d4d9f3",
+      "package_sha256": "4a69220de4f3e7bc33ca40e79fc3736b50d726e9b79a00d42c11a81499d4d9f3"
+    },
+    "conformance/generated/valid/broken-relationships-warning/tasks/index.md": {
+      "source": "conformance/generated/valid/broken-relationships-warning/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/docs-placement/docs/tasks/deliver-project/task.md": {
+      "source": "conformance/generated/valid/docs-placement/docs/tasks/deliver-project/task.md",
+      "source_sha256": "0c039c7488e592ebdd27f5376b0921cd0047134313a8d86ea6fe623612b0a651",
+      "package_sha256": "0c039c7488e592ebdd27f5376b0921cd0047134313a8d86ea6fe623612b0a651"
+    },
+    "conformance/generated/valid/docs-placement/docs/tasks/index.md": {
+      "source": "conformance/generated/valid/docs-placement/docs/tasks/index.md",
+      "source_sha256": "cd5837ad97c5163cb588ae1480be4409eae9f85d7ddda3460af7b78da60d63d7",
+      "package_sha256": "cd5837ad97c5163cb588ae1480be4409eae9f85d7ddda3460af7b78da60d63d7"
+    },
+    "conformance/generated/valid/excluded-volatile-concepts/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/excluded-volatile-concepts/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/valid/excluded-volatile-concepts/tasks/index.md": {
+      "source": "conformance/generated/valid/excluded-volatile-concepts/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/excluded-volatile-concepts/tasks/runbooks/operator.md": {
+      "source": "conformance/generated/valid/excluded-volatile-concepts/tasks/runbooks/operator.md",
+      "source_sha256": "dc827b714290737ced2b217918d881f97a86406047a340df0ec0483061c1e6a8",
+      "package_sha256": "dc827b714290737ced2b217918d881f97a86406047a340df0ec0483061c1e6a8"
+    },
+    "conformance/generated/valid/full-task/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/full-task/tasks/fixture-task/task.md",
+      "source_sha256": "6db569562a567f446d44492c178cfdd094f72ede778be8a0b6f5ff53ee229b22",
+      "package_sha256": "6db569562a567f446d44492c178cfdd094f72ede778be8a0b6f5ff53ee229b22"
+    },
+    "conformance/generated/valid/full-task/tasks/index.md": {
+      "source": "conformance/generated/valid/full-task/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/full-task/tasks/trackers/github-main.md": {
+      "source": "conformance/generated/valid/full-task/tasks/trackers/github-main.md",
+      "source_sha256": "227d76fd19b688367c0ae4f382299089f52bd9a4e728f2d6dbeb9eada9e3dde8",
+      "package_sha256": "227d76fd19b688367c0ae4f382299089f52bd9a4e728f2d6dbeb9eada9e3dde8"
+    },
+    "conformance/generated/valid/reopened-history/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/reopened-history/tasks/fixture-task/task.md",
+      "source_sha256": "d6cab7a37f0fba50fa3e3103763e49335e7943b682f724ef3959bc170ec6574f",
+      "package_sha256": "d6cab7a37f0fba50fa3e3103763e49335e7943b682f724ef3959bc170ec6574f"
+    },
+    "conformance/generated/valid/reopened-history/tasks/index.md": {
+      "source": "conformance/generated/valid/reopened-history/tasks/index.md",
+      "source_sha256": "af8509b4241279efb72108bb706358290bcb867b0e37df129b0395a5d7b10128",
+      "package_sha256": "af8509b4241279efb72108bb706358290bcb867b0e37df129b0395a5d7b10128"
+    },
+    "conformance/generated/valid/time-methods/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/time-methods/tasks/fixture-task/task.md",
+      "source_sha256": "921b670308996fedde039945c737e6b13acec1d05ad129be57a94d1e14e5821c",
+      "package_sha256": "921b670308996fedde039945c737e6b13acec1d05ad129be57a94d1e14e5821c"
+    },
+    "conformance/generated/valid/time-methods/tasks/index.md": {
+      "source": "conformance/generated/valid/time-methods/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/unedited-skeleton-warning/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/unedited-skeleton-warning/tasks/fixture-task/task.md",
+      "source_sha256": "b20c375d1b1425f0e45ca27f445e101901c46c153dac104314ab93c5b2e634d6",
+      "package_sha256": "b20c375d1b1425f0e45ca27f445e101901c46c153dac104314ab93c5b2e634d6"
+    },
+    "conformance/generated/valid/unedited-skeleton-warning/tasks/index.md": {
+      "source": "conformance/generated/valid/unedited-skeleton-warning/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/unique-external-mappings/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/unique-external-mappings/tasks/fixture-task/task.md",
+      "source_sha256": "9fe912728db099f5238775b9a587da3ce05f8d911d75bb4a1e43d22279ad5f38",
+      "package_sha256": "9fe912728db099f5238775b9a587da3ce05f8d911d75bb4a1e43d22279ad5f38"
+    },
+    "conformance/generated/valid/unique-external-mappings/tasks/index.md": {
+      "source": "conformance/generated/valid/unique-external-mappings/tasks/index.md",
+      "source_sha256": "25589ed35a3337b7e7ce1a3ed74a449dd6929c42accc2ac0ff5ccc83953e7601",
+      "package_sha256": "25589ed35a3337b7e7ce1a3ed74a449dd6929c42accc2ac0ff5ccc83953e7601"
+    },
+    "conformance/generated/valid/unique-external-mappings/tasks/second-task/task.md": {
+      "source": "conformance/generated/valid/unique-external-mappings/tasks/second-task/task.md",
+      "source_sha256": "d84518c96ab18af7a60c97b8790bb2ad2ecf7eb5050d317df3c3a7f419351345",
+      "package_sha256": "d84518c96ab18af7a60c97b8790bb2ad2ecf7eb5050d317df3c3a7f419351345"
+    },
+    "conformance/generated/valid/unique-external-mappings/tasks/trackers/github-main.md": {
+      "source": "conformance/generated/valid/unique-external-mappings/tasks/trackers/github-main.md",
+      "source_sha256": "227d76fd19b688367c0ae4f382299089f52bd9a4e728f2d6dbeb9eada9e3dde8",
+      "package_sha256": "227d76fd19b688367c0ae4f382299089f52bd9a4e728f2d6dbeb9eada9e3dde8"
+    },
+    "conformance/generated/valid/unique-external-mappings/tasks/trackers/github-other.md": {
+      "source": "conformance/generated/valid/unique-external-mappings/tasks/trackers/github-other.md",
+      "source_sha256": "ec6d29dd2756064501f0a87aebd8faabc6d436582498567271ef684ac1948b8e",
+      "package_sha256": "ec6d29dd2756064501f0a87aebd8faabc6d436582498567271ef684ac1948b8e"
+    },
+    "conformance/generated/valid/unknown-concept/tasks/fixture-task/coordination.md": {
+      "source": "conformance/generated/valid/unknown-concept/tasks/fixture-task/coordination.md",
+      "source_sha256": "283a8e972b0b4a98c811db4e305c74fc22234d09f3cdd4a86e680b7984d10186",
+      "package_sha256": "283a8e972b0b4a98c811db4e305c74fc22234d09f3cdd4a86e680b7984d10186"
+    },
+    "conformance/generated/valid/unknown-concept/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/unknown-concept/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/valid/unknown-concept/tasks/index.md": {
+      "source": "conformance/generated/valid/unknown-concept/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/vendored-snapshot/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/vendored-snapshot/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/valid/vendored-snapshot/tasks/index.md": {
+      "source": "conformance/generated/valid/vendored-snapshot/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/generated/valid/vendored-snapshot/third-party/example.md": {
+      "source": "conformance/generated/valid/vendored-snapshot/third-party/example.md",
+      "source_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93",
+      "package_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93"
+    },
+    "conformance/generated/valid/vendored-snapshot/third-party/OKF_UPSTREAM.json": {
+      "source": "conformance/generated/valid/vendored-snapshot/third-party/OKF_UPSTREAM.json",
+      "source_sha256": "e1d5a99b4756da3bd1288ca7aa984ad2b559ff3015856b2702bc4e5f4146cfb8",
+      "package_sha256": "e1d5a99b4756da3bd1288ca7aa984ad2b559ff3015856b2702bc4e5f4146cfb8"
+    },
+    "conformance/generated/valid/workstream/tasks/fixture-task/task.md": {
+      "source": "conformance/generated/valid/workstream/tasks/fixture-task/task.md",
+      "source_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c",
+      "package_sha256": "bcf569c2d4f5aeaca9ffb927995de43fc738a4146093e0fe699b1c847248729c"
+    },
+    "conformance/generated/valid/workstream/tasks/fixture-task/workstreams/delivery.md": {
+      "source": "conformance/generated/valid/workstream/tasks/fixture-task/workstreams/delivery.md",
+      "source_sha256": "02ff4837de3cc0103e2174d91a8fd3ad55ef70559e2a88d0e0d2a5208c262970",
+      "package_sha256": "02ff4837de3cc0103e2174d91a8fd3ad55ef70559e2a88d0e0d2a5208c262970"
+    },
+    "conformance/generated/valid/workstream/tasks/index.md": {
+      "source": "conformance/generated/valid/workstream/tasks/index.md",
+      "source_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3",
+      "package_sha256": "bc86bffedd16dc9d44defaf86380741657c223de386b0fad2c2439c939abdec3"
+    },
+    "conformance/invalid/bad-time-rollup/tasks/bad-rollup/task.md": {
+      "source": "conformance/invalid/bad-time-rollup/tasks/bad-rollup/task.md",
+      "source_sha256": "86189306c2e064ce6ba599b42cf735d65238ba589e4c623aefda91ba0190498f",
+      "package_sha256": "86189306c2e064ce6ba599b42cf735d65238ba589e4c623aefda91ba0190498f"
+    },
+    "conformance/invalid/bad-time-rollup/tasks/index.md": {
+      "source": "conformance/invalid/bad-time-rollup/tasks/index.md",
+      "source_sha256": "b159ba8bd5715f3054e8e3262ce53cf90cadf8fabac44ddd594934f47877ef68",
+      "package_sha256": "b159ba8bd5715f3054e8e3262ce53cf90cadf8fabac44ddd594934f47877ef68"
+    },
+    "conformance/invalid/missing-type/tasks/broken-task/task.md": {
+      "source": "conformance/invalid/missing-type/tasks/broken-task/task.md",
+      "source_sha256": "f362e2e93584ead06c4cab1a13555833d559278524d28b4bf662f3ce787da716",
+      "package_sha256": "f362e2e93584ead06c4cab1a13555833d559278524d28b4bf662f3ce787da716"
+    },
+    "conformance/invalid/missing-type/tasks/index.md": {
+      "source": "conformance/invalid/missing-type/tasks/index.md",
+      "source_sha256": "ff95eb8eb83ab7c46f3cd1dde4d3e4e8d212729b457de03d2420b558bd141028",
+      "package_sha256": "ff95eb8eb83ab7c46f3cd1dde4d3e4e8d212729b457de03d2420b558bd141028"
+    },
+    "conformance/manifest.json": {
+      "source": "conformance/manifest.json",
+      "source_sha256": "c1a90f59bd648ebf801de95f052289c31190b00647781cb5262b98b1bdff88a9",
+      "package_sha256": "c1a90f59bd648ebf801de95f052289c31190b00647781cb5262b98b1bdff88a9"
+    },
+    "conformance/README.md": {
+      "source": "conformance/README.md",
+      "source_sha256": "4804f724a0b35038cc5fc24c8a5fa1da4d680c375c1b27343f56dcc3d8688eee",
+      "package_sha256": "4804f724a0b35038cc5fc24c8a5fa1da4d680c375c1b27343f56dcc3d8688eee"
+    },
+    "conformance/transitions.json": {
+      "source": "conformance/transitions.json",
+      "source_sha256": "50cc23ad1828370f6f86d85b2c7eb06dbe062896b680460f04bebcb193903906",
+      "package_sha256": "50cc23ad1828370f6f86d85b2c7eb06dbe062896b680460f04bebcb193903906"
+    },
+    "conformance/valid/minimal/tasks/first-task/task.md": {
+      "source": "conformance/valid/minimal/tasks/first-task/task.md",
+      "source_sha256": "e86ec44e24e21ac4187295dbe2a5c89e27a314efa0bf9b17491376571c7b8f8b",
+      "package_sha256": "e86ec44e24e21ac4187295dbe2a5c89e27a314efa0bf9b17491376571c7b8f8b"
+    },
+    "conformance/valid/minimal/tasks/index.md": {
+      "source": "conformance/valid/minimal/tasks/index.md",
+      "source_sha256": "36cbb2600f366d13e81b56ff872d602b67a3afb5e5226318051371d34d5fde37",
+      "package_sha256": "36cbb2600f366d13e81b56ff872d602b67a3afb5e5226318051371d34d5fde37"
+    },
+    "conformance/visualization-manifest.json": {
+      "source": "conformance/visualization-manifest.json",
+      "source_sha256": "3145b98d2a4930761a93198d1522c43ccf70578fa4b2ff30bcfdb9049a430874",
+      "package_sha256": "3145b98d2a4930761a93198d1522c43ccf70578fa4b2ff30bcfdb9049a430874"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/container-topology.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/container-topology.md",
+      "source_sha256": "2758159a7fd4633002b2cabeb8393deb8035d8eb883b6e9eb1ff9d933949110a",
+      "package_sha256": "2758159a7fd4633002b2cabeb8393deb8035d8eb883b6e9eb1ff9d933949110a"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/data-platform.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/data-platform.md",
+      "source_sha256": "539bd3c1cf99d81d0e78dbd7007820df3b7f45f533c13e8d41c2fa807f590c8c",
+      "package_sha256": "539bd3c1cf99d81d0e78dbd7007820df3b7f45f533c13e8d41c2fa807f590c8c"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/deployment-topology.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/deployment-topology.md",
+      "source_sha256": "7ad2304fe787903cdd78bb02cdea02b2dbb1721086aee786ea56b651ebe82b5f",
+      "package_sha256": "7ad2304fe787903cdd78bb02cdea02b2dbb1721086aee786ea56b651ebe82b5f"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/event-backbone.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/event-backbone.md",
+      "source_sha256": "953bf52b1b88da1f9ee2dd038886fc15b8e6afe3d34f69f7de6345b26251f90b",
+      "package_sha256": "953bf52b1b88da1f9ee2dd038886fc15b8e6afe3d34f69f7de6345b26251f90b"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/identity-boundary.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/identity-boundary.md",
+      "source_sha256": "d9761be12ba9c3fbbbc1425c817adba38e6b434fb7b78bde35a7a6358e642d40",
+      "package_sha256": "d9761be12ba9c3fbbbc1425c817adba38e6b434fb7b78bde35a7a6358e642d40"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/migration-architecture.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/migration-architecture.md",
+      "source_sha256": "12982604d30ad607b131438a5e70de07abeb3c615bbd74763cb6263461499aa4",
+      "package_sha256": "12982604d30ad607b131438a5e70de07abeb3c615bbd74763cb6263461499aa4"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/observability-model.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/observability-model.md",
+      "source_sha256": "2fa8eab8ccc2d0a67f3be879e2de4de62ad42d67ed2cdc4760c26c4286eaa897",
+      "package_sha256": "2fa8eab8ccc2d0a67f3be879e2de4de62ad42d67ed2cdc4760c26c4286eaa897"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/request-lifecycle.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/request-lifecycle.md",
+      "source_sha256": "2550ae5853fc1198900a9a0861395f19df4ed6f65e86bdc5d72e7baed5ac8dc1",
+      "package_sha256": "2550ae5853fc1198900a9a0861395f19df4ed6f65e86bdc5d72e7baed5ac8dc1"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/resilience-model.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/resilience-model.md",
+      "source_sha256": "ff6857a61dd3140c8c919648906bd4ef0ace4aae591be8a9207fa2edb1d56c58",
+      "package_sha256": "ff6857a61dd3140c8c919648906bd4ef0ace4aae591be8a9207fa2edb1d56c58"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/security-architecture.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/security-architecture.md",
+      "source_sha256": "528a3316432711d2dcf341c875effaaec55305d155c58ea8f6396cd319399ba1",
+      "package_sha256": "528a3316432711d2dcf341c875effaaec55305d155c58ea8f6396cd319399ba1"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/system-context.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/system-context.md",
+      "source_sha256": "c1e6065e14707c2c5aa4802b1cc3c780be239043f24113e21917b90bfd856378",
+      "package_sha256": "c1e6065e14707c2c5aa4802b1cc3c780be239043f24113e21917b90bfd856378"
+    },
+    "examples/architecture-knowledge-base/docs/architecture/tenant-isolation.md": {
+      "source": "examples/architecture-knowledge-base/docs/architecture/tenant-isolation.md",
+      "source_sha256": "fc420338e14c0b3a47cd74acab06ea5b8d06126cd122b98b770fc58f9ea7990f",
+      "package_sha256": "fc420338e14c0b3a47cd74acab06ea5b8d06126cd122b98b770fc58f9ea7990f"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-001-modular-service-boundaries.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-001-modular-service-boundaries.md",
+      "source_sha256": "fce52a5447abd3cef42df9972b52e0656deddf57aa1c3d5c3fdd15c9b2c0bdac",
+      "package_sha256": "fce52a5447abd3cef42df9972b52e0656deddf57aa1c3d5c3fdd15c9b2c0bdac"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-002-versioned-event-envelope.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-002-versioned-event-envelope.md",
+      "source_sha256": "249d50eebdfffc7648102475b286093146f377132c1f046f0521fddc00536423",
+      "package_sha256": "249d50eebdfffc7648102475b286093146f377132c1f046f0521fddc00536423"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-003-oidc-workload-identity.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-003-oidc-workload-identity.md",
+      "source_sha256": "c28bcf607c107d11c1b23d812ce10a523ab20108f8ec98976f5f53eb6c1fa59d",
+      "package_sha256": "c28bcf607c107d11c1b23d812ce10a523ab20108f8ec98976f5f53eb6c1fa59d"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-004-tenant-key-partitioning.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-004-tenant-key-partitioning.md",
+      "source_sha256": "b9b8baae3f8441a5d4f8fb0aecf07e9977530748fddafbc6644b070d869302e8",
+      "package_sha256": "b9b8baae3f8441a5d4f8fb0aecf07e9977530748fddafbc6644b070d869302e8"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-005-transactional-outbox.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-005-transactional-outbox.md",
+      "source_sha256": "476494770fb249696ba7d7a7ad6c9d9a99361480eac8bd81d14efb3fd57e35d3",
+      "package_sha256": "476494770fb249696ba7d7a7ad6c9d9a99361480eac8bd81d14efb3fd57e35d3"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-006-idempotent-command-handling.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-006-idempotent-command-handling.md",
+      "source_sha256": "e62967849c367bb0ef558952b445fec28111705eae04839ef5ab27c1b2f5cbad",
+      "package_sha256": "e62967849c367bb0ef558952b445fec28111705eae04839ef5ab27c1b2f5cbad"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-007-schema-registry-compatibility.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-007-schema-registry-compatibility.md",
+      "source_sha256": "7536bd9657b50ffe550dba6b586463fff331e66073c7564165865e59d2ea0a48",
+      "package_sha256": "7536bd9657b50ffe550dba6b586463fff331e66073c7564165865e59d2ea0a48"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-008-zero-downtime-database-change.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-008-zero-downtime-database-change.md",
+      "source_sha256": "1f9906b1c1073877821dc30b6b70b6843bce23d744b4b5b03775f70b65ea6a6c",
+      "package_sha256": "1f9906b1c1073877821dc30b6b70b6843bce23d744b4b5b03775f70b65ea6a6c"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-009-regional-active-passive.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-009-regional-active-passive.md",
+      "source_sha256": "57d9538553b837f433ec3a53f4019d0d87e0c9ca38e82b5e225d98d149454fb5",
+      "package_sha256": "57d9538553b837f433ec3a53f4019d0d87e0c9ca38e82b5e225d98d149454fb5"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-010-central-policy-evaluation.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-010-central-policy-evaluation.md",
+      "source_sha256": "50f48989b78a0ce52901a06a9c5191b0d32384fe6b4859e314102acabc50a365",
+      "package_sha256": "50f48989b78a0ce52901a06a9c5191b0d32384fe6b4859e314102acabc50a365"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-011-short-lived-access-tokens.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-011-short-lived-access-tokens.md",
+      "source_sha256": "8de2559ad9d61ef071f01d733c2ae18279410d3a82ba323899f3b0e9604f1348",
+      "package_sha256": "8de2559ad9d61ef071f01d733c2ae18279410d3a82ba323899f3b0e9604f1348"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-012-immutable-deployment-artifacts.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-012-immutable-deployment-artifacts.md",
+      "source_sha256": "1054603ad07c5a99cf53317b2b5666d10c3cea5543ed02a4a5cfc1b00e92ecde",
+      "package_sha256": "1054603ad07c5a99cf53317b2b5666d10c3cea5543ed02a4a5cfc1b00e92ecde"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-013-progressive-delivery.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-013-progressive-delivery.md",
+      "source_sha256": "c9cc552764f571cbf29199325d582c411c6f62e8379c88f5b61977efcfe74712",
+      "package_sha256": "c9cc552764f571cbf29199325d582c411c6f62e8379c88f5b61977efcfe74712"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-014-open-telemetry-signals.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-014-open-telemetry-signals.md",
+      "source_sha256": "03d1855b19959ba5ece454d809462da547902a9d366edb9bf49b60dc74e9d526",
+      "package_sha256": "03d1855b19959ba5ece454d809462da547902a9d366edb9bf49b60dc74e9d526"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-015-error-budget-release-gates.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-015-error-budget-release-gates.md",
+      "source_sha256": "05013d10076757f64650a905df5855ddd9551f7f54824031bcfba64526f4d0b2",
+      "package_sha256": "05013d10076757f64650a905df5855ddd9551f7f54824031bcfba64526f4d0b2"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-016-encrypted-event-payloads.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-016-encrypted-event-payloads.md",
+      "source_sha256": "5e839d9ef958ff29e51b25a297c7b1bbc29ee3584dd2aeb6cf70a5f93e5c4012",
+      "package_sha256": "5e839d9ef958ff29e51b25a297c7b1bbc29ee3584dd2aeb6cf70a5f93e5c4012"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-017-customer-managed-retention.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-017-customer-managed-retention.md",
+      "source_sha256": "6cbad612140a401f016ef51a59d68648db83534e80b30e5eb04d2ff81eba84f3",
+      "package_sha256": "6cbad612140a401f016ef51a59d68648db83534e80b30e5eb04d2ff81eba84f3"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-018-migration-dual-read-window.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-018-migration-dual-read-window.md",
+      "source_sha256": "82ac8dce810faa306b7819f558ce5f53edf9702c336ae2ca612ee707efccdb7a",
+      "package_sha256": "82ac8dce810faa306b7819f558ce5f53edf9702c336ae2ca612ee707efccdb7a"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-019-bounded-retry-policies.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-019-bounded-retry-policies.md",
+      "source_sha256": "fb705b4efc89aa4e3a911fd01fb22fa5ba975eac3904b6bd4c52e842451ba779",
+      "package_sha256": "fb705b4efc89aa4e3a911fd01fb22fa5ba975eac3904b6bd4c52e842451ba779"
+    },
+    "examples/architecture-knowledge-base/docs/decisions/adr-020-architecture-evidence-records.md": {
+      "source": "examples/architecture-knowledge-base/docs/decisions/adr-020-architecture-evidence-records.md",
+      "source_sha256": "5cfc0161c62db28bb04b161837b563f83c42e2004556077b79f8ccc182fb98ed",
+      "package_sha256": "5cfc0161c62db28bb04b161837b563f83c42e2004556077b79f8ccc182fb98ed"
+    },
+    "examples/architecture-knowledge-base/docs/interfaces/audit-event-contract.md": {
+      "source": "examples/architecture-knowledge-base/docs/interfaces/audit-event-contract.md",
+      "source_sha256": "0e2dbd3551e910a3fd3c02c698d7873ad52965a86c16774a9702f0d4cb673c6b",
+      "package_sha256": "0e2dbd3551e910a3fd3c02c698d7873ad52965a86c16774a9702f0d4cb673c6b"
+    },
+    "examples/architecture-knowledge-base/docs/interfaces/customer-events.md": {
+      "source": "examples/architecture-knowledge-base/docs/interfaces/customer-events.md",
+      "source_sha256": "1bcbfba31445d10eb65374cebd13c29656decf2d81fae41be0da38a3d20f17e2",
+      "package_sha256": "1bcbfba31445d10eb65374cebd13c29656decf2d81fae41be0da38a3d20f17e2"
+    },
+    "examples/architecture-knowledge-base/docs/interfaces/identity-events.md": {
+      "source": "examples/architecture-knowledge-base/docs/interfaces/identity-events.md",
+      "source_sha256": "cd5bbde4b0e846dc3e0db32966e0153df02bcb3219f8f4a3a71b7795a766750d",
+      "package_sha256": "cd5bbde4b0e846dc3e0db32966e0153df02bcb3219f8f4a3a71b7795a766750d"
+    },
+    "examples/architecture-knowledge-base/docs/interfaces/migration-control-api.md": {
+      "source": "examples/architecture-knowledge-base/docs/interfaces/migration-control-api.md",
+      "source_sha256": "2ed249ed4a324560ce952fade888769951a8cd229e20cc83da4a77b8c01ac37c",
+      "package_sha256": "2ed249ed4a324560ce952fade888769951a8cd229e20cc83da4a77b8c01ac37c"
+    },
+    "examples/architecture-knowledge-base/docs/interfaces/public-api.md": {
+      "source": "examples/architecture-knowledge-base/docs/interfaces/public-api.md",
+      "source_sha256": "fa7880c81a0d65de48d23c72d345178dcf155880449265ce18d7f060e25c2d92",
+      "package_sha256": "fa7880c81a0d65de48d23c72d345178dcf155880449265ce18d7f060e25c2d92"
+    },
+    "examples/architecture-knowledge-base/docs/interfaces/reporting-query-api.md": {
+      "source": "examples/architecture-knowledge-base/docs/interfaces/reporting-query-api.md",
+      "source_sha256": "e3350930414d1467984f69307ef24b0ce2717a5dae18b9ddb4b9ac116b52baa4",
+      "package_sha256": "e3350930414d1467984f69307ef24b0ce2717a5dae18b9ddb4b9ac116b52baa4"
+    },
+    "examples/architecture-knowledge-base/docs/quality/availability.md": {
+      "source": "examples/architecture-knowledge-base/docs/quality/availability.md",
+      "source_sha256": "1bda5aba2e6c2a4e63ea274801df0ec32f7f97fb7b97feddddb9f84eb38b38c1",
+      "package_sha256": "1bda5aba2e6c2a4e63ea274801df0ec32f7f97fb7b97feddddb9f84eb38b38c1"
+    },
+    "examples/architecture-knowledge-base/docs/quality/operability.md": {
+      "source": "examples/architecture-knowledge-base/docs/quality/operability.md",
+      "source_sha256": "468d8c9120c232c281a5c56b1aabc5fddc62da401be72650d613ef46d896a9f1",
+      "package_sha256": "468d8c9120c232c281a5c56b1aabc5fddc62da401be72650d613ef46d896a9f1"
+    },
+    "examples/architecture-knowledge-base/docs/quality/performance.md": {
+      "source": "examples/architecture-knowledge-base/docs/quality/performance.md",
+      "source_sha256": "e078ccd585996270812c2dc8a96838788c4cfd15a3480d20dffd192f0858f64a",
+      "package_sha256": "e078ccd585996270812c2dc8a96838788c4cfd15a3480d20dffd192f0858f64a"
+    },
+    "examples/architecture-knowledge-base/docs/quality/recoverability.md": {
+      "source": "examples/architecture-knowledge-base/docs/quality/recoverability.md",
+      "source_sha256": "43f5dd677e626b4648a4e7f1276beb5c21a28d45d774f5dc1311d8dccefebd72",
+      "package_sha256": "43f5dd677e626b4648a4e7f1276beb5c21a28d45d774f5dc1311d8dccefebd72"
+    },
+    "examples/architecture-knowledge-base/docs/quality/security.md": {
+      "source": "examples/architecture-knowledge-base/docs/quality/security.md",
+      "source_sha256": "dbd898661de218fbd9aaecbbccff506564e537a8d89225f70fceade94161e4f1",
+      "package_sha256": "dbd898661de218fbd9aaecbbccff506564e537a8d89225f70fceade94161e4f1"
+    },
+    "examples/architecture-knowledge-base/docs/services/audit-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/audit-service.md",
+      "source_sha256": "c2030462b4427e89d71ea482b3e824a8f1b9b41161740510ec6e3d35ed99a3fc",
+      "package_sha256": "c2030462b4427e89d71ea482b3e824a8f1b9b41161740510ec6e3d35ed99a3fc"
+    },
+    "examples/architecture-knowledge-base/docs/services/customer-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/customer-service.md",
+      "source_sha256": "b200bb6c436d83392b3a66b8907cd94ea7855d122a8b674ecafee400dda57417",
+      "package_sha256": "b200bb6c436d83392b3a66b8907cd94ea7855d122a8b674ecafee400dda57417"
+    },
+    "examples/architecture-knowledge-base/docs/services/identity-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/identity-service.md",
+      "source_sha256": "6a8c529aeed430a228ac7e688db8b84c9f7e6b71e59125df8edf9570af415072",
+      "package_sha256": "6a8c529aeed430a228ac7e688db8b84c9f7e6b71e59125df8edf9570af415072"
+    },
+    "examples/architecture-knowledge-base/docs/services/migration-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/migration-service.md",
+      "source_sha256": "bff9a944aebd784d98346dcb6e4635567b6adefdf3bcc5073bea98729680a42c",
+      "package_sha256": "bff9a944aebd784d98346dcb6e4635567b6adefdf3bcc5073bea98729680a42c"
+    },
+    "examples/architecture-knowledge-base/docs/services/notification-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/notification-service.md",
+      "source_sha256": "bbc252094056bab13a937bced090698ffe87926ba6798fa2ae01a4922e4f893f",
+      "package_sha256": "bbc252094056bab13a937bced090698ffe87926ba6798fa2ae01a4922e4f893f"
+    },
+    "examples/architecture-knowledge-base/docs/services/reporting-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/reporting-service.md",
+      "source_sha256": "6d550de4b886be1784051e2edb7e6ecac7addfece4d1f52b174c4be5592c2323",
+      "package_sha256": "6d550de4b886be1784051e2edb7e6ecac7addfece4d1f52b174c4be5592c2323"
+    },
+    "examples/architecture-knowledge-base/docs/services/tenant-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/tenant-service.md",
+      "source_sha256": "1522ab16239fd5d74d4163ddd234d9b4a20fafb35d1295f83955d47d3534453b",
+      "package_sha256": "1522ab16239fd5d74d4163ddd234d9b4a20fafb35d1295f83955d47d3534453b"
+    },
+    "examples/architecture-knowledge-base/docs/services/workflow-service.md": {
+      "source": "examples/architecture-knowledge-base/docs/services/workflow-service.md",
+      "source_sha256": "833186755e6f1aa878aebb76b7b3c57d90661753b72f1de411d48909f8aa9528",
+      "package_sha256": "833186755e6f1aa878aebb76b7b3c57d90661753b72f1de411d48909f8aa9528"
+    },
+    "examples/architecture-knowledge-base/README.md": {
+      "source": "examples/architecture-knowledge-base/README.md",
+      "source_sha256": "729bd684dc7859fe8a4260dd811d967141282beacee3443f179d0e6a4329238e",
+      "package_sha256": "729bd684dc7859fe8a4260dd811d967141282beacee3443f179d0e6a4329238e"
+    },
+    "examples/architecture-knowledge-base/tasks/approve-architecture-readiness/task.md": {
+      "source": "examples/architecture-knowledge-base/tasks/approve-architecture-readiness/task.md",
+      "source_sha256": "c813b142aa75a6c6815b13af2edb4611d4ccfea406cae16cbb8e576ba5a84a2b",
+      "package_sha256": "c813b142aa75a6c6815b13af2edb4611d4ccfea406cae16cbb8e576ba5a84a2b"
+    },
+    "examples/architecture-knowledge-base/tasks/benchmark-critical-request-paths/task.md": {
+      "source": "examples/architecture-knowledge-base/tasks/benchmark-critical-request-paths/task.md",
+      "source_sha256": "eede53ee00bf45560620aa3840caede5042867cf46024aa47eac77ffaa007c6b",
+      "package_sha256": "eede53ee00bf45560620aa3840caede5042867cf46024aa47eac77ffaa007c6b"
+    },
+    "examples/architecture-knowledge-base/tasks/exercise-tenant-isolation/task.md": {
+      "source": "examples/architecture-knowledge-base/tasks/exercise-tenant-isolation/task.md",
+      "source_sha256": "845a97f40d7c9b759b4af4e350fed37963242903d5e5b04f725e6919fb1639cf",
+      "package_sha256": "845a97f40d7c9b759b4af4e350fed37963242903d5e5b04f725e6919fb1639cf"
+    },
+    "examples/architecture-knowledge-base/tasks/index.md": {
+      "source": "examples/architecture-knowledge-base/tasks/index.md",
+      "source_sha256": "bb112128065e8b98771de56ded98d8bdbaffa3337fbf9256c813c13619947367",
+      "package_sha256": "bb112128065e8b98771de56ded98d8bdbaffa3337fbf9256c813c13619947367"
+    },
+    "examples/architecture-knowledge-base/tasks/prototype-the-event-backbone/task.md": {
+      "source": "examples/architecture-knowledge-base/tasks/prototype-the-event-backbone/task.md",
+      "source_sha256": "6f81a4b9ff15c8df2532a1728290ec2523ba030621981cebc0ad7473db1d0c3c",
+      "package_sha256": "6f81a4b9ff15c8df2532a1728290ec2523ba030621981cebc0ad7473db1d0c3c"
+    },
+    "examples/architecture-knowledge-base/tasks/rehearse-regional-recovery/task.md": {
+      "source": "examples/architecture-knowledge-base/tasks/rehearse-regional-recovery/task.md",
+      "source_sha256": "b2da692adc95648601a21d5417201d24579bf7aef15b209d0f0edf913a6c6b83",
+      "package_sha256": "b2da692adc95648601a21d5417201d24579bf7aef15b209d0f0edf913a6c6b83"
+    },
+    "examples/architecture-knowledge-base/tasks/validate-architecture-decision-coverage/task.md": {
+      "source": "examples/architecture-knowledge-base/tasks/validate-architecture-decision-coverage/task.md",
+      "source_sha256": "05e4091961ead2fea865dd90a3518acd89b680f3595e3ee7a65b01398af46fd5",
+      "package_sha256": "05e4091961ead2fea865dd90a3518acd89b680f3595e3ee7a65b01398af46fd5"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/container-topology.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/container-topology.md",
+      "source_sha256": "2758159a7fd4633002b2cabeb8393deb8035d8eb883b6e9eb1ff9d933949110a",
+      "package_sha256": "2758159a7fd4633002b2cabeb8393deb8035d8eb883b6e9eb1ff9d933949110a"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/data-platform.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/data-platform.md",
+      "source_sha256": "539bd3c1cf99d81d0e78dbd7007820df3b7f45f533c13e8d41c2fa807f590c8c",
+      "package_sha256": "539bd3c1cf99d81d0e78dbd7007820df3b7f45f533c13e8d41c2fa807f590c8c"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/deployment-topology.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/deployment-topology.md",
+      "source_sha256": "7ad2304fe787903cdd78bb02cdea02b2dbb1721086aee786ea56b651ebe82b5f",
+      "package_sha256": "7ad2304fe787903cdd78bb02cdea02b2dbb1721086aee786ea56b651ebe82b5f"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/event-backbone.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/event-backbone.md",
+      "source_sha256": "953bf52b1b88da1f9ee2dd038886fc15b8e6afe3d34f69f7de6345b26251f90b",
+      "package_sha256": "953bf52b1b88da1f9ee2dd038886fc15b8e6afe3d34f69f7de6345b26251f90b"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/identity-boundary.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/identity-boundary.md",
+      "source_sha256": "d9761be12ba9c3fbbbc1425c817adba38e6b434fb7b78bde35a7a6358e642d40",
+      "package_sha256": "d9761be12ba9c3fbbbc1425c817adba38e6b434fb7b78bde35a7a6358e642d40"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/migration-architecture.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/migration-architecture.md",
+      "source_sha256": "12982604d30ad607b131438a5e70de07abeb3c615bbd74763cb6263461499aa4",
+      "package_sha256": "12982604d30ad607b131438a5e70de07abeb3c615bbd74763cb6263461499aa4"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/observability-model.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/observability-model.md",
+      "source_sha256": "2fa8eab8ccc2d0a67f3be879e2de4de62ad42d67ed2cdc4760c26c4286eaa897",
+      "package_sha256": "2fa8eab8ccc2d0a67f3be879e2de4de62ad42d67ed2cdc4760c26c4286eaa897"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/request-lifecycle.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/request-lifecycle.md",
+      "source_sha256": "2550ae5853fc1198900a9a0861395f19df4ed6f65e86bdc5d72e7baed5ac8dc1",
+      "package_sha256": "2550ae5853fc1198900a9a0861395f19df4ed6f65e86bdc5d72e7baed5ac8dc1"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/resilience-model.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/resilience-model.md",
+      "source_sha256": "ff6857a61dd3140c8c919648906bd4ef0ace4aae591be8a9207fa2edb1d56c58",
+      "package_sha256": "ff6857a61dd3140c8c919648906bd4ef0ace4aae591be8a9207fa2edb1d56c58"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/security-architecture.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/security-architecture.md",
+      "source_sha256": "528a3316432711d2dcf341c875effaaec55305d155c58ea8f6396cd319399ba1",
+      "package_sha256": "528a3316432711d2dcf341c875effaaec55305d155c58ea8f6396cd319399ba1"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/system-context.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/system-context.md",
+      "source_sha256": "c1e6065e14707c2c5aa4802b1cc3c780be239043f24113e21917b90bfd856378",
+      "package_sha256": "c1e6065e14707c2c5aa4802b1cc3c780be239043f24113e21917b90bfd856378"
+    },
+    "examples/combined-delivery-architecture/docs/architecture/tenant-isolation.md": {
+      "source": "examples/combined-delivery-architecture/docs/architecture/tenant-isolation.md",
+      "source_sha256": "fc420338e14c0b3a47cd74acab06ea5b8d06126cd122b98b770fc58f9ea7990f",
+      "package_sha256": "fc420338e14c0b3a47cd74acab06ea5b8d06126cd122b98b770fc58f9ea7990f"
+    },
+    "examples/combined-delivery-architecture/docs/customer-experience.md": {
+      "source": "examples/combined-delivery-architecture/docs/customer-experience.md",
+      "source_sha256": "b2a31b539c06388a95691e63d7932c29a7b8049e96037fd43db73640933f569b",
+      "package_sha256": "b2a31b539c06388a95691e63d7932c29a7b8049e96037fd43db73640933f569b"
+    },
+    "examples/combined-delivery-architecture/docs/data-migration.md": {
+      "source": "examples/combined-delivery-architecture/docs/data-migration.md",
+      "source_sha256": "7275edaa88932f8485f54e20036d79d96cf39044fa40b295d6547a8c26a5d826",
+      "package_sha256": "7275edaa88932f8485f54e20036d79d96cf39044fa40b295d6547a8c26a5d826"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-001-modular-service-boundaries.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-001-modular-service-boundaries.md",
+      "source_sha256": "fce52a5447abd3cef42df9972b52e0656deddf57aa1c3d5c3fdd15c9b2c0bdac",
+      "package_sha256": "fce52a5447abd3cef42df9972b52e0656deddf57aa1c3d5c3fdd15c9b2c0bdac"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-002-versioned-event-envelope.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-002-versioned-event-envelope.md",
+      "source_sha256": "249d50eebdfffc7648102475b286093146f377132c1f046f0521fddc00536423",
+      "package_sha256": "249d50eebdfffc7648102475b286093146f377132c1f046f0521fddc00536423"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-003-oidc-workload-identity.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-003-oidc-workload-identity.md",
+      "source_sha256": "c28bcf607c107d11c1b23d812ce10a523ab20108f8ec98976f5f53eb6c1fa59d",
+      "package_sha256": "c28bcf607c107d11c1b23d812ce10a523ab20108f8ec98976f5f53eb6c1fa59d"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-004-tenant-key-partitioning.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-004-tenant-key-partitioning.md",
+      "source_sha256": "b9b8baae3f8441a5d4f8fb0aecf07e9977530748fddafbc6644b070d869302e8",
+      "package_sha256": "b9b8baae3f8441a5d4f8fb0aecf07e9977530748fddafbc6644b070d869302e8"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-005-transactional-outbox.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-005-transactional-outbox.md",
+      "source_sha256": "476494770fb249696ba7d7a7ad6c9d9a99361480eac8bd81d14efb3fd57e35d3",
+      "package_sha256": "476494770fb249696ba7d7a7ad6c9d9a99361480eac8bd81d14efb3fd57e35d3"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-006-idempotent-command-handling.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-006-idempotent-command-handling.md",
+      "source_sha256": "e62967849c367bb0ef558952b445fec28111705eae04839ef5ab27c1b2f5cbad",
+      "package_sha256": "e62967849c367bb0ef558952b445fec28111705eae04839ef5ab27c1b2f5cbad"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-007-schema-registry-compatibility.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-007-schema-registry-compatibility.md",
+      "source_sha256": "7536bd9657b50ffe550dba6b586463fff331e66073c7564165865e59d2ea0a48",
+      "package_sha256": "7536bd9657b50ffe550dba6b586463fff331e66073c7564165865e59d2ea0a48"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-008-zero-downtime-database-change.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-008-zero-downtime-database-change.md",
+      "source_sha256": "1f9906b1c1073877821dc30b6b70b6843bce23d744b4b5b03775f70b65ea6a6c",
+      "package_sha256": "1f9906b1c1073877821dc30b6b70b6843bce23d744b4b5b03775f70b65ea6a6c"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-009-regional-active-passive.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-009-regional-active-passive.md",
+      "source_sha256": "57d9538553b837f433ec3a53f4019d0d87e0c9ca38e82b5e225d98d149454fb5",
+      "package_sha256": "57d9538553b837f433ec3a53f4019d0d87e0c9ca38e82b5e225d98d149454fb5"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-010-central-policy-evaluation.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-010-central-policy-evaluation.md",
+      "source_sha256": "50f48989b78a0ce52901a06a9c5191b0d32384fe6b4859e314102acabc50a365",
+      "package_sha256": "50f48989b78a0ce52901a06a9c5191b0d32384fe6b4859e314102acabc50a365"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-011-short-lived-access-tokens.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-011-short-lived-access-tokens.md",
+      "source_sha256": "8de2559ad9d61ef071f01d733c2ae18279410d3a82ba323899f3b0e9604f1348",
+      "package_sha256": "8de2559ad9d61ef071f01d733c2ae18279410d3a82ba323899f3b0e9604f1348"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-012-immutable-deployment-artifacts.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-012-immutable-deployment-artifacts.md",
+      "source_sha256": "1054603ad07c5a99cf53317b2b5666d10c3cea5543ed02a4a5cfc1b00e92ecde",
+      "package_sha256": "1054603ad07c5a99cf53317b2b5666d10c3cea5543ed02a4a5cfc1b00e92ecde"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-013-progressive-delivery.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-013-progressive-delivery.md",
+      "source_sha256": "c9cc552764f571cbf29199325d582c411c6f62e8379c88f5b61977efcfe74712",
+      "package_sha256": "c9cc552764f571cbf29199325d582c411c6f62e8379c88f5b61977efcfe74712"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-014-open-telemetry-signals.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-014-open-telemetry-signals.md",
+      "source_sha256": "03d1855b19959ba5ece454d809462da547902a9d366edb9bf49b60dc74e9d526",
+      "package_sha256": "03d1855b19959ba5ece454d809462da547902a9d366edb9bf49b60dc74e9d526"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-015-error-budget-release-gates.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-015-error-budget-release-gates.md",
+      "source_sha256": "05013d10076757f64650a905df5855ddd9551f7f54824031bcfba64526f4d0b2",
+      "package_sha256": "05013d10076757f64650a905df5855ddd9551f7f54824031bcfba64526f4d0b2"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-016-encrypted-event-payloads.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-016-encrypted-event-payloads.md",
+      "source_sha256": "5e839d9ef958ff29e51b25a297c7b1bbc29ee3584dd2aeb6cf70a5f93e5c4012",
+      "package_sha256": "5e839d9ef958ff29e51b25a297c7b1bbc29ee3584dd2aeb6cf70a5f93e5c4012"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-017-customer-managed-retention.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-017-customer-managed-retention.md",
+      "source_sha256": "6cbad612140a401f016ef51a59d68648db83534e80b30e5eb04d2ff81eba84f3",
+      "package_sha256": "6cbad612140a401f016ef51a59d68648db83534e80b30e5eb04d2ff81eba84f3"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-018-migration-dual-read-window.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-018-migration-dual-read-window.md",
+      "source_sha256": "82ac8dce810faa306b7819f558ce5f53edf9702c336ae2ca612ee707efccdb7a",
+      "package_sha256": "82ac8dce810faa306b7819f558ce5f53edf9702c336ae2ca612ee707efccdb7a"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-019-bounded-retry-policies.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-019-bounded-retry-policies.md",
+      "source_sha256": "fb705b4efc89aa4e3a911fd01fb22fa5ba975eac3904b6bd4c52e842451ba779",
+      "package_sha256": "fb705b4efc89aa4e3a911fd01fb22fa5ba975eac3904b6bd4c52e842451ba779"
+    },
+    "examples/combined-delivery-architecture/docs/decisions/adr-020-architecture-evidence-records.md": {
+      "source": "examples/combined-delivery-architecture/docs/decisions/adr-020-architecture-evidence-records.md",
+      "source_sha256": "5cfc0161c62db28bb04b161837b563f83c42e2004556077b79f8ccc182fb98ed",
+      "package_sha256": "5cfc0161c62db28bb04b161837b563f83c42e2004556077b79f8ccc182fb98ed"
+    },
+    "examples/combined-delivery-architecture/docs/identity-security.md": {
+      "source": "examples/combined-delivery-architecture/docs/identity-security.md",
+      "source_sha256": "c1d692be7fc836b9ca448655ae1a4846eb8f91e3daf6ff2fef967bfd571ba326",
+      "package_sha256": "c1d692be7fc836b9ca448655ae1a4846eb8f91e3daf6ff2fef967bfd571ba326"
+    },
+    "examples/combined-delivery-architecture/docs/interfaces/audit-event-contract.md": {
+      "source": "examples/combined-delivery-architecture/docs/interfaces/audit-event-contract.md",
+      "source_sha256": "0e2dbd3551e910a3fd3c02c698d7873ad52965a86c16774a9702f0d4cb673c6b",
+      "package_sha256": "0e2dbd3551e910a3fd3c02c698d7873ad52965a86c16774a9702f0d4cb673c6b"
+    },
+    "examples/combined-delivery-architecture/docs/interfaces/customer-events.md": {
+      "source": "examples/combined-delivery-architecture/docs/interfaces/customer-events.md",
+      "source_sha256": "1bcbfba31445d10eb65374cebd13c29656decf2d81fae41be0da38a3d20f17e2",
+      "package_sha256": "1bcbfba31445d10eb65374cebd13c29656decf2d81fae41be0da38a3d20f17e2"
+    },
+    "examples/combined-delivery-architecture/docs/interfaces/identity-events.md": {
+      "source": "examples/combined-delivery-architecture/docs/interfaces/identity-events.md",
+      "source_sha256": "cd5bbde4b0e846dc3e0db32966e0153df02bcb3219f8f4a3a71b7795a766750d",
+      "package_sha256": "cd5bbde4b0e846dc3e0db32966e0153df02bcb3219f8f4a3a71b7795a766750d"
+    },
+    "examples/combined-delivery-architecture/docs/interfaces/migration-control-api.md": {
+      "source": "examples/combined-delivery-architecture/docs/interfaces/migration-control-api.md",
+      "source_sha256": "2ed249ed4a324560ce952fade888769951a8cd229e20cc83da4a77b8c01ac37c",
+      "package_sha256": "2ed249ed4a324560ce952fade888769951a8cd229e20cc83da4a77b8c01ac37c"
+    },
+    "examples/combined-delivery-architecture/docs/interfaces/public-api.md": {
+      "source": "examples/combined-delivery-architecture/docs/interfaces/public-api.md",
+      "source_sha256": "fa7880c81a0d65de48d23c72d345178dcf155880449265ce18d7f060e25c2d92",
+      "package_sha256": "fa7880c81a0d65de48d23c72d345178dcf155880449265ce18d7f060e25c2d92"
+    },
+    "examples/combined-delivery-architecture/docs/interfaces/reporting-query-api.md": {
+      "source": "examples/combined-delivery-architecture/docs/interfaces/reporting-query-api.md",
+      "source_sha256": "e3350930414d1467984f69307ef24b0ce2717a5dae18b9ddb4b9ac116b52baa4",
+      "package_sha256": "e3350930414d1467984f69307ef24b0ce2717a5dae18b9ddb4b9ac116b52baa4"
+    },
+    "examples/combined-delivery-architecture/docs/observability-release.md": {
+      "source": "examples/combined-delivery-architecture/docs/observability-release.md",
+      "source_sha256": "ee1114134a991a38eb641d18d8bcaebbf802963674d1a42aa16681324977441d",
+      "package_sha256": "ee1114134a991a38eb641d18d8bcaebbf802963674d1a42aa16681324977441d"
+    },
+    "examples/combined-delivery-architecture/docs/platform-foundations.md": {
+      "source": "examples/combined-delivery-architecture/docs/platform-foundations.md",
+      "source_sha256": "78ad44d04137d84c4cc3991894da03f15aa859153ef6d7575b6079f2e026b286",
+      "package_sha256": "78ad44d04137d84c4cc3991894da03f15aa859153ef6d7575b6079f2e026b286"
+    },
+    "examples/combined-delivery-architecture/docs/programme-map.md": {
+      "source": "examples/combined-delivery-architecture/docs/programme-map.md",
+      "source_sha256": "6d158cb49f2fa39e23e8ad9971f6e54c73f0bf2d16a48bc37d02c2cb3c43da38",
+      "package_sha256": "6d158cb49f2fa39e23e8ad9971f6e54c73f0bf2d16a48bc37d02c2cb3c43da38"
+    },
+    "examples/combined-delivery-architecture/docs/quality/availability.md": {
+      "source": "examples/combined-delivery-architecture/docs/quality/availability.md",
+      "source_sha256": "1bda5aba2e6c2a4e63ea274801df0ec32f7f97fb7b97feddddb9f84eb38b38c1",
+      "package_sha256": "1bda5aba2e6c2a4e63ea274801df0ec32f7f97fb7b97feddddb9f84eb38b38c1"
+    },
+    "examples/combined-delivery-architecture/docs/quality/operability.md": {
+      "source": "examples/combined-delivery-architecture/docs/quality/operability.md",
+      "source_sha256": "468d8c9120c232c281a5c56b1aabc5fddc62da401be72650d613ef46d896a9f1",
+      "package_sha256": "468d8c9120c232c281a5c56b1aabc5fddc62da401be72650d613ef46d896a9f1"
+    },
+    "examples/combined-delivery-architecture/docs/quality/performance.md": {
+      "source": "examples/combined-delivery-architecture/docs/quality/performance.md",
+      "source_sha256": "e078ccd585996270812c2dc8a96838788c4cfd15a3480d20dffd192f0858f64a",
+      "package_sha256": "e078ccd585996270812c2dc8a96838788c4cfd15a3480d20dffd192f0858f64a"
+    },
+    "examples/combined-delivery-architecture/docs/quality/recoverability.md": {
+      "source": "examples/combined-delivery-architecture/docs/quality/recoverability.md",
+      "source_sha256": "43f5dd677e626b4648a4e7f1276beb5c21a28d45d774f5dc1311d8dccefebd72",
+      "package_sha256": "43f5dd677e626b4648a4e7f1276beb5c21a28d45d774f5dc1311d8dccefebd72"
+    },
+    "examples/combined-delivery-architecture/docs/quality/security.md": {
+      "source": "examples/combined-delivery-architecture/docs/quality/security.md",
+      "source_sha256": "dbd898661de218fbd9aaecbbccff506564e537a8d89225f70fceade94161e4f1",
+      "package_sha256": "dbd898661de218fbd9aaecbbccff506564e537a8d89225f70fceade94161e4f1"
+    },
+    "examples/combined-delivery-architecture/docs/services/audit-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/audit-service.md",
+      "source_sha256": "c2030462b4427e89d71ea482b3e824a8f1b9b41161740510ec6e3d35ed99a3fc",
+      "package_sha256": "c2030462b4427e89d71ea482b3e824a8f1b9b41161740510ec6e3d35ed99a3fc"
+    },
+    "examples/combined-delivery-architecture/docs/services/customer-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/customer-service.md",
+      "source_sha256": "b200bb6c436d83392b3a66b8907cd94ea7855d122a8b674ecafee400dda57417",
+      "package_sha256": "b200bb6c436d83392b3a66b8907cd94ea7855d122a8b674ecafee400dda57417"
+    },
+    "examples/combined-delivery-architecture/docs/services/identity-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/identity-service.md",
+      "source_sha256": "6a8c529aeed430a228ac7e688db8b84c9f7e6b71e59125df8edf9570af415072",
+      "package_sha256": "6a8c529aeed430a228ac7e688db8b84c9f7e6b71e59125df8edf9570af415072"
+    },
+    "examples/combined-delivery-architecture/docs/services/migration-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/migration-service.md",
+      "source_sha256": "bff9a944aebd784d98346dcb6e4635567b6adefdf3bcc5073bea98729680a42c",
+      "package_sha256": "bff9a944aebd784d98346dcb6e4635567b6adefdf3bcc5073bea98729680a42c"
+    },
+    "examples/combined-delivery-architecture/docs/services/notification-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/notification-service.md",
+      "source_sha256": "bbc252094056bab13a937bced090698ffe87926ba6798fa2ae01a4922e4f893f",
+      "package_sha256": "bbc252094056bab13a937bced090698ffe87926ba6798fa2ae01a4922e4f893f"
+    },
+    "examples/combined-delivery-architecture/docs/services/reporting-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/reporting-service.md",
+      "source_sha256": "6d550de4b886be1784051e2edb7e6ecac7addfece4d1f52b174c4be5592c2323",
+      "package_sha256": "6d550de4b886be1784051e2edb7e6ecac7addfece4d1f52b174c4be5592c2323"
+    },
+    "examples/combined-delivery-architecture/docs/services/tenant-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/tenant-service.md",
+      "source_sha256": "1522ab16239fd5d74d4163ddd234d9b4a20fafb35d1295f83955d47d3534453b",
+      "package_sha256": "1522ab16239fd5d74d4163ddd234d9b4a20fafb35d1295f83955d47d3534453b"
+    },
+    "examples/combined-delivery-architecture/docs/services/workflow-service.md": {
+      "source": "examples/combined-delivery-architecture/docs/services/workflow-service.md",
+      "source_sha256": "833186755e6f1aa878aebb76b7b3c57d90661753b72f1de411d48909f8aa9528",
+      "package_sha256": "833186755e6f1aa878aebb76b7b3c57d90661753b72f1de411d48909f8aa9528"
+    },
+    "examples/combined-delivery-architecture/README.md": {
+      "source": "examples/combined-delivery-architecture/README.md",
+      "source_sha256": "9cbd73802b52c32bf6f559a728c89cca94144e309f1cca87632b05748d7117e5",
+      "package_sha256": "9cbd73802b52c32bf6f559a728c89cca94144e309f1cca87632b05748d7117e5"
+    },
+    "examples/combined-delivery-architecture/tasks/add-migration-progress-centre/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/add-migration-progress-centre/task.md",
+      "source_sha256": "568e9221c0647581dfc2e830450a06d4fe5192a8a192116889a1066a13fc62a7",
+      "package_sha256": "568e9221c0647581dfc2e830450a06d4fe5192a8a192116889a1066a13fc62a7"
+    },
+    "examples/combined-delivery-architecture/tasks/add-migration-progress-centre/workstreams/customer-experience.md": {
+      "source": "examples/combined-delivery-architecture/tasks/add-migration-progress-centre/workstreams/customer-experience.md",
+      "source_sha256": "14ba66300494d0463fe3949a3e4be54c3b40f5bad2efccdda95b3f26f3ad3790",
+      "package_sha256": "14ba66300494d0463fe3949a3e4be54c3b40f5bad2efccdda95b3f26f3ad3790"
+    },
+    "examples/combined-delivery-architecture/tasks/add-privileged-access-reviews/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/add-privileged-access-reviews/task.md",
+      "source_sha256": "9ef802b030be381bd6acdbe9371babfe4e34f3dbdddbf256876c4d0c067562e1",
+      "package_sha256": "9ef802b030be381bd6acdbe9371babfe4e34f3dbdddbf256876c4d0c067562e1"
+    },
+    "examples/combined-delivery-architecture/tasks/add-release-health-checks/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/add-release-health-checks/task.md",
+      "source_sha256": "0815702be9962b579dc52e089f34f38eeffa9816cb09d361f89ccddab7e0132e",
+      "package_sha256": "0815702be9962b579dc52e089f34f38eeffa9816cb09d361f89ccddab7e0132e"
+    },
+    "examples/combined-delivery-architecture/tasks/add-release-health-checks/workstreams/observability-release.md": {
+      "source": "examples/combined-delivery-architecture/tasks/add-release-health-checks/workstreams/observability-release.md",
+      "source_sha256": "f5a4c24211d008f89381d6d5399cfa68a5bf1fb5d11da45a5fa89c2e72e56987",
+      "package_sha256": "f5a4c24211d008f89381d6d5399cfa68a5bf1fb5d11da45a5fa89c2e72e56987"
+    },
+    "examples/combined-delivery-architecture/tasks/approve-architecture-readiness/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/approve-architecture-readiness/task.md",
+      "source_sha256": "c813b142aa75a6c6815b13af2edb4611d4ccfea406cae16cbb8e576ba5a84a2b",
+      "package_sha256": "c813b142aa75a6c6815b13af2edb4611d4ccfea406cae16cbb8e576ba5a84a2b"
+    },
+    "examples/combined-delivery-architecture/tasks/approve-general-availability/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/approve-general-availability/task.md",
+      "source_sha256": "cfe1baf1bf0cc88009bea5454328fdfd6d23e6c72f1e84e33af77045e561b6d3",
+      "package_sha256": "cfe1baf1bf0cc88009bea5454328fdfd6d23e6c72f1e84e33af77045e561b6d3"
+    },
+    "examples/combined-delivery-architecture/tasks/approve-production-cutover-data/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/approve-production-cutover-data/task.md",
+      "source_sha256": "1753591c8332d03434c1165008b3bf1fd4f56f1298ba400d7789bc4aa6a3a7a6",
+      "package_sha256": "1753591c8332d03434c1165008b3bf1fd4f56f1298ba400d7789bc4aa6a3a7a6"
+    },
+    "examples/combined-delivery-architecture/tasks/automate-dependency-updates/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/automate-dependency-updates/task.md",
+      "source_sha256": "a76070c88918a937d9eb8c732575c8fb69ed441bdf9b5889a62fe9431c33108f",
+      "package_sha256": "a76070c88918a937d9eb8c732575c8fb69ed441bdf9b5889a62fe9431c33108f"
+    },
+    "examples/combined-delivery-architecture/tasks/benchmark-critical-request-paths/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/benchmark-critical-request-paths/task.md",
+      "source_sha256": "eede53ee00bf45560620aa3840caede5042867cf46024aa47eac77ffaa007c6b",
+      "package_sha256": "eede53ee00bf45560620aa3840caede5042867cf46024aa47eac77ffaa007c6b"
+    },
+    "examples/combined-delivery-architecture/tasks/build-account-creation-flow/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/build-account-creation-flow/task.md",
+      "source_sha256": "592cf84be2e6c07f0325cb875aae3b2188ae14e270a077b26230b29d7d88e02c",
+      "package_sha256": "592cf84be2e6c07f0325cb875aae3b2188ae14e270a077b26230b29d7d88e02c"
+    },
+    "examples/combined-delivery-architecture/tasks/build-change-data-capture-pipeline/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/build-change-data-capture-pipeline/task.md",
+      "source_sha256": "01792f3a4b48362f4996b1d27d8e12fdcaedf2d5bce4af0bb967f984b3a21069",
+      "package_sha256": "01792f3a4b48362f4996b1d27d8e12fdcaedf2d5bce4af0bb967f984b3a21069"
+    },
+    "examples/combined-delivery-architecture/tasks/build-operational-dashboards/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/build-operational-dashboards/task.md",
+      "source_sha256": "e46713f15fe9703ae16e0567d973f543a17683283aaa807794f44c2711db4cbe",
+      "package_sha256": "e46713f15fe9703ae16e0567d973f543a17683283aaa807794f44c2711db4cbe"
+    },
+    "examples/combined-delivery-architecture/tasks/build-shared-authentication-middleware/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/build-shared-authentication-middleware/task.md",
+      "source_sha256": "2908c187e3f39bb72b59c985ae7f64fb9a38e671fde423055d322761b11ccb60",
+      "package_sha256": "2908c187e3f39bb72b59c985ae7f64fb9a38e671fde423055d322761b11ccb60"
+    },
+    "examples/combined-delivery-architecture/tasks/complete-guided-onboarding-trials/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/complete-guided-onboarding-trials/task.md",
+      "source_sha256": "3d0994f5288c2fd5fbee29ff69b8c9082d857290c9bc44f166e990a289028db9",
+      "package_sha256": "3d0994f5288c2fd5fbee29ff69b8c9082d857290c9bc44f166e990a289028db9"
+    },
+    "examples/combined-delivery-architecture/tasks/complete-release-rehearsal/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/complete-release-rehearsal/task.md",
+      "source_sha256": "7e6cd6055e1d539a7e00c66ed516644241d38a477290e9b776efece76046b404",
+      "package_sha256": "7e6cd6055e1d539a7e00c66ed516644241d38a477290e9b776efece76046b404"
+    },
+    "examples/combined-delivery-architecture/tasks/complete-threat-model-review/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/complete-threat-model-review/task.md",
+      "source_sha256": "ff5bc8ef7cf4b822e253a550a8f04f357e7371e5e971c64dfd1722b9d1da4457",
+      "package_sha256": "ff5bc8ef7cf4b822e253a550a8f04f357e7371e5e971c64dfd1722b9d1da4457"
+    },
+    "examples/combined-delivery-architecture/tasks/create-cross-service-trace-model/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/create-cross-service-trace-model/task.md",
+      "source_sha256": "fc769105f000b1cea9ac6723a6dfbdab9a48c98dbbecb7342d4c7760dba81d0b",
+      "package_sha256": "fc769105f000b1cea9ac6723a6dfbdab9a48c98dbbecb7342d4c7760dba81d0b"
+    },
+    "examples/combined-delivery-architecture/tasks/create-reconciliation-reports/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/create-reconciliation-reports/task.md",
+      "source_sha256": "7e7e9ca0abdb0494721e07f178c15001df8eb3368529743f4fc31578f649aee3",
+      "package_sha256": "7e7e9ca0abdb0494721e07f178c15001df8eb3368529743f4fc31578f649aee3"
+    },
+    "examples/combined-delivery-architecture/tasks/create-reconciliation-reports/workstreams/data-migration.md": {
+      "source": "examples/combined-delivery-architecture/tasks/create-reconciliation-reports/workstreams/data-migration.md",
+      "source_sha256": "1427a353934ff0f5714906e281c69237717a2985d7d27e36a81a15b72fcc30cc",
+      "package_sha256": "1427a353934ff0f5714906e281c69237717a2985d7d27e36a81a15b72fcc30cc"
+    },
+    "examples/combined-delivery-architecture/tasks/define-canonical-customer-schema/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/define-canonical-customer-schema/task.md",
+      "source_sha256": "d786e75b8a38395429009280e4fe77891298964f2119591166252313cf9aa2d4",
+      "package_sha256": "d786e75b8a38395429009280e4fe77891298964f2119591166252313cf9aa2d4"
+    },
+    "examples/combined-delivery-architecture/tasks/define-service-level-objectives/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/define-service-level-objectives/task.md",
+      "source_sha256": "40e33048cff9139d0602b7b855d6b9ad4e029b17953c9e307eeedf7a5460119a",
+      "package_sha256": "40e33048cff9139d0602b7b855d6b9ad4e029b17953c9e307eeedf7a5460119a"
+    },
+    "examples/combined-delivery-architecture/tasks/define-service-ownership/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/define-service-ownership/task.md",
+      "source_sha256": "d546f3c83e603610095c616698f80360a82bdd4023d8c5ade99e72d9c82fca40",
+      "package_sha256": "d546f3c83e603610095c616698f80360a82bdd4023d8c5ade99e72d9c82fca40"
+    },
+    "examples/combined-delivery-architecture/tasks/design-recoverable-form-states/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/design-recoverable-form-states/task.md",
+      "source_sha256": "f0a47e988de83e3304154540aeda608505e43ac4daeef68f35b79e8762742966",
+      "package_sha256": "f0a47e988de83e3304154540aeda608505e43ac4daeef68f35b79e8762742966"
+    },
+    "examples/combined-delivery-architecture/tasks/enforce-workload-identity/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/enforce-workload-identity/task.md",
+      "source_sha256": "9494cb5b6639e0ca3cf8ba3cf25301113e8dacfd9fac9c6039443315d55345f6",
+      "package_sha256": "9494cb5b6639e0ca3cf8ba3cf25301113e8dacfd9fac9c6039443315d55345f6"
+    },
+    "examples/combined-delivery-architecture/tasks/enforce-workload-identity/workstreams/identity-security.md": {
+      "source": "examples/combined-delivery-architecture/tasks/enforce-workload-identity/workstreams/identity-security.md",
+      "source_sha256": "35b46fda4dfff8e71d90958815c8ea4b7b596ca7fa3ab5d124ed5ce9df1002cd",
+      "package_sha256": "35b46fda4dfff8e71d90958815c8ea4b7b596ca7fa3ab5d124ed5ce9df1002cd"
+    },
+    "examples/combined-delivery-architecture/tasks/establish-repository-boundaries/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/establish-repository-boundaries/task.md",
+      "source_sha256": "8a9a05ac0559cf61f22372ea5cc089f2d4ca48c770f747da75947a3163f16d89",
+      "package_sha256": "8a9a05ac0559cf61f22372ea5cc089f2d4ca48c770f747da75947a3163f16d89"
+    },
+    "examples/combined-delivery-architecture/tasks/exercise-rollback-automation/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/exercise-rollback-automation/task.md",
+      "source_sha256": "b9aa07f207aadd74ab31b8f0602cf17406b6c481a73b2f3dc4f54bd8e3b3f7aa",
+      "package_sha256": "b9aa07f207aadd74ab31b8f0602cf17406b6c481a73b2f3dc4f54bd8e3b3f7aa"
+    },
+    "examples/combined-delivery-architecture/tasks/exercise-tenant-isolation/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/exercise-tenant-isolation/task.md",
+      "source_sha256": "845a97f40d7c9b759b4af4e350fed37963242903d5e5b04f725e6919fb1639cf",
+      "package_sha256": "845a97f40d7c9b759b4af4e350fed37963242903d5e5b04f725e6919fb1639cf"
+    },
+    "examples/combined-delivery-architecture/tasks/harden-session-management/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/harden-session-management/task.md",
+      "source_sha256": "7f0a8425803dfb96c2e9716f7a6a53266cd38533291865bc34f0a3e430534474",
+      "package_sha256": "7f0a8425803dfb96c2e9716f7a6a53266cd38533291865bc34f0a3e430534474"
+    },
+    "examples/combined-delivery-architecture/tasks/implement-organisation-switching/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/implement-organisation-switching/task.md",
+      "source_sha256": "79fff4231c532ccdb0decb524b1edd8933373e11d4e822d75df2cf129f3dcbdf",
+      "package_sha256": "79fff4231c532ccdb0decb524b1edd8933373e11d4e822d75df2cf129f3dcbdf"
+    },
+    "examples/combined-delivery-architecture/tasks/implement-token-rotation/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/implement-token-rotation/task.md",
+      "source_sha256": "c563e4187997828228021b1bb0c1fcf2a1c80a7109c39270d0d98ece2bc466c8",
+      "package_sha256": "c563e4187997828228021b1bb0c1fcf2a1c80a7109c39270d0d98ece2bc466c8"
+    },
+    "examples/combined-delivery-architecture/tasks/index.md": {
+      "source": "examples/combined-delivery-architecture/tasks/index.md",
+      "source_sha256": "3257d0defe0204ccd761d44be09db4acf734c0a8426e9ed246151f5360d85b5e",
+      "package_sha256": "3257d0defe0204ccd761d44be09db4acf734c0a8426e9ed246151f5360d85b5e"
+    },
+    "examples/combined-delivery-architecture/tasks/instrument-authentication-failures/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/instrument-authentication-failures/task.md",
+      "source_sha256": "d81d22c745dc4366726e3eb5eed07c2ab467ccc97f84959f4b79830d2742c59e",
+      "package_sha256": "d81d22c745dc4366726e3eb5eed07c2ab467ccc97f84959f4b79830d2742c59e"
+    },
+    "examples/combined-delivery-architecture/tasks/introduce-feature-flagging/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/introduce-feature-flagging/task.md",
+      "source_sha256": "d35e6d27575c73d7ebfb12436b9d7dff9322bf9513333789267dc5b72a88b86e",
+      "package_sha256": "d35e6d27575c73d7ebfb12436b9d7dff9322bf9513333789267dc5b72a88b86e"
+    },
+    "examples/combined-delivery-architecture/tasks/inventory-legacy-data-sources/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/inventory-legacy-data-sources/task.md",
+      "source_sha256": "add83dea909e13b3e0e31b1648c73082b2fb739d21a4751708c96b6290d639ee",
+      "package_sha256": "add83dea909e13b3e0e31b1648c73082b2fb739d21a4751708c96b6290d639ee"
+    },
+    "examples/combined-delivery-architecture/tasks/map-onboarding-journey/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/map-onboarding-journey/task.md",
+      "source_sha256": "a57f8d20c5748958bd28b7499dcfec8b79e2cd1b732bd8706b335e59563c3ffc",
+      "package_sha256": "a57f8d20c5748958bd28b7499dcfec8b79e2cd1b732bd8706b335e59563c3ffc"
+    },
+    "examples/combined-delivery-architecture/tasks/meet-accessibility-acceptance/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/meet-accessibility-acceptance/task.md",
+      "source_sha256": "beabb9f01674eac890d7abc83c11fafd44c3e8110190899b49af06f8abb90dda",
+      "package_sha256": "beabb9f01674eac890d7abc83c11fafd44c3e8110190899b49af06f8abb90dda"
+    },
+    "examples/combined-delivery-architecture/tasks/migrate-reference-data/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/migrate-reference-data/task.md",
+      "source_sha256": "c5a54597e55a4e17dd7c8424fe0f4cd678c986a905fd408f3f272f2ff82823d9",
+      "package_sha256": "c5a54597e55a4e17dd7c8424fe0f4cd678c986a905fd408f3f272f2ff82823d9"
+    },
+    "examples/combined-delivery-architecture/tasks/model-tenant-isolation/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/model-tenant-isolation/task.md",
+      "source_sha256": "2dcd1e62eba40225ec98d5256db052c292894561cc78f3ef3ef66135b34d3639",
+      "package_sha256": "2dcd1e62eba40225ec98d5256db052c292894561cc78f3ef3ef66135b34d3639"
+    },
+    "examples/combined-delivery-architecture/tasks/prototype-the-event-backbone/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/prototype-the-event-backbone/task.md",
+      "source_sha256": "6f81a4b9ff15c8df2532a1728290ec2523ba030621981cebc0ad7473db1d0c3c",
+      "package_sha256": "6f81a4b9ff15c8df2532a1728290ec2523ba030621981cebc0ad7473db1d0c3c"
+    },
+    "examples/combined-delivery-architecture/tasks/provision-development-environments/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/provision-development-environments/task.md",
+      "source_sha256": "cc154b467fcca7e68e0de392163d9c6ac623c9e0a4f50c0aa0f6765b4ac3f78a",
+      "package_sha256": "cc154b467fcca7e68e0de392163d9c6ac623c9e0a4f50c0aa0f6765b4ac3f78a"
+    },
+    "examples/combined-delivery-architecture/tasks/publish-customer-experience-readiness/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/publish-customer-experience-readiness/task.md",
+      "source_sha256": "8dc89f640a3af3def2ec7aa083beac9a7023b0112395e7336ffedeeca83e6932",
+      "package_sha256": "8dc89f640a3af3def2ec7aa083beac9a7023b0112395e7336ffedeeca83e6932"
+    },
+    "examples/combined-delivery-architecture/tasks/publish-platform-readiness-evidence/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/publish-platform-readiness-evidence/task.md",
+      "source_sha256": "7b779f9a61af97c46ceb8d518e11502963e3da0482c9a16047d9e3f327acbea7",
+      "package_sha256": "7b779f9a61af97c46ceb8d518e11502963e3da0482c9a16047d9e3f327acbea7"
+    },
+    "examples/combined-delivery-architecture/tasks/rehearse-regional-recovery/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/rehearse-regional-recovery/task.md",
+      "source_sha256": "b2da692adc95648601a21d5417201d24579bf7aef15b209d0f0edf913a6c6b83",
+      "package_sha256": "b2da692adc95648601a21d5417201d24579bf7aef15b209d0f0edf913a6c6b83"
+    },
+    "examples/combined-delivery-architecture/tasks/resolve-migration-exceptions/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/resolve-migration-exceptions/task.md",
+      "source_sha256": "c9b70b4165f38391fcb6e41eaa5775ad27a31480cfd709d93c96fb2d8bbb498e",
+      "package_sha256": "c9b70b4165f38391fcb6e41eaa5775ad27a31480cfd709d93c96fb2d8bbb498e"
+    },
+    "examples/combined-delivery-architecture/tasks/run-customer-migration-rehearsal/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/run-customer-migration-rehearsal/task.md",
+      "source_sha256": "44471d003081c7709e6f048f4bc45dd3c45d28bb28ba025441896bed55bd02da",
+      "package_sha256": "44471d003081c7709e6f048f4bc45dd3c45d28bb28ba025441896bed55bd02da"
+    },
+    "examples/combined-delivery-architecture/tasks/run-failure-injection-scenarios/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/run-failure-injection-scenarios/task.md",
+      "source_sha256": "708bf4765aaa60ef91a39ddcb378c358cfac7d1d2b2d4c75ef6b9b3336d7ef08",
+      "package_sha256": "708bf4765aaa60ef91a39ddcb378c358cfac7d1d2b2d4c75ef6b9b3336d7ef08"
+    },
+    "examples/combined-delivery-architecture/tasks/standardise-configuration-loading/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/standardise-configuration-loading/task.md",
+      "source_sha256": "fa367a6f622e256b731c1950becd7b3ec688fb504606d0985053544f78a4e099",
+      "package_sha256": "fa367a6f622e256b731c1950becd7b3ec688fb504606d0985053544f78a4e099"
+    },
+    "examples/combined-delivery-architecture/tasks/standardise-configuration-loading/workstreams/platform-foundations.md": {
+      "source": "examples/combined-delivery-architecture/tasks/standardise-configuration-loading/workstreams/platform-foundations.md",
+      "source_sha256": "9b1e3698b54abe6766ba14c5c8e124fc5c12d24d538e913b5cb75985eb9af16c",
+      "package_sha256": "9b1e3698b54abe6766ba14c5c8e124fc5c12d24d538e913b5cb75985eb9af16c"
+    },
+    "examples/combined-delivery-architecture/tasks/validate-architecture-decision-coverage/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/validate-architecture-decision-coverage/task.md",
+      "source_sha256": "05e4091961ead2fea865dd90a3518acd89b680f3595e3ee7a65b01398af46fd5",
+      "package_sha256": "05e4091961ead2fea865dd90a3518acd89b680f3595e3ee7a65b01398af46fd5"
+    },
+    "examples/combined-delivery-architecture/tasks/validate-security-launch-controls/task.md": {
+      "source": "examples/combined-delivery-architecture/tasks/validate-security-launch-controls/task.md",
+      "source_sha256": "7ef7ea70b9188461c115aa0a64f635ac8db29a1d5f5622c8cd72c985232c2d86",
+      "package_sha256": "7ef7ea70b9188461c115aa0a64f635ac8db29a1d5f5622c8cd72c985232c2d86"
+    },
+    "examples/complex-task-portfolio/docs/customer-experience.md": {
+      "source": "examples/complex-task-portfolio/docs/customer-experience.md",
+      "source_sha256": "b2a31b539c06388a95691e63d7932c29a7b8049e96037fd43db73640933f569b",
+      "package_sha256": "b2a31b539c06388a95691e63d7932c29a7b8049e96037fd43db73640933f569b"
+    },
+    "examples/complex-task-portfolio/docs/data-migration.md": {
+      "source": "examples/complex-task-portfolio/docs/data-migration.md",
+      "source_sha256": "7275edaa88932f8485f54e20036d79d96cf39044fa40b295d6547a8c26a5d826",
+      "package_sha256": "7275edaa88932f8485f54e20036d79d96cf39044fa40b295d6547a8c26a5d826"
+    },
+    "examples/complex-task-portfolio/docs/identity-security.md": {
+      "source": "examples/complex-task-portfolio/docs/identity-security.md",
+      "source_sha256": "c1d692be7fc836b9ca448655ae1a4846eb8f91e3daf6ff2fef967bfd571ba326",
+      "package_sha256": "c1d692be7fc836b9ca448655ae1a4846eb8f91e3daf6ff2fef967bfd571ba326"
+    },
+    "examples/complex-task-portfolio/docs/observability-release.md": {
+      "source": "examples/complex-task-portfolio/docs/observability-release.md",
+      "source_sha256": "ee1114134a991a38eb641d18d8bcaebbf802963674d1a42aa16681324977441d",
+      "package_sha256": "ee1114134a991a38eb641d18d8bcaebbf802963674d1a42aa16681324977441d"
+    },
+    "examples/complex-task-portfolio/docs/platform-foundations.md": {
+      "source": "examples/complex-task-portfolio/docs/platform-foundations.md",
+      "source_sha256": "78ad44d04137d84c4cc3991894da03f15aa859153ef6d7575b6079f2e026b286",
+      "package_sha256": "78ad44d04137d84c4cc3991894da03f15aa859153ef6d7575b6079f2e026b286"
+    },
+    "examples/complex-task-portfolio/README.md": {
+      "source": "examples/complex-task-portfolio/README.md",
+      "source_sha256": "dbff5a679d826e281fde88ced7e17921c6cb073808ab46d1bbf6ffdef19d4279",
+      "package_sha256": "dbff5a679d826e281fde88ced7e17921c6cb073808ab46d1bbf6ffdef19d4279"
+    },
+    "examples/complex-task-portfolio/tasks/add-migration-progress-centre/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/add-migration-progress-centre/task.md",
+      "source_sha256": "568e9221c0647581dfc2e830450a06d4fe5192a8a192116889a1066a13fc62a7",
+      "package_sha256": "568e9221c0647581dfc2e830450a06d4fe5192a8a192116889a1066a13fc62a7"
+    },
+    "examples/complex-task-portfolio/tasks/add-migration-progress-centre/workstreams/customer-experience.md": {
+      "source": "examples/complex-task-portfolio/tasks/add-migration-progress-centre/workstreams/customer-experience.md",
+      "source_sha256": "14ba66300494d0463fe3949a3e4be54c3b40f5bad2efccdda95b3f26f3ad3790",
+      "package_sha256": "14ba66300494d0463fe3949a3e4be54c3b40f5bad2efccdda95b3f26f3ad3790"
+    },
+    "examples/complex-task-portfolio/tasks/add-privileged-access-reviews/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/add-privileged-access-reviews/task.md",
+      "source_sha256": "9ef802b030be381bd6acdbe9371babfe4e34f3dbdddbf256876c4d0c067562e1",
+      "package_sha256": "9ef802b030be381bd6acdbe9371babfe4e34f3dbdddbf256876c4d0c067562e1"
+    },
+    "examples/complex-task-portfolio/tasks/add-release-health-checks/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/add-release-health-checks/task.md",
+      "source_sha256": "0815702be9962b579dc52e089f34f38eeffa9816cb09d361f89ccddab7e0132e",
+      "package_sha256": "0815702be9962b579dc52e089f34f38eeffa9816cb09d361f89ccddab7e0132e"
+    },
+    "examples/complex-task-portfolio/tasks/add-release-health-checks/workstreams/observability-release.md": {
+      "source": "examples/complex-task-portfolio/tasks/add-release-health-checks/workstreams/observability-release.md",
+      "source_sha256": "f5a4c24211d008f89381d6d5399cfa68a5bf1fb5d11da45a5fa89c2e72e56987",
+      "package_sha256": "f5a4c24211d008f89381d6d5399cfa68a5bf1fb5d11da45a5fa89c2e72e56987"
+    },
+    "examples/complex-task-portfolio/tasks/approve-general-availability/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/approve-general-availability/task.md",
+      "source_sha256": "cfe1baf1bf0cc88009bea5454328fdfd6d23e6c72f1e84e33af77045e561b6d3",
+      "package_sha256": "cfe1baf1bf0cc88009bea5454328fdfd6d23e6c72f1e84e33af77045e561b6d3"
+    },
+    "examples/complex-task-portfolio/tasks/approve-production-cutover-data/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/approve-production-cutover-data/task.md",
+      "source_sha256": "1753591c8332d03434c1165008b3bf1fd4f56f1298ba400d7789bc4aa6a3a7a6",
+      "package_sha256": "1753591c8332d03434c1165008b3bf1fd4f56f1298ba400d7789bc4aa6a3a7a6"
+    },
+    "examples/complex-task-portfolio/tasks/automate-dependency-updates/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/automate-dependency-updates/task.md",
+      "source_sha256": "a76070c88918a937d9eb8c732575c8fb69ed441bdf9b5889a62fe9431c33108f",
+      "package_sha256": "a76070c88918a937d9eb8c732575c8fb69ed441bdf9b5889a62fe9431c33108f"
+    },
+    "examples/complex-task-portfolio/tasks/build-account-creation-flow/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/build-account-creation-flow/task.md",
+      "source_sha256": "592cf84be2e6c07f0325cb875aae3b2188ae14e270a077b26230b29d7d88e02c",
+      "package_sha256": "592cf84be2e6c07f0325cb875aae3b2188ae14e270a077b26230b29d7d88e02c"
+    },
+    "examples/complex-task-portfolio/tasks/build-change-data-capture-pipeline/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/build-change-data-capture-pipeline/task.md",
+      "source_sha256": "01792f3a4b48362f4996b1d27d8e12fdcaedf2d5bce4af0bb967f984b3a21069",
+      "package_sha256": "01792f3a4b48362f4996b1d27d8e12fdcaedf2d5bce4af0bb967f984b3a21069"
+    },
+    "examples/complex-task-portfolio/tasks/build-operational-dashboards/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/build-operational-dashboards/task.md",
+      "source_sha256": "e46713f15fe9703ae16e0567d973f543a17683283aaa807794f44c2711db4cbe",
+      "package_sha256": "e46713f15fe9703ae16e0567d973f543a17683283aaa807794f44c2711db4cbe"
+    },
+    "examples/complex-task-portfolio/tasks/build-shared-authentication-middleware/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/build-shared-authentication-middleware/task.md",
+      "source_sha256": "2908c187e3f39bb72b59c985ae7f64fb9a38e671fde423055d322761b11ccb60",
+      "package_sha256": "2908c187e3f39bb72b59c985ae7f64fb9a38e671fde423055d322761b11ccb60"
+    },
+    "examples/complex-task-portfolio/tasks/complete-guided-onboarding-trials/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/complete-guided-onboarding-trials/task.md",
+      "source_sha256": "3d0994f5288c2fd5fbee29ff69b8c9082d857290c9bc44f166e990a289028db9",
+      "package_sha256": "3d0994f5288c2fd5fbee29ff69b8c9082d857290c9bc44f166e990a289028db9"
+    },
+    "examples/complex-task-portfolio/tasks/complete-release-rehearsal/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/complete-release-rehearsal/task.md",
+      "source_sha256": "7e6cd6055e1d539a7e00c66ed516644241d38a477290e9b776efece76046b404",
+      "package_sha256": "7e6cd6055e1d539a7e00c66ed516644241d38a477290e9b776efece76046b404"
+    },
+    "examples/complex-task-portfolio/tasks/complete-threat-model-review/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/complete-threat-model-review/task.md",
+      "source_sha256": "ff5bc8ef7cf4b822e253a550a8f04f357e7371e5e971c64dfd1722b9d1da4457",
+      "package_sha256": "ff5bc8ef7cf4b822e253a550a8f04f357e7371e5e971c64dfd1722b9d1da4457"
+    },
+    "examples/complex-task-portfolio/tasks/create-cross-service-trace-model/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/create-cross-service-trace-model/task.md",
+      "source_sha256": "fc769105f000b1cea9ac6723a6dfbdab9a48c98dbbecb7342d4c7760dba81d0b",
+      "package_sha256": "fc769105f000b1cea9ac6723a6dfbdab9a48c98dbbecb7342d4c7760dba81d0b"
+    },
+    "examples/complex-task-portfolio/tasks/create-reconciliation-reports/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/create-reconciliation-reports/task.md",
+      "source_sha256": "7e7e9ca0abdb0494721e07f178c15001df8eb3368529743f4fc31578f649aee3",
+      "package_sha256": "7e7e9ca0abdb0494721e07f178c15001df8eb3368529743f4fc31578f649aee3"
+    },
+    "examples/complex-task-portfolio/tasks/create-reconciliation-reports/workstreams/data-migration.md": {
+      "source": "examples/complex-task-portfolio/tasks/create-reconciliation-reports/workstreams/data-migration.md",
+      "source_sha256": "1427a353934ff0f5714906e281c69237717a2985d7d27e36a81a15b72fcc30cc",
+      "package_sha256": "1427a353934ff0f5714906e281c69237717a2985d7d27e36a81a15b72fcc30cc"
+    },
+    "examples/complex-task-portfolio/tasks/define-canonical-customer-schema/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/define-canonical-customer-schema/task.md",
+      "source_sha256": "d786e75b8a38395429009280e4fe77891298964f2119591166252313cf9aa2d4",
+      "package_sha256": "d786e75b8a38395429009280e4fe77891298964f2119591166252313cf9aa2d4"
+    },
+    "examples/complex-task-portfolio/tasks/define-service-level-objectives/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/define-service-level-objectives/task.md",
+      "source_sha256": "40e33048cff9139d0602b7b855d6b9ad4e029b17953c9e307eeedf7a5460119a",
+      "package_sha256": "40e33048cff9139d0602b7b855d6b9ad4e029b17953c9e307eeedf7a5460119a"
+    },
+    "examples/complex-task-portfolio/tasks/define-service-ownership/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/define-service-ownership/task.md",
+      "source_sha256": "d546f3c83e603610095c616698f80360a82bdd4023d8c5ade99e72d9c82fca40",
+      "package_sha256": "d546f3c83e603610095c616698f80360a82bdd4023d8c5ade99e72d9c82fca40"
+    },
+    "examples/complex-task-portfolio/tasks/design-recoverable-form-states/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/design-recoverable-form-states/task.md",
+      "source_sha256": "f0a47e988de83e3304154540aeda608505e43ac4daeef68f35b79e8762742966",
+      "package_sha256": "f0a47e988de83e3304154540aeda608505e43ac4daeef68f35b79e8762742966"
+    },
+    "examples/complex-task-portfolio/tasks/enforce-workload-identity/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/enforce-workload-identity/task.md",
+      "source_sha256": "9494cb5b6639e0ca3cf8ba3cf25301113e8dacfd9fac9c6039443315d55345f6",
+      "package_sha256": "9494cb5b6639e0ca3cf8ba3cf25301113e8dacfd9fac9c6039443315d55345f6"
+    },
+    "examples/complex-task-portfolio/tasks/enforce-workload-identity/workstreams/identity-security.md": {
+      "source": "examples/complex-task-portfolio/tasks/enforce-workload-identity/workstreams/identity-security.md",
+      "source_sha256": "35b46fda4dfff8e71d90958815c8ea4b7b596ca7fa3ab5d124ed5ce9df1002cd",
+      "package_sha256": "35b46fda4dfff8e71d90958815c8ea4b7b596ca7fa3ab5d124ed5ce9df1002cd"
+    },
+    "examples/complex-task-portfolio/tasks/establish-repository-boundaries/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/establish-repository-boundaries/task.md",
+      "source_sha256": "8a9a05ac0559cf61f22372ea5cc089f2d4ca48c770f747da75947a3163f16d89",
+      "package_sha256": "8a9a05ac0559cf61f22372ea5cc089f2d4ca48c770f747da75947a3163f16d89"
+    },
+    "examples/complex-task-portfolio/tasks/exercise-rollback-automation/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/exercise-rollback-automation/task.md",
+      "source_sha256": "b9aa07f207aadd74ab31b8f0602cf17406b6c481a73b2f3dc4f54bd8e3b3f7aa",
+      "package_sha256": "b9aa07f207aadd74ab31b8f0602cf17406b6c481a73b2f3dc4f54bd8e3b3f7aa"
+    },
+    "examples/complex-task-portfolio/tasks/harden-session-management/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/harden-session-management/task.md",
+      "source_sha256": "7f0a8425803dfb96c2e9716f7a6a53266cd38533291865bc34f0a3e430534474",
+      "package_sha256": "7f0a8425803dfb96c2e9716f7a6a53266cd38533291865bc34f0a3e430534474"
+    },
+    "examples/complex-task-portfolio/tasks/implement-organisation-switching/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/implement-organisation-switching/task.md",
+      "source_sha256": "79fff4231c532ccdb0decb524b1edd8933373e11d4e822d75df2cf129f3dcbdf",
+      "package_sha256": "79fff4231c532ccdb0decb524b1edd8933373e11d4e822d75df2cf129f3dcbdf"
+    },
+    "examples/complex-task-portfolio/tasks/implement-token-rotation/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/implement-token-rotation/task.md",
+      "source_sha256": "c563e4187997828228021b1bb0c1fcf2a1c80a7109c39270d0d98ece2bc466c8",
+      "package_sha256": "c563e4187997828228021b1bb0c1fcf2a1c80a7109c39270d0d98ece2bc466c8"
+    },
+    "examples/complex-task-portfolio/tasks/index.md": {
+      "source": "examples/complex-task-portfolio/tasks/index.md",
+      "source_sha256": "26eea08ce61ea33bbc42a0013b964d08b0aeea98c18802b727ae67c1fddecbcc",
+      "package_sha256": "26eea08ce61ea33bbc42a0013b964d08b0aeea98c18802b727ae67c1fddecbcc"
+    },
+    "examples/complex-task-portfolio/tasks/instrument-authentication-failures/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/instrument-authentication-failures/task.md",
+      "source_sha256": "d81d22c745dc4366726e3eb5eed07c2ab467ccc97f84959f4b79830d2742c59e",
+      "package_sha256": "d81d22c745dc4366726e3eb5eed07c2ab467ccc97f84959f4b79830d2742c59e"
+    },
+    "examples/complex-task-portfolio/tasks/introduce-feature-flagging/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/introduce-feature-flagging/task.md",
+      "source_sha256": "d35e6d27575c73d7ebfb12436b9d7dff9322bf9513333789267dc5b72a88b86e",
+      "package_sha256": "d35e6d27575c73d7ebfb12436b9d7dff9322bf9513333789267dc5b72a88b86e"
+    },
+    "examples/complex-task-portfolio/tasks/inventory-legacy-data-sources/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/inventory-legacy-data-sources/task.md",
+      "source_sha256": "add83dea909e13b3e0e31b1648c73082b2fb739d21a4751708c96b6290d639ee",
+      "package_sha256": "add83dea909e13b3e0e31b1648c73082b2fb739d21a4751708c96b6290d639ee"
+    },
+    "examples/complex-task-portfolio/tasks/map-onboarding-journey/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/map-onboarding-journey/task.md",
+      "source_sha256": "a57f8d20c5748958bd28b7499dcfec8b79e2cd1b732bd8706b335e59563c3ffc",
+      "package_sha256": "a57f8d20c5748958bd28b7499dcfec8b79e2cd1b732bd8706b335e59563c3ffc"
+    },
+    "examples/complex-task-portfolio/tasks/meet-accessibility-acceptance/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/meet-accessibility-acceptance/task.md",
+      "source_sha256": "beabb9f01674eac890d7abc83c11fafd44c3e8110190899b49af06f8abb90dda",
+      "package_sha256": "beabb9f01674eac890d7abc83c11fafd44c3e8110190899b49af06f8abb90dda"
+    },
+    "examples/complex-task-portfolio/tasks/migrate-reference-data/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/migrate-reference-data/task.md",
+      "source_sha256": "c5a54597e55a4e17dd7c8424fe0f4cd678c986a905fd408f3f272f2ff82823d9",
+      "package_sha256": "c5a54597e55a4e17dd7c8424fe0f4cd678c986a905fd408f3f272f2ff82823d9"
+    },
+    "examples/complex-task-portfolio/tasks/model-tenant-isolation/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/model-tenant-isolation/task.md",
+      "source_sha256": "2dcd1e62eba40225ec98d5256db052c292894561cc78f3ef3ef66135b34d3639",
+      "package_sha256": "2dcd1e62eba40225ec98d5256db052c292894561cc78f3ef3ef66135b34d3639"
+    },
+    "examples/complex-task-portfolio/tasks/provision-development-environments/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/provision-development-environments/task.md",
+      "source_sha256": "cc154b467fcca7e68e0de392163d9c6ac623c9e0a4f50c0aa0f6765b4ac3f78a",
+      "package_sha256": "cc154b467fcca7e68e0de392163d9c6ac623c9e0a4f50c0aa0f6765b4ac3f78a"
+    },
+    "examples/complex-task-portfolio/tasks/publish-customer-experience-readiness/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/publish-customer-experience-readiness/task.md",
+      "source_sha256": "8dc89f640a3af3def2ec7aa083beac9a7023b0112395e7336ffedeeca83e6932",
+      "package_sha256": "8dc89f640a3af3def2ec7aa083beac9a7023b0112395e7336ffedeeca83e6932"
+    },
+    "examples/complex-task-portfolio/tasks/publish-platform-readiness-evidence/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/publish-platform-readiness-evidence/task.md",
+      "source_sha256": "7b779f9a61af97c46ceb8d518e11502963e3da0482c9a16047d9e3f327acbea7",
+      "package_sha256": "7b779f9a61af97c46ceb8d518e11502963e3da0482c9a16047d9e3f327acbea7"
+    },
+    "examples/complex-task-portfolio/tasks/resolve-migration-exceptions/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/resolve-migration-exceptions/task.md",
+      "source_sha256": "c9b70b4165f38391fcb6e41eaa5775ad27a31480cfd709d93c96fb2d8bbb498e",
+      "package_sha256": "c9b70b4165f38391fcb6e41eaa5775ad27a31480cfd709d93c96fb2d8bbb498e"
+    },
+    "examples/complex-task-portfolio/tasks/run-customer-migration-rehearsal/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/run-customer-migration-rehearsal/task.md",
+      "source_sha256": "44471d003081c7709e6f048f4bc45dd3c45d28bb28ba025441896bed55bd02da",
+      "package_sha256": "44471d003081c7709e6f048f4bc45dd3c45d28bb28ba025441896bed55bd02da"
+    },
+    "examples/complex-task-portfolio/tasks/run-failure-injection-scenarios/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/run-failure-injection-scenarios/task.md",
+      "source_sha256": "708bf4765aaa60ef91a39ddcb378c358cfac7d1d2b2d4c75ef6b9b3336d7ef08",
+      "package_sha256": "708bf4765aaa60ef91a39ddcb378c358cfac7d1d2b2d4c75ef6b9b3336d7ef08"
+    },
+    "examples/complex-task-portfolio/tasks/standardise-configuration-loading/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/standardise-configuration-loading/task.md",
+      "source_sha256": "fa367a6f622e256b731c1950becd7b3ec688fb504606d0985053544f78a4e099",
+      "package_sha256": "fa367a6f622e256b731c1950becd7b3ec688fb504606d0985053544f78a4e099"
+    },
+    "examples/complex-task-portfolio/tasks/standardise-configuration-loading/workstreams/platform-foundations.md": {
+      "source": "examples/complex-task-portfolio/tasks/standardise-configuration-loading/workstreams/platform-foundations.md",
+      "source_sha256": "9b1e3698b54abe6766ba14c5c8e124fc5c12d24d538e913b5cb75985eb9af16c",
+      "package_sha256": "9b1e3698b54abe6766ba14c5c8e124fc5c12d24d538e913b5cb75985eb9af16c"
+    },
+    "examples/complex-task-portfolio/tasks/validate-security-launch-controls/task.md": {
+      "source": "examples/complex-task-portfolio/tasks/validate-security-launch-controls/task.md",
+      "source_sha256": "7ef7ea70b9188461c115aa0a64f635ac8db29a1d5f5622c8cd72c985232c2d86",
+      "package_sha256": "7ef7ea70b9188461c115aa0a64f635ac8db29a1d5f5622c8cd72c985232c2d86"
+    },
+    "examples/knowledge-linked/docs/architecture/sessions.md": {
+      "source": "examples/knowledge-linked/docs/architecture/sessions.md",
+      "source_sha256": "d596e947a9b4ab5be9ef16398cb0df414b6dd83a35f15024f3ed141ae35b0f1e",
+      "package_sha256": "d596e947a9b4ab5be9ef16398cb0df414b6dd83a35f15024f3ed141ae35b0f1e"
+    },
+    "examples/knowledge-linked/README.md": {
+      "source": "examples/knowledge-linked/README.md",
+      "source_sha256": "783cd866f40e9f2de8d60e9dffe9ba08fbba4eb4607deb206fa35ae2607713e7",
+      "package_sha256": "783cd866f40e9f2de8d60e9dffe9ba08fbba4eb4607deb206fa35ae2607713e7"
+    },
+    "examples/knowledge-linked/tasks/document-session-policy/task.md": {
+      "source": "examples/knowledge-linked/tasks/document-session-policy/task.md",
+      "source_sha256": "2a003721bab89fd9f4291e1be04c150e2aabe7fb756b21114e5b0e4e24ab616d",
+      "package_sha256": "2a003721bab89fd9f4291e1be04c150e2aabe7fb756b21114e5b0e4e24ab616d"
+    },
+    "examples/knowledge-linked/tasks/index.md": {
+      "source": "examples/knowledge-linked/tasks/index.md",
+      "source_sha256": "84b141c131e474c45034ef0a2b333bf20986351d7c98f51591a9b0fe2c87650f",
+      "package_sha256": "84b141c131e474c45034ef0a2b333bf20986351d7c98f51591a9b0fe2c87650f"
+    },
+    "examples/project-docs/docs/PROJECT.md": {
+      "source": "examples/project-docs/docs/PROJECT.md",
+      "source_sha256": "6bae03b0af1995303316012d54e7a971c95e89d64a51893e14c9ca78ca2539e3",
+      "package_sha256": "6bae03b0af1995303316012d54e7a971c95e89d64a51893e14c9ca78ca2539e3"
+    },
+    "examples/project-docs/docs/tasks/index.md": {
+      "source": "examples/project-docs/docs/tasks/index.md",
+      "source_sha256": "4107424dab28e42131e4611dd196719aae248bbfb7672e83125ac51364e3361f",
+      "package_sha256": "4107424dab28e42131e4611dd196719aae248bbfb7672e83125ac51364e3361f"
+    },
+    "examples/project-docs/docs/tasks/migrate-checkout/task.md": {
+      "source": "examples/project-docs/docs/tasks/migrate-checkout/task.md",
+      "source_sha256": "7f95197991fe71ef9325a958cde51f8a6c65f090481c14ea7fa472a673bff8dd",
+      "package_sha256": "7f95197991fe71ef9325a958cde51f8a6c65f090481c14ea7fa472a673bff8dd"
+    },
+    "examples/project-docs/README.md": {
+      "source": "examples/project-docs/README.md",
+      "source_sha256": "ebecb65716d8af4b467af9d36499e03616251ae3183766db2daab0b122999580",
+      "package_sha256": "ebecb65716d8af4b467af9d36499e03616251ae3183766db2daab0b122999580"
+    },
+    "examples/standalone/README.md": {
+      "source": "examples/standalone/README.md",
+      "source_sha256": "6d82fd141d15b25d97deb7fd449a01369b5c458663e60bfb1cd96fc4165551f3",
+      "package_sha256": "6d82fd141d15b25d97deb7fd449a01369b5c458663e60bfb1cd96fc4165551f3"
+    },
+    "examples/standalone/tasks/implement-token-rotation/task.md": {
+      "source": "examples/standalone/tasks/implement-token-rotation/task.md",
+      "source_sha256": "c6b93d05018a9674d02f7fcae07a6dfa60a8634f2fb9786386df63a43518ec65",
+      "package_sha256": "c6b93d05018a9674d02f7fcae07a6dfa60a8634f2fb9786386df63a43518ec65"
+    },
+    "examples/standalone/tasks/index.md": {
+      "source": "examples/standalone/tasks/index.md",
+      "source_sha256": "9a799a8eff035a5caf6d586dd1e9a6fa37be45740198f6bfc1bff475b9967f19",
+      "package_sha256": "9a799a8eff035a5caf6d586dd1e9a6fa37be45740198f6bfc1bff475b9967f19"
+    },
+    "examples/tracker-synchronised/README.md": {
+      "source": "examples/tracker-synchronised/README.md",
+      "source_sha256": "0e4d31ad9068e8ec40026cdb36876b165d58aebe0edb9ae85872b6acebc3b8e4",
+      "package_sha256": "0e4d31ad9068e8ec40026cdb36876b165d58aebe0edb9ae85872b6acebc3b8e4"
+    },
+    "examples/tracker-synchronised/tasks/add-audit-events/task.md": {
+      "source": "examples/tracker-synchronised/tasks/add-audit-events/task.md",
+      "source_sha256": "2bda866d4976e9de6e0dd57c4e02fc165260e8fd541223a517e04bd77b909104",
+      "package_sha256": "2bda866d4976e9de6e0dd57c4e02fc165260e8fd541223a517e04bd77b909104"
+    },
+    "examples/tracker-synchronised/tasks/index.md": {
+      "source": "examples/tracker-synchronised/tasks/index.md",
+      "source_sha256": "2a9793cb492ff291de079faecf53eb67718d068f318fe640ebcfe8a60a4e8c7b",
+      "package_sha256": "2a9793cb492ff291de079faecf53eb67718d068f318fe640ebcfe8a60a4e8c7b"
+    },
+    "examples/tracker-synchronised/tasks/trackers/linear-security.md": {
+      "source": "examples/tracker-synchronised/tasks/trackers/linear-security.md",
+      "source_sha256": "f9c35f8599358e09c93ddccaab8c69185094f2953b987aade5f1a4af935e82e7",
+      "package_sha256": "f9c35f8599358e09c93ddccaab8c69185094f2953b987aade5f1a4af935e82e7"
+    },
+    "examples/visualization/README.md": {
+      "source": "examples/visualization/README.md",
+      "source_sha256": "1bab21150572b529981a443e3736b8f74b0f02a0c3e80216c8cd53df63f7a1b3",
+      "package_sha256": "1bab21150572b529981a443e3736b8f74b0f02a0c3e80216c8cd53df63f7a1b3"
+    },
+    "examples/visualization/tasks/index.md": {
+      "source": "examples/visualization/tasks/index.md",
+      "source_sha256": "204a6358e089cda2c2ef072cb55849dbbc23a213d65f767634b22f25e2521941",
+      "package_sha256": "204a6358e089cda2c2ef072cb55849dbbc23a213d65f767634b22f25e2521941"
+    },
+    "examples/visualization/tasks/publish-guide/task.md": {
+      "source": "examples/visualization/tasks/publish-guide/task.md",
+      "source_sha256": "a9629aa22eff40d7805336c6d35f52c7a8a2252c567da422572ae2f75124badf",
+      "package_sha256": "a9629aa22eff40d7805336c6d35f52c7a8a2252c567da422572ae2f75124badf"
+    },
+    "examples/visualization/tasks/release-okf-tasks/task.md": {
+      "source": "examples/visualization/tasks/release-okf-tasks/task.md",
+      "source_sha256": "0ddbb11de3b7879767850b051942776e86d8b571063267517a5ef90f68c33255",
+      "package_sha256": "0ddbb11de3b7879767850b051942776e86d8b571063267517a5ef90f68c33255"
+    },
+    "examples/visualization/tasks/release-okf-tasks/workstreams/specification.md": {
+      "source": "examples/visualization/tasks/release-okf-tasks/workstreams/specification.md",
+      "source_sha256": "c37562be4048c32f35d8e4d4e484d27daa62bd5c69980010b9a12d6f1bc831c9",
+      "package_sha256": "c37562be4048c32f35d8e4d4e484d27daa62bd5c69980010b9a12d6f1bc831c9"
+    },
+    "examples/visualization/tasks/release-okf-tasks/workstreams/visualization.md": {
+      "source": "examples/visualization/tasks/release-okf-tasks/workstreams/visualization.md",
+      "source_sha256": "40862ea8dc433940662531c761d6482d62cd5ed335ee08d5b5a69635c5698062",
+      "package_sha256": "40862ea8dc433940662531c761d6482d62cd5ed335ee08d5b5a69635c5698062"
+    },
+    "examples/visualization/tasks/trackers/github-main.md": {
+      "source": "examples/visualization/tasks/trackers/github-main.md",
+      "source_sha256": "0c220e9f5f48507c0a93719b4afce13ad2d604c45efa692e3f72c3e707e8891d",
+      "package_sha256": "0c220e9f5f48507c0a93719b4afce13ad2d604c45efa692e3f72c3e707e8891d"
+    },
+    "implementations/typescript/src/validator.ts": {
+      "source": "implementations/typescript/src/validator.ts",
+      "source_sha256": "19e3f8a136223243ec5e22b1028528268df58bd9ceb14b2c667b5a6c652278aa",
+      "package_sha256": "19e3f8a136223243ec5e22b1028528268df58bd9ceb14b2c667b5a6c652278aa"
+    },
+    "implementations/typescript/test/conformance.test.ts": {
+      "source": "implementations/typescript/test/conformance.test.ts",
+      "source_sha256": "771c797c93520b6e30f82eaf4a34888d0eace30ad60d09a107883a3acd0376ab",
+      "package_sha256": "771c797c93520b6e30f82eaf4a34888d0eace30ad60d09a107883a3acd0376ab"
+    },
+    "implementations/typescript/tsconfig.json": {
+      "source": "implementations/typescript/tsconfig.json",
+      "source_sha256": "043175c56727dd840add66332774d82dd1dfca740522188ff2c3eba759ed13ca",
+      "package_sha256": "043175c56727dd840add66332774d82dd1dfca740522188ff2c3eba759ed13ca"
+    },
+    "tests/test_okf_tasks.py": {
+      "source": "tests/test_okf_tasks.py",
+      "source_sha256": "afd316412fcf649b5a0d67a5a877caf60f83eb92b20622ca82f2b62006c6a768",
+      "package_sha256": "f938ac3f4e0bc2fd886c538747b8a13f8ea7e6148e599be1b379eca71a3c8d36"
+    },
+    "tests/test_visualize_bundle.py": {
+      "source": "tests/test_visualize_bundle.py",
+      "source_sha256": "a0dc0648bfc2f87f2ede5a7d7b0dfe0a8646bcbf2d1524ac173ab4e86f4b0d09",
+      "package_sha256": "63801c3ec9e52870398d22db1890cf50cb8e2a6a3540d84a75a282791f6850fa"
+    },
+    "tests/reader-navigation-browser.mjs": {
+      "source": "tests/reader-navigation-browser.mjs",
+      "source_sha256": "00b0f0f17aae3cd0e05b7e455ec9e91ff1a295cdb39705e5e8da168f6cd1744b",
+      "package_sha256": "00b0f0f17aae3cd0e05b7e455ec9e91ff1a295cdb39705e5e8da168f6cd1744b"
+    },
+    "tests/okf-prompts.md": {
+      "source": "skills/okf-task-lifecycle/tests/prompts.md",
+      "source_sha256": "917eb8ab52a8ef2d8404abdb57641681ea2f1e83b07b330d05b37a2a04fd3a91",
+      "package_sha256": "917eb8ab52a8ef2d8404abdb57641681ea2f1e83b07b330d05b37a2a04fd3a91"
+    },
+    "references/okf-workflow.md": {
+      "source": "skills/okf-task-lifecycle/SKILL.md",
+      "source_sha256": "4c73a1b4c8e8cfaff7201b7f76f371fc27ee8f03fb51fd9afbab03726a011403",
+      "package_sha256": "fe997089d0227b2055cf2cbf7d3b27666f3b53290d6f7632324ee1dd53717fbc"
+    }
+  },
+  "source_commit": "99a2907181c029446ffaf9c6bff664a7b0ff487c"
+}

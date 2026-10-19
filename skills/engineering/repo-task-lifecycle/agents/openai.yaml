@@ -1,0 +1,12 @@
+interface:
+  display_name: "Repo Task Lifecycle"
+  short_description: "Maintain portable OKF tasks, time and tracker evidence."
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  default_prompt: "Use $repo-task-lifecycle as Engineering Workflow's task capability to maintain current OKF records, scoped tracker bindings, effort evidence and fresh offline views, preserving RKE canonical knowledge and QTK/DDD routing."
+policy:
+  allow_implicit_invocation: true
+  products:
+    - chatgpt
+    - codex
+    - atlas

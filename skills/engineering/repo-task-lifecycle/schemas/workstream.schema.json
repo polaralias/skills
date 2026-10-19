@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/polaralias/okf-tasks/v0.1.1/schemas/workstream.schema.json",
+  "title": "OKF Tasks v0.1 Workstream frontmatter",
+  "description": "All string values, including nested extension values, are plaintext metadata. Bare URLs and repository references are allowed; Markdown and HTML presentation markup are forbidden and enforced by the profile validators.",
+  "type": "object",
+  "required": ["type", "task", "workstream", "title", "description", "status", "created", "timestamp"],
+  "properties": {
+    "type": { "const": "Workstream" },
+    "task": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "workstream": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["proposed", "ready", "in-progress", "blocked", "validation", "done", "superseded", "deferred"]
+    },
+    "created": { "type": "string", "format": "date-time" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "owner": { "type": "string" },
+    "assignees": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "branch": { "type": "string" }
+  },
+  "additionalProperties": true
+}

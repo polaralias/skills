@@ -1,0 +1,14 @@
+{
+  "statuses": ["proposed", "ready", "in-progress", "blocked", "validation", "done", "superseded", "deferred"],
+  "allowed": {
+    "proposed": ["ready", "deferred", "superseded"],
+    "ready": ["in-progress", "deferred", "superseded"],
+    "in-progress": ["blocked", "validation", "deferred", "superseded"],
+    "blocked": ["in-progress", "deferred", "superseded"],
+    "validation": ["in-progress", "blocked", "done"],
+    "done": ["in-progress", "superseded"],
+    "superseded": [],
+    "deferred": ["ready", "superseded"]
+  },
+  "rule": "A same-state update is idempotent; every listed edge is normal and every other cross-state edge requires forced correction."
+}
