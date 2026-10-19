@@ -965,10 +965,10 @@ function boardCard(t,{showBundle=true}={}){
   card.dataset.rec=t.id;card.type="button";
   const est=estimateOf(t),logged=effortOf(t);
   const ln=linksCount(t.id);
-  const ext=m.external[0];
+  const externals=m.external.map(ext=>`<span title="${esc(ext.relationship||"mirror")}">${esc(ext.system+":"+ext.key)}</span>`).join("");
   const ws=m.workstreams.map(w=>`<span class="ws-chip">${typeGlyph("Workstream",w.status)}<span>${esc(w.label)}</span><span class="st">${esc(w.status)}</span></span>`).join("");
   card.innerHTML=`<h4>${esc(t.label)}</h4>
-    <div class="bm">${showBundle?`<span>${esc(bundleOf(t.id))}</span>`:""}<span title="${esc(t.frontmatter?.[state.temporalField]||"")}">${esc(fmtDate(t.frontmatter?.[state.temporalField]))}</span>${ln?`<span>${ln} link${ln===1?"":"s"}</span>`:""}${ext?`<span>${esc(ext.system==="github"?"PR #"+ext.key:ext.key)}</span>`:""}</div>
+    <div class="bm">${showBundle?`<span>${esc(bundleOf(t.id))}</span>`:""}<span title="${esc(t.frontmatter?.[state.temporalField]||"")}">${esc(fmtDate(t.frontmatter?.[state.temporalField]))}</span>${ln?`<span>${ln} link${ln===1?"":"s"}</span>`:""}${externals}</div>
     ${ws?`<div class="ws-chips">${ws}</div>`:""}
     ${(logged||est)?`<div class="bfoot">${effortHtml(logged,est)}${m.times.length?`<span style="color:var(--faint)">· ${m.times.length} entr${m.times.length===1?"y":"ies"}</span>`:""}</div>`:""}`;
   card.onclick=()=>select({id:t.id});

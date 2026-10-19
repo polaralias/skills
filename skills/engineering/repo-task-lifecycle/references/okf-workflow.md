@@ -225,3 +225,9 @@ Report:
 Selected relationship lanes initially show four links per direction, reveal four more on demand, display hidden counts and offer collapse. Expansion is retained per included document and direction; original link meaning and record validation remain authoritative. Directional scrolling respects reduced motion.
 
 Graph and Board selection becomes Reader selection when switching views, restricted to included documents. Preserve reading position before leaving Reader and keep a distinct comparison unless selection makes it the primary document.
+
+## Many-to-many tracker relationships
+
+Remote identity is `(system, host, kind, id)`; uniqueness applies to the local Task/remote pair. Use explicit `--relationship contribution` when several independent local tasks publish a combined progress summary to one remote. Existing bindings default to mirrors; convert each existing writer explicitly with `unlink-external --relationship contribution` before adding contributors. Use references for observation-only associations. Never mix mirror and contribution writers for one remote record or infer local completion from shared remote closure.
+
+Select `tracker sync --remote-id <provider-global-id>` when a task has several bindings in one profile, or deliberately use `--all-bindings` and reconcile its individual results. Contribution push preserves remote title, status, tags and human text; pull records observations only. Keep bundle `.tracker-sync/` ownership and reconciliation records portable, and never remove a live `.tracker.lock`. Missing ownership state cannot adopt an existing managed section. A local-only final unlink leaves the last remote summary for explicit human removal. Cross-repository aggregation and automatic remote status roll-up are outside this version.

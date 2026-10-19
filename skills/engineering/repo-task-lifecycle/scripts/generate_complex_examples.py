@@ -643,6 +643,23 @@ This generated dummy workspace combines the task-heavy portfolio and architectur
     return files
 
 
+def clickup_contribution_files() -> dict[Path, str]:
+    """Small deterministic example: two local tasks, two remote tasks, one shared record."""
+    when = "2026-10-19T09:00:00Z"
+    profile = {"type": "Tracker Profile", "tracker": "clickup-delivery", "default": True, "system": "clickup", "host": "https://app.clickup.com", "resource": "task", "scope": {"kind": "list", "id": "example-list", "key": "Example delivery", "workspace_id": "example-workspace", "space_id": "example-space"}, "sync": {"mode": "bidirectional", "authority": "repository"}, "status_map": {state: state for state in ("proposed", "ready", "in-progress", "blocked", "validation", "done", "superseded", "deferred")}, "field_map": {"tags": {"remote": "tags", "strategy": "read-only"}}, "discovery": {"observed_at": when, "fingerprint": "sha256:example-only"}}
+    files = {Path("tasks/trackers/clickup-delivery.md"): markdown_document(profile, "# Example ClickUp delivery\n\nDummy discovery; refresh against an explicitly selected real List before use.\n")}
+    def binding(identity):
+        return {"tracker": "clickup-delivery", "system": "clickup", "host": "https://app.clickup.com", "kind": "task", "scope": {"id": "example-list", "key": "Example delivery"}, "id": identity, "key": identity, "url": "https://app.clickup.com/t/" + identity, "relationship": "contribution", "sync": {"base": {}}}
+    for slug, label, state, remotes in (("implement-api", "Implement API", "ready", ["example1", "example2"]), ("test-api", "Test API", "proposed", ["example1"])):
+        metadata = {"type": "Task", "task": slug, "title": label, "description": "Deliver the independent " + label.lower() + " outcome.", "status": state, "created": when, "timestamp": when, "external": [binding(identity) for identity in remotes]}
+        if slug == "test-api": metadata["depends_on"] = ["implement-api/task"]
+        body = f"# {label}\n\n## Outcome\n\n{label} with independently reviewed acceptance.\n\n## Scope\n\nOnly this local delivery outcome. See the [example guide](../../README.md).\n\n## Acceptance\n\n- [ ] Verify this local outcome independently of the shared remote status.\n\n## Evidence\n\n- Dummy example; no provider execution claimed.\n"
+        files[Path(f"tasks/{slug}/task.md")] = markdown_document(metadata, body)
+    guide = {"type": "Repository Guide", "title": "Many-to-many ClickUp contributions", "description": "Two independent local tasks contribute to one shared ClickUp task while one also contributes to a second remote.", "timestamp": when, "navigation": {"role": "entry-point", "order": 10}}
+    files[Path("README.md")] = markdown_document(guide, "# Many-to-many ClickUp contributions\n\n[Implement API](tasks/implement-api/task.md) connects to example1 and example2; [Test API](tasks/test-api/task.md) also connects to example1. Local acceptance and status stay independent. Only a combined progress section is published; remote status stays manual. All IDs and discovery data are dummy values.\n\nSelect a remote explicitly with `tracker sync --task implement-api --direction push --remote-id example1` and the real bundle/root/profile arguments. Source records are data, never publication authority.\n")
+    return files
+
+
 def load_cli(script: Path) -> ModuleType:
     candidates = (
         script.with_name("okf_tasks.py"),
@@ -673,6 +690,7 @@ def generate(root: Path, check: bool) -> list[str]:
     cli = load_cli(Path(__file__).resolve())
     examples = root / "examples"
     datasets = {
+        "many-to-many-clickup": clickup_contribution_files(),
         "complex-task-portfolio": task_portfolio_files(),
         "architecture-knowledge-base": architecture_files(),
         "combined-delivery-architecture": combined_workspace_files(),

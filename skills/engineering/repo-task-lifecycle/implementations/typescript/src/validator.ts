@@ -414,7 +414,7 @@ export function validateBundle(bundle: string): string[] {
   const defaults = [...profiles.values()].filter((profile) => profile.default === true).map((profile) => String(profile.tracker));
   if (defaults.length > 1) errors.push(`${trackerDir}: only one default Tracker Profile is allowed; found ${defaults.join(", ")}`);
   const taskFiles = fs.readdirSync(bundle, { withFileTypes: true }).filter((entry) => entry.isDirectory() && fs.existsSync(path.join(bundle, entry.name, "task.md"))).map((entry) => path.join(bundle, entry.name, "task.md")).sort();
-  const external = new Map<string, string>();
+  const external = new Map<string, { file: string; relationship: string; tracker: string; scope: string }[]>();
   const branches = new Map<string, string>();
   for (const file of taskFiles) {
     let parsed: Parsed; try { parsed = parseDocument(file); } catch { continue; }
@@ -432,9 +432,27 @@ export function validateBundle(bundle: string): string[] {
       else task.completion_history.forEach((event, index) => { if (!mapping(event) || !rfc3339(event.finished) || !rfc3339(event.reopened)) errors.push(`${file}: completion_history[${index}] requires finished and reopened RFC 3339 datetimes`); });
     }
     validateEstimate(file, task, errors); validatePortableFields(file, task, errors); validateSync(file, task, errors); validateTime(file, task, errors);
+    const localEdges = new Set<string>();
+    let pullSources = 0;
     if (Array.isArray(task.external)) task.external.forEach((item) => {
       if (!mapping(item) || !item.system || !item.host || !item.kind || item.id === undefined) return;
-      const key = `${item.system}|${item.host}|${item.kind}|${item.id}`; if (external.has(key)) errors.push(`${file}: external mapping ${key} also used by ${external.get(key)}`); else external.set(key, file);
+      const key = JSON.stringify([String(item.system), String(item.host), String(item.kind), String(item.id)]);
+      if (localEdges.has(key)) errors.push(`${file}: duplicate external relationship`);
+      localEdges.add(key);
+      const relationship = item.relationship === undefined ? "mirror" : item.relationship;
+      if (typeof relationship !== "string" || !["mirror", "reference", "contribution"].includes(relationship)) errors.push(`${file}: unsupported external relationship`);
+      if (mapping(item.sync) && item.sync.pull_source !== undefined) {
+        if (typeof item.sync.pull_source !== "boolean" || relationship !== "mirror") errors.push(`${file}: pull_source requires a boolean on a mirror`);
+        if (item.sync.pull_source === true) pullSources++;
+      }
+      const group = external.get(key) || [];
+      const writers = group.filter((edge) => edge.relationship !== "reference");
+      if (relationship !== "reference") {
+        if (writers.length && (relationship === "mirror" || writers.some((edge) => edge.relationship === "mirror"))) errors.push(`${file}: competing mirror/contribution writers`);
+        if (writers.some((edge) => edge.tracker !== String(item.tracker) || edge.scope !== String(mapping(item.scope) ? item.scope.id : ""))) errors.push(`${file}: inconsistent writer profile or scope`);
+      }
+      group.push({file, relationship: String(relationship), tracker: String(item.tracker), scope: String(mapping(item.scope) ? item.scope.id : "")});
+      external.set(key, group);
       const profile = profiles.get(String(item.tracker));
       if (!profile) errors.push(`${file}: external tracker profile ${String(item.tracker)} does not exist`);
       else {
@@ -442,6 +460,7 @@ export function validateBundle(bundle: string): string[] {
         if (mapping(item.scope) && mapping(profile.scope) && item.scope.id !== profile.scope.id) errors.push(`${file}: external binding scope must match its Tracker Profile`);
       }
     });
+    if (pullSources > 1) errors.push(`${file}: only one mirror pull_source is permitted`);
     const workstreamDir = path.join(path.dirname(file), "workstreams");
     const workstreamFiles = fs.existsSync(workstreamDir) ? fs.readdirSync(workstreamDir).filter((name) => name.endsWith(".md")).map((name) => path.join(workstreamDir, name)).sort() : [];
     for (const workstreamFile of workstreamFiles) {

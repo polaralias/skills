@@ -2,7 +2,7 @@
 type: "Specification"
 title: "OKF Tasks Profile"
 description: "Documents OKF Tasks Profile for the okf-tasks repository."
-timestamp: 2026-07-28T21:55:36Z
+timestamp: 2026-10-19T16:30:00Z
 authority: canonical
 verification: untested
 owner: polaralias
@@ -15,7 +15,7 @@ navigation:
 ---
 # OKF Tasks Profile
 
-Version 0.1
+Version 0.2
 
 OKF Tasks is an independent profile of Open Knowledge Format (OKF) v0.1 for representing trackable work as portable Markdown concepts. It adds task lifecycle, workstream, evidence, relationship, and tracker-mapping conventions without changing the OKF base format.
 
@@ -39,7 +39,7 @@ It does not standardise product requirements, architecture, sprint membership, c
 
 An OKF Tasks bundle MUST conform to [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/ee67a5ca27044ebe7c38385f5b6cffc2305a9c1a/okf/SPEC.md). Requirements in this profile are additional constraints. The commit-pinned link identifies the exact upstream text used by this version.
 
-The immutable release identity of this candidate, once tagged and published, is `https://github.com/polaralias/okf-tasks/blob/v0.1.1/SPEC.md`. Producers SHOULD include that identity in the bundle root index as described in section 10.
+The immutable release identity of this candidate, once tagged and published, is `https://github.com/polaralias/okf-tasks/blob/v0.2.0/SPEC.md`. Producers SHOULD include that identity in the bundle root index as described in section 10.
 
 Each non-reserved Markdown file in the bundle MUST be an OKF concept with parseable YAML frontmatter and a non-empty `type`. Producers MAY add fields. Consumers MUST preserve unknown fields when round-tripping a record and MUST tolerate unknown task-adjacent concept types.
 
@@ -325,11 +325,19 @@ Portable custom values use task `fields` entries containing a declared `type` an
 
 Each task `external` entry MUST contain `tracker`, `system`, `host`, `kind`, `scope`, `id`, `key`, `url`, and `sync`. `scope` MUST contain stable `id` and human-facing `key`. `id` is the provider-global opaque object identity; `key` is the human-facing issue number or identifier. The binding system, host, and scope ID MUST agree with its referenced Tracker Profile.
 
-The tuple `(system, host, kind, id)` MUST be unique across the bundle. Multiple provider mappings for one task are allowed, but the same provider-native record MUST NOT map to more than one local task. Issue numbers and display keys are not identities because they may repeat across repositories, projects, lists, or provider hosts.
+Remote object identity is `(system, host, kind, id)`. A relationship MUST be unique by local Task plus remote object identity, including across profile aliases. Several local Tasks MAY connect to one remote object and one local Task MAY connect to several remote objects in the same or different Tracker Profiles. Issue numbers and display keys are not identities.
 
-Binding `sync` MAY contain `last_synced`, `remote_revision`, and `base`. Reconciliation state belongs to the binding; task-level `sync` is not permitted. `base` SHOULD retain local and remote revisions and/or per-field hashes from the last successful reconciliation.
+A binding MAY declare `relationship` as `reference`, `mirror`, or `contribution`. Omission means `mirror` for compatibility. References are observation-only. A mirror replicates one task according to explicit direction and authority. Contributions preserve independent local titles, scope, acceptance, status and evidence while publishing a combined progress summary to the remote record. Shared remote closure MUST NOT complete local contributors automatically.
 
-A conflict exists when the same mapped field changed locally and remotely since the base. Adapters MUST report the field and competing values and MUST NOT silently select a winner. Writes MUST be read back and verified when the provider may omit unsupported or unauthorised values. Missing remote records MUST NOT cause automatic local deletion.
+For each remote identity, at most one mirror writer is permitted; a mirror MUST NOT coexist with contribution writers. Several contribution writers MUST use one profile and stable scope. References MAY coexist with either. A local Task with several mirror sources MUST designate exactly one binding with boolean `sync.pull_source: true` before pulling mirrored fields; at most one such source is permitted. `pull_source` is valid only on mirrors. Explicit remote identity selection MUST be required when an operation otherwise matches several bindings. Bulk selection MUST be deliberate, with per-binding success/failure results.
+
+Contribution membership comes solely from local Task bindings within one bundle. Publishers MUST recompute all participating contributions in deterministic Task order and preserve unrelated remote fields, including title, status, tags and human description content. One owned description section is the only contribution write surface. Its ownership markers MUST be unique and well-formed; foreign or edited managed sections MUST stop publication without force bypass. Removing a relationship MUST NOT delete local or remote records. Local-only unlink leaves the last remote summary until another contributor publishes; final unlink retains that summary for explicit human removal.
+
+The reference adapter stores one shared ownership/reconciliation record per remote identity in `<bundle>/.tracker-sync/<identity-digest>.json` (schema 1), outside concept records. It contains a random owner, successful section hash, membership fingerprint, remote revision and reconciliation timestamp. It MAY contain a pending section hash for uncertain retries; pending state MUST NOT count as success. Task bindings remain the only membership truth. Preserve these state records when moving a bundle; missing state MUST NOT authorise adopting an existing remote section. Cooperating tracker mutations MUST use a bundle-local exclusive lock; stale-lock recovery requires verifying the previous writer has stopped. No cross-repository or distributed transaction guarantee is implied.
+
+Binding `sync` MAY contain `last_synced`, `last_observed`, `remote_revision`, `pull_source`, and `base`. Observation MUST NOT replace local execution fields or advance a successful publication base. Reconciliation state belongs to the binding; task-level `sync` is not permitted. `base` SHOULD retain local and remote revisions and/or per-field hashes from the last successful reconciliation.
+
+A conflict exists when the same mapped field changed locally and remotely since the base. Adapters MUST report the field and competing values and MUST NOT silently select a winner. Contribution writes MUST verify the complete description through read-back before advancing the shared success base. Mirrors retain conservative whole-record revision conflict checks. Writes MUST be read back and verified when the provider may omit unsupported or unauthorised values. Missing remote records MUST NOT cause automatic local deletion.
 
 Webhook consumers MUST authenticate provider events, deduplicate replayed deliveries, tolerate out-of-order events, and reconcile against current remote state rather than trusting an event payload as complete state.
 
@@ -391,7 +399,7 @@ The bundle-root `index.md` SHOULD declare the following fields using the OKF roo
 ```yaml
 okf_version: "0.1"
 okf_tasks_version: "0.5"
-okf_tasks_profile: https://github.com/polaralias/okf-tasks/blob/v0.1.1/SPEC.md
+okf_tasks_profile: https://github.com/polaralias/okf-tasks/blob/v0.2.0/SPEC.md
 ```
 
 Its body MUST contain a top-level heading and SHOULD group task links under status headings. Each entry SHOULD include the task description.
@@ -438,7 +446,7 @@ A Task or Workstream document is conformant when it satisfies the applicable fie
 
 ### 12.2 Bundle conformance
 
-An OKF Tasks v0.1 bundle is conformant when:
+An OKF Tasks v0.2 bundle is conformant when:
 
 1. it conforms to OKF v0.1;
 2. every `Task` and `Workstream` concept satisfies the required profile fields and body headings;
@@ -449,7 +457,7 @@ An OKF Tasks v0.1 bundle is conformant when:
 7. a `done` task has no running time entries and has a `finished` timestamp;
 8. estimates and sprint points satisfy section 7.5 without implicit conversion;
 9. `index.md`, when generated, agrees with the task records;
-10. Tracker Profiles and external bindings satisfy section 9, and external identities are bundle-unique.
+10. Tracker Profiles and external bindings satisfy section 9, and external relationships are unique and writer ownership is consistent.
 
 ### 12.3 Producer conformance
 
@@ -461,7 +469,7 @@ A conformant consumer MUST read every required profile field, MUST tolerate unkn
 
 ### 12.5 Synchronisation adapter conformance
 
-A conformant adapter MUST satisfy the producer and consumer requirements for records it writes and reads. It MUST map provider states explicitly, enforce external mapping uniqueness, respect record and field authority, store or otherwise identify a reconciliation base, detect same-field divergent changes, and expose conflicts without silent overwrite. For every external-bound artefact it MUST also satisfy the trust-boundary, egress, secret-handling, and link-portability requirements in sections 9.5 and 9.6.
+A conformant adapter MUST satisfy the producer and consumer requirements for records it writes and reads. It MUST map provider states explicitly, enforce relationship uniqueness and shared-field ownership, respect record and field authority, store or otherwise identify a reconciliation base, detect same-field divergent changes, and expose conflicts without silent overwrite. For every external-bound artefact it MUST also satisfy the trust-boundary, egress, secret-handling, and link-portability requirements in sections 9.5 and 9.6.
 
 Consumers SHOULD treat semantic completion evidence and knowledge promotion as reviewable obligations rather than claims that syntax validation alone can prove.
 
@@ -469,7 +477,7 @@ Consumers SHOULD treat semantic completion evidence and knowledge promotion as r
 
 The repository `VERSION` file is the release source of truth. Profile `0.x` releases may add constraints in a new minor version; patch releases clarify text or fix tooling without changing conformant data. A tagged profile URL and schema `$id` are immutable. Normative changes require corresponding positive and negative conformance fixtures and agreement from both maintained implementations.
 
-Version 0.1 establishes portable navigation prominence and first-reading order alongside addressable time entries, first-class Tracker Profiles, and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
+Version 0.2 adds explicit many-to-many tracker relationships and independent contributions. Version 0.1 established portable navigation prominence and first-reading order alongside addressable time entries, first-class Tracker Profiles, and scoped external bindings for GitHub, GitLab, Linear, and ClickUp. It is released when all required clauses have fixtures where machine-testable, two independently implemented validators agree on the fixture manifest, examples validate, release automation is green, and governance identifies the accepting maintainer. Those conditions are part of this repository's automated release bar.
 
 ## Appendix A — Minimal task
 

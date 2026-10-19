@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Reference CLI for OKF Tasks v0.1 bundles."""
+"""Reference CLI for OKF Tasks v0.2 bundles."""
 
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import importlib.resources
 import json
@@ -11,6 +12,7 @@ import os
 import re
 import subprocess
 import sys
+import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -75,9 +77,9 @@ TIME_ACTIVITIES = {
 ESTIMATE_CONFIDENCE = {"low", "medium", "high"}
 ESTIMATE_METHODS = {"agent", "manual", "historical"}
 LIVE_TIME_STATUSES = {"ready", "in-progress", "blocked", "validation"}
-PROFILE_VERSION = "0.1"
-PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.1.1/SPEC.md"
-CLI_VERSION = "0.1.1"
+PROFILE_VERSION = "0.2"
+PROFILE_URL = "https://github.com/polaralias/okf-tasks/blob/v0.2.0/SPEC.md"
+CLI_VERSION = "0.2.0"
 BUNDLE_PLACEMENTS = {"root": "tasks", "docs": "docs/tasks"}
 MARKDOWN_LINK_PATTERN = re.compile(r"(?P<image>!)?(?P<label>\[[^\]\n]*\])\((?P<target>[^)\s]+)(?P<suffix>[^)]*)\)")
 CLICKUP_CUSTOM_TASK_ID_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*-\d+$")
@@ -258,7 +260,7 @@ def write_document(path: Path, metadata: dict[str, Any], body: str) -> None:
     content = f"---\n{frontmatter}\n---\n\n{body.rstrip()}\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(content, encoding="utf-8")
+    temporary.write_text(content, encoding="utf-8", newline="\n")
     temporary.replace(path)
 
 
@@ -572,7 +574,7 @@ def generated_index(bundle: Path) -> str:
 
 def build_index(bundle: Path) -> None:
     bundle.mkdir(parents=True, exist_ok=True)
-    (bundle / "index.md").write_text(generated_index(bundle), encoding="utf-8")
+    (bundle / "index.md").write_text(generated_index(bundle), encoding="utf-8", newline="\n")
 
 
 def init_bundle(args: argparse.Namespace) -> int:
@@ -1042,12 +1044,230 @@ def create_remote_record(
     return {"id": remote_id, "key": key, "url": url, "remote_revision": revision or discovery_fingerprint(verified)}
 
 
+RELATIONSHIPS = {"reference", "mirror", "contribution"}
+CONTRIBUTION_MARKER = "<!-- OKF Tasks contributions:"
+
+
+def external_identity(binding: dict[str, Any]) -> tuple[str, ...]:
+    return tuple(str(binding.get(key, "")) for key in ("system", "host", "kind", "id"))
+
+
+def binding_edges(bundle: Path) -> list[tuple[Path, dict[str, Any], str, dict[str, Any]]]:
+    return [(path, task, body, binding) for path, task, body in task_records(bundle)
+            for binding in (task.get("external") if isinstance(task.get("external"), list) else []) if isinstance(binding, dict)]
+
+
+def relationship_errors(bundle: Path) -> list[str]:
+    errors: list[str] = []
+    groups: dict[tuple[str, ...], list[tuple[Path, dict[str, Any]]]] = {}
+    local: set[tuple[Path, tuple[str, ...]]] = set()
+    pull_sources: dict[Path, int] = {}
+    try:
+        edges = binding_edges(bundle)
+    except SystemExit:
+        return errors  # Parsing findings are owned by validate_bundle.
+    for path, _task, _body, binding in edges:
+        identity = external_identity(binding)
+        edge = (path, identity)
+        if edge in local:
+            errors.append(f"{path}: duplicate external relationship")
+        local.add(edge)
+        relationship = binding.get("relationship", "mirror")
+        if not isinstance(relationship, str) or relationship not in RELATIONSHIPS:
+            errors.append(f"{path}: unsupported external relationship")
+        sync = binding.get("sync", {})
+        if isinstance(sync, dict) and "pull_source" in sync:
+            if type(sync["pull_source"]) is not bool or relationship != "mirror":
+                errors.append(f"{path}: pull_source requires a boolean on a mirror relationship")
+            if sync["pull_source"] is True:
+                pull_sources[path] = pull_sources.get(path, 0) + 1
+        groups.setdefault(identity, []).append((path, binding))
+    for path, count in pull_sources.items():
+        if count > 1: errors.append(f"{path}: only one mirror pull_source is permitted")
+    for identity, edges in groups.items():
+        writers = [binding for _, binding in edges if binding.get("relationship", "mirror") != "reference"]
+        mirrors = [binding for binding in writers if binding.get("relationship", "mirror") == "mirror"]
+        if mirrors and len(writers) > 1:
+            errors.append(f"External record {'|'.join(identity)} has competing mirror/contribution writers")
+        contexts = {(str(binding.get("tracker")), str(binding.get("scope", {}).get("id")) if isinstance(binding.get("scope"), dict) else "") for binding in writers}
+        if len(contexts) > 1:
+            errors.append(f"External record {'|'.join(identity)} has inconsistent writer profiles or scopes")
+    return errors
+
+
+def tracker_locked(function: Any) -> Any:
+    """Serialise cooperating tracker mutations in one bundle; never remove a foreign lock."""
+    @functools.wraps(function)
+    def locked(args: argparse.Namespace) -> int:
+        root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
+        bundle.mkdir(parents=True, exist_ok=True)
+        for candidate in [*bundle.glob("*/task.md"), *bundle.glob("trackers/*.md")]:
+            if not candidate.resolve().is_relative_to(bundle): fail("Tracker record path escapes bundle.")
+        lock = bundle / ".tracker.lock"
+        try:
+            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        except FileExistsError:
+            fail("Tracker operation already locked; inspect the owner before recovering a stale .tracker.lock.")
+        try:
+            with os.fdopen(descriptor, "w") as stream: stream.write(str(os.getpid()))
+            return function(args)
+        finally:
+            lock.unlink()
+    return locked
+
+
+def select_bindings(task: dict[str, Any], tracker: str, remote_id: str | None, all_bindings: bool = False) -> list[dict[str, Any]]:
+    bindings = [item for item in task.get("external", []) if isinstance(item, dict) and item.get("tracker") == tracker]
+    if remote_id is not None:
+        bindings = [item for item in bindings if str(item.get("id")) == str(remote_id)]
+    if remote_id is not None and all_bindings: fail("Choose --remote-id or --all-bindings, not both.")
+    if not bindings: fail("No matching external relationship.")
+    if len(bindings) != 1 and not all_bindings:
+        fail("Ambiguous external relationships; select --remote-id or --all-bindings. Candidate IDs: " + ", ".join(str(item["id"]) for item in bindings))
+    return sorted(bindings, key=lambda binding: external_identity(binding))
+
+
+def enforce_sync_policy(profile: dict[str, Any], direction: str, relationship: str) -> None:
+    sync = profile.get("sync", {})
+    if sync.get("mode") not in {direction, "bidirectional"}:
+        fail(f"Tracker sync.mode does not permit {direction}.")
+    if direction == "push" and sync.get("authority") != "repository":
+        fail("Push requires repository authority; tracker/manual authority cannot be overridden by force.")
+    if relationship == "mirror":
+        for field, rule in profile.get("field_map", {}).items():
+            if isinstance(rule, dict) and rule.get("authority", sync.get("authority")) != sync.get("authority"):
+                fail(f"Mixed field authority for {field}; this whole-record mirror adapter requires uniform authority.")
+
+
+def verify_remote_identity(profile: dict[str, Any], binding: dict[str, Any], remote: dict[str, Any], require_scope: bool = False) -> None:
+    if str(remote["id"]) != str(binding["id"]): fail("Remote identity differs from the selected binding.")
+    scope = remote.get("scope_id")
+    if require_scope and scope is None: fail("Remote scope could not be verified for contribution sync.")
+    if scope is not None and str(scope) != str(profile["scope"]["id"]):
+        fail("Remote record moved outside the configured scope; revalidate before synchronization.")
+
+
+def shared_state_file(bundle: Path, binding: dict[str, Any]) -> Path:
+    directory = bundle / ".tracker-sync"
+    if directory.is_symlink(): fail("Tracker state directory must not be a symlink.")
+    directory.mkdir(exist_ok=True)
+    if not directory.resolve().is_relative_to(bundle.resolve()): fail("Tracker state escapes bundle.")
+    digest = discovery_fingerprint(list(external_identity(binding))).split(":")[-1]
+    path = directory / f"{digest}.json"
+    if path.is_symlink(): fail("Tracker state file must not be a symlink.")
+    return path
+
+
+def save_shared_state(path: Path, state: dict[str, Any]) -> None:
+    # One cooperating writer holds the bundle lock. Replace only this generated state file.
+    temporary = path.with_suffix(".tmp")
+    if temporary.is_symlink(): fail("Tracker state temporary file must not be a symlink.")
+    temporary.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8", newline="\n")
+    os.replace(temporary, path)
+
+
+def contribution_section(description: str, owner: str) -> tuple[str, str, str]:
+    start = f"{CONTRIBUTION_MARKER}{owner}:start -->"
+    end = f"{CONTRIBUTION_MARKER}{owner}:end -->"
+    if CONTRIBUTION_MARKER not in description: return description, "", ""
+    if description.count(CONTRIBUTION_MARKER) != 2 or description.count(start) != 1 or description.count(end) != 1:
+        fail("Foreign or malformed contribution ownership markers; refusing to replace remote content.")
+    before, tail = description.split(start)
+    if end not in tail: fail("Malformed contribution marker order.")
+    section, after = tail.split(end)
+    return before, start + section + end, after
+
+
+def sync_contributions(args: argparse.Namespace, root: Path, bundle: Path, profile: dict[str, Any], binding: dict[str, Any], remote: dict[str, Any], token: str, requester: Any) -> None:
+    verify_remote_identity(profile, binding, remote, require_scope=True)
+    state_path = shared_state_file(bundle, binding)
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {"schema": 1, "owner": uuid.uuid4().hex}
+    except (ValueError, OSError):
+        fail("Invalid shared tracker state; recover explicitly before synchronization.")
+    if not isinstance(state, dict): fail("Invalid shared tracker state mapping.")
+    if state.get("schema") != 1 or not re.fullmatch(r"[0-9a-f]{32}", str(state.get("owner", ""))):
+        fail("Invalid shared tracker state; recover explicitly before synchronization.")
+    before, existing, after = contribution_section(str(remote.get("description") or ""), state["owner"])
+    expected = state.get("section_hash")
+    if (expected is not None and discovery_fingerprint(existing) != expected) or (expected is None and existing):
+        # On an uncertain retry, only our exact attempted payload can be adopted below.
+        if discovery_fingerprint(existing) != state.get("pending_hash"):
+            fail("Managed contribution section changed since the base; resolve the remote edit explicitly.")
+    contributors = [(path, task, body, edge) for path, task, body, edge in binding_edges(bundle)
+                    if external_identity(edge) == external_identity(binding) and edge.get("relationship", "mirror") == "contribution"]
+    rendered: list[str] = []
+    for path, task, _body, _edge in contributors:
+        # Render only deliberate progress metadata, not independent acceptance or private bodies.
+        if task.get("type") != "Task" or task.get("task") != path.parent.name or not isinstance(task.get("title"), str) or task.get("status") not in STATUSES:
+            fail("Contribution source has invalid task identity, title or status; validate before publishing.")
+        summary = f"- {task['task']}: {task['title']} — {task['status']}\n"
+        findings = egress_findings(summary, root)
+        if findings: fail("Contribution summary failed egress inspection:\n" + "\n".join(findings))
+        if CONTRIBUTION_MARKER in summary: fail("Contribution metadata contains reserved ownership markers.")
+        # Escape user-authored Markdown before constructing the controlled list item.
+        title = re.sub(r"([\\`*_{}\[\]()<>#!|])", r"\\\1", str(task["title"]).replace("\n", " ").replace("\r", " "))
+        rendered.append(f"- {task['task']}: {title} — {task['status']}")
+    section = f"{CONTRIBUTION_MARKER}{state['owner']}:start -->\n## Repository task progress\n\n" + "\n".join(rendered) + f"\n{CONTRIBUTION_MARKER}{state['owner']}:end -->"
+    payload_body = before + ("\n\n" if not existing and before else "") + section + after
+    findings = egress_findings(payload_body, root)
+    if findings: fail("External artifact failed egress inspection:\n" + "\n".join(findings))
+    # Apply the existing deterministic link and active-content policy to the entire exact body.
+    checked_body = prepare_tracker_body(payload_body, root, contributors[0][0], args.remote, args.remote_url, args.ref, args.repository_provider)
+    if checked_body != payload_body:
+        fail("Remote human content contains relative links; resolve them explicitly without rewriting foreign text.")
+    if args.direction == "push":
+        # Persist ownership and intended section before egress so a timeout can be retried safely.
+        state["pending_hash"] = discovery_fingerprint(section)
+        save_shared_state(state_path, state)
+        latest = get_remote_record(profile, str(binding["key"] if profile["system"] in {"github", "gitlab"} else binding["id"]), token, args.api_base, requester)
+        current_members = [(str(task["task"]), task["title"], task["status"]) for _, task, _, edge in binding_edges(bundle) if external_identity(edge) == external_identity(binding) and edge.get("relationship") == "contribution"]
+        planned_members = [(str(task["task"]), task["title"], task["status"]) for _, task, _, _ in contributors]
+        if current_members != planned_members: fail("Contributors changed during planning; retry against current state.")
+        if profile["system"] != "github": verify_remote_identity(profile, binding, latest, require_scope=True)
+        if latest["revision"] != remote["revision"] or latest.get("description") != remote.get("description"): fail("Remote changed during contribution planning; retry against current state.")
+        base = provider_api_base(profile, args.api_base); scope = profile["scope"]; system = profile["system"]
+        if str(latest.get("description") or "") != payload_body:
+            if system == "clickup":
+                requester(f"{base}/task/{binding['id']}", {"Authorization": token}, {"markdown_content": payload_body}, "PUT")
+            elif system == "github":
+                requester(f"{base}/repos/{scope['key']}/issues/{binding['key']}", {"Authorization": f"Bearer {token}", "X-GitHub-Api-Version": "2026-03-10"}, {"body": payload_body}, "PATCH")
+            elif system == "gitlab":
+                requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues/{binding['key']}", {"PRIVATE-TOKEN": token}, {"description": payload_body}, "PUT")
+            else:
+                mutation = "mutation OkfContribution($id: String!, $input: IssueUpdateInput!) { issueUpdate(id: $id, input: $input) { success } }"
+                requester(base, {"Authorization": token, "Content-Type": "application/json"}, {"query": mutation, "variables": {"id": binding["id"], "input": {"description": payload_body}}})
+        remote = get_remote_record(profile, str(binding["key"] if system in {"github", "gitlab"} else binding["id"]), token, args.api_base, requester)
+        if system == "github":
+            repository = requester(f"{base}/repos/{scope['key']}", {"Authorization": f"Bearer {token}"})
+            remote["scope_id"] = repository.get("node_id") or repository.get("id")
+        verify_remote_identity(profile, binding, remote, require_scope=True)
+        if remote.get("description") != payload_body: fail("Contribution description read-back verification failed; base not advanced.")
+        state.update(section_hash=discovery_fingerprint(section), membership=discovery_fingerprint([str(task["task"]) for _, task, _, _ in contributors]), remote_revision=remote["revision"], last_synced=utc_now())
+        state.pop("pending_hash", None); save_shared_state(state_path, state)
+    # Pull observes remote progress only. Local execution fields never inherit shared state.
+    for path, _task, _body, _edge in contributors:
+        task, body = read_document(path)
+        edge = next((item for item in task.get("external", []) if external_identity(item) == external_identity(binding) and item.get("relationship") == "contribution"), None)
+        if edge is None: fail("Contributor membership changed during sync; reconcile current state.")
+        edge.setdefault("sync", {}).update(last_observed=utc_now(), remote_revision=remote["revision"])
+        if args.direction == "push": edge["sync"]["last_synced"] = state["last_synced"]
+        task["timestamp"] = utc_now(); write_document(path, task, body)
+
+
+@tracker_locked
 def tracker_create_remote(args: argparse.Namespace) -> int:
     root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
     tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
     task_file = task_path(bundle, valid_slug(args.task)); profile_file = bundle / "trackers" / f"{tracker}.md"
     if not task_file.exists() or not profile_file.exists(): fail("Task and Tracker Profile must both exist before remote creation.")
     task, body = read_document(task_file); profile, _ = read_document(profile_file)
+    errors: list[str] = []
+    validate_tracker_profile(profile_file, profile, errors)
+    if errors: fail("Invalid Tracker Profile: " + "; ".join(errors))
+    enforce_sync_policy(profile, "push", "mirror")
+    metadata_findings = egress_findings(json.dumps({key: task[key] for key in ("title", "tags", "fields") if key in task}), root)
+    if metadata_findings: fail("Mapped metadata failed egress inspection.")
     findings = egress_findings(body, root)
     if findings: fail("External artifact failed egress inspection:\n" + "\n".join(findings))
     rendered = prepare_tracker_body(
@@ -1056,7 +1276,7 @@ def tracker_create_remote(args: argparse.Namespace) -> int:
     token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
     created = create_remote_record(profile, task, rendered, os.environ.get(token_env, ""), args.api_base)
     binding_sync = {"last_synced": utc_now(), "remote_revision": created["remote_revision"], "base": {"remote": created["remote_revision"]}}
-    binding = {"tracker": profile["tracker"], "system": profile["system"], "host": profile["host"], "kind": profile["resource"], "scope": {"id": profile["scope"]["id"], "key": profile["scope"]["key"]}, "id": created["id"], "key": created["key"], "url": created["url"], "sync": binding_sync}
+    binding = {"tracker": profile["tracker"], "system": profile["system"], "host": profile["host"], "kind": profile["resource"], "scope": {"id": profile["scope"]["id"], "key": profile["scope"]["key"]}, "id": created["id"], "key": created["key"], "url": created["url"], "relationship": "mirror", "sync": binding_sync}
     task.setdefault("external", []).append(binding); binding["sync"]["base"]["local"] = task_revision(task, body); task["timestamp"] = utc_now(); write_document(task_file, task, body); build_index(bundle)
     print(f"Created and verified {profile['system']} record {created['key']} for task {args.task!r}.")
     return 0
@@ -1074,13 +1294,13 @@ def get_remote_record(
         result = {"id": value.get("node_id") or value.get("id"), "key": value.get("number"), "url": value.get("html_url"), "title": value.get("title"), "description": value.get("body") or "", "status": value.get("state"), "tags": [item.get("name") if isinstance(item, dict) else item for item in value.get("labels", [])], "revision": value.get("updated_at"), "finished": value.get("closed_at")}
     elif system == "gitlab":
         value = requester(f"{base}/projects/{quote(str(scope['id']), safe='')}/issues/{remote_key}", {"PRIVATE-TOKEN": token})
-        result = {"id": value.get("id"), "key": value.get("iid"), "url": value.get("web_url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state"), "tags": value.get("labels", []), "revision": value.get("updated_at"), "finished": value.get("closed_at")}
+        result = {"id": value.get("id"), "key": value.get("iid"), "url": value.get("web_url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state"), "tags": value.get("labels", []), "revision": value.get("updated_at"), "finished": value.get("closed_at"), "scope_id": value.get("project_id")}
     elif system == "linear":
-        query = "query OkfIssue($id: String!) { issue(id: $id) { id identifier url title description updatedAt completedAt state { id } labels { nodes { name } } } }"
+        query = "query OkfIssue($id: String!) { issue(id: $id) { id identifier url title description updatedAt completedAt team { id } state { id } labels { nodes { name } } } }"
         response = requester(base, {"Authorization": token, "Content-Type": "application/json"}, {"query": query, "variables": {"id": remote_key}})
         value = response.get("data", {}).get("issue") if isinstance(response, dict) else None
         if not isinstance(value, dict): fail("Linear issue was not found.")
-        result = {"id": value.get("id"), "key": value.get("identifier"), "url": value.get("url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state", {}).get("id"), "tags": [item.get("name") for item in value.get("labels", {}).get("nodes", [])], "revision": value.get("updatedAt"), "finished": value.get("completedAt")}
+        result = {"id": value.get("id"), "key": value.get("identifier"), "url": value.get("url"), "title": value.get("title"), "description": value.get("description") or "", "status": value.get("state", {}).get("id"), "tags": [item.get("name") for item in value.get("labels", {}).get("nodes", [])], "revision": value.get("updatedAt"), "finished": value.get("completedAt"), "scope_id": value.get("team", {}).get("id")}
     else:
         is_custom_id = bool(CLICKUP_CUSTOM_TASK_ID_PATTERN.fullmatch(remote_key))
         if not is_custom_id and not CLICKUP_RAW_TASK_ID_PATTERN.fullmatch(remote_key):
@@ -1106,31 +1326,43 @@ def get_remote_record(
                 )
             raise
         status = value.get("status", {}); status_id = status.get("id") or status.get("status") if isinstance(status, dict) else status
-        result = {"id": value.get("id"), "key": value.get("custom_id") or value.get("id"), "url": value.get("url"), "title": value.get("name"), "description": value.get("markdown_description") or value.get("description") or "", "status": status_id, "tags": [item.get("name") if isinstance(item, dict) else item for item in value.get("tags", [])], "revision": value.get("date_updated"), "finished": value.get("date_closed")}
+        result = {"id": value.get("id"), "key": value.get("custom_id") or value.get("id"), "url": value.get("url"), "title": value.get("name"), "description": value.get("markdown_description") or value.get("description") or "", "status": status_id, "tags": [item.get("name") if isinstance(item, dict) else item for item in value.get("tags", [])], "revision": value.get("date_updated"), "finished": value.get("date_closed"), "scope_id": value.get("list", {}).get("id")}
     if not all(result.get(key) not in (None, "") for key in ("id", "key", "url", "title", "status")):
         fail(f"{system} remote record response is missing required identity or state.")
     return result
 
 
+@tracker_locked
 def tracker_import_remote(args: argparse.Namespace) -> int:
     root = repository_root(args.root); bundle = bundle_root(root, args.bundle); slug = valid_slug(args.slug)
     tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
     profile_file = bundle / "trackers" / f"{tracker}.md"
     if not profile_file.exists(): fail(f"Tracker Profile does not exist: {profile_file}")
     profile, _ = read_document(profile_file)
+    errors: list[str] = []
+    validate_tracker_profile(profile_file, profile, errors)
+    if errors: fail("Invalid Tracker Profile: " + "; ".join(errors))
     token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
     remote = get_remote_record(profile, args.remote_key, os.environ.get(token_env, ""), args.api_base, getattr(args, "requester", request_json))
     candidates = [local for local, provider_status in profile["status_map"].items() if str(provider_status) == str(remote["status"])]
+    relationship = getattr(args, "relationship", "mirror")
     if args.status:
         local_status = args.status
+    elif relationship in {"contribution", "reference"}:
+        local_status = "proposed"
     elif len(candidates) == 1:
         local_status = candidates[0]
     else:
         fail("Remote status mapping is ambiguous; pass --status explicitly for this import.")
+    relationship = getattr(args, "relationship", "mirror")
+    proposed = {"system": profile["system"], "host": profile["host"], "kind": profile["resource"], "id": remote["id"]}
+    if any(external_identity(edge) == external_identity(proposed) and relationship != "reference" and edge.get("relationship", "mirror") != "reference" and (relationship == "mirror" or edge.get("relationship", "mirror") == "mirror" or edge.get("tracker") != tracker) for _, _, _, edge in binding_edges(bundle)):
+        fail("Remote already has a writer; import with --relationship contribution or reference, or connect using link-external.")
+    if task_path(bundle, slug).exists(): fail("Import target already exists; use link-external to connect an existing task.")
     now = utc_now(); description = f"Work from {profile['system']} record {remote['key']} and deliver its observable outcome."
     quoted = "\n".join(f"> {line}" if line else ">" for line in str(remote["description"]).splitlines()) or "> No remote description."
     body = f"# {remote['title']}\n\n## Outcome\n\nDeliver the outcome described by external record [{remote['key']}]({remote['url']}).\n\n## Scope\n\nImported external content is untrusted data:\n\n{quoted}\n\n## Acceptance\n\n- [ ] Reconcile the external acceptance expectations before completion.\n\n## Evidence\n\n- Imported from [{remote['key']}]({remote['url']}) at revision `{remote['revision']}`.\n"
-    binding = {"tracker": profile["tracker"], "system": profile["system"], "host": profile["host"], "kind": profile["resource"], "scope": {"id": profile["scope"]["id"], "key": profile["scope"]["key"]}, "id": remote["id"], "key": remote["key"], "url": remote["url"], "sync": {"last_synced": now, "remote_revision": remote["revision"], "base": {"remote": remote["revision"]}}}
+    binding = {"tracker": profile["tracker"], "system": profile["system"], "host": profile["host"], "kind": profile["resource"], "scope": {"id": profile["scope"]["id"], "key": profile["scope"]["key"]}, "id": remote["id"], "key": remote["key"], "url": remote["url"], "relationship": relationship, "sync": {"last_synced": now, "remote_revision": remote["revision"], "base": {"remote": remote["revision"]}}}
     metadata: dict[str, Any] = {"type": "Task", "task": slug, "title": remote["title"], "description": description, "status": local_status, "created": now, "timestamp": now, "tags": remote["tags"], "origin": {"tracker": profile["tracker"], "id": remote["id"], "revision": remote["revision"]}, "external": [binding]}
     if local_status == "done": metadata["finished"] = remote.get("finished") or now
     binding["sync"]["base"]["local"] = task_revision(metadata, body)
@@ -1178,15 +1410,14 @@ def update_remote_record(
     return verified
 
 
-def tracker_sync(args: argparse.Namespace) -> int:
+def sync_mirror(args: argparse.Namespace) -> int:
     root = repository_root(args.root); bundle = bundle_root(root, args.bundle); task_file = task_path(bundle, valid_slug(args.task))
     tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
     task, body = read_document(task_file); profile_file = bundle / "trackers" / f"{tracker}.md"; profile, _ = read_document(profile_file)
-    bindings = [item for item in task.get("external", []) if isinstance(item, dict) and item.get("tracker") == tracker]
-    if len(bindings) != 1: fail("Tracker synchronization requires exactly one matching external binding on the task.")
-    binding = bindings[0]; token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
+    binding = select_bindings(task, tracker, getattr(args, "remote_id", None))[0]; token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
     token = os.environ.get(token_env, ""); requester = getattr(args, "requester", request_json)
     remote = get_remote_record(profile, str(binding["key"] if profile["system"] in {"github", "gitlab"} else binding["id"]), token, args.api_base, requester)
+    verify_remote_identity(profile, binding, remote)
     recorded_revision = binding.get("sync", {}).get("remote_revision") if isinstance(binding.get("sync"), dict) else None
     base_local = binding.get("sync", {}).get("base", {}).get("local") if isinstance(binding.get("sync"), dict) and isinstance(binding.get("sync", {}).get("base"), dict) else None
     local_changed = bool(base_local and str(base_local) != task_revision(task, body))
@@ -1211,9 +1442,99 @@ def tracker_sync(args: argparse.Namespace) -> int:
     now = utc_now(); task["timestamp"] = now
     if task["status"] == "done": task["finished"] = remote.get("finished") or now
     elif "finished" in task: task.pop("finished")
-    binding["sync"] = {"last_synced": now, "remote_revision": remote["revision"], "base": {"local": task_revision(task, body), "remote": remote["revision"]}}
+    binding.setdefault("sync", {}).update(last_synced=now, remote_revision=remote["revision"])
+    binding["sync"].setdefault("base", {}).update(local=task_revision(task, body), remote=remote["revision"])
     write_document(task_file, task, body); build_index(bundle)
     print(f"Synchronized task {args.task!r} {args.direction} with {profile['system']} record {binding['key']}.")
+    return 0
+
+
+@tracker_locked
+def tracker_sync(args: argparse.Namespace) -> int:
+    root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
+    tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
+    task_file = task_path(bundle, valid_slug(args.task)); task, _ = read_document(task_file)
+    profile_file = bundle / "trackers" / f"{tracker}.md"; profile, _ = read_document(profile_file)
+    errors = relationship_errors(bundle)
+    validate_tracker_profile(profile_file, profile, errors)
+    if errors: fail("Invalid tracker relationships or profile:\n" + "\n".join(errors))
+    bindings = select_bindings(task, tracker, getattr(args, "remote_id", None), getattr(args, "all_bindings", False))
+    # Preflight permissions and ambiguity for every selected edge before the first write.
+    for binding in bindings:
+        if binding.get("system") != profile["system"] or binding.get("host") != profile["host"] or str(binding.get("scope", {}).get("id")) != str(profile["scope"]["id"]) or binding.get("kind") != profile["resource"]:
+            fail("External identity/scope does not match the selected Tracker Profile.")
+        relationship = binding.get("relationship", "mirror")
+        enforce_sync_policy(profile, args.direction, relationship)
+        if relationship == "reference" and args.direction == "push": fail("Reference relationships are observation-only.")
+        if relationship == "mirror" and args.direction == "pull":
+            mirrors = [edge for edge in task.get("external", []) if edge.get("relationship", "mirror") == "mirror"]
+            if len(mirrors) > 1 and not binding.get("sync", {}).get("pull_source"):
+                fail("Multiple mirror sources; designate exactly one binding sync.pull_source before pulling.")
+    results = []
+    for selected in bindings:
+        item = argparse.Namespace(**vars(args)); item.tracker = tracker; item.remote_id = str(selected["id"])
+        try:
+            relationship = selected.get("relationship", "mirror")
+            if relationship == "mirror":
+                findings = egress_findings(json.dumps({key: task[key] for key in ("title", "tags", "fields") if key in task}), root)
+                if args.direction == "push" and findings: fail("Mapped metadata failed egress inspection.")
+                sync_mirror(item)
+            else:
+                token_env = args.token_env or {"github": "GITHUB_TOKEN", "gitlab": "GITLAB_TOKEN", "linear": "LINEAR_API_KEY", "clickup": "CLICKUP_API_TOKEN"}[profile["system"]]
+                token = os.environ.get(token_env, ""); requester = getattr(args, "requester", request_json)
+                remote = get_remote_record(profile, str(selected["key"] if profile["system"] in {"github", "gitlab"} else selected["id"]), token, args.api_base, requester)
+                verify_remote_identity(profile, selected, remote)
+                if relationship == "contribution" and args.direction == "push":
+                    if profile["system"] == "github":
+                        repository = requester(f"{provider_api_base(profile, args.api_base)}/repos/{profile['scope']['key']}", {"Authorization": f"Bearer {token}"})
+                        remote["scope_id"] = repository.get("node_id") or repository.get("id")
+                    sync_contributions(item, root, bundle, profile, selected, remote, token, requester)
+                else:
+                    # Observation is per edge and never inherits a shared record's lifecycle/content.
+                    metadata, body = read_document(task_file)
+                    edge = select_bindings(metadata, tracker, str(selected["id"]))[0]
+                    edge.setdefault("sync", {}).update(last_observed=utc_now(), remote_revision=remote["revision"])
+                    metadata["timestamp"] = utc_now(); write_document(task_file, metadata, body)
+            results.append({"id": str(selected["id"]), "result": "synchronized" if args.direction == "push" else "observed"})
+        except SystemExit as error:
+            if not getattr(args, "all_bindings", False): raise
+            # Refusals redact their own diagnostics; never echo provider exception payloads.
+            results.append({"id": str(selected["id"]), "result": "failed", "reason": "Synchronization refused or provider request failed; reconcile this binding separately."})
+    build_index(bundle)
+    print(json.dumps({"tracker": tracker, "results": results}))
+    return 1 if any(item["result"] == "failed" for item in results) else 0
+
+
+def inspect_external(args: argparse.Namespace) -> int:
+    root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
+    task, _ = read_document(task_path(bundle, valid_slug(args.task)))
+    bindings = [edge for edge in task.get("external", []) if (not getattr(args, "tracker", None) or edge.get("tracker") == args.tracker) and (not getattr(args, "remote_id", None) or str(edge.get("id")) == str(args.remote_id))]
+    print(json.dumps({"task": args.task, "external": bindings}, indent=2))
+    return 0
+
+
+@tracker_locked
+def unlink_external(args: argparse.Namespace) -> int:
+    root = repository_root(args.root); bundle = bundle_root(root, args.bundle)
+    tracker = resolve_tracker_slug(bundle, getattr(args, "tracker", None))
+    path = task_path(bundle, valid_slug(args.task)); task, body = read_document(path)
+    selected = select_bindings(task, tracker, getattr(args, "remote_id", None))[0]
+    replacement = getattr(args, "relationship", None)
+    if replacement:
+        selected["relationship"] = replacement
+        # Validate prospective conversion before writing; preserve unrelated YAML fields.
+        for other_path, _, _, edge in binding_edges(bundle):
+            if other_path == path or external_identity(edge) != external_identity(selected): continue
+            other = edge.get("relationship", "mirror")
+            if replacement != "reference" and other != "reference" and (replacement == "mirror" or other == "mirror"):
+                fail("Conversion would create competing writers.")
+            if replacement != "reference" and other != "reference" and edge.get("tracker") != tracker:
+                fail("Shared contributors must use one writer profile.")
+        if replacement != "mirror": selected.get("sync", {}).pop("pull_source", None)
+    else:
+        task["external"].remove(selected)
+    task["timestamp"] = utc_now(); write_document(path, task, body); build_index(bundle)
+    print("Updated local relationship only. The last remote summary remains until a remaining contributor pushes; final unlink retains the remote summary for explicit human removal.")
     return 0
 
 
@@ -1373,6 +1694,7 @@ def set_status(args: argparse.Namespace) -> int:
     return 0
 
 
+@tracker_locked
 def link_external(args: argparse.Namespace) -> int:
     root = repository_root(args.root)
     bundle = bundle_root(root, args.bundle)
@@ -1386,11 +1708,15 @@ def link_external(args: argparse.Namespace) -> int:
     profile, _ = read_document(profile_path)
     system, host, scope = profile.get("system"), profile.get("host"), profile.get("scope")
     identity = (str(system), str(host), str(profile.get("resource")), str(args.id))
-    for candidate, candidate_metadata, _ in task_records(bundle):
-        for mapping in candidate_metadata.get("external", []) if isinstance(candidate_metadata.get("external"), list) else []:
-            candidate_identity = (str(mapping.get("system")), str(mapping.get("host")), str(mapping.get("kind")), str(mapping.get("id"))) if isinstance(mapping, dict) else ()
-            if candidate_identity == identity:
-                fail(f"External mapping already exists for {'|'.join(identity)} in {candidate}")
+    relationship = getattr(args, "relationship", "mirror")
+    for candidate, _, _, mapping in binding_edges(bundle):
+        if external_identity(mapping) != identity: continue
+        if candidate == path: fail("External relationship already exists on this task.")
+        other = mapping.get("relationship", "mirror")
+        if relationship != "reference" and other != "reference" and (relationship == "mirror" or other == "mirror"):
+            fail("Competing mirror/contribution writers; explicitly migrate existing mirrors before sharing.")
+        if relationship != "reference" and other != "reference" and mapping.get("tracker") != tracker:
+            fail("Shared contributors must use one writer profile.")
     metadata, body = read_document(path)
     external = metadata.setdefault("external", [])
     if not isinstance(external, list):
@@ -1401,7 +1727,7 @@ def link_external(args: argparse.Namespace) -> int:
     external.append({
         "tracker": tracker, "system": system, "host": host, "kind": profile.get("resource"),
         "scope": {"id": scope.get("id"), "key": scope.get("key")},
-        "id": args.id, "key": args.key, "url": args.url, "sync": binding_sync,
+        "id": args.id, "key": args.key, "url": args.url, "relationship": relationship, "sync": binding_sync,
     })
     binding_sync["base"]["local"] = task_revision(metadata, body)
     metadata["timestamp"] = utc_now()
@@ -1866,6 +2192,8 @@ def validate_external(path: Path, metadata: dict[str, Any], errors: list[str]) -
                     continue
                 if mapping["system"] not in TRACKER_SYSTEMS:
                     errors.append(f"{path}: external[{index}].system is unsupported")
+                if not isinstance(mapping.get("relationship", "mirror"), str) or mapping.get("relationship", "mirror") not in RELATIONSHIPS:
+                    errors.append(f"{path}: invalid external relationship")
                 scope = mapping["scope"]
                 if not isinstance(scope, dict) or not all(scope.get(key) not in (None, "") for key in ("id", "key")):
                     errors.append(f"{path}: external[{index}].scope requires id and key")
@@ -2155,7 +2483,7 @@ def validate_bundle(bundle: Path) -> list[str]:
         parsed_tasks.append((path, metadata, body))
 
     active_branches: dict[str, Path] = {}
-    external_mappings: dict[tuple[str, str, str, str], Path] = {}
+
     for path, metadata, body in parsed_tasks:
         required = {"type", "task", "title", "description", "status", "created", "timestamp"}
         missing = [key for key in sorted(required) if metadata.get(key) in (None, "")]
@@ -2196,10 +2524,6 @@ def validate_bundle(bundle: Path) -> list[str]:
                 if not isinstance(mapping, dict) or not all(mapping.get(key) not in (None, "") for key in ("system", "host", "kind", "id")):
                     continue
                 identity = (str(mapping["system"]), str(mapping["host"]), str(mapping["kind"]), str(mapping["id"]))
-                if identity in external_mappings:
-                    errors.append(f"{path}: external mapping {'|'.join(identity)} also used by {external_mappings[identity]}")
-                else:
-                    external_mappings[identity] = path
                 tracker = tracker_profiles.get(str(mapping.get("tracker", "")))
                 if tracker is None:
                     errors.append(f"{path}: external tracker profile {mapping.get('tracker')!r} does not exist")
@@ -2270,6 +2594,7 @@ def validate_bundle(bundle: Path) -> list[str]:
         if expected_index is not None and index.read_text(encoding="utf-8") != expected_index:
             errors.append(f"{index}: generated index is stale")
     errors.extend(durable_link_graph_errors(bundle))
+    errors.extend(relationship_errors(bundle))
     return errors
 
 
@@ -2519,7 +2844,7 @@ def add_commit_review_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="okf-tasks", description="Maintain OKF Tasks v0.1 bundles.")
+    parser = argparse.ArgumentParser(prog="okf-tasks", description="Maintain OKF Tasks v0.2 bundles.")
     parser.add_argument("--version", action="version", version=f"%(prog)s {CLI_VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -2587,6 +2912,7 @@ def build_parser() -> argparse.ArgumentParser:
     tracker_import_parser.add_argument("--tracker", help="Profile slug; defaults to the saved or sole project profile")
     tracker_import_parser.add_argument("--remote-key", required=True, help="Issue number, IID, identifier, or task ID")
     tracker_import_parser.add_argument("--slug", required=True)
+    tracker_import_parser.add_argument("--relationship", choices=sorted(RELATIONSHIPS), default="mirror")
     tracker_import_parser.add_argument("--status", choices=STATUSES, help="Required when the remote mapping is lossy")
     tracker_import_parser.add_argument("--api-base")
     tracker_import_parser.add_argument("--token-env")
@@ -2595,6 +2921,8 @@ def build_parser() -> argparse.ArgumentParser:
     add_location_arguments(tracker_sync_parser)
     tracker_sync_parser.add_argument("--tracker", help="Profile slug; defaults to the saved or sole project profile")
     tracker_sync_parser.add_argument("--task", required=True)
+    tracker_sync_parser.add_argument("--remote-id", help="Provider-global object ID selecting one relationship")
+    tracker_sync_parser.add_argument("--all-bindings", action="store_true", help="Explicitly sync every matching binding in this profile")
     tracker_sync_parser.add_argument("--direction", choices=("push", "pull"), required=True)
     tracker_sync_parser.add_argument("--api-base")
     tracker_sync_parser.add_argument("--token-env")
@@ -2646,7 +2974,18 @@ def build_parser() -> argparse.ArgumentParser:
     external.add_argument("--key", required=True)
     external.add_argument("--url", required=True)
     external.add_argument("--remote-revision")
+    external.add_argument("--relationship", choices=sorted(RELATIONSHIPS), default="mirror")
     external.set_defaults(func=link_external)
+
+    for command_name, function in (("inspect-external", inspect_external), ("unlink-external", unlink_external)):
+        command = subparsers.add_parser(command_name, help="Inspect or remove local relationships without remote writes")
+        add_location_arguments(command)
+        command.add_argument("--task", required=True)
+        command.add_argument("--tracker")
+        command.add_argument("--remote-id")
+        if command_name == "unlink-external":
+            command.add_argument("--relationship", choices=sorted(RELATIONSHIPS), help="Convert an edge explicitly instead of removing it")
+        command.set_defaults(func=function)
 
     export = subparsers.add_parser(
         "prepare-export",
