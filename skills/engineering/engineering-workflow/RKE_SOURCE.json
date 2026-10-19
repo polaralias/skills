@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repository": "https://github.com/polaralias/rke",
-  "sourceCommit": "ba884ade30ee70c702120047af65002bcb259985",
+  "sourceCommit": "92926273527e3c2aaabf0480bb0189724e2199c5",
   "runtimePackage": "@polaralias/rke",
   "runtimeVersion": "0.1.0",
   "skillPath": "skills/engineering-workflow",

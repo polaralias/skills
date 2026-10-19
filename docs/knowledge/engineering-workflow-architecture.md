@@ -2,10 +2,10 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Separates complete Engineering Workflow methods from optional RKE runtime support and independent OKF Tasks execution records.
-timestamp: 2026-10-16T23:23:25+01:00
+timestamp: 2026-10-19T14:57:57+00:00
 authority: canonical
-verification: needs-review
-reviewed_at: 2026-10-15T19:57:47+00:00
+verification: verified-limited
+reviewed_at: 2026-10-19T14:57:57+00:00
 owner: polaralias
 tags:
   - engineering-workflow
@@ -19,6 +19,8 @@ navigation:
 # Polaralias engineering workflow architecture
 
 [Engineering Workflow](../../skills/engineering/engineering-workflow/SKILL.md) supplies complete engineering methods. The separate [RKE skill](../../skills/engineering/rke/SKILL.md) supplies optional guidance for the installed repository runtime. The packages have independent versions and discovery metadata; neither installation rewrites the other. Their source packages currently share the RKE repository, with separate catalogue provenance manifests. Shared source storage is not a runtime dependency or a second orchestration layer.
+
+Install either skill from the [Polaralias catalogue](../../README.md#install-with-the-skills-cli) using `npx skills add polaralias/skills --skill engineering-workflow` or `--skill rke`; the same convention works against [polaralias/rke](https://github.com/polaralias/rke). The runtime is a separate Node package installed with `npm install --global @polaralias/rke`. RKE contributors use the canonical skill sources already in their checkout through its `AGENTS.md` and importing `CLAUDE.md`; catalogue copies remain synchronized mirrors pinned by `RKE_SOURCE.json`.
 
 This is a source-reviewed ownership contract. It does not establish executed model quality, live host discovery or release qualification.
 
@@ -36,7 +38,7 @@ EWF selects the smallest applicable method rather than asking the user to name i
 - [Handoff](../../skills/engineering/engineering-workflow/references/handoff.md) preserves a bounded current continuation account; [pickup](../../skills/engineering/engineering-workflow/references/pickup.md) verifies it against current evidence before acting.
 - [Coordination](../../skills/engineering/engineering-workflow/references/coordination.md) separates ownership, dependency and integration evidence for justified parallel work. [Publication](../../skills/engineering/engineering-workflow/references/publication.md) assesses readiness separately from authority to publish.
 
-The [reference map](../../skills/engineering/engineering-workflow/references/reference-map.md) provides method navigation and historical alias mapping. [Repo Setup](../../skills/engineering/repo-setup/SKILL.md) remains the separate repository-bootstrap capability. Standalone TPW stays archived; design and delivery still own the acceptance coverage they actually need.
+The [reference map](../../skills/engineering/engineering-workflow/references/reference-map.md) provides current method navigation. Historical alias mappings remain outside the installed EWF methodology. [Repo Setup](../../skills/engineering/repo-setup/SKILL.md) remains the separate repository-bootstrap capability. Standalone TPW stays archived; design and delivery still own the acceptance coverage they actually need.
 
 ## Optional runtime adapter
 
