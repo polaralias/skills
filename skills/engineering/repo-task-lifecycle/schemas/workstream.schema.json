@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/polaralias/okf-tasks/v0.1.1/schemas/workstream.schema.json",
-  "title": "OKF Tasks v0.1 Workstream frontmatter",
+  "$id": "https://raw.githubusercontent.com/polaralias/okf-tasks/v0.2.0/schemas/workstream.schema.json",
+  "title": "OKF Tasks v0.2 Workstream frontmatter",
   "description": "All string values, including nested extension values, are plaintext metadata. Bare URLs and repository references are allowed; Markdown and HTML presentation markup are forbidden and enforced by the profile validators.",
   "type": "object",
   "required": ["type", "task", "workstream", "title", "description", "status", "created", "timestamp"],

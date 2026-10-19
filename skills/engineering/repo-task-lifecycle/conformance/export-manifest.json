@@ -1,5 +1,5 @@
 {
-  "profile": "https://github.com/polaralias/okf-tasks/blob/v0.1.1/SPEC.md",
+  "profile": "https://github.com/polaralias/okf-tasks/blob/v0.2.0/SPEC.md",
   "cases": [
     {"id": "export-github-relative", "path": "generated/exports/github-relative/repo", "source": "tasks/fixture-task/task.md", "remote": "https://credential@github.com/example/project.git", "provider": "github", "ref": "abc123", "valid": true, "contains": "https://github.com/example/project/blob/abc123/docs/guide.md#safe-use", "excludes": "credential"},
     {"id": "export-gitlab-relative", "path": "generated/exports/gitlab-relative/repo", "source": "tasks/fixture-task/task.md", "remote": "git@gitlab.com:example/project.git", "provider": "gitlab", "ref": "release/0.1", "valid": true, "contains": "https://gitlab.com/example/project/-/blob/release%2F0.1/docs/guide.md"},

@@ -1,5 +1,5 @@
 {
-  "profile": "https://github.com/polaralias/okf-tasks/blob/v0.1.1/SPEC.md",
+  "profile": "https://github.com/polaralias/okf-tasks/blob/v0.2.0/SPEC.md",
   "cases": [
     {
       "id": "valid-minimal",
@@ -218,7 +218,7 @@
       "id": "invalid-external-duplicate",
       "path": "generated/invalid/duplicate-external-mapping/tasks",
       "valid": false,
-      "error": "external mapping github|https://github.com|issue|I_issue_1 also used"
+      "error": "competing mirror/contribution writers"
     },
     {
       "id": "invalid-missing-tracker-profile",
@@ -302,6 +302,63 @@
       "path": "generated/invalid/active-task-vendor-manifest/tasks",
       "valid": false,
       "error": "durable link graph contains orphan concept"
+    },
+    {
+      "id": "valid-many-to-many-contributions",
+      "path": "generated/valid/many-to-many-contributions/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-shared-references",
+      "path": "generated/valid/shared-references/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-mirror-with-reference",
+      "path": "generated/valid/mirror-with-reference/tasks",
+      "valid": true
+    },
+    {
+      "id": "invalid-duplicate-external-edge",
+      "path": "generated/invalid/duplicate-external-edge/tasks",
+      "valid": false,
+      "error": "duplicate external relationship"
+    },
+    {
+      "id": "invalid-invalid-external-relationship",
+      "path": "generated/invalid/invalid-external-relationship/tasks",
+      "valid": false,
+      "error": "unsupported external relationship"
+    },
+    {
+      "id": "invalid-invalid-pull-source",
+      "path": "generated/invalid/invalid-pull-source/tasks",
+      "valid": false,
+      "error": "pull_source requires a boolean"
+    },
+    {
+      "id": "invalid-multiple-pull-sources",
+      "path": "generated/invalid/multiple-pull-sources/tasks",
+      "valid": false,
+      "error": "only one mirror pull_source"
+    },
+    {
+      "id": "invalid-typed-pull-source",
+      "path": "generated/invalid/typed-pull-source/tasks",
+      "valid": false,
+      "error": "pull_source requires a boolean"
+    },
+    {
+      "id": "invalid-mixed-external-writers",
+      "path": "generated/invalid/mixed-external-writers/tasks",
+      "valid": false,
+      "error": "competing mirror/contribution writers"
+    },
+    {
+      "id": "invalid-inconsistent-contributor-profiles",
+      "path": "generated/invalid/inconsistent-contributor-profiles/tasks",
+      "valid": false,
+      "error": "inconsistent writer profile"
     }
   ]
 }

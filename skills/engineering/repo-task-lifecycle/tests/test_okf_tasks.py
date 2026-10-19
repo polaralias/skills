@@ -66,6 +66,7 @@ class ConformanceFixtureTests(unittest.TestCase):
 
     def test_all_examples_are_valid(self) -> None:
         examples = {
+            "many-to-many-clickup": "tasks",
             "standalone": "tasks",
             "knowledge-linked": "tasks",
             "tracker-synchronised": "tasks",
@@ -1054,6 +1055,200 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("skipping", output.getvalue())
         task_after, _ = okf_tasks.read_document(self.root / "tasks" / "first-task" / "task.md")
         self.assertEqual(1, len(task_after["time"]))
+
+
+class ManyToManyTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name); self.bundle = self.root / "tasks"
+        self.call("init-bundle")
+        self.call("create", "--slug", "alpha", "--title", "Alpha", "--description", "Deliver Alpha")
+        self.call("create", "--slug", "beta", "--title", "Beta", "--description", "Deliver Beta", "--depends-on", "alpha/task")
+        self.profile = {"type": "Tracker Profile", "tracker": "clickup-main", "system": "clickup", "host": "https://app.clickup.com", "resource": "task", "scope": {"kind": "list", "id": "list1", "key": "Delivery"}, "sync": {"mode": "bidirectional", "authority": "repository"}, "status_map": {status: status for status in okf_tasks.STATUSES}, "field_map": {"tags": {"remote": "tags", "strategy": "read-only"}}, "discovery": {"observed_at": "2026-10-19T09:00:00Z", "fingerprint": "sha256:test"}}
+        self.save_profile()
+        self.records = {key: {"id": key, "name": "Human title", "markdown_description": "Human introduction.", "status": {"id": "ready"}, "tags": [{"name": "human"}], "url": f"https://app.clickup.com/t/{key}", "date_updated": "r1", "list": {"id": "list1"}} for key in ("remote1", "remote2")}
+        self.writes = []; self.drop_response = False; self.ignore_write = False; self.fail_remote = None
+
+    def save_profile(self):
+        okf_tasks.write_document(self.bundle / "trackers/clickup-main.md", self.profile, "# Delivery tracker\n")
+
+    def call(self, *tokens, requester=None):
+        args = okf_tasks.build_parser().parse_args([*tokens, "--root", str(self.root)])
+        if requester is not None: args.requester = requester
+        with mock.patch.dict(os.environ, {"CLICKUP_API_TOKEN": "test-runtime-value"}), contextlib.redirect_stdout(io.StringIO()):
+            return args.func(args)
+
+    def request(self, url, headers, payload=None, method="GET"):
+        remote_id = url.split("/task/")[-1].split("?")[0]
+        if remote_id == self.fail_remote: raise SystemExit("Provider request refused.")
+        record = self.records[remote_id]
+        if payload is not None:
+            self.writes.append((remote_id, payload.copy()))
+            if not self.ignore_write:
+                record["markdown_description"] = payload["markdown_content"]; record["date_updated"] = "r" + str(len(self.writes) + 1)
+            if self.drop_response:
+                self.drop_response = False; raise SystemExit("Request outcome unknown.")
+        return json.loads(json.dumps(record))
+
+    def link(self, task="alpha", remote_id="remote1", relationship="contribution"):
+        return self.call("link-external", "--task", task, "--id", remote_id, "--key", remote_id, "--url", f"https://app.clickup.com/t/{remote_id}", "--relationship", relationship)
+
+    def sync(self, task="alpha", direction="push", *extra):
+        return self.call("tracker", "sync", "--task", task, "--direction", direction, *extra, requester=self.request)
+
+    def document(self, task="alpha"):
+        return okf_tasks.read_document(self.bundle / task / "task.md")
+
+    def test_summary_preserves_independent_work_and_foreign_fields(self):
+        self.link(); self.link("beta"); before = {task: self.document(task) for task in ("alpha", "beta")}
+        self.assertEqual([], okf_tasks.validate_bundle(self.bundle)); self.sync()
+        record = self.records["remote1"]
+        self.assertIn("alpha: Alpha", record["markdown_description"]); self.assertIn("beta: Beta", record["markdown_description"])
+        self.assertTrue(record["markdown_description"].startswith("Human introduction."))
+        self.assertEqual("Human title", record["name"]); self.assertEqual({"id": "ready"}, record["status"])
+        self.assertEqual([{"name": "human"}], record["tags"]); self.assertEqual({"markdown_content"}, set(self.writes[0][1]))
+        for task in before:
+            metadata, body = self.document(task); self.assertEqual(before[task][1], body)
+            for key in ("title", "status", "description"): self.assertEqual(before[task][0][key], metadata[key])
+        self.sync(); self.assertEqual(1, len(self.writes))
+
+    def test_ambiguous_selection_and_explicit_bulk(self):
+        self.link(); self.link(remote_id="remote2")
+        with self.assertRaisesRegex(SystemExit, "Ambiguous"): self.sync()
+        self.assertEqual([], self.writes); self.sync("alpha", "push", "--remote-id", "remote2")
+        self.assertEqual(["remote2"], [key for key, _ in self.writes]); self.sync("alpha", "push", "--all-bindings")
+        self.assertEqual({"remote1", "remote2"}, {key for key, _ in self.writes})
+
+    def test_duplicate_edge_and_competing_mirror_refused(self):
+        self.link()
+        with self.assertRaisesRegex(SystemExit, "already exists"): self.link()
+        with self.assertRaisesRegex(SystemExit, "Competing"): self.link("beta", relationship="mirror")
+        self.assertNotIn("external", self.document("beta")[0])
+
+    def test_pull_observes_without_replacing_execution_fields(self):
+        self.link(); before = self.document(); self.records["remote1"]["status"] = {"id": "done"}
+        self.sync(direction="pull"); after = self.document()
+        self.assertEqual(before[1], after[1]); self.assertEqual(before[0]["status"], after[0]["status"])
+        self.assertIn("last_observed", after[0]["external"][0]["sync"]); self.assertEqual([], self.writes)
+
+    def test_foreign_edits_survive_and_managed_edits_conflict(self):
+        self.link(); self.sync(); self.records["remote1"]["markdown_description"] = "Human note.\n" + self.records["remote1"]["markdown_description"]
+        self.records["remote1"]["date_updated"] = "foreign-revision"; self.sync()
+        self.assertTrue(self.records["remote1"]["markdown_description"].startswith("Human note."))
+        self.records["remote1"]["markdown_description"] = self.records["remote1"]["markdown_description"].replace("alpha: Alpha", "alpha: Edited")
+        with self.assertRaisesRegex(SystemExit, "section changed"): self.sync("alpha", "push", "--force")
+
+    def test_uncertain_retry_is_idempotent(self):
+        self.link(); self.drop_response = True
+        with self.assertRaisesRegex(SystemExit, "unknown"): self.sync()
+        self.assertNotIn("last_synced", self.document()[0]["external"][0]["sync"]); self.sync()
+        self.assertEqual(1, len(self.writes)); self.assertEqual(1, self.records["remote1"]["markdown_description"].count("## Repository task progress"))
+
+    def test_failed_readback_does_not_advance_base(self):
+        self.link(); self.ignore_write = True
+        with self.assertRaisesRegex(SystemExit, "read-back"): self.sync()
+        state = json.loads(next((self.bundle / ".tracker-sync").glob("*.json")).read_text())
+        self.assertNotIn("section_hash", state); self.assertNotIn("last_synced", self.document()[0]["external"][0]["sync"])
+
+    def test_bulk_partial_failure(self):
+        self.link(); self.link(remote_id="remote2"); self.fail_remote = "remote2"
+        self.assertEqual(1, self.sync("alpha", "push", "--all-bindings")); bindings = self.document()[0]["external"]
+        self.assertIn("last_synced", bindings[0]["sync"]); self.assertNotIn("last_synced", bindings[1]["sync"])
+
+    def test_identity_scope_and_lock_refusals(self):
+        self.link(); self.records["remote1"]["list"] = {"id": "elsewhere"}
+        with self.assertRaisesRegex(SystemExit, "moved"): self.sync()
+        self.records["remote1"]["id"] = "another-id"
+        with self.assertRaisesRegex(SystemExit, "identity differs"): self.sync()
+        lock = self.bundle / ".tracker.lock"; lock.write_text("foreign-owner")
+        with self.assertRaisesRegex(SystemExit, "already locked"): self.sync()
+        self.assertEqual("foreign-owner", lock.read_text()); self.assertEqual([], self.writes)
+
+    def test_policy_guards_cannot_be_forced(self):
+        self.link(); self.profile["sync"]["mode"] = "pull"; self.save_profile()
+        with self.assertRaisesRegex(SystemExit, "sync.mode"): self.sync("alpha", "push", "--force")
+        self.profile["sync"] = {"mode": "bidirectional", "authority": "tracker"}; self.save_profile()
+        with self.assertRaisesRegex(SystemExit, "repository authority"): self.sync()
+        self.profile["sync"]["authority"] = "repository"; self.save_profile()
+        self.call("unlink-external", "--task", "alpha", "--relationship", "reference")
+        with self.assertRaisesRegex(SystemExit, "observation-only"): self.sync()
+        self.sync(direction="pull"); self.assertEqual([], self.writes)
+
+    def test_unlink_preserves_unknown_fields_and_recomputes_membership(self):
+        self.link(); self.link("beta"); self.sync(); metadata, body = self.document(); metadata["extension"] = {"preserved": True}
+        okf_tasks.write_document(self.bundle / "alpha/task.md", metadata, body); self.call("unlink-external", "--task", "alpha"); self.sync("beta")
+        self.assertNotIn("alpha: Alpha", self.records["remote1"]["markdown_description"]); self.assertIn("beta: Beta", self.records["remote1"]["markdown_description"])
+        self.assertEqual({"preserved": True}, self.document()[0]["extension"])
+
+    def test_foreign_markers_and_secret_metadata_refused(self):
+        self.link(); self.records["remote1"]["markdown_description"] += "<!-- OKF Tasks contributions:foreign:start -->"
+        with self.assertRaisesRegex(SystemExit, "Foreign or malformed"): self.sync()
+        self.records["remote1"]["markdown_description"] = "Human introduction."; metadata, body = self.document(); metadata["title"] = "token=ghp_" + "A" * 36
+        okf_tasks.write_document(self.bundle / "alpha/task.md", metadata, body)
+        with self.assertRaisesRegex(SystemExit, "egress inspection"): self.sync()
+        self.assertEqual([], self.writes)
+
+    def test_repeated_import_requires_explicit_contribution(self):
+        self.link()
+        with self.assertRaisesRegex(SystemExit, "already has a writer"):
+            self.call("tracker", "import", "--remote-key", "remote1", "--slug", "gamma", requester=self.request)
+        self.assertFalse((self.bundle / "gamma").exists())
+        self.call("tracker", "import", "--remote-key", "remote1", "--slug", "gamma", "--relationship", "contribution", requester=self.request)
+        self.assertEqual("contribution", self.document("gamma")[0]["external"][0]["relationship"])
+        self.assertEqual("proposed", self.document("gamma")[0]["status"])
+
+    def test_contribution_transport_sends_only_description_for_each_provider(self):
+        for system, host in (("github", "https://github.com"), ("gitlab", "https://gitlab.com"), ("linear", "https://api.linear.app")):
+            with self.subTest(system=system):
+                self.profile.update(system=system, host=host, resource="issue")
+                self.save_profile()
+                metadata, body = self.document(); metadata.pop("external", None)
+                okf_tasks.write_document(self.bundle / "alpha/task.md", metadata, body)
+                self.link()
+                remote = {"id": "remote1", "key": "remote1", "url": "https://example.com/issue", "title": "Human", "description": "Human description", "status": "ready", "tags": [], "revision": "r1", "scope_id": "list1"}
+                calls = []
+                def get_record(*_args): return dict(remote)
+                def request(url, headers, payload=None, method="GET"):
+                    if payload is None: return {"id": "list1"}
+                    calls.append(payload)
+                    if system == "linear":
+                        self.assertEqual({"description"}, set(payload["variables"]["input"]))
+                        remote["description"] = payload["variables"]["input"]["description"]
+                    else:
+                        field = "body" if system == "github" else "description"
+                        self.assertEqual({field}, set(payload)); remote["description"] = payload[field]
+                    remote["revision"] = "r2"
+                with mock.patch.object(okf_tasks, "get_remote_record", side_effect=get_record), mock.patch.dict(os.environ, {"GITHUB_TOKEN": "runtime", "GITLAB_TOKEN": "runtime", "LINEAR_API_KEY": "runtime"}):
+                    self.call("tracker", "sync", "--task", "alpha", "--direction", "push", requester=request)
+                self.assertEqual(1, len(calls))
+
+    def test_mirror_pull_needs_a_designated_source(self):
+        self.link(relationship="mirror"); self.link(remote_id="remote2", relationship="mirror")
+        with self.assertRaisesRegex(SystemExit, "designate exactly one"):
+            self.sync("alpha", "pull", "--remote-id", "remote1")
+        metadata, body = self.document(); metadata["external"][0]["sync"]["pull_source"] = True
+        metadata["external"][0]["sync"]["base"]["producer_extension"] = "preserved"
+        okf_tasks.write_document(self.bundle / "alpha/task.md", metadata, body)
+        self.sync("alpha", "pull", "--remote-id", "remote1")
+        self.assertEqual("Human title", self.document()[0]["title"])
+        self.assertEqual("preserved", self.document()[0]["external"][0]["sync"]["base"]["producer_extension"])
+
+    def test_corrupt_state_and_prewrite_changes_fail_closed(self):
+        self.link(); self.sync(); state = next((self.bundle / ".tracker-sync").glob("*.json")); state.write_text("invalid json")
+        with self.assertRaisesRegex(SystemExit, "Invalid shared tracker state"): self.sync()
+        self.assertEqual(1, len(self.writes))
+
+    def test_local_edits_during_remote_read_are_preserved(self):
+        self.link(); original = self.request; reads = []
+        def edit_during_read(*args, **kwargs):
+            reads.append(True)
+            if len(reads) == 2:
+                metadata, body = self.document(); metadata["title"] = "A newer local title"
+                okf_tasks.write_document(self.bundle / "alpha/task.md", metadata, body)
+            return original(*args, **kwargs)
+        with self.assertRaisesRegex(SystemExit, "Contributors changed"):
+            self.call("tracker", "sync", "--task", "alpha", "--direction", "push", requester=edit_during_read)
+        self.assertEqual("A newer local title", self.document()[0]["title"]); self.assertEqual([], self.writes)
 
 
 if __name__ == "__main__":

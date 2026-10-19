@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/polaralias/okf-tasks/v0.1.1/schemas/task.schema.json",
-  "title": "OKF Tasks v0.1 Task frontmatter",
+  "$id": "https://raw.githubusercontent.com/polaralias/okf-tasks/v0.2.0/schemas/task.schema.json",
+  "title": "OKF Tasks v0.2 Task frontmatter",
   "description": "All string values, including nested extension values, are plaintext metadata. Bare URLs and repository references are allowed; Markdown and HTML presentation markup are forbidden and enforced by the profile validators.",
   "type": "object",
   "required": ["type", "task", "title", "description", "status", "created", "timestamp"],
@@ -84,6 +84,7 @@
         "type": "object",
         "required": ["tracker", "system", "host", "kind", "scope", "id", "key", "url", "sync"],
         "properties": {
+          "relationship": { "enum": ["reference", "mirror", "contribution"], "default": "mirror" },
           "tracker": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
           "system": { "enum": ["github", "gitlab", "linear", "clickup"] },
           "host": { "type": "string", "format": "uri" },
@@ -99,6 +100,8 @@
           "sync": {
             "type": "object",
             "properties": {
+              "pull_source": { "type": "boolean" },
+              "last_observed": { "type": "string", "format": "date-time" },
               "last_synced": { "type": "string", "format": "date-time" },
               "remote_revision": { "type": ["string", "integer"] },
               "base": { "type": "object", "additionalProperties": true }
