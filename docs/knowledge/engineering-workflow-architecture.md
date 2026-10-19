@@ -2,10 +2,10 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Separates complete Engineering Workflow methods from optional RKE runtime support and independent OKF Tasks execution records.
-timestamp: 2026-10-19T14:57:57+00:00
+timestamp: 2026-10-19T16:16:18+00:00
 authority: canonical
 verification: verified-limited
-reviewed_at: 2026-10-19T14:57:57+00:00
+reviewed_at: 2026-10-19T16:16:18+00:00
 owner: polaralias
 tags:
   - engineering-workflow
@@ -21,6 +21,8 @@ navigation:
 [Engineering Workflow](../../skills/engineering/engineering-workflow/SKILL.md) supplies complete engineering methods. The separate [RKE skill](../../skills/engineering/rke/SKILL.md) supplies optional guidance for the installed repository runtime. The packages have independent versions and discovery metadata; neither installation rewrites the other. Their source packages currently share the RKE repository, with separate catalogue provenance manifests. Shared source storage is not a runtime dependency or a second orchestration layer.
 
 Install either skill from the [Polaralias catalogue](../../README.md#install-with-the-skills-cli) using `npx skills add polaralias/skills --skill engineering-workflow` or `--skill rke`; the same convention works against [polaralias/rke](https://github.com/polaralias/rke). The runtime is a separate Node package installed with `npm install --global @polaralias/rke`. RKE contributors use the canonical skill sources already in their checkout through its `AGENTS.md` and importing `CLAUDE.md`; catalogue copies remain synchronized mirrors pinned by `RKE_SOURCE.json`.
+
+The RKE adapter skill uses Apache-2.0, matching its runtime. EWF remains separately proprietary. Each package's `license.txt` and frontmatter declare its own terms; the catalogue's existing licence is unchanged.
 
 This is a source-reviewed ownership contract. It does not establish executed model quality, live host discovery or release qualification.
 
