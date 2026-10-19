@@ -46,6 +46,7 @@ SKILL_ACRONYMS = {
     "repo-dissection": "RDS",
     "repo-change-comprehension": "RCC",
     "repo-knowledge-engineering": "RKE",
+    "rke": "RKE",
     "repo-publish-finaliser": "RPF",
     "repo-session-alignment": "RSA",
     "repo-setup": "RST",
@@ -124,14 +125,19 @@ def build_routing_families(entries: list[tuple[str, str, str, int]]) -> str:
     for family, family_entries in families.items():
         if family == "engineering":
             routing_text = (
-                "For material repository engineering work, invoke `engineering-workflow` "
-                "as the normal skill entry point before taking task actions and run the installed "
-                "RKE runtime's idempotent `activate` command before broad inspection or mutation. EWF owns lifecycle "
-                "phase, conditional capabilities, durable gates, checkpointing, and closure. "
-                "RKE remains the independent repository-knowledge methodology and executable runtime; "
+                "For material repository engineering work and read-only explanations of repository "
+                "code, implementation behaviour, or diffs, invoke `engineering-workflow` as the normal "
+                "skill entry point before taking task actions. Select its relevant method reference; "
+                "code explanations use comprehension without creating workflow state. "
+                "Simple document wording questions remain outside EWF. EWF owns engineering "
+                "methodology and works without RKE. Use the separate `rke` skill when installed runtime "
+                "retrieval, validation, knowledge freshness or optional continuity support is relevant. "
+                "The adapter supports the selected method and does not create another lifecycle. "
                 "OKF Tasks remains the independent execution-record primitive. "
-                "Resolve legacy engineering names through EWF compatibility routing rather "
-                "than invoking those packages as orchestration peers. Repository bootstrap "
+                "The active `repo-task-lifecycle` package supplies its current task execution "
+                "capability when selected. Current EWF methods are addressed by outcome. "
+                "Historical package crosswalks remain source-side audit material outside EWF, "
+                "without adding aliases or orchestration peers to the installed methodology. Repository bootstrap "
                 "remains a separate pre-workflow capability. In the source "
                 "repository, `README.md` and `INDEX.md` provide the canonical family and "
                 "frontmatter paths."
@@ -152,13 +158,8 @@ def build_routing_families(entries: list[tuple[str, str, str, int]]) -> str:
                 "",
                 (
                     "Primary skill: `engineering-workflow` (EWF). Separate pre-workflow "
-                    "package: "
-                    + ", ".join(
-                        f"`{name}` ({acronym})"
-                        for name, _path, acronym in family_entries
-                        if name != "engineering-workflow"
-                    )
-                    + "."
+                    "package: `repo-setup` (RST). Task execution capability: "
+                    "`repo-task-lifecycle` (RTL), used under EWF. Optional runtime adapter: `rke` (RKE)."
                     if family == "engineering"
                     else "Current skills: "
                     + ", ".join(
