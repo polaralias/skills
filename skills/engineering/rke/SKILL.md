@@ -1,10 +1,10 @@
 ---
 name: rke
 description: Use when the user asks to install, configure, qualify, troubleshoot, or use the RKE repository runtime, or when an engineering method needs available RKE retrieval, structure, knowledge-validation, or continuity support. General engineering reasoning belongs to Engineering Workflow and does not require RKE. Runtime adapter; legacy Repository Knowledge Engineering requests belong to EWF. Shorthand RKE.
-license: Proprietary. license.txt has complete terms
+license: Apache-2.0. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 1.2.1
+  version: 1.2.2
   updated: '2026-10-19'
 ---
 
