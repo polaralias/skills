@@ -1,0 +1,307 @@
+{
+  "profile": "https://github.com/polaralias/okf-tasks/blob/v0.1.1/SPEC.md",
+  "cases": [
+    {
+      "id": "valid-minimal",
+      "path": "valid/minimal/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-full-task",
+      "path": "generated/valid/full-task/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-workstream",
+      "path": "generated/valid/workstream/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-broken-relationships",
+      "path": "generated/valid/broken-relationships-warning/tasks",
+      "valid": true,
+      "warning": "unresolved parent target"
+    },
+    {
+      "id": "valid-unedited-skeleton",
+      "path": "generated/valid/unedited-skeleton-warning/tasks",
+      "valid": true,
+      "warning": "unedited task skeleton"
+    },
+    {
+      "id": "valid-unknown-concept",
+      "path": "generated/valid/unknown-concept/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-excluded-volatile-concepts",
+      "path": "generated/valid/excluded-volatile-concepts/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-reopened-history",
+      "path": "generated/valid/reopened-history/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-time-methods",
+      "path": "generated/valid/time-methods/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-unique-external-mappings",
+      "path": "generated/valid/unique-external-mappings/tasks",
+      "valid": true
+    },
+    {
+      "id": "valid-docs-placement",
+      "path": "generated/valid/docs-placement/docs/tasks",
+      "valid": true
+    },
+    {
+      "id": "invalid-missing-type",
+      "path": "invalid/missing-type/tasks",
+      "valid": false,
+      "error": "requires a non-empty type"
+    },
+    {
+      "id": "invalid-bad-time-rollup",
+      "path": "invalid/bad-time-rollup/tasks",
+      "valid": false,
+      "error": "closed time-entry sum"
+    },
+    {
+      "id": "invalid-missing-task-field",
+      "path": "generated/invalid/missing-task-field/tasks",
+      "valid": false,
+      "error": "missing required fields"
+    },
+    {
+      "id": "invalid-task-slug",
+      "path": "generated/invalid/invalid-task-slug/tasks",
+      "valid": false,
+      "error": "task slug must match"
+    },
+    {
+      "id": "invalid-task-status",
+      "path": "generated/invalid/unknown-task-status/tasks",
+      "valid": false,
+      "error": "unknown status"
+    },
+    {
+      "id": "invalid-task-timestamp",
+      "path": "generated/invalid/invalid-task-timestamp/tasks",
+      "valid": false,
+      "error": "timestamp must be an RFC 3339"
+    },
+    {
+      "id": "invalid-task-heading",
+      "path": "generated/invalid/missing-task-heading/tasks",
+      "valid": false,
+      "error": "missing required heading"
+    },
+    {
+      "id": "invalid-estimate",
+      "path": "generated/invalid/invalid-estimate/tasks",
+      "valid": false,
+      "error": "estimate.effort_minutes"
+    },
+    {
+      "id": "invalid-points",
+      "path": "generated/invalid/invalid-points/tasks",
+      "valid": false,
+      "error": "sprint_points.value"
+    },
+    {
+      "id": "invalid-task-level-sync",
+      "path": "generated/invalid/invalid-task-level-sync/tasks",
+      "valid": false,
+      "error": "task-level sync is not permitted"
+    },
+    {
+      "id": "invalid-completion-history",
+      "path": "generated/invalid/invalid-completion-history/tasks",
+      "valid": false,
+      "error": "completion_history[0]"
+    },
+    {
+      "id": "invalid-portable-field",
+      "path": "generated/invalid/invalid-portable-field/tasks",
+      "valid": false,
+      "error": "fields.risk.value is incompatible"
+    },
+    {
+      "id": "invalid-navigation-role",
+      "path": "generated/invalid/invalid-navigation-role/tasks",
+      "valid": false,
+      "error": "navigation.role must be"
+    },
+    {
+      "id": "invalid-frontmatter-formatting",
+      "path": "generated/invalid/invalid-frontmatter-formatting/tasks",
+      "valid": false,
+      "error": "frontmatter string values must be plaintext"
+    },
+    {
+      "id": "invalid-workstream-parent",
+      "path": "generated/invalid/workstream-parent-mismatch/tasks",
+      "valid": false,
+      "error": "parent task mismatch"
+    },
+    {
+      "id": "invalid-workstream-created",
+      "path": "generated/invalid/workstream-missing-created/tasks",
+      "valid": false,
+      "error": "missing required fields: created"
+    },
+    {
+      "id": "invalid-done-active-workstream",
+      "path": "generated/invalid/done-active-workstream/tasks",
+      "valid": false,
+      "error": "done task has active workstreams"
+    },
+    {
+      "id": "invalid-duplicate-branch",
+      "path": "generated/invalid/duplicate-active-branch/tasks",
+      "valid": false,
+      "error": "active branch also used"
+    },
+    {
+      "id": "invalid-running-closed-fields",
+      "path": "generated/invalid/running-with-closed-fields/tasks",
+      "valid": false,
+      "error": "running entry must not contain"
+    },
+    {
+      "id": "invalid-closed-missing-effort",
+      "path": "generated/invalid/closed-missing-effort/tasks",
+      "valid": false,
+      "error": "closed entry requires effort_minutes"
+    },
+    {
+      "id": "invalid-time-method",
+      "path": "generated/invalid/unknown-time-method/tasks",
+      "valid": false,
+      "error": "unknown time method"
+    },
+    {
+      "id": "invalid-time-activity",
+      "path": "generated/invalid/unknown-time-activity/tasks",
+      "valid": false,
+      "error": "unknown time activity"
+    },
+    {
+      "id": "invalid-missing-time-activity",
+      "path": "generated/invalid/missing-time-activity/tasks",
+      "valid": false,
+      "error": "missing required fields: activity"
+    },
+    {
+      "id": "invalid-done-running-time",
+      "path": "generated/invalid/done-running-time/tasks",
+      "valid": false,
+      "error": "done task has running time entries"
+    },
+    {
+      "id": "invalid-duplicate-running",
+      "path": "generated/invalid/duplicate-running-combination/tasks",
+      "valid": false,
+      "error": "duplicate running actor/workstream"
+    },
+    {
+      "id": "invalid-external-fields",
+      "path": "generated/invalid/external-missing-fields/tasks",
+      "valid": false,
+      "error": "requires tracker, system, host, kind, scope, id, key, url, and sync"
+    },
+    {
+      "id": "invalid-external-duplicate",
+      "path": "generated/invalid/duplicate-external-mapping/tasks",
+      "valid": false,
+      "error": "external mapping github|https://github.com|issue|I_issue_1 also used"
+    },
+    {
+      "id": "invalid-missing-tracker-profile",
+      "path": "generated/invalid/missing-tracker-profile/tasks",
+      "valid": false,
+      "error": "external tracker profile"
+    },
+    {
+      "id": "invalid-incomplete-status-map",
+      "path": "generated/invalid/incomplete-status-map/tasks",
+      "valid": false,
+      "error": "status_map requires validation"
+    },
+    {
+      "id": "invalid-lossy-tracker-authority",
+      "path": "generated/invalid/lossy-tracker-authority/tasks",
+      "valid": false,
+      "error": "must be round-trippable"
+    },
+    {
+      "id": "invalid-multiple-default-trackers",
+      "path": "generated/invalid/multiple-default-trackers/tasks",
+      "valid": false,
+      "error": "only one default Tracker Profile"
+    },
+    {
+      "id": "invalid-stale-index",
+      "path": "generated/invalid/stale-index/tasks",
+      "valid": false,
+      "error": "generated index is stale"
+    },
+    {
+      "id": "invalid-missing-index",
+      "path": "generated/invalid/missing-index/tasks",
+      "valid": false,
+      "error": "generated index is missing"
+    },
+    {
+      "id": "invalid-malformed-yaml",
+      "path": "generated/invalid/malformed-yaml/tasks",
+      "valid": false,
+      "error": "Invalid YAML frontmatter"
+    },
+    {
+      "id": "invalid-missing-frontmatter",
+      "path": "generated/invalid/missing-frontmatter/tasks",
+      "valid": false,
+      "error": "Missing YAML frontmatter"
+    },
+    {
+      "id": "invalid-disconnected-durable-links",
+      "path": "generated/invalid/disconnected-durable-links/tasks",
+      "valid": false,
+      "error": "durable link graph contains orphan concept"
+    },
+    {
+      "id": "valid-vendored-snapshot",
+      "path": "generated/valid/vendored-snapshot/tasks",
+      "valid": true
+    },
+    {
+      "id": "changed-vendored-snapshot",
+      "path": "generated/invalid/changed-vendored-snapshot/tasks",
+      "valid": false,
+      "error": "durable link graph contains orphan concept"
+    },
+    {
+      "id": "unlisted-vendored-concept",
+      "path": "generated/invalid/unlisted-vendored-concept/tasks",
+      "valid": false,
+      "error": "durable link graph contains orphan concept"
+    },
+    {
+      "id": "escaping-vendor-manifest",
+      "path": "generated/invalid/escaping-vendor-manifest/tasks",
+      "valid": false,
+      "error": "durable link graph contains orphan concept"
+    },
+    {
+      "id": "active-task-vendor-manifest",
+      "path": "generated/invalid/active-task-vendor-manifest/tasks",
+      "valid": false,
+      "error": "durable link graph contains orphan concept"
+    }
+  ]
+}

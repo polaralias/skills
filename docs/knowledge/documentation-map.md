@@ -2,7 +2,7 @@
 type: Repository Knowledge Map
 title: "skills documentation map"
 description: "Indexes the RKE-governed knowledge concepts and execution truth for the skills repository."
-timestamp: 2026-09-18T00:00:00+01:00
+timestamp: 2026-10-16T07:09:39+01:00
 authority: canonical
 verification: untested
 owner: polaralias
@@ -21,7 +21,7 @@ This map records the repository's typed durable knowledge surfaces and their bou
 ## Entry point
 
 - [Repository README](../../README.md)
-- [Engineering workflow architecture](engineering-workflow-architecture.md) — Unified lifecycle, event-driven documentation, repository context, canonical knowledge, OKF Tasks, host integration, hooks, and MCP boundaries.
+- [Engineering workflow architecture](engineering-workflow-architecture.md) — Independent EWF methods, optional RKE adapter, canonical knowledge and OKF Tasks ownership boundaries.
 - [Complete Markdown inventory](documentation-inventory.md) — Exhaustive OKF and specialised-schema classification for every repository Markdown file.
 - [Legacy engineering skill archive](../../archive/README.md) — Boundary and provenance for absorbed packages preserved outside active discovery.
 

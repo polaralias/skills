@@ -1,5 +1,0 @@
-# Parallel Delivery Extension
-
-Use only when isolated parallel, integration-branch, or stacked Git delivery is justified. Store one manifest outside removable worktree containers and run `rke coordination validate --manifest <path>` before allocation. The validator enforces repository/container boundaries, unique branches and worktrees, explicit single-writer paths, shared-path integration owners, dependency order, inherited authority, validation classes, and a linear stack contract. `coordination plan` returns argv arrays only; it never creates worktrees or grants push, merge, deploy, or publication authority.
-
-Reconcile current Git and provider state before relying on recorded evidence. Targeted worker success never replaces integrated-tree validation. Merge, publication, deployment, and cleanup remain separate. Cleanup requires a clean worktree, exact current source tip, durable integration evidence, absent remote branch, and preservation of dirty, advanced, rewritten, or unintegrated work. A cascading rebase invalidates affected upper-layer receipts.

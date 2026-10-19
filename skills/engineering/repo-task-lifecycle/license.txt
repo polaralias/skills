@@ -1,0 +1,8 @@
+Copyright (c) James Whelan / polaralias.
+
+All rights reserved for the independently authored integration guidance, agent
+metadata and legacy compatibility entry point. Producer resources retain their
+Apache-2.0 license, and the pinned Mermaid runtime retains its MIT license.
+See NOTICE.md for file scopes and licenses/okf-tasks-Apache-2.0.txt for full terms.
+
+Source repository: https://github.com/polaralias/skills

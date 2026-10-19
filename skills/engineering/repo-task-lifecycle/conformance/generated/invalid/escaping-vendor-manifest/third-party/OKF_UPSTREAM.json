@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "producer": "OKF Tasks",
+  "source_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "resources": {
+    "../third-party/example.md": {
+      "package_sha256": "2124d02e689de1a9e1c88560f01bd3e72bc6cb514ad044f7ba2c42dc24c86e93"
+    }
+  }
+}

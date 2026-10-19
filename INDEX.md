@@ -32,6 +32,8 @@ For each skill, the line count tells you how many lines to read from `SKILL.md` 
 - `skills/documentation/process-document-writer/SKILL.md` (PDW): read first `9` lines
 - `skills/engineering/engineering-workflow/SKILL.md` (EWF): read first `9` lines
 - `skills/engineering/repo-setup/SKILL.md` (RST): read first `9` lines
+- `skills/engineering/repo-task-lifecycle/SKILL.md` (RTL): read first `9` lines
+- `skills/engineering/rke/SKILL.md` (RKE): read first `9` lines
 - `skills/media/elevenlabs-ai-voice-gen/SKILL.md` (EAV): read first `9` lines
 - `skills/media/remotion-explainer-video-production/SKILL.md` (REV): read first `9` lines
 - `skills/meta/llm-instruction-fixer/SKILL.md` (LIF): read first `9` lines
