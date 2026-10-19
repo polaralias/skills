@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/polaralias/okf-tasks/v0.1.1/schemas/tracker-profile.schema.json",
+  "title": "OKF Tasks v0.1 Tracker Profile frontmatter",
+  "description": "All string values, including nested extension values, are plaintext metadata. Bare URLs and repository references are allowed; Markdown and HTML presentation markup are forbidden and enforced by the profile validators.",
+  "type": "object",
+  "required": ["type", "tracker", "system", "host", "resource", "scope", "sync", "status_map", "field_map", "discovery"],
+  "properties": {
+    "type": { "const": "Tracker Profile" },
+    "tracker": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "default": { "type": "boolean" },
+    "system": { "enum": ["github", "gitlab", "linear", "clickup"] },
+    "host": { "type": "string", "format": "uri" },
+    "resource": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "object", "required": ["kind", "id", "key"],
+      "properties": {
+        "kind": { "type": "string", "minLength": 1 },
+        "id": { "type": ["string", "integer"] },
+        "key": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" }
+      }, "additionalProperties": true
+    },
+    "sync": {
+      "type": "object", "required": ["mode", "authority"],
+      "properties": {
+        "mode": { "enum": ["push", "pull", "bidirectional", "manual"] },
+        "authority": { "enum": ["repository", "tracker", "manual"] }
+      }, "additionalProperties": true
+    },
+    "status_map": {
+      "type": "object",
+      "required": ["proposed", "ready", "in-progress", "blocked", "validation", "done", "superseded", "deferred"],
+      "additionalProperties": { "type": ["string", "integer"] }
+    },
+    "field_map": { "type": "object", "additionalProperties": { "type": "object", "additionalProperties": true } },
+    "discovery": {
+      "type": "object", "required": ["observed_at", "fingerprint"],
+      "properties": { "observed_at": { "type": "string", "format": "date-time" }, "fingerprint": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

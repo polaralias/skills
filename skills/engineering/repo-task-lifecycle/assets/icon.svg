@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0b172b"/>
+  <rect x="9.5" y="9.5" width="109" height="109" rx="22.5" stroke="#777e8c" stroke-opacity="0.42" stroke-width="3"/>
+  <circle cx="93" cy="35" r="10" fill="#e40117" fill-opacity="0.22"/>
+  <path d="M26 112L44 112L35 97L26 112Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M43 112L65 112L54 93L43 112Z" fill="#e40117" fill-opacity="0.32"/>
+  <path d="M63 112L85 112L74 94L63 112Z" fill="#d6d7dc" fill-opacity="0.22"/>
+  <path d="M82 112L100 112L91 97L82 112Z" fill="#3f4956" fill-opacity="0.34"/>
+  <path d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M10 17L6.5 13.5 7.91 12.09 10 14.17 16.09 8.09 17.5 9.5 10 17Z" fill="#333d4b" transform="translate(34 34) scale(2.5)"/>
+  <path d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M10 17L6.5 13.5 7.91 12.09 10 14.17 16.09 8.09 17.5 9.5 10 17Z" fill="#fdfdfd" transform="translate(32 32) scale(2.5)"/>
+</svg>

@@ -1,0 +1,94 @@
+{
+  "profile": "https://github.com/polaralias/okf-tasks/blob/v0.1.0/SPEC.md#11-visualization",
+  "cases": [
+    {
+      "id": "scalable-mermaid-report",
+      "source": "examples",
+      "requires": [
+        "connected-area-overview",
+        "connected-components",
+        "key-concept-neighbourhoods",
+        "isolates-listed"
+      ]
+    },
+    {
+      "id": "dynamic-small-graph-framing",
+      "source": "examples/visualization/tasks",
+      "requires": [
+        "node-count-layout-bounds",
+        "minimum-desktop-zoom"
+      ]
+    },
+    {
+      "id": "paired-derived-output",
+      "source": "examples/visualization/tasks",
+      "requires": [
+        "interactive-html",
+        "sibling-mermaid-report",
+        "freshness-check"
+      ]
+    },
+    {
+      "id": "prominence-and-type-filtering",
+      "source": "examples/combined-delivery-architecture",
+      "requires": [
+        "clickable-type-key",
+        "reading-role-filter",
+        "decision-node-class",
+        "context-preserving-highlight"
+      ]
+    },
+    {
+      "id": "explicit-view-exclusions",
+      "source": "examples",
+      "requires": [
+        "bundle-relative-globs",
+        "recursive-directory-patterns",
+        "zero-depth-double-star",
+        "reader-and-graph-consistency",
+        "embedded-exclusion-provenance",
+        "unsafe-path-rejection"
+      ]
+    },
+    {
+      "id": "typed-readme-knowledge",
+      "source": "examples",
+      "requires": [
+        "readme-frontmatter",
+        "entry-point-navigation",
+        "resolved-knowledge-links"
+      ]
+    },
+    {
+      "id": "offline-semantic-graph",
+      "source": "examples/combined-delivery-architecture",
+      "requires": [
+        "embedded-pinned-runtimes",
+        "zero-runtime-network-requests",
+        "semantic-overview-labels",
+        "bounded-isolate-shelf",
+        "close-focus-framing",
+        "non-overlapping-circular-focus"
+      ]
+    },
+    {
+      "id": "reader-workspace-navigation",
+      "source": "examples/combined-delivery-architecture",
+      "requires": [
+        "included-document-bookmarks",
+        "browser-history",
+        "distinct-comparison-document",
+        "independent-reading-position",
+        "unknown-target-refusal",
+        "responsive-context-panels",
+        "read-only-derived-navigation",
+        "bounded-directional-link-reveal",
+        "visible-hidden-link-counts",
+        "document-direction-expansion-retention",
+        "reduced-motion-directional-scroll",
+        "shared-cross-view-primary-selection",
+        "reading-position-before-view-exit"
+      ]
+    }
+  ]
+}
