@@ -6,8 +6,3 @@ interface:
   default_prompt: "Use this skill to inspect a draft or imported skill, normalise its packaging, align its metadata and bundled resources, add proportionate tests, and validate the result before treating it as finished."
 policy:
   allow_implicit_invocation: true
-  products:
-  - chatgpt
-  - codex
-  - api
-  - atlas
