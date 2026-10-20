@@ -1,2 +1,2 @@
 # Reviewed producer resources are hashed as exact bytes on every host.
-skills/engineering/repo-task-lifecycle/** text eol=lf
+skills/engineering/repo-task-lifecycle/** -text

@@ -586,7 +586,7 @@ def write_or_check(path: Path, content: str, check: bool) -> None:
             raise SystemExit(f"Generated visualization is stale or missing: {path}")
         return
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(normalized, encoding="utf-8")
+    path.write_text(normalized, encoding="utf-8", newline="\n")
     clear_windows_download_zone(path)
 
 
