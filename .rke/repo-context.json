@@ -19,11 +19,12 @@
         "skills/engineering/engineering-workflow/license.txt",
         "skills/engineering/repo-task-lifecycle/SKILL.md",
         "skills/engineering/repo-task-lifecycle/references/task-record-contract.md",
-        "skills/engineering/repo-task-lifecycle/SPEC.md"
+        "skills/engineering/repo-task-lifecycle/SPEC.md",
+        "skills/engineering/rke/references/managed-workspaces.md"
       ],
       "verified": {
-        "verifiedAt": "2026-10-20T05:35:44.030Z",
-        "evidence": "Reviewed unchanged EWF/RKE ownership claims against their retained source identities and current AGENTS guidance. Updated RTL contribution ownership against packaged SKILL, integration contract, producer SPEC and the passed 94-test suite. VERSION 13.2.0 aggregates the reviewed license correction and RTL 6.4. No live provider, host or model-quality claim is added.",
+        "verifiedAt": "2026-10-20T08:30:28.737Z",
+        "evidence": "Incremental source review: EWF 6.3 keeps one explicit multi-repository aggregate owner; adapter 1.3 describes arbitrary owner placement and independent member/caller boundaries. Both source mirrors match RKE e4c658b byte-for-byte, and ZIP extraction/package checks pass. Unchanged methodology and RTL ownership claims retain the existing source-reviewed evidence; no model/host/effectiveness pass is asserted. VERSION 13.3 includes both skill additions and the tested ZIP release-owner classification correction.",
         "sourceIdentities": [
           {
             "path": "AGENTS.md",
@@ -35,7 +36,7 @@
           },
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "0711b10438fba2b863e8538d69bad59eb596ca2a97f142d9143b869437d67ef3"
+            "sha256": "0c105275ccb8e862370fc182fddd895e382a695ca3e10201dd3fdcbfa5e60563"
           },
           {
             "path": "README.md",
@@ -99,11 +100,11 @@
           },
           {
             "path": "skills/engineering/engineering-workflow/RKE_SOURCE.json",
-            "sha256": "b90159e05e5323e865b0e998068d10be9753fb3a4b2606a9210fd86929719a71"
+            "sha256": "00d2026846dc26f30f2e23523a836f8538d9578459d76c4e9b21c5a28658022e"
           },
           {
             "path": "skills/engineering/engineering-workflow/SKILL.md",
-            "sha256": "efb9f15618fa89ddaa82cf815224ce4e685ad4251b7703d1b80eb918a1a7b8fa"
+            "sha256": "d37158a2a472a175a2d07545c901d2b1db59218cff39c6edccbab151682e5bc8"
           },
           {
             "path": "skills/engineering/repo-task-lifecycle/references/task-record-contract.md",
@@ -130,20 +131,24 @@
             "sha256": "32cc418797b71c9a101f80bde997fa113052246e3343f14e32e694f872e4e79a"
           },
           {
+            "path": "skills/engineering/rke/references/managed-workspaces.md",
+            "sha256": "913634cf5c45ab05156ae04e66819c3a1ab3de6ca94bfd1f5dd72ee8f8987bb9"
+          },
+          {
             "path": "skills/engineering/rke/RKE_SOURCE.json",
-            "sha256": "b293976799115718e74b6d5b32706842ecb9ca2e1498d7a437aa24e2f011c716"
+            "sha256": "2ebc75dcac394ff3c449d75fa77d5d3bb4603d570f2866478f0e4bda056d0a6f"
           },
           {
             "path": "skills/engineering/rke/SKILL.md",
-            "sha256": "480d3751dd7a9bdc5a30c3ef7ec01cfbd6ddae0d7e25611e76fe1a177f279e70"
+            "sha256": "cc56c36113e666b2d3864a0e7087f4419e5e33ee195fcae710981cd690aa6b4e"
           },
           {
             "path": "VERSION",
-            "sha256": "7fb2cd66ee27bf44c8d218603abbd88ec20fa8ea30fd1a168d6610da11d5c82e"
+            "sha256": "bb6aade8c4ca40cae9cb1be8abe12377f651fccd82954af74ec61703b6608fc5"
           }
         ]
       }
     }
   ],
-  "revision": 54
+  "revision": 56
 }
