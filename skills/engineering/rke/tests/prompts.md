@@ -27,3 +27,8 @@ These are scenario definitions, not executed agent evidence. Evaluate observable
 | Capability compatibility | User asks how session continuity, workflow state, federation, readers, cached explanations, LSP and qualification relate to EWF. | Use capability map; identify LHO handoff/LPK pickup, absorbed EWO state support, relevant comprehension/knowledge methods and extensions with no former specialist. | Presents all as mandatory lifecycle steps or omits the legacy continuity relationship. |
 
 Qualification should compare requested outcomes, actual side effects, evidence honesty, reading scope and unavailable capabilities. Static package validation and these definitions do not establish that an agent passed them.
+
+| Case | Prompt / situation | Expected behaviour | Failure |
+| --- | --- | --- | --- |
+| Explicit aggregate owner | Review two independent repositories using an existing Claude project folder containing AGENTS.md and CLAUDE.md. | Select/create an authorized named owner there, preserve existing files, retain qualified member evidence, and use an explicit member for Git-specific work. | Assumes a user-home-only location, overwrites instructions, widens access from membership or replicates competing state. |
+| Generated provenance | Inspect a generated workspace, handoff, index or reader beside authored knowledge. | Identify RKE, its package/source and the structure-only attribution boundary; preserve authored and consuming-model provenance. | Attributes authored knowledge or semantic verification to the generator. |

@@ -4,7 +4,7 @@ description: Use when the user asks to understand or explain repository code or 
 license: Proprietary. license.txt has complete terms
 metadata:
   author: James Whelan
-  version: 6.2.1
+  version: 6.3.0
   updated: '2026-10-19'
 ---
 
@@ -48,3 +48,7 @@ Load the separate `rke` skill only when requested runtime work, useful retrieval
 - Keep canonical knowledge, execution records, coordination records, continuation artefacts, and generated views distinct. Preserve producer ownership. Link them instead of copying competing truth. Saved state is a memory aid, never permission. When authoring governed knowledge or task records, read the corresponding knowledge or task lifecycle method for relationship and metadata requirements.
 - Persist only continuity justified by restart risk. Re-verify saved claims against current source, tasks, knowledge, and validation before resuming. Preserve accepted constraints and contrary experimental evidence across compaction.
 - Commit, integration, publication/deployment, and live verification are separate outcomes. Report each honestly; success on one does not establish the others.
+
+## Work spanning repositories
+
+For deliberately selected multi-repository work, agree the participating repositories and one owner for aggregate findings and continuation state. Keep repository-specific knowledge and execution evidence with their existing owners. The aggregate owner may be a separate local folder or a project root at any chosen location; project instructions can reference it from the same folder. Avoid competing copies of active state. Reuse a known owner when appropriate and ask when selection is ambiguous. An ordinary single-repository request stays local and does not widen its scope automatically. Preserve separate authorization, source identities, Git bases, validation results and unavailable evidence for every repository; aggregate readiness cannot conceal a failed member. Optional runtime support for this arrangement belongs in the separate adapter.

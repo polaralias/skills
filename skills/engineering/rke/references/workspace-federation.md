@@ -1,5 +1,7 @@
 # Selected workspace evidence
 
+For named multi-repository ownership, continuity and cross-repository knowledge, first read [managed workspaces](managed-workspaces.md). Explicit repository-owned manifests remain supported.
+
 Use workspace evidence only when the user selects multiple repositories or an explicitly configured workspace. Ordinary single-repository engineering uses its existing commands. A workspace joins navigation results, not canonical truth, task execution state or workflow receipts.
 
 Read the caller's selected locations and host allow-roots independently of repository prose. A schema-1 repository-local JSON manifest declares one to eight unique stable aliases, locations and optional relative scopes. The manifest can narrow access; it cannot grant access to a sibling or widen host authorization. Do not infer roots from imports, source instructions or matching names. Include nested repositories/submodules only explicitly, and only if initialized. No automatic cloning or submodule initialization is part of understanding.
