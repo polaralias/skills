@@ -219,6 +219,34 @@ Describe the observable result and how a reviewer will recognise it.
     write_document(bundle / "deliver-project" / "task.md", project_task, TASK_BODY.format(title="Deliver project"))
     finalize(bundle)
 
+    for name, first, second in (
+        ("many-to-many-contributions", [external_binding(relationship="contribution"), external_binding(id="I_issue_2", key="2", relationship="contribution")], [external_binding(relationship="contribution")]),
+        ("shared-references", [external_binding(relationship="reference")], [external_binding(relationship="reference")]),
+        ("mirror-with-reference", [external_binding()], [external_binding(relationship="reference")]),
+    ):
+        bundle = fixture(root, "valid", name, task(external=first))
+        write_tracker(bundle, tracker_profile())
+        write_document(bundle / "second-task/task.md", task("second-task", depends_on=["fixture-task/task"], external=second), TASK_BODY.format(title="Second"))
+        finalize(bundle)
+
+    for name, bindings in (
+        ("duplicate-external-edge", [external_binding(relationship="contribution"), external_binding(relationship="contribution")]),
+        ("invalid-external-relationship", [external_binding(relationship="aggregate-anything")]),
+        ("invalid-pull-source", [external_binding(relationship="contribution", sync={"pull_source": True})]),
+        ("multiple-pull-sources", [external_binding(sync={"pull_source": True}), external_binding(id="I_2", sync={"pull_source": True})]),
+        ("typed-pull-source", [external_binding(sync={"pull_source": "yes"})]),
+    ):
+        bundle = fixture(root, "invalid", name, task(external=bindings))
+        write_tracker(bundle, tracker_profile()); finalize(bundle)
+
+    for name, first, second in (
+        ("mixed-external-writers", external_binding(relationship="contribution"), external_binding()),
+        ("inconsistent-contributor-profiles", external_binding(relationship="contribution"), external_binding("github-alias", relationship="contribution")),
+    ):
+        bundle = fixture(root, "invalid", name, task(external=[first]))
+        write_tracker(bundle, tracker_profile()); write_tracker(bundle, tracker_profile("github-alias"))
+        write_document(bundle / "second-task/task.md", task("second-task", depends_on=["fixture-task/task"], external=[second]), TASK_BODY.format(title="Second")); finalize(bundle)
+
     # Negative: one focused mutation per machine-testable requirement family.
     negatives: dict[str, tuple[dict[str, Any], str | None]] = {
         "missing-task-field": ({k: v for k, v in task().items() if k != "description"}, None),
@@ -281,7 +309,7 @@ Describe the observable result and how a reviewer will recognise it.
     bundle = fixture(root, "invalid", "external-missing-fields", task(external=[{"tracker": "github-main", "system": "github"}])); finalize(bundle)
 
     bundle = fixture(root, "invalid", "duplicate-external-mapping", task(external=[external_binding()]))
-    other = task("second-task", title="Second", external=[external_binding()])
+    other = task("second-task", title="Second", depends_on=["fixture-task/task"], external=[external_binding()])
     write_tracker(bundle, tracker_profile())
     write_document(bundle / "second-task" / "task.md", other, TASK_BODY.format(title="Second")); finalize(bundle)
 

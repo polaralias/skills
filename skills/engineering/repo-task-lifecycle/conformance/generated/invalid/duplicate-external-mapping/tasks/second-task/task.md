@@ -6,6 +6,8 @@ description: Exercise one portable task conformance rule.
 status: ready
 created: '2026-07-17T09:00:00Z'
 timestamp: '2026-07-17T09:00:00Z'
+depends_on:
+- fixture-task/task
 external:
 - tracker: github-main
   system: github

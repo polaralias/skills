@@ -8,7 +8,7 @@ Check compatibility first:
 okf-tasks --version
 ```
 
-The result must be `okf-tasks 0.1.1`. From a trusted checkout of the matching repository version, install the console command with:
+The result must be `okf-tasks 0.2.0`. From a trusted checkout of the matching repository version, install the console command with:
 
 ```text
 python -m pip install -e .
@@ -33,3 +33,5 @@ python scripts/generate_complex_examples.py --root <repository> --check
 ```
 
 The generator owns `examples/complex-task-portfolio/`, `examples/architecture-knowledge-base/`, and `examples/combined-delivery-architecture/`, including their task indexes. Change the generator and regenerate instead of hand-editing those dummy records.
+
+Many-to-many relationships require profile/CLI 0.2.0 or later. Older validators reject shared objects and older writers do not understand contribution ownership; upgrade every writer before introducing shared bindings.

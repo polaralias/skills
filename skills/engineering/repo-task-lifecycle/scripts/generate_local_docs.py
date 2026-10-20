@@ -18,6 +18,7 @@ from visualize_bundle import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PAGES = (
+    ("examples/many-to-many-clickup", "Many-to-many ClickUp contributions", "okf-tasks-many-to-many-clickup.html", generate_html),
     ("examples/visualization/tasks", "OKF Tasks visualisation example", "okf-tasks-visualization.html", generate_html),
     ("examples/complex-task-portfolio", "OKF Tasks complex task portfolio", "okf-tasks-complex-task-portfolio.html", generate_html),
     ("examples/architecture-knowledge-base", "OKF architecture knowledge base", "okf-tasks-architecture-knowledge-base.html", generate_html),
