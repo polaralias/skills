@@ -39,6 +39,9 @@ def classify_bump(old: tuple[int, int, int], new: tuple[int, int, int]) -> str:
 def skill_root(path: str) -> str | None:
     parts = PurePosixPath(path).parts
     if len(parts) >= 3 and parts[0] == "skills":
+        # Sibling ZIPs are artifacts of their owning skill, not extra packages.
+        if len(parts) == 3 and parts[2].endswith(".zip"):
+            return "/".join((*parts[:2], parts[2][:-4]))
         return "/".join(parts[:3])
     return None
 
