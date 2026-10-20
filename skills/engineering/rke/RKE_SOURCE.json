@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "repository": "https://github.com/polaralias/rke",
-  "sourceCommit": "bc2592632e3d72b1f6727457c352ae77e45e5f9b",
+  "sourceCommit": "e4c658b7111ef0a41acd7de5cc1f0d53eaadc08a",
   "runtimePackage": "@polaralias/rke",
   "runtimeVersion": "0.1.0",
   "skillPath": ".agents/skills/rke",
-  "skillVersion": "1.2.2",
-  "skillDigest": "e4905205e96808825ee4f7d6840093333676c7f767b08ac79b00df954ee102af",
+  "skillVersion": "1.3.0",
+  "skillDigest": "63c62c237932b9ce6f8c1f3b469fdad6dfe89a8c36a1d0da8c3fdc4a02e508ae",
   "status": "committed",
   "authority": "synchronized-mirror"
 }

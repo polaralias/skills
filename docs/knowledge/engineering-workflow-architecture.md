@@ -2,10 +2,10 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Separates complete Engineering Workflow methods from optional RKE runtime support and independent OKF Tasks execution records.
-timestamp: 2026-10-20T05:31:59+00:00
+timestamp: 2026-10-20T08:28:22.611533+00:00
 authority: canonical
 verification: verified-limited
-reviewed_at: 2026-10-20T05:31:59+00:00
+reviewed_at: 2026-10-20T08:28:22.611533+00:00
 owner: polaralias
 tags:
   - engineering-workflow
@@ -45,6 +45,8 @@ The [reference map](../../skills/engineering/engineering-workflow/references/ref
 ## Optional runtime adapter
 
 The [capability-to-method map](../../skills/engineering/rke/references/capability-map.md) relates every runtime facility to its EWF reference and former specialist name. Session continuity supports handoff/LHO and pickup/LPK; persisted phases and gates support absorbed EWO coordination. Federation, readers, cached explanations and host/runtime qualification are conditional extensions rather than extra mandatory methods.
+
+For explicitly selected multi-repository work, [EWF agrees the participating repositories and one aggregate owner](../../skills/engineering/engineering-workflow/SKILL.md#work-spanning-repositories) for findings and continuation state. Repository-specific knowledge and execution records retain their existing owners. Optional [RKE managed workspaces](../../skills/engineering/rke/references/managed-workspaces.md) can place the aggregate owner at a chosen location, including a host project root, while member repositories and caller allow-roots retain independent boundaries. Ordinary single-repository work stays local; the catalogue installs skill instructions, not executable runtime code.
 
 Material delivery includes bounded documentation-impact discovery and claim review, including plausible unbound documentation. With RKE available, its no-state assessment supplies explicit bindings plus candidates from changed code and old/new names. EWF authors justified updates or explains no update and verifies against the final change. Search matches require review, not compulsory edits; formal receipts remain conditional on repository policy or selected enforcement.
 

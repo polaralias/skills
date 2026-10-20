@@ -23,6 +23,7 @@ Choose support from [the skill entry point](../SKILL.md), then read only the rel
 | [agent-evaluation.md](agent-evaluation.md) | Outcome measurement reached from artifact qualification when studying actual benefit. |
 | [quality-coverage.md](quality-coverage.md) | Historical deterministic coverage and dated qualification limitations; not current release evidence. |
 | [derived-explanations.md](derived-explanations.md) | Explicit cached explanation preparation, agent synthesis, validation and reuse. |
+| [managed-workspaces.md](managed-workspaces.md) | Named aggregate owners, arbitrary authorized placement, member selection, continuity and provenance. |
 | [workspace-federation.md](workspace-federation.md) | Explicit caller-authorized multi-repository evidence and qualified identities. |
 | [reader-workspace.md](reader-workspace.md) | Explicit projection, export or fixed-root live reading; evidence and presentation bounds. |
 
