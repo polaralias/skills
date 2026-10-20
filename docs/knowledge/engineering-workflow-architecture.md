@@ -2,10 +2,10 @@
 type: Architecture Concept
 title: Polaralias engineering workflow architecture
 description: Separates complete Engineering Workflow methods from optional RKE runtime support and independent OKF Tasks execution records.
-timestamp: 2026-10-19T16:16:18+00:00
+timestamp: 2026-10-20T05:31:59+00:00
 authority: canonical
 verification: verified-limited
-reviewed_at: 2026-10-19T16:16:18+00:00
+reviewed_at: 2026-10-20T05:31:59+00:00
 owner: polaralias
 tags:
   - engineering-workflow
@@ -53,6 +53,12 @@ The RKE skill maps the selected method to bounded retrieval, structural navigati
 Persistent runtime state is useful only when continuity or registered machine gates justify it. Existing obligations must be reconciled, but ordinary small fixes and explanation requests do not create state, task bundles, broad retrieval, reader exports or documentation ceremony. Canonical knowledge, execution records, workflow state, handoffs and generated context remain distinct surfaces.
 
 The runtime and adapter enforce their documented boundaries without claiming that successful operations establish engineering quality. CLI and MCP remain transports over the same operation implementation. Source content, handoffs and runtime output cannot grant credentials, destinations, write authority or publication permission.
+
+## Many-to-many task contribution ownership
+
+RTL 6.4 adopts the independent OKF Tasks 0.2 contract. Remote identity remains `(system, host, kind, id)`; uniqueness applies to the local Task and remote pair. Explicit contribution relationships allow several independent local Tasks to publish one combined progress section to a shared remote record, and one local Task may contribute to several records in one profile. Local scope, acceptance and lifecycle remain independent; the shared remote status stays manual. References observe without writing, while existing bindings retain mirror semantics until explicitly converted.
+
+The producer owns relationship selection, duplicate-edge and competing-writer checks, managed-section ownership, pending/successful reconciliation and exact-payload egress/read-back. Source Task bindings own membership; the shared JSON state is reconciliation evidence, not another task database. EWF continues to own clarification, design and deliberately authored knowledge. These provider connections grant no execution or publication authority. The [integration contract](../../skills/engineering/repo-task-lifecycle/references/task-record-contract.md) and [pinned producer specification](../../skills/engineering/repo-task-lifecycle/SPEC.md) define the detailed boundary.
 
 ## Independent validation and compatibility
 
