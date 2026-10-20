@@ -16,15 +16,18 @@
         "skills/engineering/rke/references/capability-map.md",
         "skills/engineering/rke/references/documentation-lifecycle.md",
         "skills/engineering/rke/license.txt",
-        "skills/engineering/engineering-workflow/license.txt"
+        "skills/engineering/engineering-workflow/license.txt",
+        "skills/engineering/repo-task-lifecycle/SKILL.md",
+        "skills/engineering/repo-task-lifecycle/references/task-record-contract.md",
+        "skills/engineering/repo-task-lifecycle/SPEC.md"
       ],
       "verified": {
-        "verifiedAt": "2026-10-19T16:17:40.464Z",
-        "evidence": "Reviewed adapter Apache-2.0 license byte-for-byte against the unchanged runtime LICENSE; checked frontmatter, 1.2.2 patch version and committed provenance. EWF content and proprietary license and catalogue root LICENSE are unchanged. Reviewed the unchanged EWF method and adapter capability contracts against their previous source review, plus README, documentation map and artifact qualification boundaries. Updated architecture and README license ownership. DOCX and independent Tasks candidates have no related change warranted; archive/producer terms remain owned separately. ZIP extraction and byte parity cover binary evidence. Bounded discovery does not certify semantic parity, live adoption or release readiness.",
+        "verifiedAt": "2026-10-20T05:35:44.030Z",
+        "evidence": "Reviewed unchanged EWF/RKE ownership claims against their retained source identities and current AGENTS guidance. Updated RTL contribution ownership against packaged SKILL, integration contract, producer SPEC and the passed 94-test suite. VERSION 13.2.0 aggregates the reviewed license correction and RTL 6.4. No live provider, host or model-quality claim is added.",
         "sourceIdentities": [
           {
             "path": "AGENTS.md",
-            "sha256": "9555e6458206eba3acc8d6db87fab644b876796c93c05432413da11372146794"
+            "sha256": "385b8e8f07be0ff10dddcb36baca9548ce102271005a203c2f05983982c43afc"
           },
           {
             "path": "CLAUDE.md",
@@ -32,7 +35,7 @@
           },
           {
             "path": "docs/knowledge/engineering-workflow-architecture.md",
-            "sha256": "4ba82bfa158a15fdc33335eabbcec91740d3e54b832960f8a5ff1b25ffb058dd"
+            "sha256": "0711b10438fba2b863e8538d69bad59eb596ca2a97f142d9143b869437d67ef3"
           },
           {
             "path": "README.md",
@@ -103,6 +106,18 @@
             "sha256": "efb9f15618fa89ddaa82cf815224ce4e685ad4251b7703d1b80eb918a1a7b8fa"
           },
           {
+            "path": "skills/engineering/repo-task-lifecycle/references/task-record-contract.md",
+            "sha256": "625cc6bf7f5ac5c67c5167ba0c3abf40483ecb9b5007fe9d220f01ed8b55b4df"
+          },
+          {
+            "path": "skills/engineering/repo-task-lifecycle/SKILL.md",
+            "sha256": "c4daf5ce26f590c1b10354460fb668d9f533b256ca77ebdf45be67ea72d07d5f"
+          },
+          {
+            "path": "skills/engineering/repo-task-lifecycle/SPEC.md",
+            "sha256": "66b06752d126d53ed9bce09476c97d942e6a46e72f2275671fd897aea453d9f8"
+          },
+          {
             "path": "skills/engineering/rke/license.txt",
             "sha256": "9f8212f67686e60f3c3fa612d49f8c7abf0fb2e89f4534ede69fd4bdfa170cbe"
           },
@@ -124,11 +139,11 @@
           },
           {
             "path": "VERSION",
-            "sha256": "a01abb393f602008d2bbaa673c003335d9f92b1427ec882df3fc295959ed7a02"
+            "sha256": "7fb2cd66ee27bf44c8d218603abbd88ec20fa8ea30fd1a168d6610da11d5c82e"
           }
         ]
       }
     }
   ],
-  "revision": 52
+  "revision": 54
 }
