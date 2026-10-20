@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "tool": "RKE",
+  "package": "@polaralias/rke",
+  "version": "0.1.0",
+  "repository": "https://github.com/polaralias/rke",
+  "scope": "Generated structure only; does not assert authorship or semantic verification of knowledge."
+}
